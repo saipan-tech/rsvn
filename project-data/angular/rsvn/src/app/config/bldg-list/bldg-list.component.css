@@ -1,0 +1,11 @@
+
+
+.detail div {
+    padding:8px;
+    border:1px solid silver;
+}
+
+.heading div {
+    text-align: center;
+    font-weight:bold;
+}

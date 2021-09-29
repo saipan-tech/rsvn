@@ -1,0 +1,87 @@
+version: '3'
+
+services:
+#-------------------------------------
+
+  mysql:
+    build:
+      context: mysql
+    volumes:
+      - rsvn-mysql-db:/var/lib/mysql
+      - ./project-data:/usr/src/app/
+
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mariadb
+    networks:
+      rsvn_net:
+        ipv4_address: 172.29.1.2
+
+#-------------------------------------
+
+  django:
+
+    build:
+      context: django
+
+    volumes:
+      - ./project-data:/usr/src/app/
+
+    ports:
+      - "9000:9000"
+
+
+    entrypoint: 
+      - /bin/sh
+      - /usr/src/app/django/startup.sh
+
+    depends_on:
+      - mysql
+      
+    networks:
+      rsvn_net:
+        ipv4_address: 172.29.1.4
+
+#-------------------------------------
+  angular:
+    build:
+      context: angular
+    volumes:
+      - ./project-data:/usr/src/app/
+
+    ports:
+      - "4200:4200"
+
+    entrypoint: 
+     - /bin/sh
+     - /usr/src/app/angular/startup.sh
+    networks:
+     rsvn_net:
+       ipv4_address: 172.29.1.5
+        
+
+#-------------------------------------
+  nginx:
+    build:
+      context: nginx
+    volumes:
+      - ./project-data:/usr/src/app/
+    ports:
+      - "80:80"
+    depends_on:
+      - django
+    networks:
+      rsvn_net:
+        ipv4_address: 172.29.1.6
+#-------------------------------------
+
+networks:
+  rsvn_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.29.1.0/24
+volumes:
+  rsvn-mysql-db: 
+    external : yes    

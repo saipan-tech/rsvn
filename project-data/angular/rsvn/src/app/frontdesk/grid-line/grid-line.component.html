@@ -1,0 +1,12 @@
+
+<div class="d-flex">
+    <div [style.width.%]='gridwidth '[ngStyle]="{'border-color':room.color, 'border-width':'3px'}"  class="daycell">{{ room.number}} </div>
+    <div *ngFor="let d of dayList"  [style.width.%]='gridwidth' class="daycell"> 
+        <div *ngFor="let r of room.info">
+            <button  [ngStyle]="{'background-color':r.rsvnc,'padding':'0','width':'100%'}" 
+                   
+                    (click)="selectCell(r)" 
+                    *ngIf="r.dateIn <= d && r.dateOut > d" title='{{r.primary | json}}'> X</button>
+        </div>
+    </div>
+</div>

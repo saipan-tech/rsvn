@@ -1,0 +1,15 @@
+django 
+djangorestframework 
+djangorestframework-simplejwt
+django-filter
+whitenoise
+markdown
+django-cors-headers
+mysqlclient
+configparser
+ipython
+pymongo
+requests
+pytz
+
+

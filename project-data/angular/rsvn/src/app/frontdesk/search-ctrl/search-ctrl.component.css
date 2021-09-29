@@ -1,0 +1,39 @@
+
+.d-flex div {
+    border-bottom: 1px solid grey;
+    padding:5px;
+    font-size:13pt;
+}
+
+.active {
+    color:blue;
+}
+
+.active:hover {
+    color:rgb(164, 178, 255);
+}
+
+
+.result-name {
+    text-align:left;
+    background-color:cornsilk;
+    padding-left:1em;
+    font-size:12pt;
+    cursor: pointer;
+    border-top:1px solid silver;
+    border-bottom:1px solid silver;
+}
+
+.result-rsvn {
+    padding:2px;
+    cursor: pointer;
+    text-align:center;
+    font-size:10pt;
+
+}
+
+.card-body {
+   
+    padding:none;
+    overflow-y:scroll
+}

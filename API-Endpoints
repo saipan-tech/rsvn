@@ -1,0 +1,36 @@
+
+This is for generating DB Guest entries for load test
+
+import requests
+
+url = "https://generate-people.p.rapidapi.com/generatepeople"
+
+headers = {
+    'x-rapidapi-host': "generate-people.p.rapidapi.com",
+    'x-rapidapi-key': "0472c1a4ebmshf78b78358f3592ep10ef9djsn502077cd455e"
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+
+
+
+This is the sample response :
+
+
+{
+"Birthdate":"3/3/1952"
+"City":"Porterville"
+"Code":"Success"
+"Company":"W.W. Chewing Gum"
+"Credits":"499756073"
+"Email":"yolanda@mockmyid.com"
+"FirstName":"Yolanda"
+"FullName":"Yolanda Acevedo"
+"LastName":"Acevedo"
+"Phone":"419-224-2079"
+"State":"CA"
+"Title":"Communications Director"
+"Zip":"93258"
+}

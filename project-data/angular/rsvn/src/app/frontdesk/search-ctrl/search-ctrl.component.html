@@ -1,0 +1,39 @@
+<div class="card" style="height:98%;overflow-y:scroll">
+    <div class="card-header" style="padding:2px" >
+       <h5> Search</h5>
+
+        <form novalidate [formGroup]="searchForm" class="form-inline">
+            <div class="d-flex">
+                <input type="search" formControlName='query' placeholder="Search" (focus)="searchForm.reset()"
+                    (change)="runSearch(searchForm.value.query)" class="form-control">
+                <button style="width:60px" class="form-control" (click)="runSearch(searchForm.value.query)">
+                    <img style="width:30px" src="assets/img/magnify.png"> </button>
+            </div>
+        </form>
+
+        <div style="text-align:left">
+            <button  class="btn btn-outline-secondary" (click)="activeRes('active')">Active</button>
+            <button  class="btn btn-outline-secondary" (click)="activeRes('in')">INS</button>
+            <button  class="btn btn-outline-secondary" (click)="activeRes('out')">OUTS</button>
+            <button  class="btn btn-outline-secondary" (click)="activeRes('future')">Future</button>
+            <button  class="btn btn-outline-secondary" (click)="activeRes('guests')">Guests</button>
+            <button  class="btn btn-outline-secondary" (click)="activeRes('rsvns')">Rsvn</button>
+        </div>
+    </div>
+    <div class="card-body" style="padding:0" >
+        <div  *ngFor="let rec of resultList" class="result-cell">
+            <div (click)="selectGuest(rec.guest)" class=" form-control result-name">
+                {{ rec.guest.firstname }} {{ rec.guest.lastname }}
+            </div>
+            <div  *ngFor="let rs of rec.rsvn" (click)='selectRsvn(rs)' class="d-flex result-rsvn">
+                <div class="form-control"> {{ rs.dateIn }} </div>
+                <div class="form-control">{{ rs.dateOut }}</div> 
+            </div>
+    
+        </div>
+    </div>
+    <div class="card-footer d-flex">
+        <button *ngIf="currGuest && currGuest.id==null" class="form-control btn-outline-primary"
+            (click)='newGuest()'>New Guest</button>
+    </div>
+</div>

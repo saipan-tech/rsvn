@@ -1,0 +1,22 @@
+
+
+<div >
+    <div *ngFor="let r of rsvnList" >
+        
+        <div *ngIf="list_style=='long'" class="d-flex" >
+            <div style="width:20%"></div>
+            <div style="width:10%">{{ r.confirm }}</div>
+            <div style="width:20%">{{ r.status }}</div>
+            <div style="width:20%"  style="cursor:pointer" (click)='loadRsvn(r)'> {{ r.dateIn }}</div>
+            <div style="width:20%"   style="cursor:pointer" (click)='loadRsvn(r)'> {{ r.dateOut }}</div>
+        </div>
+        <div *ngIf="list_style=='cell'" class="d-flex" >
+            <div style="width:20%"   style="cursor:pointer" (click)='loadRsvn(r)'> {{ r.dateIn }} - {{ r.dateOut }}</div>
+        </div>
+
+    </div>
+    <div *ngIf="!rsvnList.length">
+        <p>No Previous Reservations</p>
+
+    </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="card">
+    <div class="card-header">
+        Amenity List</div>
+
+    <div class="card-body">
+        <div class="flex-con heading">
+            <div style="width:5%">  </div>
+            <div style="width:15%">Name</div>
+            <div style="width:10%">Type</div>
+            <div style="width:25%">Description</div>
+            <div style="width:25%">Icon</div>
+            <div style="width:5%">  </div>
+
+        </div>
+
+        <div>
+     
+            <form novalidate [formGroup]="amenityEditForm">
+                <div class="flex-con">
+                    <div style="width:5%">  </div>
+                    <div style="width:15%"><input type="text" formControlName='name' class="form-control"></div>
+                    <div style="width:10%"><input type="text" formControlName='type' class="form-control"> </div>
+                    <div style="width:25%"><input type="text" formControlName='descr' class="form-control"> </div>
+                    <div style="width:25%"><input type="text" formControlName='icon' class="form-control"> </div>
+                    <div style="width:5%"><button *ngIf="amenityEditForm.valid" (click)="updateAmenity(amenityEditForm.value)" >S</button> </div>
+                </div>
+            </form>
+
+   
+
+        </div>
+ 
+        <div>
+            <div *ngFor="let r of amenityList" >
+                <div class="flex-con" >
+                    <div style="width:5%;cursor:pointer" (click)="deleteAmenity(r)"> X </div>
+                    <div style="width:15%" (click)='loadAmenity(r)' class="active"  >{{ r.name }}</div>
+                    <div style="width:10%">{{ r.type }}</div>
+                    <div style="width:25%">{{ r.descr }}</div>
+                    <div style="width:25%">{{ r.icon }}</div>
+                    <div style="width:5%"></div>
+                    
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="card-footer">
+        <button (click)='clearAmenity()'>New</button>
+    </div>
+
+</div>

@@ -1,0 +1,84 @@
+<div class="d-flex" id="wrapper">
+
+   <!-- Sidebar -->
+   <div class="bg-light border-right" id="sidebar-wrapper" [ngClass]="status ? 'hide' : 'show'">
+       <div class="sidebar-heading">
+           <a href="/dashboard"><img src="/assets/img/rsvn.png" style="border:none;width:100px"></a>
+       </div>
+       <div class="list-group list-group-flush">
+           
+           <button class="list-group-item list-group-item-action bg-light" (click)="mode='bldg'">Building and Rooms</button>
+           <button class="list-group-item list-group-item-action bg-light" (click)="mode='themes'">Themes and Colors</button>
+           <button class="list-group-item list-group-item-action bg-light" (click)="mode='logo'">Logo and Branding</button>
+           <button class="list-group-item list-group-item-action bg-light" (click)="mode='dropdown'">Dropdown</button>
+           <button class="list-group-item list-group-item-action bg-light" (click)="mode='lists'">Lists</button>
+       </div>
+   </div>
+   <!-- /#sidebar-wrapper -->
+
+   <!-- Page Content -->
+   <div id="page-content-wrapper">
+
+       <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+           <div class="container-fluid">
+               <button  style="cursor:pointer; background-color:inherit;border:none" (click)="clickEvent()">
+                   <img *ngIf="!status" src="/assets/img/left-light.png">
+                   <img *ngIf="status" src="/assets/img/right-light.png">
+               </button>
+              
+               <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                   data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                   aria-expanded="false" aria-label="Toggle navigation">
+                   <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                       <li class="nav-item">
+                           <a class="nav-link " aria-current="page" href="/dashboard">Dashboard</a>
+                       </li>
+                    
+                   </ul>
+                   <form class="d-flex">
+                       <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                       <button class="btn btn-outline-success" type="button">Search</button>
+                   </form>
+               </div>
+               <div style="margin-right:4em;color:white">   
+                   Current Username
+               </div>
+               <div style="margin-right:4em">   
+                   <app-clock></app-clock>
+               </div>
+               <div>
+                   <a class="btn btn-outline-success" href="/login" >Log Off</a>
+               </div>
+           </div>
+       </nav>
+
+
+
+
+       <div class="fluid-container" >
+         <div *ngIf="mode=='bldg'"  style="width:75%;margin:20px auto">
+            <div>
+               <app-bldg-list (currBldgChange)='currBldg = $event' ></app-bldg-list>
+            </div>
+            <div>
+               <app-room-list *ngIf="currBldg && currBldg.id" [currBldg]='currBldg'></app-room-list>
+            </div>
+         </div>
+         <div *ngIf="mode=='themes'" style="width:75%;margin:0 auto;"></div>
+         <div *ngIf="mode=='logo'" style="width:75%;margin:0 auto;"></div>
+         <div *ngIf="mode=='dropdown'" style="width:75%;margin:0 auto;">
+            <app-dropdown> </app-dropdown>
+         </div>
+         <div *ngIf="mode=='lists'" style="width:75%;margin:0 auto;">
+            <app-amenity-list></app-amenity-list>
+         </div>
+       </div>
+   </div>
+   <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->

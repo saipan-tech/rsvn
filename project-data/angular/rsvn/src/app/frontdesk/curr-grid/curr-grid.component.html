@@ -1,0 +1,20 @@
+
+
+<div class="card" style="width:400px">
+    <div class="card-header">
+       <h4>Current Status</h4> 
+    </div>
+    <div class="card-body">
+        <div *ngFor="let b of dispList">
+            <h6>{{b.bldg }}</h6>
+            <div class="d-flex flex-wrap">
+                <div *ngFor="let r of b.rooms">
+                    <button [style.border-color]="r.color"  [style.background-color]="r.status" class="form-control">{{ r.number }}</button> 
+                    </div>
+        
+            </div>
+        </div>
+
+    </div>
+    <div class="card-footer"></div>
+</div>

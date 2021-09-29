@@ -1,0 +1,13 @@
+.roomcell div {
+    margin-left:4px;
+}
+
+.section {
+    padding:1em;
+    border-top : 1px solid green;
+    border-bottom: 1px solid green;
+    font-family:Nova;
+    font-size: 12pt;
+    text-align:center;
+    background-color:cornsilk
+}

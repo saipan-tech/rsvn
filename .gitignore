@@ -1,0 +1,5 @@
+node_modules
+.pyc
+migrations
+__pycache__
+appenv.ts

@@ -1,0 +1,28 @@
+name,sequence,display,value
+idtype,1,Driver’s License,driver
+idtype,2,Passport,passport
+idtype,3,Government,govt
+idtype,4,Other,other
+source,1,FIT Traveller,fit
+source,2,Tour,tour
+source,3,Expedia,expedia
+source,4,"Booking,com",booking
+source,5,Other,other
+status,1,Not Confirmed,notconfirm
+status,2,Confirmed,confirmed
+status,3,Delayed,delayed
+status,4,No Show,noshow
+status,10,Cancelled,cancel
+rcolor,1,Standard,navajoWhite
+rcolor,2,Standard Deluxe,palegreen
+rcolor,3,Deluxe,lightpink
+rcolor,4,Deluxe  Exec,lightsalmon
+rcolor,5,Executive,tan
+rcolor,6,Standard Patio,paleturquoise
+rcolor,7,Deluxe Patio,lightgray
+rcolor,8,Executive Patio,cornsilk
+vcolor,1,Local,palegreen
+vcolor,2,Tour,pink
+vcolor,3,Atlas Agency,lightyellow
+vcolor,4,Comp,Seagreen
+vcolor,5,Walk In,Violet

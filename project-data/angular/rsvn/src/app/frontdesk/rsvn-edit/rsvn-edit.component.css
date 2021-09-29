@@ -1,0 +1,31 @@
+.uppercell {
+    font-family: nova;
+    font-size: 10pt;
+    margin: 0;
+    padding: 5px;
+    text-align: center;
+
+    width: 40%;
+}
+
+.lowercell {
+    font-family: nova;
+    font-size: 12pt;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(230, 231, 231);
+    width: 60%;
+}
+.fullcell {
+    width: 33%;
+}
+.fullcell2 {
+    width: 50%;
+}
+.fullcell3 {
+    width: 70%;
+}
+
+.cellgroup {
+    margin-bottom: 1em;
+}

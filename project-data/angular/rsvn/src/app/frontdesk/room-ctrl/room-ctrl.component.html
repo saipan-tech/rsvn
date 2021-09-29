@@ -1,0 +1,44 @@
+<div class="card" style="height:98%;overflow-y:scroll" *ngIf="currRsvn && currRsvn.id">
+    <div class="card-header">
+        <h5>Room Control</h5>
+    </div>
+    <div class="card-body">
+        <h4>{{currRsvn.primary.firstname}} {{currRsvn.primary.middlename}} {{currRsvn.primary.lastname}}</h4>
+        <div class='d-flex'>
+            <div class="form-control">Check In<br>{{ currRsvn.dateIn }}</div>
+            <div class="form-control">Check Out<br>{{ currRsvn.dateOut }}</div>
+        </div>
+        <div class="section mt-2">Assigned Rooms</div>
+        <div>
+            <div>
+                <div *ngFor="let r of currRoomList">
+                    <div class="d-flex">
+                        <button  style='width:75%' class='form-control' (click)="unassignRoom(r.room)">
+                            {{ bldgText(r.roominfo.bldg) }} -- {{ r.roominfo.number }} -
+                            {{ r.roominfo.beds }} Beds
+                        </button>
+                        <div style='width:25%' >
+                            <mat-radio-group aria-label="Select an option" >
+                                <mat-radio-button  style="margin-left:2px;font-size:9pt"
+                                    [labelPosition]="'before'" style=' background-color:lightpink' value="checkin"></mat-radio-button>
+                                <mat-radio-button  style="margin-left:2px;font-size:9pt"
+                                    [labelPosition]="'before'" style=' background-color:khaki' value="checkout"></mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section mt-2">Available Rooms</div>
+        <div *ngFor="let dl of dispList">
+            <h5>{{dl.bldg }}</h5>
+            <div class="d-flex flex-wrap">
+                <div *ngFor="let r of dl.rooms">
+                    <button [ngStyle]="{'border-color':r.color}" class='form-control'
+                        (click)="assignRoom(r)">{{r.number}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer"></div>
+</div>

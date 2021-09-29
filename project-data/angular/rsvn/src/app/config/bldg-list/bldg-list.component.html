@@ -1,0 +1,58 @@
+<div class="card">
+    <div class="card-header">Bldg List</div>
+    <div class="card-body">
+        <div class="row" >
+
+            <div class="col-3">
+                <form novalidate [formGroup]="bldgEditForm">
+                    <div><input autofocus placeholder="Name" type="text" formControlName='name'
+                            class="form-control"></div>
+                    <div><input placeholder="Location" type="text" formControlName='location'
+                            class="form-control">
+                    </div>
+                    <div><input placeholder="Description" type="text" formControlName='descr'
+                            class="form-control">
+                    </div>
+                    <div class="d-flex">
+                        <button *ngIf="currBldg && currBldg.id" (click)='clearBldg()' 
+                            class="form-control btn-outline-primary">New Building</button>
+                        
+                        <button class="form-control btn-outline-primary" *ngIf="bldgEditForm.valid"
+                            (click)='updateBldg(bldgEditForm.value)'>
+                            {{ currBldg.id ?  'Update' : 'Create' }} </button>
+                    </div>
+                        
+                </form>
+            </div>
+            <div class="col-9">
+                <div class="flex-con heading">
+                    <div style="width:32%" >Name</div>
+                    <div style="width:32%">Location</div>
+                    <div style="width:30%">Description</div>
+                    <div style="width:5%" >Delete</div>
+                </div>
+
+                <div style="cursor:pointer" *ngFor="let b of bldgList">
+                    <div class="flex-con detail">
+                        <div style="width:32%" class="active" (click)="selectBldg(b)">{{b.name}}</div>
+                        <div style="width:32%">{{b.location}}</div>
+                        <div style="width:30%">{{b.descr}}</div>
+                        <div style="width:5%;text-align:center" (click)='delBldg(b)'>X</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer">
+
+
+
+
+
+    </div>
+
+</div>

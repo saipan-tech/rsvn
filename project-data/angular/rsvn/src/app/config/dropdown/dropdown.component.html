@@ -1,0 +1,67 @@
+<div class="card">
+    <div class="card-header">
+        Dropdown List
+
+    <select [(ngModel)]="currName"  (change)= "dropdownNameSelect(currName)">
+        <option value="">--Select Dropdown Group--</option>
+        <option *ngFor="let x of dropdownSet" [value]="x">{{ x }}</option>
+
+    </select>
+
+
+
+
+    </div>
+
+    <div class="card-body">
+        <div class="flex-con heading">
+            <div style="width:5%">  </div>
+            <div style="width:15%">Name</div>
+            <div style="width:10%">Sequence</div>
+            <div style="width:25%">Display</div>
+            <div style="width:25%">Value</div>
+            <div style="width:5%">  </div>
+
+        </div>
+
+        <div>
+     
+            <form novalidate [formGroup]="dropdownEditForm">
+                <div class="flex-con">
+                    <div style="width:5%">  </div>
+                    <div style="width:15%"><input type="text" formControlName='name' class="form-control"></div>
+                    <div style="width:10%"><input type="number" formControlName='sequence' class="form-control"> </div>
+                    <div style="width:25%"><input type="text" formControlName='display' class="form-control"> </div>
+                    <div style="width:25%"><input type="text" formControlName='value' class="form-control"> </div>
+                    <div style="width:5%"><button *ngIf="dropdownEditForm.valid" (click)="updateDropdown(dropdownEditForm.value)" >S</button> </div>
+                </div>
+            </form>
+
+
+        </div>
+ 
+        <div>
+            <div *ngFor="let d of dropdownFilterList" >
+                <div class="flex-con" >
+                    <div style="width:5%;cursor:pointer" (click)="deleteDropdown(d)"> X </div>
+                    <div style="width:15%" (click)='loadDropdown(d)' class="active"  >{{ d.name }}</div>
+                    <div style="width:10%">{{ d.sequence }}</div>
+                    <div style="width:25%">{{ d.display }}</div>
+                    <div style="width:25%">{{ d.value }}</div>
+                    <div style="width:5%"></div>
+                    
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="card-footer">
+        <app-fileinput (results)="setResults($event)"></app-fileinput> 
+
+    </div>
+ 
+</div>

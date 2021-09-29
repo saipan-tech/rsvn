@@ -1,0 +1,42 @@
+
+    <div class="card" style="width:100%;height:97%">
+
+        <div class="card-header">
+            <!-- Here is the Time grid -->
+            <div class="d-flex">
+                <button style="width:200px" class="form-control btn btn-outline-primary" 
+                    (click)='viewRefresh()'>Refresh </button>
+                <input style="text-align:center;width:300px" (change)='changeDate()' type='date'
+                    [(ngModel)]='currDateStart' class='form-control'>
+                <mat-slider min="7" max="30" step="1" [ngStyle]="{'background-color':'royalblue'}" [(ngModel)]="days"
+                    (change)="slide()"></mat-slider>
+                <div class="form-control" style="width:200px">{{ days }} Days</div>
+            </div>
+            <div style="text-align:center">Occupancy Matrix View </div>
+        </div>
+        <div class="card-body" style="height:100%;overflow-y:scroll">
+            <div *ngFor="let b of dispList">
+
+                <div style="padding:10px">
+                    <h6>{{b.bldg }}</h6>
+                </div>
+                <div class="d-flex">
+                    <div [style.width.%]='gridwidth' class="daycell"></div>
+                    <div (click)='shiftDate(d)' *ngFor="let d of dayList" [style.width.%]='gridwidth'
+                        [ngStyle]="{'background-color':d === today ? 'yellow' : 'navajowhite' }" class="daycell"> 
+                        {{ d | date:'EE'}}<br>
+                        {{ d | date:'M/d'}}
+                    </div>
+
+                </div>
+
+                <div *ngFor="let r of b.rooms">
+                    <app-grid-line (selected)='gridSelected($event)' [room]='r' [days]='days'
+                        [currDateStart]='currDateStart'></app-grid-line>
+                </div>
+
+            </div>
+        </div>
+        <div class="card-footer"></div>
+
+    </div>

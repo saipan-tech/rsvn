@@ -1,0 +1,12 @@
+
+.smallgrid {
+    width:25vw;
+
+}
+.daycell {
+    font-size:9pt;
+    border:1px solid green;
+    text-align:center;
+    display:inline-block;
+}
+
