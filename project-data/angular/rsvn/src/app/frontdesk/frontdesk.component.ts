@@ -14,7 +14,8 @@ export class FrontdeskComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private genericService: GenericService
+    private genericService: GenericService,
+
   ) {
 
   }
