@@ -161,6 +161,7 @@ export class GuestEditComponent implements OnInit, OnChanges {
     this.currRsvnChange.emit(this.currRsvn) 
   }
   //---------------------------------
+ 
   ngOnChanges(changes: SimpleChanges) {
    // this.clearGuest()
     this.loadGuest(this.currGuest)

@@ -31,8 +31,8 @@ import { RoomCtrlComponent } from './frontdesk/room-ctrl/room-ctrl.component';
 import { SearchCtrlComponent } from './frontdesk/search-ctrl/search-ctrl.component';
 import { FileinputComponent } from './system/fileinput/fileinput.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
+import { MatIconModule} from '@angular/material/icon';
+import { MatButtonModule} from '@angular/material/button';
 import { GridLineComponent } from './frontdesk/grid-line/grid-line.component';
 import { CurrGridComponent } from './frontdesk/curr-grid/curr-grid.component';
 import { MatSliderModule } from '@angular/material/slider';
@@ -80,6 +80,7 @@ import { RsvnCtrlComponent } from './frontdesk/rsvn-ctrl/rsvn-ctrl.component';
     MatButtonModule,
     MatSliderModule,
     MatRadioModule
+
 
 
 
