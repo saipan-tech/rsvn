@@ -2,7 +2,7 @@ import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChange
 import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
 import { GenericService } from '@app/_services/generic.service';
 import { SystemService } from '@app/_services/system.service';
-import { AuthService } from '@app/_services/auth.service'; 
+import { AuthService } from '@app/_services/auth.service';
 import { IRsvn } from '@app/_interface/rsvn';
 import { IGuest } from '@app/_interface/guest';
 import { RsvnService } from '@app/_services/rsvn.service';
@@ -23,23 +23,23 @@ export class RsvnEditComponent implements OnInit, OnChanges {
 
   ) { }
 
- 
-  @Input()  currRsvn : any
+
+  @Input() currRsvn: any
   @Output() currRsvnChange = new EventEmitter<IRsvn>();
 
-  @Input()  currGuest : any
+  @Input() currGuest: any
   @Output() currGuestChange = new EventEmitter<IGuest>();
 
-  user:any
+  user: any
   sourceList: any = []
   colorList: any = []
   statusList: any = [];
-  form_error : any;
+  form_error: any;
   rsvnList: IRsvn[] | unknown
 
-//---------------------------------
-rsvnEditForm = new FormGroup({
-    id:new FormControl(''),
+  //---------------------------------
+  rsvnEditForm = new FormGroup({
+    id: new FormControl(''),
     status: new FormControl(''),
     confirm: new FormControl({ value: '', disabled: true }),
     source: new FormControl(''),
@@ -55,39 +55,39 @@ rsvnEditForm = new FormGroup({
     created: new FormControl({ value: '', disabled: true }),
     modified: new FormControl({ value: '', disabled: true })
   })
- //---------------------------------
- rsvnEditFormInit() {
+  //---------------------------------
+  rsvnEditFormInit() {
     this.rsvnEditForm.reset()
     this.form_error = {}
 
-    this.rsvnEditForm.patchValue ({
-      numrooms:1,
-      dateIn:'',
-      dateOut:'',
-      status:'',
-      id:'',
-      confirm:'',
-      notes:'',
-      adult:1,
-      child:0,
-      infant:0,
-      clerk:this.user.username
+    this.rsvnEditForm.patchValue({
+      numrooms: 1,
+      dateIn: '',
+      dateOut: '',
+      status: '',
+      id: '',
+      confirm: '',
+      notes: '',
+      adult: 1,
+      child: 0,
+      infant: 0,
+      clerk: this.user.username
     })
- }
- 
- //---------------------------------
- toHTMLDate(d:Date) {
-  const day = String(d.getDate()).padStart(2, '0')
-  const month = String(d.getMonth() + 1).padStart(2, '0')
-  const year = String(d.getFullYear())
-  return `${year}-${month}-${day}`
-}
-//---------------------------------
+  }
+
+  //---------------------------------
+  toHTMLDate(d: Date) {
+    const day = String(d.getDate()).padStart(2, '0')
+    const month = String(d.getMonth() + 1).padStart(2, '0')
+    const year = String(d.getFullYear())
+    return `${year}-${month}-${day}`
+  }
+  //---------------------------------
   fromHTMLDate(date: string) {
-    let ndate = new Date(`${date}`).toISOString().slice(0,10)
+    let ndate = new Date(`${date}`).toISOString().slice(0, 10)
     return ndate
   }
-//---------------------------------
+  //---------------------------------
   newRsvn() {
     this.currRsvn = {} as IRsvn
     this.currRsvn.id = 0
@@ -99,7 +99,7 @@ rsvnEditForm = new FormGroup({
 
 
 
-//---------------------------------
+  //---------------------------------
   loadRsvn(rsvn: any) {
     if (rsvn.id) {
       this.genericService.getItem('rsvn', rsvn.id).subscribe(
@@ -108,57 +108,78 @@ rsvnEditForm = new FormGroup({
           this.currRsvn = data
         },
         err => {
-          console.log("ERROR in rsvn Loading",err)
+          console.log("ERROR in rsvn Loading", err)
         }
       )
     }
   }
-//---------------------------------
-  updateRsvn(rsvn: any) {
-
-  // Before updating - let's run a validitry check on the dates and the rooms
-    if(this.currGuest.id) {
+  //---------------------------------
+  createRsvn(rsvn: any) {
+    if (this.currGuest.id) {
       this.form_error = {}
       rsvn.primary = Number(this.currGuest.id)
       rsvn.dateIn = this.fromHTMLDate(rsvn.dateIn)
       rsvn.dateOut = this.fromHTMLDate(rsvn.dateOut)
-      if( rsvn && !rsvn.clerk) {
+      if (rsvn && !rsvn.clerk) {
         rsvn.clerk = this.user.username
       }
       this.genericService.updateItem('rsvn', rsvn).subscribe(
         data => {
           this.loadRsvn(data)
-          this.rsvnService.rsvnTest(data.id).subscribe(
-            dd => {
-              console.log("Rsvn Test",dd)
-              this.currRsvnChange.emit(data)
-
-            }
-
-          )
-        },
-        err => {
-          this.form_error = err.error
+          this.currRsvnChange.emit(data)
         }
+
       )
-  
     }
   }
-
-//---------------------------------
+  //---------------------------------
+  updateRsvn(rsvn: any) {
+    if (!rsvn.id) {
+      this.createRsvn(rsvn)
+    } else {
+      // Before updating - let's run a validitry check on the dates and the rooms
+      if (this.currGuest.id) {
+        this.form_error = {}
+        rsvn.primary = Number(this.currGuest.id)
+        rsvn.dateIn = this.fromHTMLDate(rsvn.dateIn)
+        rsvn.dateOut = this.fromHTMLDate(rsvn.dateOut)
+        if (rsvn && !rsvn.clerk) {
+          rsvn.clerk = this.user.username
+        }
+        // Here we test if there would be a room collision with this save
+        this.rsvnService.rsvnTest(rsvn.id, rsvn.dateIn, rsvn.dateOut).subscribe(
+          dd => {
+            if(!dd.result.length) {
+              this.genericService.updateItem('rsvn', rsvn).subscribe(
+                data => {
+                  this.loadRsvn(data)
+                  this.currRsvnChange.emit(data)
+                }
+              )
+  
+            } 
+          },
+          err => {
+            this.form_error = err.error
+          }
+        )
+      }
+    }
+  }
+  //---------------------------------
   rsvnLocked() {
-    if(this.currRsvn && this.currRsvn.id) {
+    if (this.currRsvn && this.currRsvn.id) {
 
-  //    return !!this.currRsvn.rooms.length
+      //    return !!this.currRsvn.rooms.length
       return false
     }
-    return true  
+    return true
   }
 
-//---------------------------------
+  //---------------------------------
   deleteRsvn(rsvn: any) {
 
-    if(!this.rsvnLocked()) {
+    if (!this.rsvnLocked()) {
 
       this.genericService.deleteItem('rsvn', rsvn).subscribe(
         data => {
@@ -167,22 +188,21 @@ rsvnEditForm = new FormGroup({
           this.rsvnEditFormInit()
         },
         err => {
-          console.log("ERROR in rsvn Delete",err)
+          console.log("ERROR in rsvn Delete", err)
         }
       )
     }
   }
-//---------------------------------
-ngOnChanges(changes:SimpleChanges) {
-  this.rsvnEditForm.reset()
-  if (this.currRsvn && this.currRsvn.id == 0) {
-    this.rsvnEditFormInit()
+  //---------------------------------
+  ngOnChanges(changes: SimpleChanges) {
+    this.rsvnEditForm.reset()
+    if (this.currRsvn && this.currRsvn.id == 0) {
+      this.rsvnEditFormInit()
+    }
+    this.loadRsvn(this.currRsvn)
   }
-  this.loadRsvn(this.currRsvn)
-  console.log("RSVN Changes",this.currRsvn)
-}
-//---------------------------------
-ngOnInit(): void {
+  //---------------------------------
+  ngOnInit(): void {
 
     this.systemService.getDropdownList('status').subscribe(
       data => this.statusList = data
@@ -197,7 +217,7 @@ ngOnInit(): void {
       this.loadRsvn(this.currRsvn)
     }
     this.authService.getSession().subscribe(
-      data => this.user= data
+      data => this.user = data
     )
 
   }

@@ -60,7 +60,6 @@ export class BldgListComponent implements OnInit {
     this.genericService.updateItem('bldg', bldg).subscribe(
       data => {
         this.selectBldg(data)
-        console.log("checking",data)
         this.ngOnInit()
       }
     )

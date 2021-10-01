@@ -33,7 +33,6 @@ export class FileinputComponent implements OnInit {
       upload$.subscribe(
         data => {
           this.results.emit(data)
-          console.log("File Peek",data)
         }
       );
     }

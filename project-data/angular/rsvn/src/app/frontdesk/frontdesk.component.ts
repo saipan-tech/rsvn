@@ -31,7 +31,6 @@ export class FrontdeskComponent implements OnInit {
 
 //-------------------------------
   selectedGuest(guest: any) {
-    console.log(guest.rsvnid)
     // makes grid selection available
     this.genericService.getItem('rsvn', guest.rsvnid).subscribe(
       data => {

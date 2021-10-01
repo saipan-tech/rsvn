@@ -1,25 +1,20 @@
 from .common import *
 
-def checkRsvn(rsvn) :
+def checkRsvn(rsvn,dI,dO) :
     res = []
     rooms = Room.objects.filter(
-        Q(rsvn__dateIn__lte = rsvn.dateIn) & Q(rsvn__dateOut__gte = rsvn.dateIn) |
-        Q(rsvn__dateIn__lte = rsvn.dateOut) & Q(rsvn__dateOut__gte = rsvn.dateIn) |
-        Q(rsvn__dateIn__lte = rsvn.dateOut) & Q(rsvn__dateOut__gte =  rsvn.dateOut) 
+        Q(rsvn__dateIn__lt = dI) & Q(rsvn__dateOut__gt = dI) |
+        Q(rsvn__dateIn__lt = dO) & Q(rsvn__dateOut__gt = dI) |
+        Q(rsvn__dateIn__lt = dO) & Q(rsvn__dateOut__gt =  dO) 
         )
     rooms = rooms.exclude(rsvn__id=rsvn.id)
     myrooms = Room.objects.filter(rsvn__id = rsvn.id)
 
     for r in myrooms :
-     
+        # we check for room collisions
         if rooms.filter(roominfo__id=int(r.roominfo.id)) :
             res.append(r.roominfo.number)
-    
-
-
-    # we now have all rooms for that time period minus ours.
-    # let's see if we can find the desired room already spoken for
-    return (RoomSerializer(rooms,many=True).data,RoomSerializer(myrooms,many=True).data ,res)
+    return (res)
 
 #===========================
 class AmenityViewSet(viewsets.ModelViewSet):
@@ -36,7 +31,12 @@ class RsvnTestView(APIView) :
     
     def get(self, request,id,format=None):
         rsvn = self.get_object(id)
-        return Response(checkRsvn(rsvn))
+
+        if "dateIn" in request.GET and "dateOut" in request.GET :
+            dI = request.GET['dateIn'] 
+            dO = request.GET['dateOut']
+            return Response({'result':checkRsvn(rsvn,dI,dO)})
+        return Response(["No Test"])    
 
 #===========================
 class RsvnViewSet(viewsets.ModelViewSet):

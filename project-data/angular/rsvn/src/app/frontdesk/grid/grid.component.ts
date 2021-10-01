@@ -48,14 +48,12 @@ export class GridComponent implements OnInit, OnChanges {
 
 
   slide() {
-    console.log("here I am")
     this.ngOnInit()
   }
 
 
   // -------------------------------------------
   changeDate() {
-    console.log(this.currDateStart)
     this.ngOnInit()
   }
   // -------------------------------------------
@@ -80,7 +78,7 @@ export class GridComponent implements OnInit, OnChanges {
         this.dispList.push({ bldg, rooms })
       }
     )
-    console.log(this.dispList)
+   
   }
 
   // -------------------------------------------

@@ -99,7 +99,6 @@ export class RoomListComponent implements OnInit, OnChanges {
   deleteRoom(room: any) {
     this.genericService.deleteItem('roominfo', room).subscribe(
       data => {
-        console.log(data)
         this.ngOnInit()
       }
     )
@@ -121,7 +120,6 @@ export class RoomListComponent implements OnInit, OnChanges {
 
        this.genericService.updateItem('roominfo', rec).subscribe(
          data =>{
-          console.log("returned",data)
           this.ngOnInit()
          } 
        )

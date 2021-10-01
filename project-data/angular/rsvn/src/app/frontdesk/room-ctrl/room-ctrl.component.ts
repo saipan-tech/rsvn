@@ -93,7 +93,6 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
     if (this.currRsvn && this.currRsvn.dateIn && this.currRsvn.dateOut) {
       this.roomService.availableRooms(this.currRsvn.dateIn,this.currRsvn.dateOut)
         .subscribe(avail => {
-          console.log("Available",avail)
           this.availRoominfo = avail
           this.genericService.getItemList("bldg").subscribe(
             bldgs => {

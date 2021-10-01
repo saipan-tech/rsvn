@@ -32,7 +32,6 @@ export class RsvnListComponent implements OnInit {
 
   loadRsvn(rsvn: any) {
     this.currRsvn.emit(rsvn)
-    console.log(rsvn)
   }
 
 
