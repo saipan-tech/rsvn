@@ -20,12 +20,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule} from '@angular/material/icon';
 import { MatButtonModule} from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule} from '@angular/material/radio';
 import { AppRoutingModule } from '@app/app-routing.module';
-
-
-
-
 
 @NgModule({
   declarations: [
@@ -41,8 +37,6 @@ import { AppRoutingModule } from '@app/app-routing.module';
     GridLineComponent,
     CurrGridComponent,
     RsvnCtrlComponent
-
-
   ],
   imports: [
     CommonModule,
@@ -56,12 +50,9 @@ import { AppRoutingModule } from '@app/app-routing.module';
     MatButtonModule,
     MatSliderModule,
     MatRadioModule
-    
   ],
   exports: [
     ClockComponent,
-
   ]
-  
 })
 export class FrontdeskModule { }

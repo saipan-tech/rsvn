@@ -51,4 +51,7 @@ export class RsvnService {
   rsvnSpecial(datequery:string):Observable<IRsvn[]> {
     return this.http.get<IRsvn[]>(`${this.urlRoot}/rsvn?${datequery}`)
   }
+  rsvnTest(id:string):Observable<any> {
+    return this.http.get<any>(`${this.urlRoot}/rsvntest/${id}/`)
+  }
 }

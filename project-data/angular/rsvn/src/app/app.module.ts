@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppConstants } from '@app/app.constants';
 import { AppEnv } from '@app/_helpers/appenv';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -25,8 +24,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule} from '@angular/material/icon';
 import { MatButtonModule} from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule} from '@angular/material/radio';
 import { FrontdeskModule } from '@app/frontdesk/frontdesk.module';
+
 @NgModule({
   declarations: [
     AppComponent,

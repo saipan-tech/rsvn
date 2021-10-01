@@ -50,13 +50,15 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
 
   assignRoom(roominfo: IRoominfo) {
+  
+  
     let newroom = { rsvn: this.currRsvn.id, roominfo: roominfo.id, status: 'new' }
-    
     this.genericService.updateItem("room", newroom)
       .subscribe(data => {
         this.ngOnInit()
         this.refreshRsvn();
       })
+
   }
 
   unassignRoom(room: any) {
@@ -89,8 +91,9 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     if (this.currRsvn && this.currRsvn.dateIn && this.currRsvn.dateOut) {
-      this.roomService.availableRooms(this.currRsvn.dateIn,this.currRsvn.dateIn)
+      this.roomService.availableRooms(this.currRsvn.dateIn,this.currRsvn.dateOut)
         .subscribe(avail => {
+          console.log("Available",avail)
           this.availRoominfo = avail
           this.genericService.getItemList("bldg").subscribe(
             bldgs => {
@@ -98,7 +101,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
               this.makeList()
             })
         })
-      this.roomService.unavailableRooms(this.currRsvn.dateIn,this.currRsvn.dateIn)
+      this.roomService.unavailableRooms(this.currRsvn.dateIn,this.currRsvn.dateOut)
         .subscribe(unavail => {
 
           this.unavailRoominfo = unavail 

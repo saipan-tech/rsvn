@@ -41,9 +41,6 @@ class RsvnSerializer(serializers.ModelSerializer):
         model= Rsvn
         fields = '__all__'
         depth = 1
-
-
-
 #---------------------------------------------------------
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:

@@ -115,6 +115,8 @@ rsvnEditForm = new FormGroup({
   }
 //---------------------------------
   updateRsvn(rsvn: any) {
+
+  // Before updating - let's run a validitry check on the dates and the rooms
     if(this.currGuest.id) {
       this.form_error = {}
       rsvn.primary = Number(this.currGuest.id)
@@ -126,7 +128,14 @@ rsvnEditForm = new FormGroup({
       this.genericService.updateItem('rsvn', rsvn).subscribe(
         data => {
           this.loadRsvn(data)
-          this.currRsvnChange.emit(data)
+          this.rsvnService.rsvnTest(data.id).subscribe(
+            dd => {
+              console.log("Rsvn Test",dd)
+              this.currRsvnChange.emit(data)
+
+            }
+
+          )
         },
         err => {
           this.form_error = err.error

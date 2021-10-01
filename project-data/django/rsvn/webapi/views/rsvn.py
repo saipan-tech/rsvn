@@ -1,10 +1,44 @@
 from .common import *
 
+def checkRsvn(rsvn) :
+    res = []
+    rooms = Room.objects.filter(
+        Q(rsvn__dateIn__lte = rsvn.dateIn) & Q(rsvn__dateOut__gte = rsvn.dateIn) |
+        Q(rsvn__dateIn__lte = rsvn.dateOut) & Q(rsvn__dateOut__gte = rsvn.dateIn) |
+        Q(rsvn__dateIn__lte = rsvn.dateOut) & Q(rsvn__dateOut__gte =  rsvn.dateOut) 
+        )
+    rooms = rooms.exclude(rsvn__id=rsvn.id)
+    myrooms = Room.objects.filter(rsvn__id = rsvn.id)
+
+    for r in myrooms :
+     
+        if rooms.filter(roominfo__id=int(r.roominfo.id)) :
+            res.append(r.roominfo.number)
+    
+
+
+    # we now have all rooms for that time period minus ours.
+    # let's see if we can find the desired room already spoken for
+    return (RoomSerializer(rooms,many=True).data,RoomSerializer(myrooms,many=True).data ,res)
+
+#===========================
 class AmenityViewSet(viewsets.ModelViewSet):
     serializer_class = AmenitySerializer
     queryset = Amenity.objects.all()
     permission_classes = [permissions.IsAuthenticated]
+#===========================
+class RsvnTestView(APIView) :
+    def get_object(self,id):
+        try:
+            return Rsvn.objects.get(id=id)
+        except model.DoesNotExist:
+            raise Http404
+    
+    def get(self, request,id,format=None):
+        rsvn = self.get_object(id)
+        return Response(checkRsvn(rsvn))
 
+#===========================
 class RsvnViewSet(viewsets.ModelViewSet):
     serializer_class = RsvnSerializer
     queryset = Rsvn.objects.all()
@@ -24,11 +58,7 @@ class RsvnViewSet(viewsets.ModelViewSet):
             dateIn = self.request.GET['dateIn']
             dateOut = self.request.GET['dateOut']
             if "exclude" in self.request.GET  :
-                queryset = queryset.exclude(
-                    Q(dateIn__lte = dateIn) & Q(dateOut__gte = dateIn) |
-                    Q(dateIn__lte = dateOut) & Q(dateOut__gte = dateIn) |
-                    Q(dateIn__lte = dateOut) & Q(dateOut__gte =  dateOut) 
-                    )
+                queryset = RsvnTestView
             elif "include" in self.request.GET :
                 queryset = queryset.filter(
                     Q(dateIn__lte = dateIn) & Q(dateOut__gte = dateIn) |

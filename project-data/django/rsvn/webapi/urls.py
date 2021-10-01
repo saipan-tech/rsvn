@@ -51,7 +51,8 @@ urlpatterns = [
     path('module/<rsvnid>/<mod>/<modid>/',RsvnModuleView.as_view()),
     path('search/',SearchView.as_view()),
     path('session/',Session.as_view()),
-    path('filein/',WorkFileView.as_view())
+    path('filein/',WorkFileView.as_view()),
+    path('rsvntest/<id>/',RsvnTestView.as_view())
 ]
 
 
