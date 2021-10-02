@@ -33,12 +33,7 @@ export class RsvnService {
     return this.http
       .get<any[]>(`${this.urlRoot}/search/?day=${query}`)
   }
-  getFutureDateRsvn(query: string): Observable<any[]> {
-    return this.http
-      .get<any[]>(`${this.urlRoot}/search/?future=${query}`)
-  }
 
- 
   rsvnLocked(rsvn:IRsvn) : Observable<any[]> {
     return this.http
     .get<any[]>(`${this.urlRoot}/room/?rsvn=${rsvn.id}`)

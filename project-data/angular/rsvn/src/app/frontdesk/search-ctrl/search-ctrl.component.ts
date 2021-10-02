@@ -66,7 +66,7 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
         this.rsvnService.getDateRsvn(new Date().toISOString())
           .subscribe(data => {
             this.rsvnList = data
-            this.makeActiveList()
+            this.makeNewList()
           })
         break;
       case 'guests':
@@ -80,47 +80,57 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
         this.genericService.getItemList('rsvn')
           .subscribe(data => {
             this.rsvnList = data
-            this.makeActiveList()
+            this.makeNewList()
           })
         break;
 
-      case 'in':
-        this.rsvnService.rsvnSpecial(`checkin=${this.today }`)
+      case 'checkin':
+      case 'checkout':
+      case 'future':
+         this.rsvnService.rsvnSpecial(`${mode}=${this.today }`)
           .subscribe(data => {
              this.rsvnList = data
-            this.makeActiveList()
+            this.makeNewList()
           })
-        break;
-
-        case 'out':
-        this.rsvnService.rsvnSpecial(`checkout=${ this.today }`)
-          .subscribe(data => {
-            this.rsvnList = data
-            this.makeActiveList()
-          })
-        break;
-
-        case 'future':
-        this.rsvnService.getFutureDateRsvn(new Date().toISOString())
-          .subscribe(data => {
-            this.rsvnList = data
-            this.makeActiveList()
-          })
-
         break;
     }
   }
 
 
-  makeActiveList() {
+sortRsvnDateList(rlist:any) {
+  rlist.sort(function(a:any, b:any) {
+    var A = a.dateIn; // ignore upper and lowercase
+    var B = b.dateIn; // ignore upper and lowercase
+    if (A > B) { return -1; }
+    if (A < B) { return 1;  }
+    return 0; });
+  return rlist
+}
+
+sortResultNames(rlist:any) {
+  rlist.sort(function(a:any, b:any) {
+    var A = a.guest.lastname.toUpperCase(); // ignore upper and lowercase
+    var B = b.guest.lastname.toUpperCase(); // ignore upper and lowercase
+    if (A < B) { return -1; }
+    if (A > B) { return 1;  }
+    return 0; });
+  return rlist
+}
+
+  makeNewList() {
+    let glist = new Set()
     this.resultList = []
     this.rsvnList.forEach(
-      rsvlist => {
-        let rsvn = [rsvlist]
-        let guest = rsvlist.primary
-        this.resultList.push({ guest, rsvn })
+      rsv => {
+        glist.add(rsv.primary.id)
       }
     )
+    for (let entry of glist) {
+      let rsvn = this.sortRsvnDateList(this.rsvnList.filter(rs =>rs.primary.id == entry ))
+      let guest = rsvn[0].primary
+      this.resultList.push({rsvn, guest})
+    } 
+    this.resultList = this.sortResultNames(this.resultList)
   }
 
 
@@ -135,10 +145,7 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
         this.resultList.push({ guest, rsvn })
       }
     )
-
   }
-
-
 
   runSearch(search: any) {
     // with a partial search Guests and return list
@@ -153,7 +160,6 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
                 this.makeList()
               }
             )
-
         }
       )
   }
@@ -188,18 +194,9 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
     this.clearFields()
     this.currGuest.id = 0
     this.currGuestChange.emit(this.currGuest)
-
   }
-
-
   ngOnInit(): void {
-
   }
-
   ngOnChanges(changes: SimpleChanges) {
-    
   }
-
-
-
 }

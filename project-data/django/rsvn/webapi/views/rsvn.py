@@ -1,5 +1,6 @@
 from .common import *
 
+#===========================
 def checkRsvn(rsvn,dI,dO) :
     res = []
     rooms = Room.objects.filter(
@@ -13,7 +14,7 @@ def checkRsvn(rsvn,dI,dO) :
     for r in myrooms :
         # we check for room collisions
         if rooms.filter(roominfo__id=int(r.roominfo.id)) :
-            res.append(r.roominfo.number)
+            res.append(r.id)
     return (res)
 
 #===========================
@@ -23,7 +24,7 @@ class AmenityViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 #===========================
 class RsvnTestView(APIView) :
-    def get_object(self,id):
+    def get_object(self,id): 
         try:
             return Rsvn.objects.get(id=id)
         except model.DoesNotExist:
@@ -36,14 +37,18 @@ class RsvnTestView(APIView) :
             dI = request.GET['dateIn'] 
             dO = request.GET['dateOut']
             return Response({'result':checkRsvn(rsvn,dI,dO)})
-        return Response(["No Test"])    
+        return Response({'result':["No Test"]})    
+#-------------------------------------------------------
+def confirm_gen (id) :
+#-------------------------------------------------------
+	today = date.today()
+	return 'R{:04}{:02}{:02}-{:04}'.format(today.year,today.month,today.day,id)
 
 #===========================
 class RsvnViewSet(viewsets.ModelViewSet):
     serializer_class = RsvnSerializer
     queryset = Rsvn.objects.all()
     permission_classes = [permissions.IsAuthenticated]
-
    
     def get_queryset(self):
         queryset = super().get_queryset() 
@@ -53,6 +58,9 @@ class RsvnViewSet(viewsets.ModelViewSet):
 
         if "checkout" in self.request.GET :
             queryset = queryset.filter( dateOut=self.request.GET['checkout'])
+
+        if "future" in self.request.GET :
+            queryset = queryset.filter( dateIn__gt=self.request.GET['future'])
 
         if  "dateIn" in self.request.GET and "dateOut" in self.request.GET :
             dateIn = self.request.GET['dateIn']
@@ -65,7 +73,6 @@ class RsvnViewSet(viewsets.ModelViewSet):
                     Q(dateIn__lte = dateOut) & Q(dateOut__gte = dateIn) |
                     Q(dateIn__lte = dateOut) & Q(dateOut__gte =  dateOut) 
                     )
-
         return queryset    
 
     def create(self,request):
@@ -75,7 +82,11 @@ class RsvnViewSet(viewsets.ModelViewSet):
         rsvn.primary = guest  
         serializer = RsvnSerializer(rsvn,data=drec)
         if serializer.is_valid():
-            serializer.save()
+            x = serializer.save()
+            x.confirm = confirm_gen(x.id)
+            x.save()
+
+
             return Response(serializer.data)
         return Response(serializer.errors)
 
