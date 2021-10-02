@@ -2,28 +2,28 @@
     <form novalidate [formGroup]="guestEditForm">
 
         <h3>Guest Details</h3>
-        <div class="cellgroup d-flex ">
-            <div class="fullcell d-flex">
+        <div class="cellgroup">
+            <div class="fullcell">
                 <label class="form-control uppercell">* First Name</label>
                 <input class="form-control lowercell" type="text" formControlName='firstname'>
             </div>
-            <div class="fullcell d-flex">
+            <div class="fullcell">
                 <label class="form-control uppercell">Middle Name</label>
                 <input class="form-control lowercell" type="text" formControlName='middlename'>
             </div>
-            <div class="fullcell d-flex">
+            <div class="fullcell">
                 <label class="form-control uppercell">* Last Name</label>
                 <input class="form-control lowercell" type="text" formControlName='lastname'>
             </div>
         </div>
 
-        <div class="cellgroup d-flex">
-            <div class="fullcell2 d-flex"  >
+        <div class="cellgroup">
+            <div class="fullcell2"  >
                 <label class="form-control uppercell"
                  [ngClass]="errmsg && errmsg.email ? 'error' : 'noterror'">* Email</label>
                 <input class="form-control lowercell" type="text" formControlName='email'>
             </div>
-            <div class="fullcell2 d-flex">
+            <div class="fullcell2">
                 <label class="form-control uppercell">* Phone Number</label>
                 <input class="form-control lowercell" type="text" formControlName='phone'>
             </div>
@@ -31,12 +31,12 @@
 
         <hr />
 
-        <div class="cellgroup d-flex">
-            <div class="fullcell d-flex">
+        <div class="cellgroup">
+            <div class="fullcell">
                 <label class="form-control uppercell">Title</label>
                 <input class="form-control lowercell" type="text">
             </div>
-            <div class="fullcell d-flex">
+            <div class="fullcell">
                 <label class="form-control uppercell">Company Name</label>
                 <input class="form-control lowercell" type="text" formControlName='company'>
             </div>
@@ -44,24 +44,24 @@
 
         <hr>
 
-        <div class="cellgroup d-flex">
+        <div class="cellgroup">
             <div class="d-flex fullcell3">
                 <label class="form-control uppercell">* Address</label>
                 <input class="form-control lowercell" type="text" formControlName='address'>
             </div>
         </div>
-        <div class="cellgroup d-flex">
+        <div class="cellgroup">
 
-            <div class="fullcell d-flex">
+            <div class="fullcell">
                 <label class="form-control uppercell">* City</label>
                 <input class="form-control lowercell" type="text" formControlName='city'>
             </div>
-            <div class="fullcell d-flex">
+            <div class="fullcell">
                 <label class="form-control uppercell">* State/Country</label>
                 <input class="form-control lowercell" type="text" formControlName='state'>
             </div>
 
-            <div class="fullcell d-flex">
+            <div class="fullcell">
                 <label class="form-control uppercell">* Zip Code</label>
                 <input class="form-control lowercell" type="text" formControlName='zipcode'>
             </div>
@@ -70,55 +70,55 @@
 
 
         <h3>Identification</h3>
-        <div class="cellgroup d-flex">
-            <div class="fullcell d-flex">
+        <div class="cellgroup">
+            <div class="fullcell">
                 <label class="form-control uppercell">* ID Type</label>
                 <select class="form-control lowercell" formControlName='idtype'>
                     <option value=""></option>
                     <option *ngFor="let i of idList" [ngValue]="i.value">{{i.display}} </option>
                 </select>
             </div>
-            <div class="fullcell d-flex">
+            <div class="fullcell">
                 <label class="form-control uppercell">* ID Number</label>
                 <input class="form-control lowercell" type="text" formControlName='idnum'>
             </div>
 
-            <div class="fullcell d-flex">
+            <div class="fullcell">
                 <label class="form-control uppercell">* ID Expires</label>
                 <input class="form-control lowercell" type="text" formControlName='idexpire'>
             </div>
-            <div class="fullcell d-flex">
+            <div class="fullcell">
                 <label class="form-control uppercell">* DOB</label>
                 <input class="form-control lowercell" type="text" formControlName='dob'>
             </div>
         </div>
 
         <h3>Miscellaneous</h3>
-        <div class="cellgroup d-flex">
-            <div class="fullcell d-flex">
+        <div class="cellgroup">
+            <div class="fullcell">
                 <label class="form-control uppercell">Notes</label>
                 <textarea class="form-control lowercell" type="text" formControlName='notes'></textarea>
             </div>
         </div>
 
         <h3>Status</h3>
-        <div class="cellgroup d-flex">
-            <div class="fullcell d-flex">
+        <div class="cellgroup">
+            <div class="fullcell">
                 <label class="form-control uppercell">Created</label>
                 <input class="form-control lowercell" type="text" formControlName='created'>
             </div>
-            <div class="fullcell d-flex">
+            <div class="fullcell">
                 <label class="form-control uppercell">Modified</label>
                 <input class="form-control lowercell" type="text" formControlName='modified'>
             </div>
 
-            <div class="fullcell d-flex">
+            <div class="fullcell">
                 <label class="form-control uppercell">Clerk</label>
                 <input class="form-control lowercell" type="text" formControlName='clerk'>
             </div>
         </div>
 
-        <div class="d-flex">
+        <div class="">
             <button [disabled]="!(guestEditForm && guestEditForm.value.id && noRsvn())"
                     class="form-control btn btn-sm btn-outline-danger" (click)="deleteGuest(guestEditForm.value)">
                 Delete Guest Record
