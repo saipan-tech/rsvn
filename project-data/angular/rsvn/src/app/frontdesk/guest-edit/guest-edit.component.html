@@ -1,8 +1,7 @@
 <div *ngIf="currGuest && currGuest.id != null">
     <form novalidate [formGroup]="guestEditForm">
 
-        <h3>Contact Information</h3>
-
+        <h3>Guest Details</h3>
         <div class="cellgroup d-flex ">
             <div class="fullcell d-flex">
                 <label class="form-control uppercell">* First Name</label>
@@ -16,9 +15,7 @@
                 <label class="form-control uppercell">* Last Name</label>
                 <input class="form-control lowercell" type="text" formControlName='lastname'>
             </div>
-
         </div>
-
 
         <div class="cellgroup d-flex">
             <div class="fullcell2 d-flex"  >
@@ -30,12 +27,22 @@
                 <label class="form-control uppercell">* Phone Number</label>
                 <input class="form-control lowercell" type="text" formControlName='phone'>
             </div>
+        </div>
 
+        <hr />
 
+        <div class="cellgroup d-flex">
+            <div class="fullcell d-flex">
+                <label class="form-control uppercell">Title</label>
+                <input class="form-control lowercell" type="text">
+            </div>
+            <div class="fullcell d-flex">
+                <label class="form-control uppercell">Company Name</label>
+                <input class="form-control lowercell" type="text" formControlName='company'>
+            </div>
         </div>
 
         <hr>
-
 
         <div class="cellgroup d-flex">
             <div class="d-flex fullcell3">
@@ -60,6 +67,8 @@
             </div>
 
         </div>
+
+
         <h3>Identification</h3>
         <div class="cellgroup d-flex">
             <div class="fullcell d-flex">
@@ -82,22 +91,17 @@
                 <label class="form-control uppercell">* DOB</label>
                 <input class="form-control lowercell" type="text" formControlName='dob'>
             </div>
-
-
         </div>
 
-        <h3>Miscellaneous Info</h3>
+        <h3>Miscellaneous</h3>
         <div class="cellgroup d-flex">
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">Company</label>
-                <input class="form-control lowercell" type="text" formControlName='company'>
-            </div>
-
             <div class="fullcell d-flex">
                 <label class="form-control uppercell">Notes</label>
                 <textarea class="form-control lowercell" type="text" formControlName='notes'></textarea>
             </div>
         </div>
+
+        <h3>Status</h3>
         <div class="cellgroup d-flex">
             <div class="fullcell d-flex">
                 <label class="form-control uppercell">Created</label>
