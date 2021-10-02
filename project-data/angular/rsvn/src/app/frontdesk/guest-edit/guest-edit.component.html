@@ -4,7 +4,7 @@
             <h3 class="section-heading">Guest Details</h3>
             <div class="cellgroup row">
                 <div class="fullcell col">
-                    <label class="uppercell">* First Name</label>
+                    <label class="uppercell">First Name <abbr class="req" title="Required">*</abbr></label>
                     <input class="form-control lowercell" type="text" formControlName='firstname'>
                 </div>
                 <div class="fullcell col">
@@ -12,18 +12,18 @@
                     <input class="form-control lowercell" type="text" formControlName='middlename'>
                 </div>
                 <div class="fullcell col">
-                    <label class="uppercell">* Last Name</label>
+                    <label class="uppercell">Last Name <abbr class="req" title="Required">*</abbr></label>
                     <input class="form-control lowercell" type="text" formControlName='lastname'>
                 </div>
             </div>
             <div class="cellgroup row">
                 <div class="col"  >
                     <label class="uppercell"
-                           [ngClass]="errmsg && errmsg.email ? 'error' : 'noterror'">* Email</label>
+                           [ngClass]="errmsg && errmsg.email ? 'error' : 'noterror'">Email <abbr class="req" title="Required">*</abbr></label>
                     <input class="form-control lowercell" type="text" formControlName='email'>
                 </div>
                 <div class="col">
-                    <label class="uppercell">* Phone Number</label>
+                    <label class="uppercell">Phone Number <abbr class="req" title="Required">*</abbr></label>
                     <input class="form-control lowercell" type="text" formControlName='phone'>
                 </div>
             </div>
@@ -41,21 +41,21 @@
 
             <div class="cellgroup row">
                 <div class="col">
-                    <label class="uppercell">* Address</label>
+                    <label class="uppercell">Address <abbr class="req" title="Required">*</abbr></label>
                     <input class="form-control lowercell" type="text" formControlName='address'>
                 </div>
             </div>
             <div class="cellgroup row">
                 <div class="col">
-                    <label class="uppercell">* City</label>
+                    <label class="uppercell">City <abbr class="req" title="Required">*</abbr></label>
                     <input class="form-control lowercell" type="text" formControlName='city'>
                 </div>
                 <div class="col">
-                    <label class="uppercell">* Zip Code</label>
+                    <label class="uppercell">Zip Code <abbr class="req" title="Required">*</abbr></label>
                     <input class="form-control lowercell" type="text" formControlName='zipcode'>
                 </div>
                 <div class="col">
-                    <label class="uppercell">* State/Country</label>
+                    <label class="uppercell">State/Country <abbr class="req" title="Required">*</abbr></label>
                     <input class="form-control lowercell" type="text" formControlName='state'>
                 </div>
             </div>
@@ -65,23 +65,23 @@
             <h3 class="section-heading">Identification</h3>
             <div class="cellgroup row">
                 <div class="col">
-                    <label class="uppercell">* ID Type</label>
+                    <label class="uppercell">ID Type <abbr class="req" title="Required">*</abbr></label>
                     <select class="form-select lowercell" formControlName='idtype'>
                         <option value=""></option>
                         <option *ngFor="let i of idList" [ngValue]="i.value">{{i.display}} </option>
                     </select>
                 </div>
                 <div class="col">
-                    <label class="uppercell">* ID Number</label>
+                    <label class="uppercell">ID Number <abbr class="req" title="Required">*</abbr></label>
                     <input class="form-control lowercell" type="text" formControlName='idnum'>
                 </div>
 
                 <div class="col">
-                    <label class="uppercell">* ID Expires</label>
+                    <label class="uppercell">ID Expires <abbr class="req" title="Required">*</abbr></label>
                     <input class="form-control lowercell" type="text" formControlName='idexpire'>
                 </div>
                 <div class="col">
-                    <label class="uppercell">* DOB</label>
+                    <label class="uppercell">DOB <abbr class="req" title="Required">*</abbr></label>
                     <input class="form-control lowercell" type="text" formControlName='dob'>
                 </div>
             </div>

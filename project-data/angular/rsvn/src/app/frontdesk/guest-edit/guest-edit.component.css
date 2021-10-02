@@ -38,3 +38,7 @@
 section {
     margin-bottom: 1.5rem;
 }
+
+.req {
+    color: var(--bs-danger);
+}
