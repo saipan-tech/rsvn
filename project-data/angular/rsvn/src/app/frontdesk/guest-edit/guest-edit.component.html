@@ -1,142 +1,145 @@
 <div *ngIf="currGuest && currGuest.id != null">
-    <form novalidate [formGroup]="guestEditForm">
-
-        <h3>Contact Information</h3>
-
-        <div class="cellgroup d-flex ">
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">* First Name</label>
-                <input class="form-control lowercell" type="text" formControlName='firstname'>
+    <form novalidate [formGroup]="guestEditForm" class="container">
+        <section>
+            <h3 class="section-heading">Guest Details</h3>
+            <div class="cellgroup row">
+                <div class="fullcell col">
+                    <label class="uppercell">First Name <abbr class="req" title="Required">*</abbr></label>
+                    <input class="form-control lowercell" type="text" formControlName='firstname'>
+                </div>
+                <div class="fullcell col">
+                    <label class="uppercell">Middle Name</label>
+                    <input class="form-control lowercell" type="text" formControlName='middlename'>
+                </div>
+                <div class="fullcell col">
+                    <label class="uppercell">Last Name <abbr class="req" title="Required">*</abbr></label>
+                    <input class="form-control lowercell" type="text" formControlName='lastname'>
+                </div>
             </div>
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">Middle Name</label>
-                <input class="form-control lowercell" type="text" formControlName='middlename'>
-            </div>
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">* Last Name</label>
-                <input class="form-control lowercell" type="text" formControlName='lastname'>
-            </div>
-
-        </div>
-
-
-        <div class="cellgroup d-flex">
-            <div class="fullcell2 d-flex"  >
-                <label class="form-control uppercell"
-                 [ngClass]="errmsg && errmsg.email ? 'error' : 'noterror'">* Email</label>
-                <input class="form-control lowercell" type="text" formControlName='email'>
-            </div>
-            <div class="fullcell2 d-flex">
-                <label class="form-control uppercell">* Phone Number</label>
-                <input class="form-control lowercell" type="text" formControlName='phone'>
+            <div class="cellgroup row">
+                <div class="col"  >
+                    <label class="uppercell"
+                           [ngClass]="errmsg && errmsg.email ? 'error' : 'noterror'">Email <abbr class="req" title="Required">*</abbr></label>
+                    <input class="form-control lowercell" type="text" formControlName='email'>
+                </div>
+                <div class="col">
+                    <label class="uppercell">Phone Number <abbr class="req" title="Required">*</abbr></label>
+                    <input class="form-control lowercell" type="text" formControlName='phone'>
+                </div>
             </div>
 
-
-        </div>
-
-        <hr>
-
-
-        <div class="cellgroup d-flex">
-            <div class="d-flex fullcell3">
-                <label class="form-control uppercell">* Address</label>
-                <input class="form-control lowercell" type="text" formControlName='address'>
-            </div>
-        </div>
-        <div class="cellgroup d-flex">
-
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">* City</label>
-                <input class="form-control lowercell" type="text" formControlName='city'>
-            </div>
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">* State/Country</label>
-                <input class="form-control lowercell" type="text" formControlName='state'>
+            <div class="cellgroup row">
+                <div class="col">
+                    <label class="uppercell">Title</label>
+                    <input class="form-control lowercell" type="text">
+                </div>
+                <div class="col">
+                    <label class="uppercell">Company Name</label>
+                    <input class="form-control lowercell" type="text" formControlName='company'>
+                </div>
             </div>
 
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">* Zip Code</label>
-                <input class="form-control lowercell" type="text" formControlName='zipcode'>
+            <div class="cellgroup row">
+                <div class="col">
+                    <label class="uppercell">Address <abbr class="req" title="Required">*</abbr></label>
+                    <input class="form-control lowercell" type="text" formControlName='address'>
+                </div>
             </div>
+            <div class="cellgroup row">
+                <div class="col">
+                    <label class="uppercell">City <abbr class="req" title="Required">*</abbr></label>
+                    <input class="form-control lowercell" type="text" formControlName='city'>
+                </div>
+                <div class="col">
+                    <label class="uppercell">Zip Code <abbr class="req" title="Required">*</abbr></label>
+                    <input class="form-control lowercell" type="text" formControlName='zipcode'>
+                </div>
+                <div class="col">
+                    <label class="uppercell">State/Country <abbr class="req" title="Required">*</abbr></label>
+                    <input class="form-control lowercell" type="text" formControlName='state'>
+                </div>
+            </div>
+        </section>
 
-        </div>
-        <h3>Identification</h3>
-        <div class="cellgroup d-flex">
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">* ID Type</label>
-                <select class="form-control lowercell" formControlName='idtype'>
-                    <option value=""></option>
-                    <option *ngFor="let i of idList" [ngValue]="i.value">{{i.display}} </option>
-                </select>
-            </div>
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">* ID Number</label>
-                <input class="form-control lowercell" type="text" formControlName='idnum'>
-            </div>
+        <section>
+            <h3 class="section-heading">Identification</h3>
+            <div class="cellgroup row">
+                <div class="col">
+                    <label class="uppercell">ID Type <abbr class="req" title="Required">*</abbr></label>
+                    <select class="form-select lowercell" formControlName='idtype'>
+                        <option value=""></option>
+                        <option *ngFor="let i of idList" [ngValue]="i.value">{{i.display}} </option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label class="uppercell">ID Number <abbr class="req" title="Required">*</abbr></label>
+                    <input class="form-control lowercell" type="text" formControlName='idnum'>
+                </div>
 
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">* ID Expires</label>
-                <input class="form-control lowercell" type="text" formControlName='idexpire'>
+                <div class="col">
+                    <label class="uppercell">ID Expires <abbr class="req" title="Required">*</abbr></label>
+                    <input class="form-control lowercell" type="text" formControlName='idexpire'>
+                </div>
+                <div class="col">
+                    <label class="uppercell">DOB <abbr class="req" title="Required">*</abbr></label>
+                    <input class="form-control lowercell" type="text" formControlName='dob'>
+                </div>
             </div>
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">* DOB</label>
-                <input class="form-control lowercell" type="text" formControlName='dob'>
+        </section>
+
+        <section>
+            <h3 class="section-heading">Miscellaneous</h3>
+            <div class="cellgroup row">
+                <div class="col">
+                    <label class="uppercell">Notes</label>
+                    <textarea class="form-control lowercell" type="text" formControlName='notes'></textarea>
+                </div>
             </div>
+        </section>
 
 
-        </div>
+        <section>
+            <h3 class="section-heading">Status</h3>
+            <div class="cellgroup row">
+                <div class="col">
+                    <label class="uppercell">Created</label>
+                    <input class="form-control lowercell" type="text" formControlName='created'>
+                </div>
+                <div class="col">
+                    <label class="uppercell">Modified</label>
+                    <input class="form-control lowercell" type="text" formControlName='modified'>
+                </div>
 
-        <h3>Miscellaneous Info</h3>
-        <div class="cellgroup d-flex">
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">Company</label>
-                <input class="form-control lowercell" type="text" formControlName='company'>
+                <div class="col">
+                    <label class="uppercell">Clerk</label>
+                    <input class="form-control lowercell" type="text" formControlName='clerk'>
+                </div>
             </div>
+        </section>
 
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">Notes</label>
-                <textarea class="form-control lowercell" type="text" formControlName='notes'></textarea>
-            </div>
-        </div>
-        <div class="cellgroup d-flex">
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">Created</label>
-                <input class="form-control lowercell" type="text" formControlName='created'>
-            </div>
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">Modified</label>
-                <input class="form-control lowercell" type="text" formControlName='modified'>
-            </div>
-
-            <div class="fullcell d-flex">
-                <label class="form-control uppercell">Clerk</label>
-                <input class="form-control lowercell" type="text" formControlName='clerk'>
-            </div>
-        </div>
-
-        <div class="d-flex">
+        <div class="row">
             <button [disabled]="!(guestEditForm && guestEditForm.value.id && noRsvn())"
-                    class="form-control btn btn-sm btn-outline-danger" (click)="deleteGuest(guestEditForm.value)">
+                    class="form-control btn btn-sm btn-outline-danger col" (click)="deleteGuest(guestEditForm.value)">
                 Delete Guest Record
             </button>
 
             <button [disabled]="!(guestEditForm.value.id  &&  guestEditForm.valid && guestEditForm.dirty)"
-                    class="form-control btn btn-sm btn-outline-primary" (click)="updateGuest(guestEditForm.value)">
+                    class="form-control btn btn-sm btn-outline-primary col" (click)="updateGuest(guestEditForm.value)">
                 Update Guest Record
             </button>
 
             <button [disabled]="!(!guestEditForm.value.id && guestEditForm.valid && guestEditForm.dirty)"
-                    class="form-control btn btn-sm btn-outline-primary" (click)="updateGuest(guestEditForm.value)">
+                    class="form-control btn btn-sm btn-outline-primary col" (click)="updateGuest(guestEditForm.value)">
                 Create Guest Record
             </button>
 
             <button [disabled]="!(guestEditForm.value.id)"
-                    class="form-control btn btn-sm btn-outline-primary" (click)="newGuest()">
+                    class="form-control btn btn-sm btn-outline-primary col" (click)="newGuest()">
                 New Guest
             </button>
 
             <button [disabled]="!(guestEditForm.value.id && currRsvn.id==null)" (click)="newReservation()"
-                    class="form-control btn btn-outline-primary">
+                    class="form-control btn btn-outline-primary col">
                 New Reservation
             </button>
         </div>

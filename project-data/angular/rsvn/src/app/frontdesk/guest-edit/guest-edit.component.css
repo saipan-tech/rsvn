@@ -4,18 +4,13 @@
     font-size: 10pt;
     margin: 0;
     padding: 5px;
-    text-align: center;
-
-    width: 40%;
+    text-align: left;
 }
 
 .lowercell {
     font-family: nova;
     font-size: 12pt;
     margin: 0;
-    padding: 0;
-    background-color: rgb(230, 231, 231);
-    width: 60%;
 }
 .error {
     color: yellow !important;
@@ -34,4 +29,16 @@
 
 .cellgroup {
     margin-bottom: 1em;
+}
+
+.section-heading {
+    font-size: 1.1rem;
+}
+
+section {
+    margin-bottom: 1.5rem;
+}
+
+.req {
+    color: var(--bs-danger);
 }
