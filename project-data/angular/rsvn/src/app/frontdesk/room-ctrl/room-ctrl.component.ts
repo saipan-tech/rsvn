@@ -92,6 +92,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges) {
     this.ngOnInit()
+    console.log("changes in Room Control",changes)
   }
 
   ngOnInit(): void {
