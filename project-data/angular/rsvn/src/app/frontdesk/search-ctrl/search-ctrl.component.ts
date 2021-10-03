@@ -139,12 +139,14 @@ sortResultNames(rlist:any) {
     this.guestList.forEach(
       grec => {
         let guest = grec
+
         let rsvn = this.rsvnList.filter(
           rsvlist => rsvlist.primary.id == grec.id
         )
         this.resultList.push({ guest, rsvn })
       }
     )
+    this.resultList = this.sortResultNames(this.resultList)
   }
 
   runSearch(search: any) {
@@ -173,6 +175,8 @@ sortResultNames(rlist:any) {
   selectGuest(guest: any) {
     this.clearFields()
     this.currGuestChange.emit(guest)
+    this.runSearch(guest.lastname)
+
   }
 
   clearFields() {

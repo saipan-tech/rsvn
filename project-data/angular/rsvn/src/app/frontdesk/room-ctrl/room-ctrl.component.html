@@ -8,7 +8,7 @@
             <div class="form-control">Check In<br>{{ currRsvn.dateIn }}</div>
             <div class="form-control">Check Out<br>{{ currRsvn.dateOut }}</div>
         </div>
-        <div class="section mt-2">Assigned Rooms</div>
+        <div class="section mt-2">Assigned Rooms - {{currNumRooms}}/{{currRsvn.numrooms}}</div>
         <div>
             <div>
                 <div *ngFor="let r of currRoomList">

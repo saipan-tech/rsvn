@@ -23,6 +23,8 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   @Input() currGuest: any
   @Output() currGuestChange = new EventEmitter<IGuest>();
 
+  currNumRooms = 0
+  currRooms: IRoom[] = []
 
   bldgList: IBldg[] = []
   roomList: IRoominfo[] = []
@@ -40,6 +42,9 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
     private roomService: RoomService
   ) { }
 
+
+
+
   refreshRsvn() {
     this.genericService.getItem("rsvn", this.currRsvn.id).subscribe(
       data => {
@@ -50,14 +55,14 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
 
   assignRoom(roominfo: IRoominfo) {
-  
-  
+    if( this.currNumRooms < Number(this.currRsvn.numrooms) ) {
     let newroom = { rsvn: this.currRsvn.id, roominfo: roominfo.id, status: 'new' }
     this.genericService.updateItem("room", newroom)
       .subscribe(data => {
         this.ngOnInit()
         this.refreshRsvn();
       })
+    }
 
   }
 
@@ -90,6 +95,14 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    if (this.currRsvn) {
+    this.roomService.getRsvnRoom(this.currRsvn.id).subscribe(
+      rooms => {
+        this.currNumRooms = rooms.length
+        this.currRooms = rooms
+      }
+    )
+    }
     if (this.currRsvn && this.currRsvn.dateIn && this.currRsvn.dateOut) {
       this.roomService.availableRooms(this.currRsvn.dateIn,this.currRsvn.dateOut)
         .subscribe(avail => {

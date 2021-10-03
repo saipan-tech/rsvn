@@ -5,7 +5,9 @@ import { SystemService } from '@app/_services/system.service';
 import { AuthService } from '@app/_services/auth.service';
 import { IRsvn } from '@app/_interface/rsvn';
 import { IGuest } from '@app/_interface/guest';
+import { IRoom } from '@app/_interface/room';
 import { RsvnService } from '@app/_services/rsvn.service';
+import { RoomService } from '@app/_services/room.service';
 
 @Component({
   selector: 'app-rsvn-edit',
@@ -19,7 +21,8 @@ export class RsvnEditComponent implements OnInit, OnChanges {
     private genericService: GenericService,
     private systemService: SystemService,
     private authService: AuthService,
-    private rsvnService: RsvnService
+    private rsvnService: RsvnService,
+    private roomService: RoomService
 
   ) { }
 
@@ -36,6 +39,8 @@ export class RsvnEditComponent implements OnInit, OnChanges {
   statusList: any = [];
   form_error: any;
   rsvnList: IRsvn[] | unknown
+  currNumRooms = 0
+  currRooms: IRoom[] = []
 
   //---------------------------------
   rsvnEditForm = new FormGroup({
@@ -106,6 +111,12 @@ export class RsvnEditComponent implements OnInit, OnChanges {
         data => {
           this.rsvnEditForm.patchValue(data)
           this.currRsvn = data
+          this.roomService.getRsvnRoom(data.id).subscribe(
+            rooms => {
+              this.currNumRooms = rooms.length
+              this.currRooms = rooms
+            }
+          )
         },
         err => {
           console.log("ERROR in rsvn Loading", err)
@@ -149,15 +160,15 @@ export class RsvnEditComponent implements OnInit, OnChanges {
         // Here we test if there would be a room collision with this save
         this.rsvnService.rsvnTest(rsvn.id, rsvn.dateIn, rsvn.dateOut).subscribe(
           dd => {
-            if(!dd.result.length) {
+            if (!dd.result.length) {
               this.genericService.updateItem('rsvn', rsvn).subscribe(
                 data => {
                   this.loadRsvn(data)
                   this.currRsvnChange.emit(data)
                 }
               )
-  
-            } 
+
+            }
           },
           err => {
             this.form_error = err.error
@@ -168,7 +179,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
   }
   //---------------------------------
   rsvnLocked() {
-    if (this.currRsvn && this.currRsvn.id) {
+    if (this.currRsvn && this.currRsvn.id && this.currNumRooms == 0) {
 
       //    return !!this.currRsvn.rooms.length
       return false
