@@ -1,9 +1,17 @@
 <div class="card" style="height:98%;overflow-y:scroll">
     <div class="card-header">
         <h5>Guest Record </h5>
+        <button *ngIf="currGuest && currGuest.id" (click)="more=!more">{{ more ? "Hide Guest Detail" : "Guest Detail" }} </button>
     </div>
     <div class="card-body">
-        <app-guest-edit [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'> </app-guest-edit>
+       
+        <div *ngIf="!more" class="guestbrief copper"> 
+            Guest -  {{currGuest.firstname}} {{currGuest.lastname}} -{{currGuest.email}}  </div>
+        <app-guest-edit *ngIf="more" [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'> </app-guest-edit>
+        <div class="card-header"> <h5>Reservation Record </h5>
+            <button *ngIf="currGuest && currGuest.id" (click)="more=!more">{{ more ? "Hide Guest Detail" : "Guest Detail" }} </button>
+
+        </div>
         <app-rsvn-edit [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-rsvn-edit>
     </div>
     <div class="card-footer">

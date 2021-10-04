@@ -76,3 +76,20 @@ class DropdownSerializer(serializers.ModelSerializer):
     class Meta:
         model= Dropdown
         fields = '__all__'
+#---------------------------------------------------------
+class RateSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = Rate
+        fields = '__all__'
+#---------------------------------------------------------
+class TaxRateSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = TaxRate
+        fields = '__all__'
+        
+        #---------------------------------------------------------
+class TransactionSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = Transaction
+        fields = '__all__'
+        

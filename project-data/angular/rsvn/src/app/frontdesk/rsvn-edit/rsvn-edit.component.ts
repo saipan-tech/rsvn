@@ -106,7 +106,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
 
   //---------------------------------
   loadRsvn(rsvn: any) {
-    if (rsvn.id) {
+    if (rsvn && rsvn.id) {
       this.genericService.getItem('rsvn', rsvn.id).subscribe(
         data => {
           this.rsvnEditForm.patchValue(data)

@@ -172,11 +172,12 @@ sortResultNames(rlist:any) {
     this.currGuestChange.emit(rsvn.primary)
   }
 
+  
   selectGuest(guest: any) {
     this.clearFields()
     this.currGuestChange.emit(guest)
     this.runSearch(guest.lastname)
-
+    
   }
 
   clearFields() {

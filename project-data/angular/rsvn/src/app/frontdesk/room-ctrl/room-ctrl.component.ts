@@ -95,7 +95,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    if (this.currRsvn) {
+    if (this.currRsvn && this.currRsvn.id) {
     this.roomService.getRsvnRoom(this.currRsvn.id).subscribe(
       rooms => {
         this.currNumRooms = rooms.length
@@ -125,8 +125,6 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
               let roominfo = unavail.find(rrf => rrf.id == rsvrm.roominfo)
               let room = rsvrm
               this.currRoomList.push({room,roominfo})
-
-
             })
           })  
         })

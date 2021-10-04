@@ -22,6 +22,7 @@ import { MatButtonModule} from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule} from '@angular/material/radio';
 import { AppRoutingModule } from '@app/app-routing.module';
+import { ChargeCtrlComponent } from './charge-ctrl/charge-ctrl.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { AppRoutingModule } from '@app/app-routing.module';
     SearchCtrlComponent,
     GridLineComponent,
     CurrGridComponent,
-    RsvnCtrlComponent
+    RsvnCtrlComponent,
+    ChargeCtrlComponent
   ],
   imports: [
     CommonModule,

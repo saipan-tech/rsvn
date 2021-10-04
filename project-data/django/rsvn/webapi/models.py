@@ -2,6 +2,8 @@ from django.db import models
 from .lists import * 
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
+from decimal import Decimal
+
 
 
 # Create your models here.
@@ -136,5 +138,44 @@ class WorkFile(models.Model):
     def __str__(self):
         return self.file.name
 
+#---------------------------------------------------------
+class Rate(models.Model):
+    rateCategory= models.CharField(max_length=512)
+    rateName	=	models.CharField(max_length=512)
+    rateType	=  	models.CharField(max_length=512, blank=True)
+    rateClass   =  	models.CharField(max_length=512, blank=True)
+    lowSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    highSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    peakSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    descr		=	models.CharField(max_length=1028)	
+	
+    def __str__(self):
+        return(self.rateName)
+
+#---------------------------------------------------------
+class TaxRate(models.Model):
+    taxCategory = models.CharField(max_length=512)
+    taxName 	=	models.CharField(max_length=512)
+    taxType	    =  	models.CharField(max_length=512, blank=True)
+    taxClass    =  	models.CharField(max_length=512, blank=True)
+    taxAmount   = 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    descr		=	models.CharField(max_length=1028)	
+	
+    def __str__(self):
+        return(self.taxName)        
+#---------------------------------------------------------
+class Transaction(models.Model):
+    rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnTrans')
+    item        =   models.CharField(max_length=512)
+    descr       =   models.CharField(max_length=2048)
+    number      = 	models.IntegerField(default=1)
+    unit    	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    amount  	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    clerk       =   models.CharField(max_length=80,default="FrontDesk")
+    created     =   models.DateTimeField(auto_now_add=True)
+    modified    =   models.DateTimeField(auto_now=True)
+	
+    def __str__(self):
+        return(self.item)
 
 

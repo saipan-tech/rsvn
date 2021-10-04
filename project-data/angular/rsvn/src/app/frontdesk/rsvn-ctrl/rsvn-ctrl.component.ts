@@ -17,6 +17,9 @@ export class RsvnCtrlComponent implements OnInit {
   @Input() currGuest: any
   @Output() currGuestChange = new EventEmitter<IGuest>();
   
+
+  more = true
+  
   constructor() { }
 
   ngOnInit(): void {
