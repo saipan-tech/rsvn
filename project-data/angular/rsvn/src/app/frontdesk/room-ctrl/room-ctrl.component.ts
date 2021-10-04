@@ -92,11 +92,10 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges) {
     this.ngOnInit()
-    console.log("changes in Room Control",changes)
   }
 
   ngOnInit(): void {
-    if (this.currRsvn) {
+    if (this.currRsvn && this.currRsvn.id) {
     this.roomService.getRsvnRoom(this.currRsvn.id).subscribe(
       rooms => {
         this.currNumRooms = rooms.length

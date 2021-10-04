@@ -17,18 +17,18 @@ export class RsvnCtrlComponent implements OnInit,OnChanges {
   @Input() currGuest: any
   @Output() currGuestChange = new EventEmitter<IGuest>();
   
-  gfresh(event:any) {
-
-  }
+ guestChange(event:any) {
+  this.currGuestChange.emit(event)
+}
   
+ rsvnChange(event:any) {
+  this.currRsvnChange.emit(event)
+ }
   constructor() { }
   ngOnChanges(changes : SimpleChanges) {
-    this.currRsvnChange.emit(this.currRsvn)
-    this.currGuestChange.emit(this.currGuest)
-
-    console.log("reaction in RSVN Control")
-
+  
   }
+ 
   ngOnInit(): void {
   }
 

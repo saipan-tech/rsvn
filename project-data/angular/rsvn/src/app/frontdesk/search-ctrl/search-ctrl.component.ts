@@ -143,6 +143,7 @@ sortResultNames(rlist:any) {
         let rsvn = this.rsvnList.filter(
           rsvlist => rsvlist.primary.id == grec.id
         )
+        rsvn = this.sortRsvnDateList(rsvn) 
         this.resultList.push({ guest, rsvn })
       }
     )
@@ -202,5 +203,8 @@ sortResultNames(rlist:any) {
   ngOnInit(): void {
   }
   ngOnChanges(changes: SimpleChanges) {
+    if(changes && changes.currRsvn && this.currRsvn &&  this.currRsvn.primary ) {
+      this.runSearch(this.currRsvn.primary.lastname)
+    }
   }
 }

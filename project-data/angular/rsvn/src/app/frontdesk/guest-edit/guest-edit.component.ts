@@ -101,7 +101,6 @@ export class GuestEditComponent implements OnInit, OnChanges {
       err => {
         this.errmsg = err.error
       }
-
     )
   }
   noRsvn() {
@@ -163,7 +162,6 @@ export class GuestEditComponent implements OnInit, OnChanges {
   //---------------------------------
  
   ngOnChanges(changes: SimpleChanges) {
-   // this.clearGuest()
     this.loadGuest(this.currGuest)
    }
   //---------------------------------

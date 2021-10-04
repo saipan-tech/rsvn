@@ -98,15 +98,10 @@ export class RsvnEditComponent implements OnInit, OnChanges {
     this.currRsvn.id = 0
     this.currRsvnChange.emit(this.currRsvn)
     this.rsvnEditFormInit()
-
-
   }
-
-
-
   //---------------------------------
   loadRsvn(rsvn: any) {
-    if (rsvn.id) {
+    if (rsvn && rsvn.id) {
       this.genericService.getItem('rsvn', rsvn.id).subscribe(
         data => {
           this.rsvnEditForm.patchValue(data)
@@ -136,10 +131,10 @@ export class RsvnEditComponent implements OnInit, OnChanges {
       }
       this.genericService.updateItem('rsvn', rsvn).subscribe(
         data => {
+          this.currRsvn = data
           this.loadRsvn(data)
           this.currRsvnChange.emit(data)
         }
-
       )
     }
   }
@@ -163,6 +158,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
             if (!dd.result.length) {
               this.genericService.updateItem('rsvn', rsvn).subscribe(
                 data => {
+                  this.currRsvn =  data
                   this.loadRsvn(data)
                   this.currRsvnChange.emit(data)
                 }
@@ -180,8 +176,6 @@ export class RsvnEditComponent implements OnInit, OnChanges {
   //---------------------------------
   rsvnLocked() {
     if (this.currRsvn && this.currRsvn.id && this.currNumRooms == 0) {
-
-      //    return !!this.currRsvn.rooms.length
       return false
     }
     return true

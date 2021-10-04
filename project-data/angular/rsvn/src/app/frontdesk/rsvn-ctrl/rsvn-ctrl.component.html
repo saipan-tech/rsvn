@@ -3,12 +3,10 @@
         <h5>Guest Record </h5>
     </div>
     <div class="card-body">
-        <app-guest-edit (gfresh)='gfresh($event)'  [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'> </app-guest-edit>
-        <app-rsvn-edit [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-rsvn-edit>
+        <app-guest-edit  [(currRsvn)]='currRsvn' [currGuest]='currGuest'  (currGuestChange)='guestChange($event)'> </app-guest-edit>
+        <app-rsvn-edit  [currRsvn]='currRsvn' (currRsvnChange)='rsvnChange($event)' [(currGuest)]='currGuest'></app-rsvn-edit>
     </div>
     <div class="card-footer">
- 
-
 
     </div>
 </div>
