@@ -10,6 +10,7 @@ export interface IGuest  {
     email:string;
     dob:string;
     company:string;
+    title:string;
     notes:string;
     idtype :string;
     idnum  :string;

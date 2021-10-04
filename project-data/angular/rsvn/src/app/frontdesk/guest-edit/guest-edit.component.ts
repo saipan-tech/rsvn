@@ -59,6 +59,7 @@ export class GuestEditComponent implements OnInit, OnChanges {
     dob: new FormControl(''),
     notes: new FormControl(''),
     company: new FormControl(''),
+    title:new FormControl(''),
     clerk: new FormControl({ value: '', disabled: true }),
     created: new FormControl({ value: '', disabled: true }),
     modified: new FormControl({ value: '', disabled: true })

@@ -36,6 +36,7 @@ class Guest (models.Model):
     idexpire    =   models.CharField(max_length=20, blank=True)
     birthday    =	models.CharField(max_length=20, blank=True)
     company     =	models.CharField(max_length=128, blank=True)
+    title       =	models.CharField(max_length=128, blank=True)
     notes       =   models.TextField(blank=True)
     clerk		=   models.CharField(max_length=20, blank=True)
     created     =   models.DateTimeField(auto_now_add=True)
