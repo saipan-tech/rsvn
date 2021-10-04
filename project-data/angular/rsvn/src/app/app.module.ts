@@ -26,6 +26,7 @@ import { MatButtonModule} from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule} from '@angular/material/radio';
 import { FrontdeskModule } from '@app/frontdesk/frontdesk.module';
+import {CdkAccordionModule} from '@angular/cdk/accordion';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { FrontdeskModule } from '@app/frontdesk/frontdesk.module';
     MatSliderModule,
     MatRadioModule,
     AppRoutingModule,
-    FrontdeskModule
+    FrontdeskModule,
+    CdkAccordionModule
   ],
   providers: [authInterceptorProviders,AppEnv,AppConstants],
   bootstrap: [AppComponent]

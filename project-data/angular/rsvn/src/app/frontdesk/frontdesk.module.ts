@@ -23,7 +23,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule} from '@angular/material/radio';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { ChargeCtrlComponent } from './charge-ctrl/charge-ctrl.component';
-
+import {CdkAccordionModule} from '@angular/cdk/accordion';
 @NgModule({
   declarations: [
     ClockComponent,
@@ -51,7 +51,8 @@ import { ChargeCtrlComponent } from './charge-ctrl/charge-ctrl.component';
     MatIconModule,
     MatButtonModule,
     MatSliderModule,
-    MatRadioModule
+    MatRadioModule,
+    CdkAccordionModule
   ],
   exports: [
     ClockComponent,

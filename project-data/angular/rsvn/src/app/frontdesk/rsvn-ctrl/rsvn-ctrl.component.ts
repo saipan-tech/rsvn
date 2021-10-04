@@ -16,10 +16,11 @@ export class RsvnCtrlComponent implements OnInit {
 
   @Input() currGuest: any
   @Output() currGuestChange = new EventEmitter<IGuest>();
-  
+  items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
+  expandedIndex = 0;
 
   more = true
-  
+
   constructor() { }
 
   ngOnInit(): void {
