@@ -22,7 +22,7 @@ export class FrontdeskComponent implements OnInit {
   status: boolean = false;
   screen = "search"
   user: any = {}
-  currRsvn: IRsvn = {} as IRsvn;
+  currRsvn: any;
   currGuest: IGuest = {} as IGuest;
 
   @Output() viewControl = new EventEmitter<string>();
@@ -38,6 +38,11 @@ export class FrontdeskComponent implements OnInit {
         this.currGuest = data.primary
       }
     )
+
+  }
+
+  currRsvnEvent(event:any) {
+    this.ngOnInit()
 
   }
 

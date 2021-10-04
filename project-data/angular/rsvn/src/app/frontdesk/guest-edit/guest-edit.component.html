@@ -17,9 +17,9 @@
                 </div>
             </div>
             <div class="cellgroup row">
-                <div class="col"  >
-                    <label class="uppercell"
-                           [ngClass]="errmsg && errmsg.email ? 'error' : 'noterror'">Email <abbr class="req" title="Required">*</abbr></label>
+                <div class="col">
+                    <label class="uppercell" [ngClass]="errmsg && errmsg.email ? 'error' : 'noterror'">Email 
+                        <abbr  class="req" title="Required">*</abbr></label>
                     <input class="form-control lowercell" type="text" formControlName='email'>
                 </div>
                 <div class="col">
@@ -119,27 +119,27 @@
 
         <div class="row">
             <button [disabled]="!(guestEditForm && guestEditForm.value.id && noRsvn())"
-                    class="form-control btn btn-sm btn-outline-danger col" (click)="deleteGuest(guestEditForm.value)">
+                class="form-control btn btn-sm btn-outline-danger col" (click)="deleteGuest(guestEditForm.value)">
                 Delete Guest Record
             </button>
 
             <button [disabled]="!(guestEditForm.value.id  &&  guestEditForm.valid && guestEditForm.dirty)"
-                    class="form-control btn btn-sm btn-outline-primary col" (click)="updateGuest(guestEditForm.value)">
+                class="form-control btn btn-sm btn-outline-primary col" (click)="updateGuest(guestEditForm.value)">
                 Update Guest Record
             </button>
 
             <button [disabled]="!(!guestEditForm.value.id && guestEditForm.valid && guestEditForm.dirty)"
-                    class="form-control btn btn-sm btn-outline-primary col" (click)="updateGuest(guestEditForm.value)">
+                class="form-control btn btn-sm btn-outline-primary col" (click)="updateGuest(guestEditForm.value)">
                 Create Guest Record
             </button>
 
-            <button [disabled]="!(guestEditForm.value.id)"
-                    class="form-control btn btn-sm btn-outline-primary col" (click)="newGuest()">
+            <button [disabled]="!(guestEditForm.value.id)" class="form-control btn btn-sm btn-outline-primary col"
+                (click)="newGuest()">
                 New Guest
             </button>
 
             <button [disabled]="!(guestEditForm.value.id && currRsvn.id==null)" (click)="newReservation()"
-                    class="form-control btn btn-outline-primary col">
+                class="form-control btn btn-outline-primary col">
                 New Reservation
             </button>
         </div>
