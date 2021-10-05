@@ -169,7 +169,7 @@ class Transaction(models.Model):
     rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnTrans')
     item        =   models.CharField(max_length=512)
     descr       =   models.CharField(max_length=2048)
-    number      = 	models.IntegerField(default=1)
+    count      = 	models.IntegerField(default=1)
     unit    	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
     amount  	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
     clerk       =   models.CharField(max_length=80,default="FrontDesk")

@@ -1,77 +1,26 @@
-<div class="card" style="height:98%;overflow-y:scroll">
-    <div class="card-header">
-        <h5>Guest Record </h5>
-        <button *ngIf="currGuest && currGuest.id" (click)="more=!more">{{ more ? "Hide Guest Detail" : "Guest Detail" }} </button>
+<div class="card">
+    <div class="card-header"> 
+        <h4>Guest Information Dashboard</h4>
+
     </div>
     <div class="card-body">
-       
-        <div *ngIf="!more" class="guestbrief copper"> 
-            Guest -  {{currGuest.firstname}} {{currGuest.lastname}} -{{currGuest.email}}  </div>
+        <button *ngIf="currGuest && currGuest.id" (click)="more=!more">{{ more ? "Hide Guest Detail" : "Guest Detail" }}
+        </button>
+        <div *ngIf="!more" class="guestbrief copper">
+            Guest - {{currGuest.firstname}} {{currGuest.lastname}} -{{currGuest.email}} </div>
         <app-guest-edit *ngIf="more" [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'> </app-guest-edit>
-        <div class="card-header"> <h5>Reservation Record </h5>
-            <button *ngIf="currGuest && currGuest.id" (click)="more=!more">{{ more ? "Hide Guest Detail" : "Guest Detail" }} </button>
-
-        </div>
-        <app-rsvn-edit [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-rsvn-edit>
-    </div>
-    <div class="card-footer">
- 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-    Launch static backdrop modal
-  </button>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" 
-    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Understood</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <cdk-accordion class="example-accordion">
-    <cdk-accordion-item
-      *ngFor="let item of items; let index = index;"
-      #accordionItem="cdkAccordionItem"
-      class="example-accordion-item"
-      role="button"
-      tabindex="0"
-      [attr.id]="'accordion-header-' + index"
-      [attr.aria-expanded]="accordionItem.expanded"
-      [attr.aria-controls]="'accordion-body-' + index">
-      <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
-        {{ item }}
-        <span class="example-accordion-item-description">
-          Click to {{ accordionItem.expanded ? 'close' : 'open' }}
-        </span>
-      </div>
-      <div
-        class="example-accordion-item-body"
-        role="region"
-        [style.display]="accordionItem.expanded ? '' : 'none'"
-        [attr.id]="'accordion-body-' + index"
-        [attr.aria-labelledby]="'accordion-header-' + index">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perferendis
-        excepturi incidunt ipsum deleniti labore, tempore non nam doloribus blanditiis
-        veritatis illo autem iure aliquid ullam rem tenetur deserunt velit culpa?
-      </div>
-    </cdk-accordion-item>
-  </cdk-accordion>
-
-
+        
+        
+        <button *ngIf="currRsvn && currRsvn.id" (click)="rmore=!rmore">{{ rmore ? "Hide Rsvn Detail" : "Rsvn Detail" }}
+        </button>
+        <div *ngIf="!rmore" class="guestbrief copper">
+            Rsvn - {{currRsvn.dateIn}} -  {{currRsvn.dateOut}} </div>
+        <app-rsvn-edit *ngIf="rmore"  [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-rsvn-edit>
+        
+        
+        <app-charges *ngIf="currGuest && currGuest.id"> </app-charges>
+        
 
     </div>
+    <div class="card-footer"></div>
 </div>
