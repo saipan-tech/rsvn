@@ -1,0 +1,16 @@
+div {
+    border:1px solid red;
+}
+
+.headingrow  div{
+    font-size:1.5em;
+    padding:.5em;
+    background-color:whitesmoke;
+    text-align: center;
+
+}
+
+.datarow div {
+    font-size:1em;
+    padding:2px;
+}

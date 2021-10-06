@@ -4,67 +4,6 @@
 <hr>
 <h4>Room Cost </h4>
 
+<app-charge-edit [currRsvn]='currRsvn' ></app-charge-edit>
 
-<div class="row headingrow">
-    <div class="col-2">Room Number</div>
-    <div class="col-1">Daily Rate</div>
-    <div class="col-1">Days</div>
-    <div class="col-1">Sub Total</div>
-    <div class="col-2">Discount</div>
-    <div class="col-3">Total</div>
-    <div class="col-1"></div>
-</div>
-<div class="row datarow">
-    <div class="col-2">Room Number</div>
-    <div class="col-1">Daily Rate</div>
-    <div class="col-1">Days</div>
-    <div class="col-1">Sub Total</div>
-    <div class="col-2">Discount</div>
-    <div class="col-3">Total</div>
-    <div class="col-1"></div>
-</div>
-
-Daily Rate
-
-
-<form novalidate [formGroup]="chargeEditForm">
-    <div class="row">
-        <div class="col-2">
-            <label class="uppercell">Date</label>
-            <input class="form-control" type="date" formControlName='date'>
-        </div>
-
-        <div class="col-5">
-            <label class="uppercell">Item</label>
-            <input autofocus class="form-control" type="text" formControlName='item'>
-        </div>
-        <div class="col-1">
-            <label class="uppercell">Count</label>
-            <input class="form-control" type="number" formControlName='count'>
-        </div>
-        <div class="col-1">
-            <label class="uppercell">Unit</label>
-            <input class="form-control" type="float" formControlName='unit'>
-        </div>
-        <div class="col-2">
-            <label class="uppercell">Amount</label>
-            <input class="form-control" type="number" formControlName='amount'>
-        </div>
-
-
-        <div class="col-1">
-            <label class="uppercell">Controls</label>
-            <div>
-                <button [disabled]="!(chargeEditForm.valid)" (click)='updateCharge(chargeEditForm.value)'
-                    class="btn-outline-primary">
-                <span class="material-icons">
-                    save
-                </span></button> 
-                <button  (click)='clearCharge()' class="btn-outline-primary">
-                    <span class="material-icons"> delete </span>                  
-                </button>
-            </div>
-
-        </div>
-    </div>
-</form>
+<app-charge-list [currRsvn]='currRsvn' ></app-charge-list>

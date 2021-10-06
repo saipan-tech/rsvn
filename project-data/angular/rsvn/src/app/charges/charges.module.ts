@@ -9,18 +9,18 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { ChargesComponent } from './charges.component';
 import { ChargeCtrlComponent } from './charge-ctrl/charge-ctrl.component';
 import { ChargeListComponent } from './charge-list/charge-list.component';
 import { ChargeLineComponent } from './charge-line/charge-line.component';
+import { ChargeEditComponent } from './charge-edit/charge-edit.component';
 
 
 @NgModule({
   declarations: [
-    ChargesComponent,
     ChargeCtrlComponent,
     ChargeListComponent,
-    ChargeLineComponent
+    ChargeLineComponent,
+    ChargeEditComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +34,6 @@ import { ChargeLineComponent } from './charge-line/charge-line.component';
     AppRoutingModule
   ],
   exports: [
-    ChargesComponent,
     ChargeCtrlComponent
   ]
 })
