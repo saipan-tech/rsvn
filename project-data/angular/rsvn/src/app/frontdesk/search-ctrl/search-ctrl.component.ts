@@ -73,6 +73,7 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
         this.genericService.getItemList('guest')
           .subscribe(data => {
             this.guestList = data
+            console.log(this.guestList)
             this.makeList()
           })
         break;
@@ -174,6 +175,7 @@ sortResultNames(rlist:any) {
 
   
   selectGuest(guest: any) {
+  
     this.clearFields()
     this.currGuestChange.emit(guest)
     this.runSearch(guest.lastname)

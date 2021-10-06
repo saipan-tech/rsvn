@@ -27,11 +27,11 @@
 Daily Rate
 
 
-<form novalidate [formGroup]="transEditForm">
+<form novalidate [formGroup]="chargeEditForm">
     <div class="row">
         <div class="col-2">
             <label class="uppercell">Date</label>
-            <input class="form-control" type="date" formControlName='created'>
+            <input class="form-control" type="date" formControlName='date'>
         </div>
 
         <div class="col-5">
@@ -55,11 +55,14 @@ Daily Rate
         <div class="col-1">
             <label class="uppercell">Controls</label>
             <div>
-                <button [disabled]="!(transEditForm.valid)" (click)='updateTransaction(transEditForm.value)'
-               class="btn-outline-primary">S</button> 
-              
-                <button  (click)='clearTransaction()' class="btn-outline-primary">X</button>
-    
+                <button [disabled]="!(chargeEditForm.valid)" (click)='updateCharge(chargeEditForm.value)'
+                    class="btn-outline-primary">
+                <span class="material-icons">
+                    save
+                </span></button> 
+                <button  (click)='clearCharge()' class="btn-outline-primary">
+                    <span class="material-icons"> delete </span>                  
+                </button>
             </div>
 
         </div>

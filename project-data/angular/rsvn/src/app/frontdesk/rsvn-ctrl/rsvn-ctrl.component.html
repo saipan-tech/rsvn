@@ -4,21 +4,17 @@
 
     </div>
     <div class="card-body">
-        <button *ngIf="currGuest && currGuest.id" (click)="more=!more">{{ more ? "Hide Guest Detail" : "Guest Detail" }}
-        </button>
-        <div *ngIf="!more" class="guestbrief copper">
+        <div  class="guestbrief copper">
             Guest - {{currGuest.firstname}} {{currGuest.lastname}} -{{currGuest.email}} </div>
-        <app-guest-edit *ngIf="more" [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'> </app-guest-edit>
+        <app-guest-edit [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'> </app-guest-edit>
         
         
-        <button *ngIf="currRsvn && currRsvn.id" (click)="rmore=!rmore">{{ rmore ? "Hide Rsvn Detail" : "Rsvn Detail" }}
-        </button>
-        <div *ngIf="!rmore" class="guestbrief copper">
+        <div  class="guestbrief copper">
             Rsvn - {{currRsvn.dateIn}} -  {{currRsvn.dateOut}} </div>
-        <app-rsvn-edit *ngIf="rmore"  [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-rsvn-edit>
+        <app-rsvn-edit   [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-rsvn-edit>
         
         
-        <app-charges *ngIf="currGuest && currGuest.id"> </app-charges>
+        <app-charge-ctrl  [currRsvn]='currRsvn'> </app-charge-ctrl>
         
 
     </div>

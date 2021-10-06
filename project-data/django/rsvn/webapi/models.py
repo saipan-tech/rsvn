@@ -3,14 +3,13 @@ from .lists import *
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
 from decimal import Decimal
-
-
-
+#
 # Create your models here.
 #---------------------------------------------------------
 class Staff (models.Model):
     user        =   models.ForeignKey(User,models.CASCADE)
     firstname	=	models.CharField(max_length=80)
+    middlename  =   models.CharField(max_length=80, blank=True)
     lastname 	=	models.CharField(max_length=80)
     phone1 		=	models.CharField(max_length=20)
     phone2 		=	models.CharField(max_length=20, blank=True)
@@ -24,6 +23,7 @@ class Staff (models.Model):
 #---------------------------------------------------------
 class Guest (models.Model):
     firstname	=	models.CharField(max_length=80)
+    middlename  =   models.CharField(max_length=80, blank=True)
     lastname 	=	models.CharField(max_length=80)
     phone 		=	models.CharField(max_length=20, blank=True)
     address 	=	models.CharField(max_length=120)
@@ -41,8 +41,11 @@ class Guest (models.Model):
     clerk		=   models.CharField(max_length=20, blank=True)
     created     =   models.DateTimeField(auto_now_add=True)
     modified    =   models.DateTimeField(auto_now=True) 
-    def __str__(self) :
-        return f"{self.firstname} {self.lastname} -- {self.email}"
+    
+    @property
+    def fullname(self):
+        return f"{self.firstname} {self.middlename} {self.lastname}"
+
 #--------------------------------------------------------------------
 class Bldg (models.Model):
     name		=	models.CharField(max_length=80,unique=True)
@@ -90,7 +93,7 @@ class Rsvn (models.Model):
     amenities   =    models.ManyToManyField(Amenity, blank=True,related_name='amenities')
     status		=	 models.CharField(max_length=13, default="New")
     confirm		=    models.CharField(max_length=20, blank=True)
-    source  	=	 models.CharField(max_length=20)
+    source  	=	 models.CharField(max_length=64)
     dateIn		=	 models.DateField()
     dateOut		=	 models.DateField()
     numrooms    =    models.IntegerField(default=1,validators = [ MinValueValidator(1) ])
@@ -107,16 +110,8 @@ class Rsvn (models.Model):
     def __str__(self) :
         return f"{self.primary.firstname} {self.primary.lastname}  {self.dateIn}  {self.dateOut}"
 
-#---------------------------------------------------------
-class Room (models.Model):
-    rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnOf')
-    roominfo 	=   models.ForeignKey(Roominfo,models.CASCADE, related_name='roominfoOf')
-    status      =   models.CharField(max_length=12, default="none")
 
-    def __str__(self) :
-        return f"{self.rsvn.fullname()} -- {self.roominfo.number}"
 #---------------------------------------------------------
-
 class Service (models.Model):
 	rsvn			= 	models.ForeignKey(Rsvn,on_delete=models.CASCADE)
 	breakfast		=	models.BooleanField(default=False)
@@ -165,18 +160,26 @@ class TaxRate(models.Model):
     def __str__(self):
         return(self.taxName)        
 #---------------------------------------------------------
-class Transaction(models.Model):
-    rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnTrans')
+class Charge(models.Model):
+    rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnCharge')
     item        =   models.CharField(max_length=512)
-    descr       =   models.CharField(max_length=2048)
+    descr       =   models.CharField(max_length=2048, blank=True)
     count      = 	models.IntegerField(default=1)
     unit    	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
-    amount  	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
     clerk       =   models.CharField(max_length=80,default="FrontDesk")
     created     =   models.DateTimeField(auto_now_add=True)
     modified    =   models.DateTimeField(auto_now=True)
 	
-    def __str__(self):
-        return(self.item)
+    @property
+    def amount(self):
+        return self.count * self.unit
 
+#---------------------------------------------------------
+class Room (models.Model):
+    rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnOf')
+    roominfo 	=   models.ForeignKey(Roominfo,models.CASCADE, related_name='roominfoOf')
+    rate        =   models.ForeignKey(Rate,models.CASCADE,related_name='rateOf')
+    status      =   models.CharField(max_length=12, default="none")
 
+    def __str__(self) :
+        return f"{self.rsvn.fullname()} -- {self.roominfo.number}"

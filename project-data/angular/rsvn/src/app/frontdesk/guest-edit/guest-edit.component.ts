@@ -44,7 +44,6 @@ export class GuestEditComponent implements OnInit, OnChanges {
     id: new FormControl(''),
     firstname: new FormControl('', Validators.required),
     middlename: new FormControl(''),
-
     lastname: new FormControl('', Validators.required),
     phone: new FormControl('', Validators.required),
     address: new FormControl('', Validators.required),

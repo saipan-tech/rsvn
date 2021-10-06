@@ -1,7 +1,9 @@
 export interface IGuest  {
     id:number;
     firstname:string;
+    middlename:string;
     lastname:string;
+    fullname:string;
     phone:string;
     address:string;
     city:string;

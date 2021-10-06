@@ -23,6 +23,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
 #---------------------------------------------------------
 class StaffSerializer(serializers.ModelSerializer):
+
     class Meta:
         model= Staff
         fields = '__all__'
@@ -30,9 +31,13 @@ class StaffSerializer(serializers.ModelSerializer):
 
 #---------------------------------------------------------
 class GuestSerializer(serializers.ModelSerializer):
+    fullname = serializers.SerializerMethodField()
     class Meta:
         model= Guest
         fields = '__all__'
+
+    def get_fullname(self, instance):
+        return f'{instance.firstname} {instance.lastname}' 
 
 
 #---------------------------------------------------------
@@ -88,8 +93,8 @@ class TaxRateSerializer(serializers.ModelSerializer) :
         fields = '__all__'
         
         #---------------------------------------------------------
-class TransactionSerializer(serializers.ModelSerializer) :
+class ChargeSerializer(serializers.ModelSerializer) :
     class Meta:
-        model = Transaction
-        fields = '__all__'
+        model = Charge
+        fields = ['id','rsvn','item','descr','count','unit','amount','clerk','created','modified']
         

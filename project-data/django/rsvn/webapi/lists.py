@@ -134,7 +134,6 @@ VENUE_CHOICES = (
 	('other','Other'),
 ) 
 
-
 #---------------------------------------------------------
 TRANSACTION_TYPE = (
    ('charge','Charge'),
@@ -144,7 +143,6 @@ TRANSACTION_TYPE = (
    ('room','Room Charge'),
    ('refund','Refund'),
    )
-
 #---------------------------------------------------------
 SEASON_LEVEL = (
 	('high','High Season'),

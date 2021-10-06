@@ -46,7 +46,7 @@ router.register(r'guest',GuestViewSet)
 router.register(r'dropdown',DropdownViewSet)
 router.register(r'rate',RateViewSet)
 router.register(r'taxrate',TaxRateViewSet)
-router.register(r'transaction',TransactionViewSet)
+router.register(r'charge',ChargeViewSet)
 
 
 # Wire up our API using automatic URL routing.
