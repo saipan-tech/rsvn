@@ -23,6 +23,10 @@ export class ChargeListComponent implements OnInit {
   
   
   @Input() currRsvn : IRsvn = {} as IRsvn
+  @Input() currCharge : ICharge = {} as ICharge
+  @Output() currChargeChange  = new EventEmitter<ICharge>();
+
+
   chargeList : ICharge[] = []
 
 
@@ -36,8 +40,14 @@ export class ChargeListComponent implements OnInit {
   ) { }
   
   ngOnChanges(changes : SimpleChanges) {
-    console.log("Changing RSVN")
+    console.log("Feeling Changes in list")
     this.ngOnInit()
+  }
+
+
+  selectCharge(event:ICharge) {
+    console.log("Howdy")
+    this.currChargeChange.emit(event)
   }
 
   ngOnInit(): void {

@@ -30,8 +30,11 @@ export class ChargeEditComponent implements OnInit {
 
   ) { }
   @Input() currRsvn:any
-  
-  currTrans : ICharge | any
+  @Input() currCharge: ICharge = {} as ICharge
+
+  @Output() currChargeChange = new EventEmitter<ICharge>()
+
+
   form_error:any
   user : any
   
@@ -49,7 +52,7 @@ export class ChargeEditComponent implements OnInit {
 
    })
 
-   clearCharge() {
+   deleteCharge() {
    }
 
   //---------------------------------
@@ -64,7 +67,7 @@ export class ChargeEditComponent implements OnInit {
     let ndate = new Date(`${date}`).toISOString().slice(0, 10)
     return ndate
   }
-  //--------------------------
+//--------------------------
  updateCharge(charge: ICharge) {
   if (this.currRsvn.id) {
     this.form_error = {}
@@ -75,22 +78,35 @@ export class ChargeEditComponent implements OnInit {
     }
     this.genericService.updateItem('charge', charge).subscribe(
       data => {
-        console.log("Saving",data)
+        this.chargeEditForm.reset()
+        this.currChargeChange.emit(data)
       }
 
     )
   }
 }
 
+//--------------------------
+newCharge() {
+  this.chargeEditForm.reset()
+  this.currCharge = {} as ICharge
+}
+
+
+//--------------------------
+
   ngOnChanges(changes : SimpleChanges) {
-    console.log("Changing RSVN")
+    console.log("Changing in editor",changes)
+    
+    this.chargeEditForm.reset()
+    if(changes.currCharge) {
+      this.chargeEditForm.patchValue(this.currCharge)
+    }
     this.ngOnInit()
   }
 
-  //--------------------------
+//--------------------------
   ngOnInit(): void {
-    
-
      this.authService.getSession().subscribe(
       data => this.user = data
     )

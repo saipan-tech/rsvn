@@ -12,6 +12,7 @@
            <button class="list-group-item list-group-item-action bg-light" (click)="mode='logo'">Logo and Branding</button>
            <button class="list-group-item list-group-item-action bg-light" (click)="mode='dropdown'">Dropdown</button>
            <button class="list-group-item list-group-item-action bg-light" (click)="mode='lists'">Lists</button>
+           <button class="list-group-item list-group-item-action bg-light" (click)="mode='rate'">Rate Table</button>
        </div>
    </div>
    <!-- /#sidebar-wrapper -->
@@ -75,6 +76,9 @@
          </div>
          <div *ngIf="mode=='lists'" style="width:75%;margin:0 auto;">
             <app-amenity-list></app-amenity-list>
+         </div>
+         <div *ngIf="mode=='rate'" style="width:75%;margin:0 auto;">
+            <app-rate-list></app-rate-list>
          </div>
        </div>
    </div>

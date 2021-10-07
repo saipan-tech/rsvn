@@ -73,8 +73,23 @@ class Dropdown (models.Model):
     def __str__(self) :
         return f"{self.name} -- {self.display}"        
 #---------------------------------------------------------
+class Rate(models.Model):
+    rateCategory= models.CharField(max_length=512)
+    rateName	=	models.CharField(max_length=512)
+    rateType	=  	models.CharField(max_length=512, blank=True)
+    rateClass   =  	models.CharField(max_length=512, blank=True)
+    offSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    lowSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    highSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    peakSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    descr		=	models.CharField(max_length=1028)	
+	
+    def __str__(self):
+        return(self.rateName)
+#---------------------------------------------------------
 class Roominfo (models.Model):
     bldg        =   models.ForeignKey(Bldg,models.CASCADE)
+    rate        =   models.ForeignKey(Rate,models.CASCADE,related_name='rateOf')
     number  	=   models.CharField(max_length=20)
     floor       =   models.CharField(max_length=20, blank=True)
     style   	=   models.CharField(max_length=128, blank=True)
@@ -134,19 +149,7 @@ class WorkFile(models.Model):
     def __str__(self):
         return self.file.name
 
-#---------------------------------------------------------
-class Rate(models.Model):
-    rateCategory= models.CharField(max_length=512)
-    rateName	=	models.CharField(max_length=512)
-    rateType	=  	models.CharField(max_length=512, blank=True)
-    rateClass   =  	models.CharField(max_length=512, blank=True)
-    lowSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
-    highSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
-    peakSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
-    descr		=	models.CharField(max_length=1028)	
-	
-    def __str__(self):
-        return(self.rateName)
+
 
 #---------------------------------------------------------
 class TaxRate(models.Model):
@@ -163,6 +166,7 @@ class TaxRate(models.Model):
 class Charge(models.Model):
     rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnCharge')
     item        =   models.CharField(max_length=512)
+    date        =   models.DateField()
     descr       =   models.CharField(max_length=2048, blank=True)
     count      = 	models.IntegerField(default=1)
     unit    	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
@@ -178,7 +182,7 @@ class Charge(models.Model):
 class Room (models.Model):
     rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnOf')
     roominfo 	=   models.ForeignKey(Roominfo,models.CASCADE, related_name='roominfoOf')
-    rate        =   models.ForeignKey(Rate,models.CASCADE,related_name='rateOf')
+    rateCharge  =   models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
     status      =   models.CharField(max_length=12, default="none")
 
     def __str__(self) :

@@ -28,7 +28,7 @@ Daily Rate
             <input class="form-control" type="date" formControlName='date'>
         </div>
 
-        <div class="col-5">
+        <div class="col-4">
             <label class="uppercell">Item</label>
             <input autofocus class="form-control" type="text" formControlName='item'>
         </div>
@@ -46,16 +46,19 @@ Daily Rate
         </div>
 
 
-        <div class="col-1">
+        <div class="col-2">
             <label class="uppercell">Controls</label>
             <div>
-                <button [disabled]="!(chargeEditForm.valid)" (click)='updateCharge(chargeEditForm.value)'
+                <button [disabled]="!(chargeEditForm.valid&& currRsvn && currRsvn.id)" (click)='updateCharge(chargeEditForm.value)'
                     class="btn-outline-primary">
                 <span class="material-icons">
                     save
                 </span></button> 
-                <button  (click)='clearCharge()' class="btn-outline-primary">
+                <button [disabled]="!(currCharge && currCharge.id)"   (click)='deleteCharge()' class="btn-outline-primary">
                     <span class="material-icons"> delete </span>                  
+                </button>
+                <button  [disabled]="!(currCharge && currCharge.id)" (click)='newCharge()' class="btn-outline-primary">
+                    <span class="material-icons"> note_add </span>                  
                 </button>
             </div>
 

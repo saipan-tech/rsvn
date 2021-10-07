@@ -1,5 +1,5 @@
 
 
 <div *ngFor= "let rec of chargeList" >
-<div>{{ rec | json }}</div>
+<div (click)="selectCharge(rec)">{{ rec | json }}</div>
 </div>

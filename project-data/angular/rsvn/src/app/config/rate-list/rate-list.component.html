@@ -1,0 +1,67 @@
+{{ currRate | json}}
+
+
+<div class="card">
+    <div class="card-header">
+        Rate Table</div>
+
+    <div class="card-body">
+        <div class="heading d-flex">
+            <div class="col">Category </div>
+            <div class="col">Name</div>
+            <div class="col">Type</div>
+            <div class="col">Class</div>
+            <div class="col">Off Season</div>
+            <div class="col">Low Season</div>
+            <div class="col">High Season</div>
+            <div class="col">Peak Season</div>
+            <div class="col">Description</div>
+            <div class="col"></div>
+        </div>
+        <div>
+            <form novalidate [formGroup]="rateEditForm">
+                <div class="d-flex">
+                    <input type="text" formControlName='rateCategory' class="form-control">
+                    <input type="text" formControlName='rateName' class="form-control">
+                    <input type="text" formControlName='rateType' class="form-control">
+                    <input type="text" formControlName='rateClass' class="form-control">
+                    <input type="number" formControlName='offSeason' class="form-control">
+                    <input type="number" formControlName='lowSeason' class="form-control">
+                    <input type="number" formControlName='highSeason' class="form-control">
+                    <input type="number" formControlName='peakSeason' class="form-control">
+                    <input type="text" formControlName='descr' class="form-control">
+                    <div class="form-control">
+                        <button [disabled]="!(rateEditForm.valid)" (click)="updateRate(rateEditForm.value)">
+                            <mat-icon>save</mat-icon></button>
+                        <button [disabled]="!(currRate && currRate.id)" (click)="clearRate()">     
+                            <mat-icon>note_add</mat-icon></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr>
+
+        <div style="border:1px solid red">
+            <div *ngFor="let r of rateList" class="d-flex">
+                <div class="form-control">{{ r.rateCategory }}</div>
+                <div class="form-control">{{ r.rateName }}</div>
+                <div class="form-control">{{ r.rateType }}</div>
+                <div class="form-control">{{ r.rateClass }}</div>
+                <div class="form-control">{{ r.offSeason }}</div>
+                <div class="form-control">{{ r.lowSeason }}</div>
+                <div class="form-control">{{ r.highSeason }}</div>
+                <div class="form-control">{{ r.peakSeason }}</div>
+                <div class="form-control">{{ r.descr }}</div>
+                <div class="form-control">
+                    <button (click)='deleteRate(r)'><mat-icon>delete</mat-icon></button>
+                    <button (click)='selectRate(r)' ><mat-icon>edit</mat-icon></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-footer">
+        <app-fileinput (results)="setResults($event)"></app-fileinput> 
+    </div>
+
+</div>

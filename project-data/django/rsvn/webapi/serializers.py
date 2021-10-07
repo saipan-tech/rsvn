@@ -96,5 +96,5 @@ class TaxRateSerializer(serializers.ModelSerializer) :
 class ChargeSerializer(serializers.ModelSerializer) :
     class Meta:
         model = Charge
-        fields = ['id','rsvn','item','descr','count','unit','amount','clerk','created','modified']
+        fields = ['id','rsvn','date','item','descr','count','unit','amount','clerk','created','modified']
         
