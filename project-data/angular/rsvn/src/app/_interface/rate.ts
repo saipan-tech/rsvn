@@ -1,5 +1,6 @@
 export interface IRate {
     id              :number;
+    alias       :string;
     rateCategory    : string;
     rateName :string;
     rateType  :string;
@@ -8,6 +9,7 @@ export interface IRate {
     lowSeason	:number;
     highSeason	:number;
     peakSeason	:number;
+    color       :string;
     descr		:number;
 }
 

@@ -14,13 +14,15 @@ export class RateListComponent implements OnInit {
 
   constructor(
     private genericService: GenericService,
+    private systemService: SystemService  
 
   ) { }
-
+  colorList:any
   currRate: IRate = {} as IRate
   rateList : IRate[]  = [] 
   rateEditForm = new FormGroup({
     id: new FormControl(''),
+    alias:new FormControl(''),
     rateCategory: new FormControl('', Validators.required),
     rateName : new FormControl('', Validators.required),
     rateType: new FormControl('', Validators.required),
@@ -30,19 +32,29 @@ export class RateListComponent implements OnInit {
     highSeason: new FormControl('', Validators.required),
     peakSeason: new FormControl('', Validators.required),
     descr: new FormControl(''),
+    color: new FormControl(''),
   })
 
-
+  sortRates(rlist:any) {
+    rlist.sort(function(a:any, b:any) {
+      var A = a.alias.toUpperCase(); // ignore upper and lowercase
+      var B = b.alias.toUpperCase(); // ignore upper and lowercase
+      if (A < B) { return -1; }
+      if (A > B) { return 1;  }
+      return 0; });
+    return rlist
+  }
 
 
 //=================================
-  setResults(list: any[]) {
+// == this is when we  read in the CSV file
+//=================================
 
+setResults(list: any[]) {
     list.forEach(rec => {
-      const founder = this.rateList.find(d => d.rateCategory == rec.rateCategoryname && d.rateName == rec.rateName)
+      const founder = this.rateList.find(d => d.alias == rec.alias)
       if(founder) {
         rec.id = founder.id
-        
        }
        this.genericService.updateItem('rate', rec).subscribe(
         data => {
@@ -51,15 +63,6 @@ export class RateListComponent implements OnInit {
         
     })
   }
-
-
-
-
-
-
-
-
-
 //=================================
   ngOnChanges(changes: SimpleChanges) {
     this.ngOnInit()
@@ -105,6 +108,8 @@ export class RateListComponent implements OnInit {
     this.genericService.deleteItem('rate', rate).subscribe(
       data => {
         this.ngOnInit()
+        this.clearRate()
+
       }
     )
   }
@@ -112,14 +117,22 @@ export class RateListComponent implements OnInit {
   refreshList() {
     this.ngOnInit()
   }
+
+
+
 //=================================
   ngOnInit(): void {
     this.currRate = {} as IRate
     this.genericService.getItemList('rate')
       .subscribe(
         data => {
-          this.rateList = data
+          this.rateList = this.sortRates(data)
         }
       )
-  }
+      this.systemService.getDropdownList('color').subscribe(
+        data => this.colorList = data
+      )
+    
+  
+    }
 }

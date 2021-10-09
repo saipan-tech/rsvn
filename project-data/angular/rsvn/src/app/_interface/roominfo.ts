@@ -9,7 +9,7 @@ export interface IRoominfo  {
     name:string;
     size:string;
     descr:string;
-    color:string;
     status:string;
+    rate:number;
 
 }

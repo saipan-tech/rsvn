@@ -34,7 +34,7 @@
             <h5>{{dl.bldg }}</h5>
             <div class="d-flex flex-wrap">
                 <div *ngFor="let r of dl.rooms">
-                    <button [ngStyle]="{'border-color':r.color}" class='form-control'
+                    <button class='form-control'
                         (click)="assignRoom(r)">{{r.number}}</button>
                 </div>
             </div>

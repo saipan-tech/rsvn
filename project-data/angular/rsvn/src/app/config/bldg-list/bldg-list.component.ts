@@ -34,6 +34,7 @@ export class BldgListComponent implements OnInit {
     this.currBldg = {} as IBldg;
     this.currBldg.id = 0
     this.bldgEditForm.reset()
+    this.currBldgChange.emit(this.currBldg)
   }
 
 
@@ -48,7 +49,6 @@ export class BldgListComponent implements OnInit {
       )
     }
     this.currBldgChange.emit(this.currBldg)
-
   }
 
   updateBldg(bldg: any) {
@@ -59,7 +59,7 @@ export class BldgListComponent implements OnInit {
     }
     this.genericService.updateItem('bldg', bldg).subscribe(
       data => {
-        this.selectBldg(data)
+        this.clearBldg()
         this.ngOnInit()
       }
     )

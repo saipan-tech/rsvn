@@ -74,7 +74,8 @@ class Dropdown (models.Model):
         return f"{self.name} -- {self.display}"        
 #---------------------------------------------------------
 class Rate(models.Model):
-    rateCategory= models.CharField(max_length=512)
+    alias       =   models.CharField(max_length=250,unique=True)
+    rateCategory=   models.CharField(max_length=512)
     rateName	=	models.CharField(max_length=512)
     rateType	=  	models.CharField(max_length=512, blank=True)
     rateClass   =  	models.CharField(max_length=512, blank=True)
@@ -82,7 +83,8 @@ class Rate(models.Model):
     lowSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
     highSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
     peakSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
-    descr		=	models.CharField(max_length=1028)	
+    color       =  	models.CharField(max_length=40, default='white')
+    descr		=	models.CharField(max_length=1028, blank=True)	
 	
     def __str__(self):
         return(self.rateName)
@@ -96,7 +98,6 @@ class Roominfo (models.Model):
     name        =   models.CharField(max_length=512, blank=True)
     beds        =   models.CharField(max_length=128, blank=True)
     size        =  	models.CharField(max_length=20, blank=True)
-    color       =  	models.CharField(max_length=40, default='white')
     descr       =   models.TextField(blank=True)
     def __str__(self) :
         return f"{self.bldg.name} -- {self.number}"

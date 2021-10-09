@@ -1,71 +1,85 @@
 <div class="card">
-    <div class="card-header">
-        <h3>{{ currBldg.name }}</h3> 
-        Room List
-    <div><button (click)="refreshList">Refresh</button></div>
-    </div>
+    <div class="card-header" style="overflow-y:scroll">
 
-    <div class="card-body">
-        <div class="flex-con heading">
 
-            <div style="width:3%">Del</div>
-            <div style="width:8%">Number</div>
-            <div style="width:5%">Floor</div>
-            
-            <div style="width:5%">Beds</div>
-            <div style="width:14%">Style</div>
-            <div style="width:10%">Color</div>
+        <div class="row justify-content-end">
 
-            <div style="width:15%">Name</div>
-            <div style="width:10%">Size</div>
-            <div style="width:25%">Description</div>
-            <div style="width:5%"></div>
+            <div class="col-8">
+                <h3>{{ currBldg.name }}</h3>
+            </div>
+            <div class="col-2">
+                <button [disabled]="!(roomEditForm.valid)" (click)="updateRoom(roomEditForm.value)">
+                    <mat-icon>save</mat-icon>
+                </button>
+                <button [disabled]="!(currRoom && currRoom.id)" (click)="clearRoom()">
+                    <mat-icon>note_add</mat-icon>
+                </button>
+                <button [disabled]="!(roomEditForm.value.id)" (click)='deleteRoom(roomEditForm.value)'>
+                    <mat-icon>delete</mat-icon>
+                </button>
+
+
+            </div>
         </div>
 
-        <div>
-     
-            <form novalidate [formGroup]="roomEditForm">
-                <div class="flex-con">
-                    <div style="width:3%">  </div>
-                    <div style="width:8%"><input type="text" formControlName='number' class="form-control"></div>
-                    <div style="width:5%"><input type="text" formControlName='floor' class="form-control"> </div>
-                    
-                    <div style="width:5%"><input type="text" formControlName='beds' class="form-control"> </div>
-                    <div style="width:14%"><input type="text" formControlName='style' class="form-control"> </div>
-                    <div  style="width:10%"> 
-                        <select formControlName='color' class="form-control" >
-                            <option value=""></option>
-                            <option *ngFor="let r of rcolorList" [ngValue]="r.value">{{r.display}} </option>
-                        </select>
-                    </div>
-        
-                    <div style="width:15%"><input type="text" formControlName='name' class="form-control"> </div>
-                    <div style="width:10%"><input type="text" formControlName='size' class="form-control"></div>
  
-                    <div style="width:25%"><input type="text" formControlName='descr' class="form-control"></div>
-                    <div style="width:5%"><button *ngIf="roomEditForm.valid" (click)="updateRoom(roomEditForm.value)" >S</button> </div>
+        <div class="d-flex">
+
+            <div class="form-control">Number</div>
+            <div class="form-control">Floor</div>
+            <div class="form-control">Beds</div>
+            <div class="form-control">Style</div>
+            <div class="form-control">Rate</div>
+            <div class="form-control">Name</div>
+            <div class="form-control">Size</div>
+            <div class="form-control">Description</div>
+
+        </div>
+
+        <div style="background-color:white">
+
+            <form novalidate [formGroup]="roomEditForm">
+                <div class="d-flex">
+
+                    <div class="col"><input type="text" formControlName='number' class="col form-control"></div>
+                    <div class="col"><input type="text" formControlName='floor' class="form-control"> </div>
+
+                    <div class="col"><input type="text" formControlName='beds' class="form-control"> </div>
+                    <div class="col"><input type="text" formControlName='style' class="form-control"> </div>
+
+                    <div class="col">
+                        <select formControlName='rate' class="form-control">
+                            <option value=""></option>
+                            <option *ngFor="let rl of rateList" [ngValue]="rl.id">{{rl.alias}} </option>
+                        </select>
+
+                    </div>
+  
+                    <div class="col"><input type="text" formControlName='name' class="form-control"> </div>
+                    <div class="col"><input type="text" formControlName='size' class="form-control"></div>
+
+                    <div class="col"><input type="text" formControlName='descr' class='form-control'></div>
+
                 </div>
             </form>
-
-   
-
         </div>
- 
+    </div>
+
+    <div class="card-body" style="height:400px;overflow-y:scroll">
+
         <div>
-            <div *ngFor="let r of roomList" >
-                <div class="flex-con" >
-                    <div style="width:3%;cursor:pointer"  (click)="deleteRoom(r)"> X </div>
-                    <div style="width:8%" (click)='selectRoom(r)' class="active"  >{{ r.number }}</div>
-                    <div style="width:5%">{{ r.floor }}</div>
-                    <div style="width:5%">{{ r.beds }}</div>
-                    <div style="width:14%">{{ r.style }}</div>
-                    <div style="width:10%">{{ r.color }}</div>
-                    
-                    <div style="width:15%">{{ r.name }}</div>
-                    <div style="width:10%">{{ r.size }}</div>
-                    <div style="width:25%">{{ r.descr }}</div>
-                    <div style="width:5%"></div>
-                    
+            <div *ngFor="let r of roomList">
+                <div class="d-flex">
+   
+                    <div class="form-control active" (click)='selectRoom(r)'>{{ r.number }}</div>
+                    <div class="form-control">{{ r.floor }}</div>
+                    <div class="form-control">{{ r.beds }}</div>
+                    <div class="form-control"> {{ r.style }}</div>
+                    <div class="form-control"> {{ rateFind(r.rate) }}</div>
+                    <div class="form-control">{{ r.name }}</div>
+                    <div class="form-control">{{ r.size }}</div>
+                    <div class="form-control">{{ r.descr }}</div>
+
 
                 </div>
 
@@ -76,8 +90,8 @@
 
     </div>
     <div class="card-footer">
-        <button (click)='clearRoom()'>New</button>
-        <app-fileinput (results)="setResults($event)"></app-fileinput> 
+
+        <app-fileinput (results)="setResults($event)"></app-fileinput>
 
     </div>
 
