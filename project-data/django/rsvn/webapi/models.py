@@ -2,13 +2,14 @@ from django.db import models
 from .lists import * 
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
-
-
+from decimal import Decimal
+#
 # Create your models here.
 #---------------------------------------------------------
 class Staff (models.Model):
     user        =   models.ForeignKey(User,models.CASCADE)
     firstname	=	models.CharField(max_length=80)
+    middlename  =   models.CharField(max_length=80, blank=True)
     lastname 	=	models.CharField(max_length=80)
     phone1 		=	models.CharField(max_length=20)
     phone2 		=	models.CharField(max_length=20, blank=True)
@@ -22,6 +23,7 @@ class Staff (models.Model):
 #---------------------------------------------------------
 class Guest (models.Model):
     firstname	=	models.CharField(max_length=80)
+    middlename  =   models.CharField(max_length=80, blank=True)
     lastname 	=	models.CharField(max_length=80)
     phone 		=	models.CharField(max_length=20, blank=True)
     address 	=	models.CharField(max_length=120)
@@ -34,12 +36,16 @@ class Guest (models.Model):
     idexpire    =   models.CharField(max_length=20, blank=True)
     birthday    =	models.CharField(max_length=20, blank=True)
     company     =	models.CharField(max_length=128, blank=True)
+    title       =	models.CharField(max_length=128, blank=True)
     notes       =   models.TextField(blank=True)
     clerk		=   models.CharField(max_length=20, blank=True)
     created     =   models.DateTimeField(auto_now_add=True)
     modified    =   models.DateTimeField(auto_now=True) 
-    def __str__(self) :
-        return f"{self.firstname} {self.lastname} -- {self.email}"
+    
+    @property
+    def fullname(self):
+        return f"{self.firstname} {self.middlename} {self.lastname}"
+
 #--------------------------------------------------------------------
 class Bldg (models.Model):
     name		=	models.CharField(max_length=80,unique=True)
@@ -67,15 +73,31 @@ class Dropdown (models.Model):
     def __str__(self) :
         return f"{self.name} -- {self.display}"        
 #---------------------------------------------------------
+class Rate(models.Model):
+    alias       =   models.CharField(max_length=250,unique=True)
+    rateCategory=   models.CharField(max_length=512)
+    rateName	=	models.CharField(max_length=512)
+    rateType	=  	models.CharField(max_length=512, blank=True)
+    rateClass   =  	models.CharField(max_length=512, blank=True)
+    offSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    lowSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    highSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    peakSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    color       =  	models.CharField(max_length=40, default='white')
+    descr		=	models.CharField(max_length=1028, blank=True)	
+	
+    def __str__(self):
+        return(self.rateName)
+#---------------------------------------------------------
 class Roominfo (models.Model):
     bldg        =   models.ForeignKey(Bldg,models.CASCADE)
+    rate        =   models.ForeignKey(Rate,models.CASCADE,related_name='rateOf')
     number  	=   models.CharField(max_length=20)
     floor       =   models.CharField(max_length=20, blank=True)
     style   	=   models.CharField(max_length=128, blank=True)
     name        =   models.CharField(max_length=512, blank=True)
     beds        =   models.CharField(max_length=128, blank=True)
     size        =  	models.CharField(max_length=20, blank=True)
-    color       =  	models.CharField(max_length=40, default='white')
     descr       =   models.TextField(blank=True)
     def __str__(self) :
         return f"{self.bldg.name} -- {self.number}"
@@ -87,7 +109,7 @@ class Rsvn (models.Model):
     amenities   =    models.ManyToManyField(Amenity, blank=True,related_name='amenities')
     status		=	 models.CharField(max_length=13, default="New")
     confirm		=    models.CharField(max_length=20, blank=True)
-    source  	=	 models.CharField(max_length=20)
+    source  	=	 models.CharField(max_length=64)
     dateIn		=	 models.DateField()
     dateOut		=	 models.DateField()
     numrooms    =    models.IntegerField(default=1,validators = [ MinValueValidator(1) ])
@@ -104,16 +126,8 @@ class Rsvn (models.Model):
     def __str__(self) :
         return f"{self.primary.firstname} {self.primary.lastname}  {self.dateIn}  {self.dateOut}"
 
-#---------------------------------------------------------
-class Room (models.Model):
-    rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnOf')
-    roominfo 	=   models.ForeignKey(Roominfo,models.CASCADE, related_name='roominfoOf')
-    status      =   models.CharField(max_length=12, default="none")
 
-    def __str__(self) :
-        return f"{self.rsvn.fullname()} -- {self.roominfo.number}"
 #---------------------------------------------------------
-
 class Service (models.Model):
 	rsvn			= 	models.ForeignKey(Rsvn,on_delete=models.CASCADE)
 	breakfast		=	models.BooleanField(default=False)
@@ -138,3 +152,39 @@ class WorkFile(models.Model):
 
 
 
+#---------------------------------------------------------
+class TaxRate(models.Model):
+    taxCategory = models.CharField(max_length=512)
+    taxName 	=	models.CharField(max_length=512)
+    taxType	    =  	models.CharField(max_length=512, blank=True)
+    taxClass    =  	models.CharField(max_length=512, blank=True)
+    taxAmount   = 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    descr		=	models.CharField(max_length=1028)	
+	
+    def __str__(self):
+        return(self.taxName)        
+#---------------------------------------------------------
+class Charge(models.Model):
+    rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnCharge')
+    item        =   models.CharField(max_length=512)
+    date        =   models.DateField()
+    descr       =   models.CharField(max_length=2048, blank=True)
+    count      = 	models.IntegerField(default=1)
+    unit    	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    clerk       =   models.CharField(max_length=80,default="FrontDesk")
+    created     =   models.DateTimeField(auto_now_add=True)
+    modified    =   models.DateTimeField(auto_now=True)
+	
+    @property
+    def amount(self):
+        return self.count * self.unit
+
+#---------------------------------------------------------
+class Room (models.Model):
+    rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnOf')
+    roominfo 	=   models.ForeignKey(Roominfo,models.CASCADE, related_name='roominfoOf')
+    rateCharge  =   models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    status      =   models.CharField(max_length=12, default="none")
+
+    def __str__(self) :
+        return f"{self.rsvn.fullname()} -- {self.roominfo.number}"

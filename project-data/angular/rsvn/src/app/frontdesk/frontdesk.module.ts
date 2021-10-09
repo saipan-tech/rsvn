@@ -22,7 +22,7 @@ import { MatButtonModule} from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule} from '@angular/material/radio';
 import { AppRoutingModule } from '@app/app-routing.module';
-
+import { ChargesModule } from '@app/charges/charges.module';
 @NgModule({
   declarations: [
     ClockComponent,
@@ -37,6 +37,7 @@ import { AppRoutingModule } from '@app/app-routing.module';
     GridLineComponent,
     CurrGridComponent,
     RsvnCtrlComponent
+
   ],
   imports: [
     CommonModule,
@@ -49,7 +50,8 @@ import { AppRoutingModule } from '@app/app-routing.module';
     MatIconModule,
     MatButtonModule,
     MatSliderModule,
-    MatRadioModule
+    MatRadioModule,
+    ChargesModule
   ],
   exports: [
     ClockComponent,

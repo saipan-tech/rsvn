@@ -1,12 +1,24 @@
-<div class="card" style="height:98%;overflow-y:scroll">
-    <div class="card-header">
-        <h5>Guest Record </h5>
-    </div>
-    <div class="card-body">
-        <app-guest-edit  [(currRsvn)]='currRsvn' [currGuest]='currGuest'  (currGuestChange)='guestChange($event)'> </app-guest-edit>
-        <app-rsvn-edit  [currRsvn]='currRsvn' (currRsvnChange)='rsvnChange($event)' [(currGuest)]='currGuest'></app-rsvn-edit>
-    </div>
-    <div class="card-footer">
+<div class="card">
+    <div class="card-header"> 
+        <h4>Guest Information Dashboard</h4>
 
     </div>
+    <div class="card-body">
+
+        <div  class="guestbrief copper">
+            Guest - {{currGuest.firstname}} {{currGuest.lastname}} -{{currGuest.email}} </div>
+        <app-guest-edit [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'> </app-guest-edit>
+        
+        
+        <div  class="guestbrief copper">
+            Rsvn - {{currRsvn.dateIn}} -  {{currRsvn.dateOut}} </div>
+        <app-rsvn-edit   [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-rsvn-edit>
+        
+        
+        <app-charge-ctrl [currRsvn]='currRsvn'> </app-charge-ctrl>
+        
+
+
+    </div>
+    <div class="card-footer"></div>
 </div>

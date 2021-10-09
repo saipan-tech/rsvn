@@ -27,6 +27,9 @@ from webapi.views.roominfo import *
 from webapi.views.rsvn import *
 from webapi.views.system import *
 from webapi.views.guest import *
+from webapi.views.rates import *
+from webapi.views.charges import *
+
 
 
 router = routers.DefaultRouter()
@@ -41,6 +44,10 @@ router.register(r'rsvn',RsvnViewSet)
 router.register(r'rsvnguest',RsvnGuestViewSet)
 router.register(r'guest',GuestViewSet)
 router.register(r'dropdown',DropdownViewSet)
+router.register(r'rate',RateViewSet)
+router.register(r'taxrate',TaxRateViewSet)
+router.register(r'charge',ChargeViewSet)
+
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

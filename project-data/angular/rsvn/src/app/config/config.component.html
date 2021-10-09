@@ -12,6 +12,7 @@
            <button class="list-group-item list-group-item-action bg-light" (click)="mode='logo'">Logo and Branding</button>
            <button class="list-group-item list-group-item-action bg-light" (click)="mode='dropdown'">Dropdown</button>
            <button class="list-group-item list-group-item-action bg-light" (click)="mode='lists'">Lists</button>
+           <button class="list-group-item list-group-item-action bg-light" (click)="mode='rate'">Rate Table</button>
        </div>
    </div>
    <!-- /#sidebar-wrapper -->
@@ -59,22 +60,23 @@
 
 
 
-       <div class="fluid-container" >
-         <div *ngIf="mode=='bldg'"  style="width:75%;margin:20px auto">
-            <div>
-               <app-bldg-list (currBldgChange)='currBldg = $event' ></app-bldg-list>
-            </div>
-            <div>
-               <app-room-list *ngIf="currBldg && currBldg.id" [currBldg]='currBldg'></app-room-list>
+       <div class="fluid-container" style="width:98%" >
+         <div *ngIf="mode=='bldg'" >
+            <div class="row">
+                <div class="col-3"><app-bldg-list (currBldgChange)='currBldg = $event' ></app-bldg-list></div>
+                <div class="col-9"><app-room-list *ngIf="currBldg && currBldg.id" [currBldg]='currBldg'></app-room-list></div>
             </div>
          </div>
-         <div *ngIf="mode=='themes'" style="width:75%;margin:0 auto;"></div>
-         <div *ngIf="mode=='logo'" style="width:75%;margin:0 auto;"></div>
-         <div *ngIf="mode=='dropdown'" style="width:75%;margin:0 auto;">
+         <div *ngIf="mode=='themes'" style="margin:0 auto;"></div>
+         <div *ngIf="mode=='logo'" style="margin:0 auto;"></div>
+         <div *ngIf="mode=='dropdown'" style="margin:0 auto;">
             <app-dropdown> </app-dropdown>
          </div>
-         <div *ngIf="mode=='lists'" style="width:75%;margin:0 auto;">
+         <div *ngIf="mode=='lists'" style="margin:0 auto;">
             <app-amenity-list></app-amenity-list>
+         </div>
+         <div *ngIf="mode=='rate'" style="margin:0 auto;">
+            <app-rate-list></app-rate-list>
          </div>
        </div>
    </div>

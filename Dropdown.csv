@@ -13,16 +13,38 @@ status,2,Confirmed,confirmed
 status,3,Delayed,delayed
 status,4,No Show,noshow
 status,10,Cancelled,cancel
-rcolor,1,Standard,navajoWhite
-rcolor,2,Standard Deluxe,palegreen
-rcolor,3,Deluxe,lightpink
-rcolor,4,Deluxe  Exec,lightsalmon
-rcolor,5,Executive,tan
-rcolor,6,Standard Patio,paleturquoise
-rcolor,7,Deluxe Patio,lightgray
-rcolor,8,Executive Patio,cornsilk
 vcolor,1,Local,palegreen
 vcolor,2,Tour,pink
 vcolor,3,Atlas Agency,lightyellow
 vcolor,4,Comp,Seagreen
 vcolor,5,Walk In,Violet
+color,1,maroon,maroon
+color,3,brown,brown
+color,5,olive,olive
+color,7,thai,thai
+color,9,navy,navy
+color,11,black,black
+color,13,red,red
+color,15,orange,orange
+color,17,yellow,yellow
+color,19,lime,lime
+color,21,mistyrose,mistyrose
+color,23,mintcream,mintcream
+color,25,palegreen,palegreen
+color,27,palegoldenrod,palegoldenrod
+color,29,navajowhite,navajowhite
+color,31,olivedrab,olivedrab
+color,33,rosybrown,rosybrown
+color,35,sandybrown,sandybrown
+color,37,beige,beige
+color,39,mint,mint
+color,41,lavender,lavender
+color,43,skyblue,skyblue
+color,45,teal,teal
+color,47,whitesmoke,whitesmoke
+color,49,salmon,salmon
+color,51,plum,plum
+color,53,lightcyan,lightcyan
+color,55,gold,gold
+color,57,aquamarine,aquamarine
+color,59,cornsilk,cornsilk

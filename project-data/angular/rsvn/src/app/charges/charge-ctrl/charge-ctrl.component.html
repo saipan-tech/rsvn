@@ -1,0 +1,9 @@
+{{ currRsvn | json}}
+
+<h2>Room Charge Summary</h2>
+<hr>
+<h4>Room Cost </h4>
+
+<app-charge-edit [currRsvn]='currRsvn' [(currCharge)]='currCharge' ></app-charge-edit>
+
+<app-charge-list [currRsvn]='currRsvn' [(currCharge)]='currCharge'></app-charge-list>

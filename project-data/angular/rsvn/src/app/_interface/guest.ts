@@ -1,7 +1,9 @@
 export interface IGuest  {
     id:number;
     firstname:string;
+    middlename:string;
     lastname:string;
+    fullname:string;
     phone:string;
     address:string;
     city:string;
@@ -10,6 +12,7 @@ export interface IGuest  {
     email:string;
     dob:string;
     company:string;
+    title:string;
     notes:string;
     idtype :string;
     idnum  :string;

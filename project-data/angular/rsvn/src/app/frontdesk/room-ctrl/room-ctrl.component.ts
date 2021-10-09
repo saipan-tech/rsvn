@@ -125,8 +125,6 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
               let roominfo = unavail.find(rrf => rrf.id == rsvrm.roominfo)
               let room = rsvrm
               this.currRoomList.push({room,roominfo})
-
-
             })
           })  
         })

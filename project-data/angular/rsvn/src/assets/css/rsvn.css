@@ -96,3 +96,41 @@
   color:grey;
 
 }
+
+
+
+
+.uppercell {
+  font-family: nova;
+  font-size: 10pt;
+  margin: 0;
+  padding: 5px;
+  text-align: left;
+}
+
+.lowercell {
+  font-family: nova;
+  font-size: 12pt;
+  margin: 0;
+}
+.error {
+  color: yellow !important;
+  background-color:red !important;
+  font-weight: bold;
+}
+
+.cellgroup {
+  margin-bottom: 1em;
+}
+
+.section-heading {
+  font-size: 1.1rem;
+}
+
+section {
+  margin-bottom: 1.5rem;
+}
+
+.req {
+  color: var(--bs-danger);
+}

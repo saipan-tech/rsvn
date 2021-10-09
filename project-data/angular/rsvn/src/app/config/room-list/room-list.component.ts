@@ -5,6 +5,7 @@ import { GenericService } from '@app/_services/generic.service';
 import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
 import { IBldg } from '@app/_interface/bldg';
 import { IRoom } from '@app/_interface/room';
+import { IRate } from '@app/_interface/rate';
 import { IRoominfo } from '@app/_interface/roominfo';
 
 @Component({
@@ -24,16 +25,19 @@ export class RoomListComponent implements OnInit, OnChanges {
 
   @Output() currRoomChange = new EventEmitter<IRoom>();
   @Input() currBldg = { } as IBldg;
+
+
   roomList: IRoominfo[] = [];
   currRoom: IRoominfo = { } as IRoominfo;
   currRoomID: number | null = null
   rcolorList:any  = []
+  rateList : IRate[] = []
   
   roomEditForm = new FormGroup({
     id: new FormControl(''),
     number: new FormControl('', Validators.required),
     floor: new FormControl(''),
-
+    rate:new FormControl(''),
     beds: new FormControl('', Validators.required),
     style:new FormControl(''),
     color:new FormControl(''),
@@ -45,8 +49,31 @@ export class RoomListComponent implements OnInit, OnChanges {
     descr: new FormControl(''),
   })
   ngOnChanges(changes: SimpleChanges) {
+    console.log("feeling it")
     this.ngOnInit()
   }
+
+
+  sortRates(rlist:any) {
+    rlist.sort(function(a:any, b:any) {
+      var A = a.alias.toUpperCase(); // ignore upper and lowercase
+      var B = b.alias.toUpperCase(); // ignore upper and lowercase
+      if (A < B) { return -1; }
+      if (A > B) { return 1;  }
+      return 0; });
+    return rlist
+  }
+
+  rateFind(styleid:any) {
+    const rf =  this.rateList.find( rate =>  rate.id === Number(styleid))
+   
+    if (rf) {
+      return rf.alias
+    }
+    return "None"
+   
+  }
+
   clearRoom() {
     this.roomEditForm.reset()
     this.blankRoom(this.currRoom)
@@ -114,15 +141,21 @@ export class RoomListComponent implements OnInit, OnChanges {
       const founder = this.roomList.find(d => d.bldg == rec.bldg && d.number == rec.number)
       if(founder) {
         rec.id = founder.id
-        
-       }
-       rec.bldg = this.currBldg.id
+        }
+      rec.bldg = this.currBldg.id
 
-       this.genericService.updateItem('roominfo', rec).subscribe(
-         data =>{
-          this.ngOnInit()
-         } 
-       )
+      const rateFind =  this.rateList.find( rat =>  rat.alias == rec.alias)
+      if (rateFind) {
+        rec.rate = rateFind.id
+        delete rec.alias
+
+        this.genericService.updateItem('roominfo', rec).subscribe(
+          data =>{
+            this.ngOnInit()
+           } 
+         )
+  
+      }
     })
   }
   
@@ -134,11 +167,20 @@ export class RoomListComponent implements OnInit, OnChanges {
       this.roomService.getBldgRoominfoList(this.currBldg.id)
         .subscribe(
           data => this.roomList = data
-        )
+
+          )
     }
     this.systemService.getDropdownList('rcolor').subscribe(
       data => this.rcolorList = data
     )
+
+
+
+    this.genericService.getItemList("rate")
+      .subscribe( data => {
+        this.rateList = this.sortRates(data)
+        console.log(data)
+      })
 
   }
 }

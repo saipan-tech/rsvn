@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core'
 
 import { IGuest } from '@app/_interface/guest';
 import { IRsvn } from '@app/_interface/rsvn';
@@ -16,14 +16,11 @@ export class RsvnCtrlComponent implements OnInit,OnChanges {
 
   @Input() currGuest: any
   @Output() currGuestChange = new EventEmitter<IGuest>();
-  
- guestChange(event:any) {
-  this.currGuestChange.emit(event)
-}
-  
- rsvnChange(event:any) {
-  this.currRsvnChange.emit(event)
- }
+
+ 
+  more = false
+  rmore= false
+
   constructor() { }
   ngOnChanges(changes : SimpleChanges) {
   

@@ -15,7 +15,7 @@ export class DropdownComponent implements OnInit {
 
   ) { }
 
-  currDropdown: any
+  currDropdown: IDropdown = {} as IDropdown
   currName: string = ""
   dropdownList: IDropdown[] = []
   dropdownFilterList: IDropdown[] = []
@@ -77,7 +77,7 @@ export class DropdownComponent implements OnInit {
     )
   }
 
-  dropdownNameSelect(name: string) {
+  dropdownNameSelect(name: any) {
     this.dropdownFilterList = this.dropdownList.filter(data => data.name == name)
     this.dropdownFilterList.sort((a, b) => {
       if (a.sequence < b.sequence) {

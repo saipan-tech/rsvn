@@ -26,6 +26,7 @@ import { MatButtonModule} from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule} from '@angular/material/radio';
 import { FrontdeskModule } from '@app/frontdesk/frontdesk.module';
+import { RateListComponent } from './config/rate-list/rate-list.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { FrontdeskModule } from '@app/frontdesk/frontdesk.module';
     ToursComponent,
     DropdownComponent,
     FileinputComponent,
+    RateListComponent,
     
 
   ],
