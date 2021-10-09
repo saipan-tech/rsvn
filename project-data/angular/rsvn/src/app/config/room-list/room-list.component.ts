@@ -179,7 +179,6 @@ export class RoomListComponent implements OnInit, OnChanges {
     this.genericService.getItemList("rate")
       .subscribe( data => {
         this.rateList = this.sortRates(data)
-        console.log(data)
       })
 
   }

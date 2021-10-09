@@ -73,7 +73,6 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
         this.genericService.getItemList('guest')
           .subscribe(data => {
             this.guestList = data
-            console.log(this.guestList)
             this.makeList()
           })
         break;

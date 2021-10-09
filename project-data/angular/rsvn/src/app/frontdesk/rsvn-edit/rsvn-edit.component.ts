@@ -76,7 +76,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
       adult: 1,
       child: 0,
       infant: 0,
-      clerk: this.user.username
+      clerk: ''
     })
   }
 
@@ -161,6 +161,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
                   this.currRsvn =  data
                   this.loadRsvn(data)
                   this.currRsvnChange.emit(data)
+                  console.log("should be sending out changes",data)
                 }
               )
 
@@ -201,9 +202,10 @@ export class RsvnEditComponent implements OnInit, OnChanges {
   //---------------------------------
   ngOnChanges(changes: SimpleChanges) {
     this.rsvnEditForm.reset()
-    if (this.currRsvn && this.currRsvn.id == 0) {
+//    if (this.currRsvn && this.currRsvn.id == 0) {
+  
       this.rsvnEditFormInit()
-    }
+//    }
     this.loadRsvn(this.currRsvn)
   }
   //---------------------------------
@@ -218,11 +220,15 @@ export class RsvnEditComponent implements OnInit, OnChanges {
     this.systemService.getDropdownList('vcolor').subscribe(
       data => this.colorList = data
     )
-    if (this.currRsvn && this.currRsvn.id) {
-      this.loadRsvn(this.currRsvn)
-    }
     this.authService.getSession().subscribe(
-      data => this.user = data
+      data => {
+        this.user = data
+        if (this.currRsvn && this.currRsvn.id) {
+          this.loadRsvn(this.currRsvn)
+        } else {
+          this.newRsvn()
+        }
+      }
     )
 
   }

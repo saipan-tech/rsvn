@@ -1,22 +1,86 @@
 <div class="card">
-    <div class="card-header"> 
+    <div class="card-header">
         <h4>Guest Information Dashboard</h4>
 
     </div>
     <div class="card-body">
 
-        <div  class="guestbrief copper">
-            Guest - {{currGuest.firstname}} {{currGuest.lastname}} -{{currGuest.email}} </div>
-        <app-guest-edit [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'> </app-guest-edit>
-        
-        
-        <div  class="guestbrief copper">
-            Rsvn - {{currRsvn.dateIn}} -  {{currRsvn.dateOut}} </div>
-        <app-rsvn-edit   [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-rsvn-edit>
-        
-        
-        <app-charge-ctrl [currRsvn]='currRsvn'> </app-charge-ctrl>
-        
+
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <div class="accordion-header" id="headingOne">
+                    <div class="d-flex ">
+
+                        <div class="form-control guestbrief copper">
+                            Guest - {{currGuest.firstname}} {{currGuest.lastname}} -{{currGuest.email}}
+                        </div>
+
+                        <button class="accordion-button form-control" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        </button>
+
+                    </div>
+
+                </div>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div>
+
+                            <app-guest-edit [(currRsvn)]='currRsvn' [currGuest]='currGuest'
+                            (currGuestChange)="guestAction($event)" > </app-guest-edit>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="accordion-item" *ngIf="currGuest && currGuest.id">
+                <div class="accordion-header" id="headingTwo">
+                    <div class="d-flex">
+                        <div class=" guestbrief copper form-control">
+                            Rsvn - <span *ngIf="currRsvn&&currRsvn.id">{{currRsvn.dateIn}} - {{currRsvn.dateOut}}</span>
+                        </div>
+                        <button class="accordion-button collapsed form-control" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        </button>
+                    </div>
+                </div>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <app-rsvn-edit [currRsvn]='currRsvn' (currRsvnChange)="rsvnAction($event)" [(currGuest)]='currGuest'>
+
+                        </app-rsvn-edit>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="accordion-item" *ngIf="currRsvn && currRsvn.id">
+                <div class="accordion-header" id="headingThree">
+                    <div class="d-flex">
+                        <div class=" guestbrief copper form-control">
+                           Room Charges
+                        </div>
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                          
+                        </button>
+                    </div>
+                </div>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <app-charge-ctrl [currRsvn]='currRsvn'> </app-charge-ctrl>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     </div>

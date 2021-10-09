@@ -96,7 +96,6 @@ newCharge() {
 //--------------------------
 
   ngOnChanges(changes : SimpleChanges) {
-    console.log("Changing in editor",changes)
     
     this.chargeEditForm.reset()
     if(changes.currCharge) {

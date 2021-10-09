@@ -40,13 +40,11 @@ export class ChargeListComponent implements OnInit {
   ) { }
   
   ngOnChanges(changes : SimpleChanges) {
-    console.log("Feeling Changes in list")
     this.ngOnInit()
   }
 
 
   selectCharge(event:ICharge) {
-    console.log("Howdy")
     this.currChargeChange.emit(event)
   }
 

@@ -23,9 +23,17 @@ export class RsvnCtrlComponent implements OnInit,OnChanges {
 
   constructor() { }
   ngOnChanges(changes : SimpleChanges) {
-  
+    this.currRsvnChange.emit(this.currRsvn)
+    this.currGuestChange.emit(this.currGuest)
   }
- 
+ rsvnAction(rsvn:IRsvn) {
+  this.currRsvnChange.emit(rsvn)
+
+ }
+ guestAction(guest:IGuest) {
+  this.currGuestChange.emit(guest)
+
+ }
   ngOnInit(): void {
   }
 

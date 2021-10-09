@@ -21,7 +21,6 @@ export class ChargeCtrlComponent implements OnInit,OnChanges {
     this.currCharge = event
   }
   ngOnChanges(changes : SimpleChanges) {
-    console.log("Changing RSVN")
     this.ngOnInit()
   }
 

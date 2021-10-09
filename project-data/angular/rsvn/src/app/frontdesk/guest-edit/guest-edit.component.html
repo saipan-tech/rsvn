@@ -1,7 +1,6 @@
 <div>
     <form novalidate [formGroup]="guestEditForm" class="container">
         <section>
-            <h3 class="section-heading">Guest Details</h3>
             <div class="cellgroup row">
                 <div class="col">
                     <label class="uppercell">First Name <abbr class="req" title="Required">*</abbr></label>
@@ -51,12 +50,12 @@
                     <input class="form-control lowercell" type="text" formControlName='city'>
                 </div>
                 <div class="col">
-                    <label class="uppercell">Zip Code <abbr class="req" title="Required">*</abbr></label>
-                    <input class="form-control lowercell" type="text" formControlName='zipcode'>
-                </div>
-                <div class="col">
                     <label class="uppercell">State/Country <abbr class="req" title="Required">*</abbr></label>
                     <input class="form-control lowercell" type="text" formControlName='state'>
+                </div>
+                <div class="col">
+                    <label class="uppercell">Zip Code <abbr class="req" title="Required">*</abbr></label>
+                    <input class="form-control lowercell" type="text" formControlName='zipcode'>
                 </div>
             </div>
         </section>
