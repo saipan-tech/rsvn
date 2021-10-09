@@ -28,14 +28,14 @@
         <div style="width:65%;height:100%">
 
             <div class="tab-content" style="height:100%" id="nav-tabContent">
-                <div class="tab-pane fade " style="height:100%" id="nav-home" role="tabpanel"
+                <div class="tab-pane fade show active" style="height:100%" id="nav-home" role="tabpanel"
                     aria-labelledby="nav-home-tab">
                     <app-rsvn-ctrl (currRsvnChange)='currRsvnEvent($event);currRsvn=$event' [currRsvn]='currRsvn' [(currGuest)]='currGuest'></app-rsvn-ctrl>
                 </div>
                 <div class="tab-pane fade" id="nav-grid" style="height:100%" role="tabpanel" aria-labelledby="nav-profile-tab">
                     <app-grid (gridSelect)="selectedGuest($event)"> </app-grid>
                 </div>
-                <div class="tab-pane fade show active" id="nav-calendar" style="height:100%" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="tab-pane fade" id="nav-calendar" style="height:100%" role="tabpanel" aria-labelledby="nav-profile-tab">
 <!--                     <app-curr-grid></app-curr-grid>  -->
                     <app-charge-ctrl [currRsvn]='currRsvn'></app-charge-ctrl>
                 </div>
