@@ -11,15 +11,19 @@ export class GridLineComponent implements OnInit{
 
   @Input() room:any
   @Input() days = 0
-
   @Input() currDateStart = ''
+
   @Output() selected = new EventEmitter<any>();
+
+
   gridwidth = 0
   dayList: any
+  
   constructor(
-
-    private systemService:SystemService 
+      private systemService:SystemService 
     ) { }
+  
+  
   selectCell(cell:any) {
     this.selected.emit(cell)
   }
@@ -27,7 +31,6 @@ export class GridLineComponent implements OnInit{
   ngOnInit(): void {
     this.gridwidth = 100 / ( Number(this.days) + 1)
     this.dayList = this.systemService.daylister(this.currDateStart,this.days)
-
   }
 
 }

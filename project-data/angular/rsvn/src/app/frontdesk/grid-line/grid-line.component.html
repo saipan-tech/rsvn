@@ -6,7 +6,7 @@
             <button  [ngStyle]="{'background-color':r.rsvnc,'padding':'0','width':'100%'}" 
                    
                     (click)="selectCell(r)" 
-                    *ngIf="r.dateIn <= d && r.dateOut > d" title='{{r.primary | json}}'> X</button>
+                    *ngIf="r.dateIn <= d && r.dateOut > d" title={{r|json}}> X</button>
         </div>
     </div>
 </div>
