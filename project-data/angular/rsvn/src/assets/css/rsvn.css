@@ -98,17 +98,15 @@
 
 
 .uppercell {
-  font-family: nova;
-  font-size: 10pt;
   margin: 0;
   padding: 5px;
+  font-size: 0.85rem;
   text-align: left;
 }
 
 .lowercell {
-  font-family: nova;
-  font-size: 12pt;
   margin: 0;
+  background-color: #f8f9fb;
 }
 .error {
   color: yellow !important;
