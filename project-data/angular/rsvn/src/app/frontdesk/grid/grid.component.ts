@@ -31,9 +31,16 @@ export class GridComponent implements OnInit, OnChanges {
   today = new Date().toISOString().slice(0, 10)
   selected: any
   sliderValue: any
+
   // -------------------------------------------
+  @Input() currRsvn = {} as IRsvn 
+  @Input() currGuest  = {} as IGuest
   @Input() currDateStart = this.addDay(this.today, -4)
   @Input() days = 24
+  // -------------------------------------------
+  @Output() currRsvnChange = new EventEmitter<IRsvn>()
+  @Output() currGuestChange = new EventEmitter<IGuest>()
+  // -------------------------------------------
   @Output() gridSelect = new EventEmitter<IRsvn>()
   currDateEnd = ""
   // -------------------------------------------
@@ -105,8 +112,14 @@ export class GridComponent implements OnInit, OnChanges {
   }
   gridSelected(rec: any) {
     this.gridSelect.emit(rec)
+    this.genericService.getItem('rsvn', rec.rsvnid).subscribe(
+      data => {
+        this.currRsvnChange.emit(data)
+        this.currGuestChange.emit(data.primary)
+      }
+    )
   }
-
+ 
 
   shiftDate(d:string) {
     this.currDateStart = this.addDay(d,-2)

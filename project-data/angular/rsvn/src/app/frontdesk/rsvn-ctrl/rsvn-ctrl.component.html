@@ -1,3 +1,5 @@
+<div style="height:98%;overflow-y:scroll">
+    
 <div class="card">
     <div class="card-header">
         <h4>Guest Information Dashboard</h4>
@@ -15,14 +17,14 @@
                             Guest - {{currGuest.firstname}} {{currGuest.lastname}} -{{currGuest.email}}
                         </div>
 
-                        <button class="accordion-button form-control" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <button class="accordion-button collapsed form-control" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                         </button>
 
                     </div>
 
                 </div>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                     data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <div>
@@ -59,8 +61,6 @@
             </div>
 
 
-
-
             <div class="accordion-item" *ngIf="currRsvn && currRsvn.id">
                 <div class="accordion-header" id="headingThree">
                     <div class="d-flex">
@@ -82,7 +82,10 @@
             </div>
         </div>
 
-
     </div>
     <div class="card-footer"></div>
+</div>
+
+
+
 </div>

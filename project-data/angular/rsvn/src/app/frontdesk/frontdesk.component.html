@@ -37,11 +37,10 @@
                     <app-rsvn-ctrl [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-rsvn-ctrl>
                 </div>
                 <div class="tab-pane fade" id="nav-grid" style="height:100%" role="tabpanel" aria-labelledby="nav-profile-tab">
-                    <app-grid (gridSelect)="selectedGuest($event)"> </app-grid>
+                    <app-grid [(currRsvn)]='currRsvn' [(currGuest)]='currGuest' (gridSelect)="selectedGuest($event)"> </app-grid>
                 </div>
+
                 <div class="tab-pane fade" id="nav-calendar" style="height:100%" role="tabpanel" aria-labelledby="nav-profile-tab">
-<!--                     <app-curr-grid></app-curr-grid>  -->
-                    <app-charge-ctrl [currRsvn]='currRsvn'></app-charge-ctrl>
                 </div>
 
             </div>
