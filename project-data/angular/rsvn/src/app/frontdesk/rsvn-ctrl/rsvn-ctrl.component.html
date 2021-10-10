@@ -12,7 +12,12 @@
                     <div class="d-flex ">
 
                         <div class="form-control guestbrief copper">
-                            Guest - {{currGuest.firstname}} {{currGuest.lastname}} -{{currGuest.email}}
+                            <span *ngIf="!currGuest.id; else guestTitle">
+                               New Guest
+                            </span>
+                            <ng-template #guestTitle>
+                                Guest - {{currGuest.firstname}} {{currGuest.lastname}} -{{currGuest.email}}
+                            </ng-template>
                         </div>
 
                         <button class="accordion-button form-control" type="button" data-bs-toggle="collapse"
@@ -69,7 +74,7 @@
                         </div>
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                          
+
                         </button>
                     </div>
                 </div>
