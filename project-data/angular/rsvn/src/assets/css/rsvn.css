@@ -33,10 +33,7 @@
 
   body {
     font-family: OpenSans;
-    font-size:10pt;
     background-image: linear-gradient(to right, #bdd8d3, rgb(218, 229, 250));
-    font-family: OpenSans;
-    font-size:10pt;
   }
 
   h6 {
@@ -101,24 +98,19 @@
   font-family:Niconne;
   font-size:30pt;
   color:grey;
-
 }
 
-
-
-
 .uppercell {
-  font-family: nova;
-  font-size: 10pt;
   margin: 0;
   padding: 5px;
+  font-size: 0.85rem;
   text-align: left;
+  color: var(--bs-gray);
 }
 
 .lowercell {
-  font-family: nova;
-  font-size: 12pt;
   margin: 0;
+  background-color: #f8f9fb;
 }
 .error {
   color: yellow !important;
@@ -131,11 +123,20 @@
 }
 
 .section-heading {
+  width: 25%;
+  font-family: Nova;
   font-size: 1.1rem;
 }
 
+.section-body {
+  width: 75%;
+}
+
 section {
+  display: flex;
   margin-bottom: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--bs-gray);
 }
 
 .req {
