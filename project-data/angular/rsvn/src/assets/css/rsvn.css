@@ -73,11 +73,7 @@
 
   .card-body {
     text-align: left;
-    background-color:rgb(235, 232, 230);
   }
-   .accordion-body {
-     background-color:rgb(235, 232, 230);
-   }
 
   .card-footer {
     border:1px solid silver;
