@@ -17,7 +17,7 @@ export class RsvnCtrlComponent implements OnInit,OnChanges {
   @Input() currGuest: any
   @Output() currGuestChange = new EventEmitter<IGuest>();
 
- 
+
   more = false
   rmore= false
 
