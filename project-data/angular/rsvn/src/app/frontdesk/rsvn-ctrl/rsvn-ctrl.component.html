@@ -12,11 +12,11 @@
                     <div class="d-flex ">
 
                         <div class="form-control guestbrief copper">
-                            <span *ngIf="!currGuest.id; else guestTitle">
-                               New Guest
-                            </span>
-                            <ng-template #guestTitle>
+                            <span *ngIf="currGuest.id; else newGuestTitle">
                                 Guest - {{currGuest.firstname}} {{currGuest.lastname}}
+                            </span>
+                            <ng-template #newGuestTitle>
+                                New Guest
                             </ng-template>
                         </div>
 
@@ -45,7 +45,12 @@
                 <div class="accordion-header" id="headingTwo">
                     <div class="d-flex">
                         <div class=" guestbrief copper form-control">
-                            Rsvn - <span *ngIf="currRsvn&&currRsvn.id">{{currRsvn.dateIn}} - {{currRsvn.dateOut}}</span>
+                            <span *ngIf="currRsvn && currRsvn.id; else newRsvnTitle">
+                                Rsvn - {{currRsvn.dateIn}} - {{currRsvn.dateOut}}
+                            </span>
+                            <ng-template #newRsvnTitle>
+                                New Rsvn
+                            </ng-template>
                         </div>
                         <button class="accordion-button collapsed form-control" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
