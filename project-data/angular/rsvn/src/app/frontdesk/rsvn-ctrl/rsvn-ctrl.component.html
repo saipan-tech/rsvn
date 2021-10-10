@@ -10,18 +10,20 @@
             <div class="accordion-item">
                 <div class="accordion-header" id="headingOne">
                     <div class="d-flex ">
-
-                        <div class="form-control guestbrief copper">
+                        <button
+                            class="accordion-button guestbrief copper form-control"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne"
+                            aria-expanded="true"
+                            aria-controls="collapseOne"
+                        >
                             <span *ngIf="currGuest.id; else newGuestTitle">
                                 Guest - {{currGuest.firstname}} {{currGuest.lastname}}
                             </span>
                             <ng-template #newGuestTitle>
                                 New Guest
                             </ng-template>
-                        </div>
-
-                        <button class="accordion-button form-control" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                         </button>
 
                     </div>
@@ -44,16 +46,20 @@
             <div class="accordion-item" *ngIf="currGuest && currGuest.id">
                 <div class="accordion-header" id="headingTwo">
                     <div class="d-flex">
-                        <div class=" guestbrief copper form-control">
+                        <button
+                            class="guestbrief copper accordion-button collapsed form-control"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo"
+                            aria-expanded="false"
+                            aria-controls="collapseTwo"
+                        >
                             <span *ngIf="currRsvn && currRsvn.id; else newRsvnTitle">
                                 Rsvn - {{currRsvn.dateIn}} - {{currRsvn.dateOut}}
                             </span>
                             <ng-template #newRsvnTitle>
                                 New Rsvn
                             </ng-template>
-                        </div>
-                        <button class="accordion-button collapsed form-control" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                         </button>
                     </div>
                 </div>
@@ -74,12 +80,15 @@
             <div class="accordion-item" *ngIf="currRsvn && currRsvn.id">
                 <div class="accordion-header" id="headingThree">
                     <div class="d-flex">
-                        <div class=" guestbrief copper form-control">
-                           Room Charges
-                        </div>
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-
+                        <button
+                            class="accordion-button guestbrief copper collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree"
+                            aria-expanded="false"
+                            aria-controls="collapseThree"
+                        >
+                            Room Charges
                         </button>
                     </div>
                 </div>
