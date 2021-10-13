@@ -27,6 +27,10 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule} from '@angular/material/radio';
 import { FrontdeskModule } from '@app/frontdesk/frontdesk.module';
 import { RateListComponent } from './config/rate-list/rate-list.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
+
+
 
 @NgModule({
   declarations: [
@@ -58,7 +62,8 @@ import { RateListComponent } from './config/rate-list/rate-list.component';
     MatSliderModule,
     MatRadioModule,
     AppRoutingModule,
-    FrontdeskModule
+    FrontdeskModule,
+    NgbModule,
   ],
   providers: [authInterceptorProviders,AppEnv,AppConstants],
   bootstrap: [AppComponent]

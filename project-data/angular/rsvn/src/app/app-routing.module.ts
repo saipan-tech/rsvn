@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from '@app/login/login.component';
 import { DashboardComponent } from '@app/dashboard/dashboard.component';
 import { ConfigComponent } from '@app/config/config.component';
 import { FrontdeskComponent } from '@app/frontdesk/frontdesk.component';
@@ -10,7 +10,6 @@ import { CafeComponent } from '@app/cafe/cafe.component';
 import { AdminComponent } from '@app/admin/admin.component';
 import { GuestEditComponent } from '@app/frontdesk/guest-edit/guest-edit.component';
 import { DropdownComponent } from '@app/config/dropdown/dropdown.component';
-
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },

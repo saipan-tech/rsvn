@@ -1,0 +1,154 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "/node_modules/bootstrap/scss/bootstrap";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+* {
+    box-sizing: border-box;
+  }
+
+
+
+
+
+
+
+  @font-face {
+    font-family: OpenSans;
+    src: url("/assets/fonts/OpenSans-Regular.ttf"); }
+
+  @font-face {
+    font-family: Copper;
+    src: url("/assets/fonts/COPRGTB.TTF"); }
+
+  @font-face {
+    font-family: Quicksand;
+    src: url("/assets/fonts/Quicksand-Regular.otf"); }
+
+  @font-face {
+    font-family: Nova;
+    src: url("/assets/fonts/Novecentosanswide-Normal.ttf"); }
+
+  @font-face {
+    font-family: NovaDemi;
+    src: url("/assets/fonts/Novecentosanswide-DemiBold.ttf"); }
+
+    @font-face {
+    font-family: Upsilon;
+    src: url("/assets/fonts/upsilon.ttf"); }
+
+    @font-face {
+    font-family: Londrina;
+    src: url("/assets/fonts/LondrinaShadow-Regular.ttf"); }
+
+    @font-face {
+    font-family: Niconne;
+    src: url("/assets/fonts/Niconne-Regular.ttf"); }
+
+  body {
+    font-family: OpenSans;
+    background-image: linear-gradient(to right, #bdd8d3, rgb(218, 229, 250));
+  }
+
+  h6 {
+      font-size:11pt;
+      font-family:nova
+  }
+
+  .align-center {
+      text-align:center;
+  }
+
+  .nova {
+    font-family: Nova;
+  }
+  .novabold {
+    font-family: NovaDemi;
+  }
+
+  .copper {
+    font-family: Copper;
+  }
+
+  .card {
+    margin:4px 4px;
+    border:1px solid silver;
+
+
+  }
+
+
+  .card-header {
+    border:1px solid silver;
+    text-align: center;
+
+  }
+
+  .card-body {
+    text-align: left;
+  }
+
+  .card-footer {
+    border:1px solid silver;
+    font: size 9pt;
+    font-family:Nova;
+    padding:.5em;
+
+  }
+  .flex-con {
+    display:flex;
+    flex-wrap:wrap;
+    flex-direction:row;
+    align-items:align-center;
+  }
+
+
+.banner-text {
+  font-family:Niconne;
+  font-size:30pt;
+  color:grey;
+}
+
+.uppercell {
+  margin: 0;
+  padding: 5px;
+  font-size: 0.85rem;
+  text-align: left;
+  color: var(--bs-gray);
+}
+
+.lowercell {
+  margin: 0;
+  background-color: #f8f9fb;
+}
+.error {
+  color: yellow !important;
+  background-color:red !important;
+  font-weight: bold;
+}
+
+.cellgroup {
+  margin-bottom: 1em;
+}
+
+.section-heading {
+  width: 25%;
+  font-family: Nova;
+  font-size: 1.1rem;
+}
+
+.section-body {
+  width: 75%;
+}
+
+section {
+  display: flex;
+  margin-bottom: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--bs-gray);
+}
+
+.req {
+  color: var(--bs-danger);
+}
