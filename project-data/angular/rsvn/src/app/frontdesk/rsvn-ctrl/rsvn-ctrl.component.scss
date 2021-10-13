@@ -1,7 +1,12 @@
+
+
 $highlightColor:teal;
+$highlightFont:Quicksand;
+$highlightFontSize:1.2em;
 
 .guestbrief {
-    font-size:1.5em;
+    font-size:$highlightFontSize;
     color:$highlightColor;
-    font-family:copper;
+    font-family:$highlightFont;
+    padding:3px;
 }

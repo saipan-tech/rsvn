@@ -5,24 +5,24 @@
             <h4>Guest Information Dashboard</h4>
 
         </div>
-        <div class="card-body">
-            <ngb-accordion [closeOthers]="true" [animation]='true' #acc="ngbAccordion">
+        <div class="card-body"  style="padding:0;margin:0">
+            <ngb-accordion  [closeOthers]="true" [animation]='true' #acc="ngbAccordion">
 <!---->
                 <ngb-panel id="toggle-1" title="First panel">
                     <ng-template ngbPanelHeader let-opened="opened">
-                        <div class="d-flex">
-                            <button ngbPanelToggle class="guestbrief accordion-button" type="button">
+                        <div class="d-flex ">
+                            <button  ngbPanelToggle class="guestbrief accordion-button" type="button">
                                 {{ (currGuest && currGuest.id) ? msgString(1) : 'New Guest' }}
                             </button>
                         </div>
                     </ng-template>
-                    <ng-template ngbPanelContent>
+                    <ng-template class="new-accordion"  ngbPanelContent>
                         <app-guest-edit [(currRsvn)]='currRsvn' [currGuest]='currGuest'
                             (currGuestChange)="guestAction($event)"> </app-guest-edit>
                     </ng-template>
                 </ngb-panel>
 <!---->
-                <ngb-panel *ngIf="currGuest&&currGuest.id" id="toggle-2" title="Second panel">
+                <ngb-panel  *ngIf="currGuest&&currGuest.id" id="toggle-2" title="Second panel">
                     <ng-template ngbPanelHeader >
                         <div class="d-flex">
                             <button ngbPanelToggle class="guestbrief accordion-button" type="button">
