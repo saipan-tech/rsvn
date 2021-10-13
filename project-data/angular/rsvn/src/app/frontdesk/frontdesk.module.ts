@@ -23,6 +23,9 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule} from '@angular/material/radio';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { ChargesModule } from '@app/charges/charges.module';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
+
 @NgModule({
   declarations: [
     ClockComponent,
@@ -51,7 +54,9 @@ import { ChargesModule } from '@app/charges/charges.module';
     MatButtonModule,
     MatSliderModule,
     MatRadioModule,
-    ChargesModule
+    ChargesModule,
+    NgbModule
+    
   ],
   exports: [
     ClockComponent,
