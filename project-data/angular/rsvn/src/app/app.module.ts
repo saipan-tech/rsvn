@@ -20,15 +20,14 @@ import { CafeComponent } from './cafe/cafe.component';
 import { ToursComponent } from './tours/tours.component';
 import { DropdownComponent } from './config/dropdown/dropdown.component';
 import { FileinputComponent } from './system/fileinput/fileinput.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule} from '@angular/material/icon';
 import { MatButtonModule} from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule} from '@angular/material/radio';
 import { FrontdeskModule } from '@app/frontdesk/frontdesk.module';
 import { RateListComponent } from './config/rate-list/rate-list.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 
 
@@ -63,8 +62,11 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     MatRadioModule,
     AppRoutingModule,
     FrontdeskModule,
-    NgbModule,
+    AccordionModule.forRoot()
   ],
+
+
+  
   providers: [authInterceptorProviders,AppEnv,AppConstants],
   bootstrap: [AppComponent]
 })

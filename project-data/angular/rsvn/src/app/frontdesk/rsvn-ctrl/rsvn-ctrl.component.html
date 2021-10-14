@@ -5,51 +5,91 @@
             <h4>Guest Information Dashboard</h4>
 
         </div>
-        <div class="card-body"  style="padding:0;margin:0">
-            <ngb-accordion  [closeOthers]="true" [animation]='true' #acc="ngbAccordion">
-<!---->
-                <ngb-panel id="toggle-1" title="First panel">
-                    <ng-template ngbPanelHeader let-opened="opened">
-                        <div class="d-flex ">
-                            <button  ngbPanelToggle class="guestbrief accordion-button" type="button">
+        <div class="card-body" style="padding:0;margin:0">
+
+
+
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <div class="accordion-header" id="headingOne">
+                        <div accordion-heading class="d-flex">
+                            <button class="accordion-button collapsed " type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false"
+                            aria-controls="collapseOne">
                                 {{ (currGuest && currGuest.id) ? msgString(1) : 'New Guest' }}
                             </button>
                         </div>
-                    </ng-template>
-                    <ng-template class="new-accordion"  ngbPanelContent>
-                        <app-guest-edit [(currRsvn)]='currRsvn' [currGuest]='currGuest'
-                            (currGuestChange)="guestAction($event)"> </app-guest-edit>
-                    </ng-template>
-                </ngb-panel>
-<!---->
-                <ngb-panel  *ngIf="currGuest&&currGuest.id" id="toggle-2" title="Second panel">
-                    <ng-template ngbPanelHeader >
+                    </div>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div>
+
+                                <app-guest-edit [(currRsvn)]='currRsvn' [currGuest]='currGuest'
+                                    (currGuestChange)="guestAction($event)"> </app-guest-edit>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="accordion-item" *ngIf="currGuest && currGuest.id">
+                    <div class="accordion-header" id="headingTwo">
                         <div class="d-flex">
-                            <button ngbPanelToggle class="guestbrief accordion-button" type="button">
-                               {{ (currRsvn &&currRsvn.id) ? msgString(2) :'New Rsvn' }}
+                            <button class="accordion-button collapsed form-control" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
+                            aria-controls="collapseTwo">
+                                {{ (currRsvn &&currRsvn.id) ? msgString(2) :'New Rsvn' }}
                             </button>
                         </div>
-                    </ng-template>
-                    <ng-template ngbPanelContent>
-                        <app-rsvn-edit [currRsvn]='currRsvn' (currRsvnChange)="rsvnAction($event)"
-                            [(currGuest)]='currGuest'>
-                        </app-rsvn-edit>
-                    </ng-template>
-                </ngb-panel>
-<!---->
-                <ngb-panel *ngIf="currRsvn&&currRsvn.id" id="toggle-3" title="Third panel">
-                    <ng-template ngbPanelHeader let-opened="opened">
+                    </div>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <app-rsvn-edit [currRsvn]='currRsvn' (currRsvnChange)="rsvnAction($event)"
+                                [(currGuest)]='currGuest'>
+
+                            </app-rsvn-edit>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="accordion-item" *ngIf="currRsvn && currRsvn.id">
+                    <div class="accordion-header" id="headingThree">
                         <div class="d-flex">
-                            <button ngbPanelToggle class="accordion-button guestbrief" type="button">
+                            <button class="accordion-button collapsed form-control" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
+                            aria-controls="collapseThree">
                                 Room Charges
                             </button>
+                        </div>                    </div>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <app-charge-ctrl [currRsvn]='currRsvn'> </app-charge-ctrl>
                         </div>
-                    </ng-template>
-                    <ng-template ngbPanelContent>
-                        <app-charge-ctrl [currRsvn]='currRsvn'> </app-charge-ctrl>
-                    </ng-template>
-                </ngb-panel>
-            </ngb-accordion>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
-        <div class="card-footer"></div>
+
+
+
+
     </div>
+
+</div>
+
+
+
+
+
+
+
