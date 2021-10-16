@@ -13,16 +13,16 @@
             <div>
                 <div *ngFor="let r of currRoomList">
                     <div class="d-flex">
-                        <button  style='width:75%' class='form-control' (click)="unassignRoom(r.room)">
+                        <button style='width:75%' class='form-control' (click)="unassignRoom(r.room)">
                             {{ bldgText(r.roominfo.bldg) }} -- {{ r.roominfo.number }} -
                             {{ r.roominfo.beds }} Beds
                         </button>
-                        <div style='width:25%' >
-                            <mat-radio-group aria-label="Select an option" >
-                                <mat-radio-button  style="margin-left:2px;font-size:9pt"
-                                    [labelPosition]="'before'" style=' background-color:lightpink' value="checkin"></mat-radio-button>
-                                <mat-radio-button  style="margin-left:2px;font-size:9pt"
-                                    [labelPosition]="'before'" style=' background-color:khaki' value="checkout"></mat-radio-button>
+                        <div style='width:25%'>
+                            <mat-radio-group aria-label="Select an option">
+                                <mat-radio-button style="margin-left:2px;font-size:9pt" [labelPosition]="'before'"
+                                    style=' background-color:lightpink' value="checkin"></mat-radio-button>
+                                <mat-radio-button style="margin-left:2px;font-size:9pt" [labelPosition]="'before'"
+                                    style=' background-color:khaki' value="checkout"></mat-radio-button>
                             </mat-radio-group>
                         </div>
                     </div>
@@ -30,15 +30,24 @@
             </div>
         </div>
         <div class="section mt-2">Available Rooms</div>
-        <div *ngFor="let dl of dispList">
-            <h5>{{dl.bldg }}</h5>
-            <div class="d-flex flex-wrap">
-                <div *ngFor="let r of dl.rooms">
-                    <button class='form-control'
-                        (click)="assignRoom(r)">{{r.number}}</button>
-                </div>
-            </div>
-        </div>
+
+        <tabset>
+            <tab *ngFor="let dl of dispList" heading={{dl.bldg}}>
+                <accordion>
+                    <accordion-group *ngFor="let r of dl.rooms" heading="{{ r.rate.alias }}">
+                       <div class="d-flex flex-wrap">
+
+                        <div *ngFor="let x of r.room" >
+                            <button (click)='assignRoom(x)'>{{ x.number }} </button>
+                       </div>
+                    </div>
+
+                    </accordion-group>
+                </accordion>
+            </tab>
+        </tabset>
+
     </div>
-    <div class="card-footer"></div>
+    <div class="card-footer">
+    </div>
 </div>

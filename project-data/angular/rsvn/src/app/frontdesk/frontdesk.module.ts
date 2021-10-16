@@ -24,6 +24,7 @@ import { MatRadioModule} from '@angular/material/radio';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { ChargesModule } from '@app/charges/charges.module';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     MatSliderModule,
     MatRadioModule,
     ChargesModule,
-    AccordionModule.forRoot()
+    AccordionModule.forRoot(),
+    TabsModule.forRoot()
     
   ],
   exports: [
