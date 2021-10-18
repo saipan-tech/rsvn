@@ -25,7 +25,7 @@ import { MatButtonModule} from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule} from '@angular/material/radio';
 import { FrontdeskModule } from '@app/frontdesk/frontdesk.module';
-import { RateListComponent } from './config/rate-list/rate-list.component';
+import { RateListComponent } from '@app/config/rate-list/rate-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 
