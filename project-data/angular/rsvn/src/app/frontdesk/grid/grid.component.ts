@@ -9,7 +9,6 @@ import { GenericService } from '@app/_services/generic.service';
 import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomService } from '@app/_services/room.service';
 import { AppConstants } from '@app/app.constants';
-import { RsvnListComponent } from '../rsvn-list/rsvn-list.component';
 import { SystemService } from '@app/_services/system.service';
 
 

@@ -6,7 +6,7 @@ import { ICharge } from '@app/_interface/charge';
   templateUrl: './charge-ctrl.component.html',
   styleUrls: ['./charge-ctrl.component.css']
 })
-export class ChargeCtrlComponent implements OnInit,OnChanges {
+export class ChargeCtrlComponent implements OnInit {
 
   constructor(
     
@@ -18,9 +18,9 @@ export class ChargeCtrlComponent implements OnInit,OnChanges {
   currCharge : ICharge = {} as ICharge
 
   changeCharge(event:ICharge) {
+    console.log("felt in CC Charge Ctrl")
+  
     this.currCharge = event
-  }
-  ngOnChanges(changes : SimpleChanges) {
     this.ngOnInit()
   }
 

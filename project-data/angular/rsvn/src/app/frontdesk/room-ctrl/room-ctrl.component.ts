@@ -8,13 +8,13 @@ import { IGuest } from '@app/_interface/guest'
 import { GenericService } from '@app/_services/generic.service';
 import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomService } from '@app/_services/room.service';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-room-ctrl',
   templateUrl: './room-ctrl.component.html',
-  styleUrls: ['./room-ctrl.component.css']
+  styleUrls: ['./room-ctrl.component.scss']
 })
 export class RoomCtrlComponent implements OnInit, OnChanges {
 
@@ -25,6 +25,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   @Input() currGuest: any
   @Output() currGuestChange = new EventEmitter<IGuest>();
 
+
   currNumRooms = 0
   currRooms: IRoom[] = []
 
@@ -32,12 +33,12 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   roomList: IRoominfo[] = []
   rateList: IRate[] = []
 
-  currRoomList : any[] = []
-  
-  dispList:any[] = []
-  availRoominfo:IRoominfo[] = []
-  unavailRoominfo:IRoominfo[] = []
-  rsvnRoom:IRoom[] = []
+  currRoomList: any[] = []
+
+  dispList: any[] = []
+  availRoominfo: IRoominfo[] = []
+  unavailRoominfo: IRoominfo[] = []
+  rsvnRoom: IRoom[] = []
 
   constructor(
     private genericService: GenericService,
@@ -58,13 +59,13 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
 
   assignRoom(roominfo: IRoominfo) {
-    if( this.currNumRooms < Number(this.currRsvn.numrooms) ) {
-    let newroom = { rsvn: this.currRsvn.id, roominfo: roominfo.id, status: 'new' }
-    this.genericService.updateItem("room", newroom)
-      .subscribe(data => {
-        this.ngOnInit()
-        this.refreshRsvn();
-      })
+    if (this.currNumRooms < Number(this.currRsvn.numrooms)) {
+      let newroom = { rsvn: this.currRsvn.id, roominfo: roominfo.id, status: 'new' }
+      this.genericService.updateItem("room", newroom)
+        .subscribe(data => {
+          this.ngOnInit()
+          this.refreshRsvn();
+        })
     }
 
   }
@@ -77,34 +78,51 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
       })
   }
 
-  splitRate() {
-    let rateSet = new Set()
-    this.bldgList.forEach(
-      bld => {
-        let rooms = this.availRoominfo.filter(r => r.bldg == bld.id)
-        let bldg = bld.name
-        this.dispList.push({ bldg, rooms })
-      }
-    )
-
+  splitRooms(bldg: string, rooms: IRoominfo[]) {
+    let rate = new Set()
+    rooms.forEach(rm => rate.add(rm.rate))
+    let splitResult: { rate: any; room: IRoominfo[]; }[] = []
+    rate.forEach(rates => {
+      let room = rooms.filter(rf => rf.rate == rates)
+      let rate = this.rateList.find(ff => ff.id == rates)
+      splitResult.push({ rate, room })
+    })
+    return splitResult
   }
 
   makeList() {
     this.dispList = []
-    
+
     this.bldgList.forEach(
       bld => {
-        let rooms = this.availRoominfo.filter(r => r.bldg == bld.id)
+        let rms = this.availRoominfo.filter(r => r.bldg == bld.id)
         let bldg = bld.name
+        let rooms = this.splitRooms(bldg, rms)
+        rooms = this.sortRateList(rooms)
         this.dispList.push({ bldg, rooms })
       }
     )
-  
+
   }
 
 
-  bldgText(bldg:number) {
-    return this.bldgList.find(b => b.id==bldg)?.name
+
+
+
+  sortRateList(rooms:any) {
+    rooms.sort(function(a:any, b:any) {
+      var A = a.rate.alias; // ignore upper and lowercase
+      var B = b.rate.alias; // ignore upper and lowercase
+      if (A > B) { return 1; }
+      if (A < B) { return -1;  }
+      return 0; });
+    return rooms
+  }
+
+
+
+  bldgText(bldg: number) {
+    return this.bldgList.find(b => b.id == bldg)?.name
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -112,22 +130,24 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    // Get Rate List
     if (this.currRsvn && this.currRsvn.id) {
       this.genericService.getItemList("rate")
         .subscribe(
           data => {
             this.rateList = data
           })
-    this.roomService.getRsvnRoom(this.currRsvn.id).subscribe(
-      rooms => {
-        this.currNumRooms = rooms.length
-        this.currRooms = rooms
-      }
-    )
+      // Get rooms for this RSVN
+      this.roomService.getRsvnRoom(this.currRsvn.id).subscribe(
+        rooms => {
+          this.currNumRooms = rooms.length
+          this.currRooms = rooms
+        }
+      )
     }
     if (this.currRsvn && this.currRsvn.dateIn && this.currRsvn.dateOut) {
       // we are creating our UnAssigned Rooms here
-      this.roomService.availableRooms(this.currRsvn.dateIn,this.currRsvn.dateOut)
+      this.roomService.availableRooms(this.currRsvn.dateIn, this.currRsvn.dateOut)
         .subscribe(avail => {
           this.availRoominfo = avail
           this.genericService.getItemList("bldg").subscribe(
@@ -136,22 +156,22 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
               this.makeList()
             })
         })
-        // we are creating our Assigned Rooms here
-        this.roomService.unavailableRooms(this.currRsvn.dateIn,this.currRsvn.dateOut)
+      // we are creating our Assigned Rooms here
+      this.roomService.unavailableRooms(this.currRsvn.dateIn, this.currRsvn.dateOut)
         .subscribe(unavail => {
-          this.unavailRoominfo = unavail 
+          this.unavailRoominfo = unavail
           this.roomService.getRsvnRoom(this.currRsvn.id)
-          .subscribe(rroom => {
-            this.rsvnRoom = rroom
-            this.currRoomList =  [] 
-            this.rsvnRoom.forEach(rsvrm => {  
-              let roominfo = unavail.find(rrf => rrf.id == rsvrm.roominfo)
-              let room = rsvrm
-              this.currRoomList.push({room,roominfo})
+            .subscribe(rroom => {
+              this.rsvnRoom = rroom
+              this.currRoomList = []
+              this.rsvnRoom.forEach(rsvrm => {
+                let roominfo = unavail.find(rrf => rrf.id == rsvrm.roominfo)
+                let room = rsvrm
+                this.currRoomList.push({ room, roominfo })
+              })
             })
-          })  
         })
-      }
+    }
   }
 }
 

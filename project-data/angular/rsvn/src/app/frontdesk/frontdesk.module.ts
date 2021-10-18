@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FrontdeskComponent } from './frontdesk.component';
 import { RsvnEditComponent } from './rsvn-edit/rsvn-edit.component';
-import { RsvnListComponent } from './rsvn-list/rsvn-list.component';
 import { GuestEditComponent } from './guest-edit/guest-edit.component';
 import { GridComponent } from './grid/grid.component';
 import { CalendarComponent } from './calendar/calendar.component';
@@ -24,13 +23,13 @@ import { MatRadioModule} from '@angular/material/radio';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { ChargesModule } from '@app/charges/charges.module';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @NgModule({
   declarations: [
     ClockComponent,
     FrontdeskComponent,
     RsvnEditComponent,
-    RsvnListComponent,
     GuestEditComponent,
     GridComponent,
     CalendarComponent,
@@ -54,7 +53,8 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     MatSliderModule,
     MatRadioModule,
     ChargesModule,
-    AccordionModule.forRoot()
+    AccordionModule.forRoot(),
+    TabsModule.forRoot()
     
   ],
   exports: [

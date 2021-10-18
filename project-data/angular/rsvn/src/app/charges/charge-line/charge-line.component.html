@@ -1,1 +1,16 @@
-<p>charge-line works!</p>
+<div class="d-flex">
+    <div class="form-control">{{ roomall.roominfo.bldg.name}} - {{ roomall.roominfo.number}}</div>
+    <div class="form-control">
+        <select class="form-control"  [(ngModel)]="selectRate" (change)='updateRoomCharge(selectRate)'>
+            <option value=0.00>Select a Rate</option>
+            <option *ngFor="let c of roomall.ratelist|keyvalue" [ngValue]="c.value"
+              
+            >{{c.key}} 
+
+            </option>
+        </select>
+    </div>
+    <div class="form-control">{{ roomall.rateCharge}}</div>
+    <div class="form-control">{{ numDays }}</div>
+    <div class="form-control">{{ numDays * roomall.rateCharge| currency }}</div>
+</div>

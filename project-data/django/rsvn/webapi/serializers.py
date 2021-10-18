@@ -57,13 +57,14 @@ class RoomAllSerializer(serializers.ModelSerializer):
     class Meta:
         model= Room
         fields = '__all__'
-        depth = 1
+        depth = 2
       
 #---------------------------------------------------------
 class RoominfoSerializer(serializers.ModelSerializer):
     class Meta:
         model= Roominfo
         fields = '__all__'
+
 
 #--------------------------------------------------------------------
 class BldgSerializer(serializers.ModelSerializer):

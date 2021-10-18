@@ -68,31 +68,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font-family: Copper;
   }
 
-  .card {
-    margin:4px 4px;
-    border:1px solid silver;
-
-
-  }
-
-
-  .card-header {
-    border:1px solid silver;
-    text-align: center;
-
-  }
-
-  .card-body {
-    text-align: left;
-  }
-
-  .card-footer {
-    border:1px solid silver;
-    font: size 9pt;
-    font-family:Nova;
-    padding:.5em;
-
-  }
+ 
   .flex-con {
     display:flex;
     flex-wrap:wrap;
