@@ -1,3 +1,3 @@
 
-<app-charge-edit [currRsvn]='currRsvn' [(currCharge)]='currCharge' ></app-charge-edit>
+<app-charge-edit [currRsvn]='currRsvn' (currChargeChange)="changeCharge($event)"    [currCharge]='currCharge' ></app-charge-edit>
 <app-charge-list [currRsvn]='currRsvn' [(currCharge)]='currCharge'></app-charge-list>

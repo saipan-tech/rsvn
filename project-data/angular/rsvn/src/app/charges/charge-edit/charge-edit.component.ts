@@ -61,10 +61,18 @@ export class ChargeEditComponent implements OnInit {
   selectedValue =0
   roomTotal = 0
   grandTotal = 0
+  transTotal = 0
   
   //---------------------------------
 
-  deleteCharge() {
+  deleteCharge(chg:ICharge) {
+    this.genericService.deleteItem('charge',chg)
+      .subscribe(data => {
+        this.newCharge()
+        this.currChargeChange.emit(data)
+
+      })
+
   }
 
 
@@ -164,6 +172,17 @@ export class ChargeEditComponent implements OnInit {
       }
     )
   }
+
+  transTally() {
+    this.transTotal = 0
+    this.chargeList.forEach(
+      tt => {
+        this.transTotal += tt.amount
+      }
+    )
+  }
+
+
   //--------------------------
   ngOnInit(): void {
     this.authService.getSession().subscribe(
@@ -173,12 +192,18 @@ export class ChargeEditComponent implements OnInit {
       .subscribe(data => {
         this.fullRoomList = this.frlCheck(data)
         this.chargeTotal()
+
+        this.chargeService.getRsvnCharge(this.currRsvn.id)
+        .subscribe( data => {
+          this.chargeList = data
+          this.transTally()
+          this.grandTotal = this.roomTotal + this.transTotal
+  
+        })
+  
+
       })
 
-    this.chargeService.getRsvnCharge(this.currRsvn.id)
-      .subscribe( data => {
-        this.chargeList = data
-      })
     this.numDays = ((new Date(this.currRsvn.dateOut).getTime() - new Date(this.currRsvn.dateIn).getTime()) / this.appConstants.DAILYSECONDS) 
 
     // fill roomList

@@ -1,7 +1,7 @@
-<div class="row">
-    <div class="col">{{ roomall.roominfo.bldg.name}} - {{ roomall.roominfo.number}}</div>
-    <div class="col">
-        <select [(ngModel)]="selectRate" (change)='updateRoomCharge(selectRate)'>
+<div class="d-flex">
+    <div class="form-control">{{ roomall.roominfo.bldg.name}} - {{ roomall.roominfo.number}}</div>
+    <div class="form-control">
+        <select class="form-control"  [(ngModel)]="selectRate" (change)='updateRoomCharge(selectRate)'>
             <option value=0.00>Select a Rate</option>
             <option *ngFor="let c of roomall.ratelist|keyvalue" [ngValue]="c.value"
               
@@ -10,7 +10,7 @@
             </option>
         </select>
     </div>
-    <div class="col">{{ roomall.rateCharge}}</div>
-    <div class="col">{{ numDays }}</div>
-    <div class="col">{{ numDays * roomall.rateCharge| currency }}</div>
+    <div class="form-control">{{ roomall.rateCharge}}</div>
+    <div class="form-control">{{ numDays }}</div>
+    <div class="form-control">{{ numDays * roomall.rateCharge| currency }}</div>
 </div>
