@@ -1,3 +1,5 @@
+
+
 .roomcell div {
     margin-left:4px;
 }
@@ -10,4 +12,22 @@
     font-size: 12pt;
     text-align:center;
     background-color:cornsilk
+}
+
+.accClass {
+    background-color:red;
+    font-size:9pt;
+    padding:0;
+    margin:0;
+    
+}
+
+.rate-hint {
+    
+font-size:10pt;
+width:100%;
+text-align:center;
+}
+.rate-hint td{
+border:1px solid silver;
 }

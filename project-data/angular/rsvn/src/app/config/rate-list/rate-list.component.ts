@@ -8,7 +8,7 @@ import { IRoominfo } from '@app/_interface/roominfo';
 @Component({
   selector: 'app-rate-list',
   templateUrl: './rate-list.component.html',
-  styleUrls: ['./rate-list.component.css']
+  styleUrls: ['./rate-list.component.scss']
 })
 export class RateListComponent implements OnInit {
 

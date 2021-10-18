@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FrontdeskComponent } from './frontdesk.component';
 import { RsvnEditComponent } from './rsvn-edit/rsvn-edit.component';
-import { RsvnListComponent } from './rsvn-list/rsvn-list.component';
 import { GuestEditComponent } from './guest-edit/guest-edit.component';
 import { GridComponent } from './grid/grid.component';
 import { CalendarComponent } from './calendar/calendar.component';
@@ -31,7 +30,6 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     ClockComponent,
     FrontdeskComponent,
     RsvnEditComponent,
-    RsvnListComponent,
     GuestEditComponent,
     GridComponent,
     CalendarComponent,

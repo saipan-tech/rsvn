@@ -9,7 +9,6 @@ import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomService } from '@app/_services/room.service';
 import { AppConstants } from '@app/app.constants';
 import { RESOURCE_CACHE_PROVIDER } from '@angular/platform-browser-dynamic';
-import { RsvnListComponent } from '../rsvn-list/rsvn-list.component';
 
 
 @Component({

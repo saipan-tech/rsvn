@@ -43,6 +43,11 @@ export class RoomService {
       .get<IRoom[]>(`${this.urlRoot}/room?rsvn=${rsvnid}`)
 
   }
+  getRsvnRoomAll(rsvnid:number) : Observable<IRoom[]> {
+    return this.http
+      .get<IRoom[]>(`${this.urlRoot}/roomall?rsvn=${rsvnid}`)
+
+  }
   availableRooms(dateIn:string,dateOut:string):Observable<IRoominfo[]> {
     return this.http.get<IRoominfo[]>(`${this.urlRoot}/roominfo?exclude=1&dateIn=${dateIn}&dateOut=${dateOut}`)
   }

@@ -8,12 +8,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ChargeCtrlComponent } from './charge-ctrl/charge-ctrl.component';
 import { ChargeListComponent } from './charge-list/charge-list.component';
 import { ChargeLineComponent } from './charge-line/charge-line.component';
 import { ChargeEditComponent } from './charge-edit/charge-edit.component';
-
 
 @NgModule({
   declarations: [
@@ -23,8 +23,11 @@ import { ChargeEditComponent } from './charge-edit/charge-edit.component';
     ChargeEditComponent
   ],
   imports: [
+   
+
     CommonModule,
     BrowserModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
     MatIconModule,

@@ -14,7 +14,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-room-ctrl',
   templateUrl: './room-ctrl.component.html',
-  styleUrls: ['./room-ctrl.component.css']
+  styleUrls: ['./room-ctrl.component.scss']
 })
 export class RoomCtrlComponent implements OnInit, OnChanges {
 
@@ -24,6 +24,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
   @Input() currGuest: any
   @Output() currGuestChange = new EventEmitter<IGuest>();
+
 
   currNumRooms = 0
   currRooms: IRoom[] = []
@@ -97,11 +98,28 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
         let rms = this.availRoominfo.filter(r => r.bldg == bld.id)
         let bldg = bld.name
         let rooms = this.splitRooms(bldg, rms)
+        rooms = this.sortRateList(rooms)
         this.dispList.push({ bldg, rooms })
       }
     )
 
   }
+
+
+
+
+
+  sortRateList(rooms:any) {
+    rooms.sort(function(a:any, b:any) {
+      var A = a.rate.alias; // ignore upper and lowercase
+      var B = b.rate.alias; // ignore upper and lowercase
+      if (A > B) { return 1; }
+      if (A < B) { return -1;  }
+      return 0; });
+    return rooms
+  }
+
+
 
   bldgText(bldg: number) {
     return this.bldgList.find(b => b.id == bldg)?.name
@@ -136,7 +154,6 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
             bldgs => {
               this.bldgList = bldgs
               this.makeList()
-              console.log(this.dispList)
             })
         })
       // we are creating our Assigned Rooms here
