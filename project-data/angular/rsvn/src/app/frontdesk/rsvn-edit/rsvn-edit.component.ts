@@ -186,9 +186,13 @@ export class RsvnEditComponent implements OnInit, OnChanges {
   //---------------------------------
   deleteRsvn(rsvn: any) {
     this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {
-      width: '250px'
+      data: {
+        title: 'Delete reservation?',
+        content: 'You cannot undue this action',
+        confirmAction: 'Delete',
+        cancelAction: 'Cancel',
+      }
     }).afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
       if (result) {
         if (!this.rsvnLocked()) {
           this.genericService.deleteItem('rsvn', rsvn).subscribe(
