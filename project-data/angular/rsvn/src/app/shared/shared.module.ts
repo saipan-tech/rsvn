@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DangerDialogComponent } from './danger-dialog/danger-dialog.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    DangerDialogComponent
+  ],
   imports: [
     CommonModule
   ]
