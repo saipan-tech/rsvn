@@ -25,7 +25,7 @@ import { ChargesModule } from '@app/charges/charges.module';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MatDialogModule } from "@angular/material/dialog";
-import {DialogModule} from "@app/shared/dialog/dialog.module";
+import {SharedDialogModule} from "@app/shared/dialog/shared-dialog.module";
 
 @NgModule({
   declarations: [
@@ -53,7 +53,7 @@ import {DialogModule} from "@app/shared/dialog/dialog.module";
     MatButtonModule,
     MatSliderModule,
     MatRadioModule,
-    DialogModule,
+    SharedDialogModule,
     ChargesModule,
     AccordionModule.forRoot(),
     TabsModule.forRoot()
