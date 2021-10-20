@@ -115,7 +115,6 @@ export class GuestEditComponent implements OnInit, OnChanges {
         title: 'Delete guest?',
         content: 'You cannot undue this action',
         confirmAction: 'Delete',
-        cancelAction: 'Cancel',
       }
     }).afterClosed().subscribe(confirmed => {
       if (confirmed) {

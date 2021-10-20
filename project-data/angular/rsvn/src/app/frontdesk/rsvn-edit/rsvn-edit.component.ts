@@ -190,7 +190,6 @@ export class RsvnEditComponent implements OnInit, OnChanges {
         title: 'Delete reservation?',
         content: 'You cannot undue this action',
         confirmAction: 'Delete',
-        cancelAction: 'Cancel',
       }
     }).afterClosed().subscribe(result => {
       if (result) {
