@@ -5,7 +5,7 @@ import {ComponentType} from "@angular/cdk/overlay";
 @Injectable({
   providedIn: 'root'
 })
-export class ManagerService {
+export class DialogManagerService {
   constructor(public dialog: MatDialog) {}
 
   openDialog<T>(dialogComponent: ComponentType<T> | TemplateRef<T>, config: MatDialogConfig = {}) {

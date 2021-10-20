@@ -6,7 +6,7 @@ import { SystemService } from '@app/_services/system.service';
 import { AuthService } from '@app/_services/auth.service';
 import { IGuest } from '@app/_interface/guest';
 import { IRsvn } from '@app/_interface/rsvn';
-import {DangerDialogComponent, ManagerService} from "@app/shared/dialog";
+import {DangerDialogComponent, DialogManagerService} from "@app/shared/dialog";
 @Component({
   selector: 'app-guest-edit',
   templateUrl: './guest-edit.component.html',
@@ -19,7 +19,7 @@ export class GuestEditComponent implements OnInit, OnChanges {
     private systemService: SystemService,
     private authService: AuthService,
     private rsvnService: RsvnService,
-    private dialogManagerService: ManagerService,
+    private dialogManagerService: DialogManagerService,
   ) { }
 
   @Input() currGuest: IGuest = {} as IGuest;

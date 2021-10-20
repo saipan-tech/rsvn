@@ -8,7 +8,7 @@ import { IGuest } from '@app/_interface/guest';
 import { IRoom } from '@app/_interface/room';
 import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomService } from '@app/_services/room.service';
-import {DangerDialogComponent, ManagerService} from "@app/shared/dialog";
+import {DangerDialogComponent, DialogManagerService} from "@app/shared/dialog";
 
 @Component({
   selector: 'app-rsvn-edit',
@@ -24,7 +24,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
     private authService: AuthService,
     private rsvnService: RsvnService,
     private roomService: RoomService,
-    private dialogManagerService: ManagerService,
+    private dialogManagerService: DialogManagerService,
   ) { }
 
 
