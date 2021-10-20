@@ -25,7 +25,7 @@ import { ChargesModule } from '@app/charges/charges.module';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MatDialogModule } from "@angular/material/dialog";
-import {DialogModule} from "@app/dialog/dialog.module";
+import {DialogModule} from "@app/shared/dialog/dialog.module";
 
 @NgModule({
   declarations: [
