@@ -187,4 +187,4 @@ class Room (models.Model):
     status      =   models.CharField(max_length=12, default="none")
 
     def __str__(self) :
-        return f"{self.rsvn.fullname()} -- {self.roominfo.number}"
+        return f"{self.rsvn.firstname} {self.rsvn.lastname}  -- {self.roominfo.number}"
