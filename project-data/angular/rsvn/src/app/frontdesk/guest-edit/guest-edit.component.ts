@@ -6,6 +6,7 @@ import { SystemService } from '@app/_services/system.service';
 import { AuthService } from '@app/_services/auth.service';
 import { IGuest } from '@app/_interface/guest';
 import { IRsvn } from '@app/_interface/rsvn';
+import {DangerDialogComponent, ManagerService} from "@app/shared/dialog";
 @Component({
   selector: 'app-guest-edit',
   templateUrl: './guest-edit.component.html',
@@ -17,9 +18,10 @@ export class GuestEditComponent implements OnInit, OnChanges {
     private genericService: GenericService,
     private systemService: SystemService,
     private authService: AuthService,
-    private rsvnService: RsvnService
-
+    private rsvnService: RsvnService,
+    private dialogManagerService: ManagerService,
   ) { }
+
   @Input() currGuest: IGuest = {} as IGuest;
   @Output() currGuestChange = new EventEmitter<IGuest>();
 
@@ -28,7 +30,7 @@ export class GuestEditComponent implements OnInit, OnChanges {
 
   @Output() viewControl = new EventEmitter<string>();
 
-  // dropdowns  
+  // dropdowns
 
   idList: any;
   user: any;
@@ -108,16 +110,27 @@ export class GuestEditComponent implements OnInit, OnChanges {
   }
   //---------------------------------
   deleteGuest(guest: any) {
-    if( !this.rsvnList.length) {
-      this.genericService.deleteItem('guest', guest).subscribe(
-        data => {
-          this.clearGuest()
-        },
-        err => {
-          console.log("error",err)
+    this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {
+      data: {
+        title: 'Delete guest?',
+        content: 'You cannot undue this action',
+        confirmAction: 'Delete',
+        cancelAction: 'Cancel',
+      }
+    }).afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        if (!this.rsvnList.length) {
+          this.genericService.deleteItem('guest', guest).subscribe(
+            data => {
+              this.clearGuest()
+            },
+            err => {
+              console.log("error", err)
+            }
+          )
         }
-        )
-     }
+      }
+    });
   }
   //---------------------------------
   blankGuest(guest: any) {
@@ -148,19 +161,19 @@ export class GuestEditComponent implements OnInit, OnChanges {
     this.currRsvn = {} as IRsvn
     this.currGuest.id = 0
 
-    this.currGuestChange.emit(this.currGuest) 
-    this.currRsvnChange.emit(this.currRsvn) 
-    
+    this.currGuestChange.emit(this.currGuest)
+    this.currRsvnChange.emit(this.currRsvn)
+
     this.guestEditForm.reset()
   }
   //---------------------------------
   newReservation() {
     this.currRsvn = {} as IRsvn
     this.currRsvn.id = 0
-    this.currRsvnChange.emit(this.currRsvn) 
+    this.currRsvnChange.emit(this.currRsvn)
   }
   //---------------------------------
- 
+
   ngOnChanges(changes: SimpleChanges) {
     this.loadGuest(this.currGuest)
    }
