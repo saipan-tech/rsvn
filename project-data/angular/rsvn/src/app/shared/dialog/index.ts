@@ -1,2 +1,2 @@
 export * from './danger-dialog/danger-dialog.component'
-export * from './manager/dialog-manager.service'
+export * from './dialog-manager/dialog-manager.service'
