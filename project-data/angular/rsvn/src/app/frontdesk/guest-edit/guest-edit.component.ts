@@ -116,18 +116,16 @@ export class GuestEditComponent implements OnInit, OnChanges {
         content: 'You cannot undue this action',
         confirmAction: 'Delete',
       }
-    }).afterClosed().subscribe(confirmed => {
-      if (confirmed) {
-        if (!this.rsvnList.length) {
-          this.genericService.deleteItem('guest', guest).subscribe(
-            data => {
-              this.clearGuest()
-            },
-            err => {
-              console.log("error", err)
-            }
-          )
-        }
+    }).afterClosed().subscribe(deleteConfirmed => {
+      if (deleteConfirmed && !this.rsvnList.length) {
+        this.genericService.deleteItem('guest', guest).subscribe(
+          data => {
+            this.clearGuest()
+          },
+          err => {
+            console.log("error", err)
+          }
+        )
       }
     });
   }

@@ -191,20 +191,18 @@ export class RsvnEditComponent implements OnInit, OnChanges {
         content: 'You cannot undue this action',
         confirmAction: 'Delete',
       }
-    }).afterClosed().subscribe(result => {
-      if (result) {
-        if (!this.rsvnLocked()) {
-          this.genericService.deleteItem('rsvn', rsvn).subscribe(
-            data => {
-              this.currRsvn = null
-              this.currRsvnChange.emit(this.currRsvn)
-              this.rsvnEditFormInit()
-            },
-            err => {
-              console.log("ERROR in rsvn Delete", err)
-            }
-          )
-        }
+    }).afterClosed().subscribe(deleteConfirmed => {
+      if (deleteConfirmed && !this.rsvnLocked()) {
+        this.genericService.deleteItem('rsvn', rsvn).subscribe(
+          data => {
+            this.currRsvn = null
+            this.currRsvnChange.emit(this.currRsvn)
+            this.rsvnEditFormInit()
+          },
+          err => {
+            console.log("ERROR in rsvn Delete", err)
+          }
+        )
       }
     });
   }
