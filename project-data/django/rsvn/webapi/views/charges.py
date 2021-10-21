@@ -27,3 +27,30 @@ class ChargeViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(rsvn__id=self.request.GET['rsvn'])
 
         return queryset    
+#===========================
+class PaymentViewSet(viewsets.ModelViewSet):
+    serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+
+
+    def create(self,request):
+        rsvn = Rsvn.objects.get(id=int(request.data['rsvn']))
+        drec = request.data 
+        payment = Payment()
+        payment.rsvn = rsvn  
+        serializer = PaymentSerializer(payment,data=drec)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+
+    def get_queryset(self):
+        queryset = super().get_queryset() 
+
+        if "rsvn" in self.request.GET :
+            queryset = queryset.filter(rsvn__id=self.request.GET['rsvn'])
+
+        return queryset    

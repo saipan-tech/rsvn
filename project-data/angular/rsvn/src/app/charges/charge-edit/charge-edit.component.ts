@@ -84,6 +84,8 @@ export class ChargeEditComponent implements OnInit {
         console.log("new charger",data)
         this.currCharge= data
         this.currChargeChange.emit(data)
+        this.chargeEditForm.patchValue(this.currCharge)
+
       })
 
   }
@@ -111,9 +113,8 @@ export class ChargeEditComponent implements OnInit {
       charge = this.blankCharge(charge)
       this.genericService.updateItem('charge', charge).subscribe(
         data => {
-          console.log("saved",data)
-          this.currChargeChange.emit(data)
           this.newCharge()
+          this.ngOnInit()
         },
         err => console.log("Error",err)
 
@@ -132,6 +133,7 @@ export class ChargeEditComponent implements OnInit {
 }
   //--------------------------
   newCharge() {
+    console.log("New Charge")
     this.chargeEditForm.reset()
     this.currCharge = {} as ICharge
   }
@@ -140,12 +142,15 @@ export class ChargeEditComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     this.ngOnInit()
-    this.newCharge()
-/*    if (changes.currCharge) {
+    console.log("ngOnChanges",this.currCharge)
+
+    if (this.currCharge && this.currCharge.id) {
       this.chargeEditForm.patchValue(this.currCharge)
 
+    } else {
+      this.newCharge()
     }
-*/
+
   }
   //--------------------------
   frlCheck(rms:any[]) {
@@ -174,7 +179,6 @@ export class ChargeEditComponent implements OnInit {
     )
   }
   //--------------------------
-
   transTally() {
     this.transTotal = 0
     this.chargeList.forEach(
@@ -184,7 +188,6 @@ export class ChargeEditComponent implements OnInit {
     )
   }
   //--------------------------
-
   chargeSort(chgs:ICharge[]) {
     chgs.sort((a, b) => {
       if (a.date < b.date) {
@@ -197,8 +200,6 @@ export class ChargeEditComponent implements OnInit {
      })
     return chgs
   }
-
-
   //--------------------------
   ngOnInit(): void {
     this.authService.getSession().subscribe(
@@ -214,10 +215,7 @@ export class ChargeEditComponent implements OnInit {
           this.chargeList = this.chargeSort(data)
           this.transTally()
           this.grandTotal = this.roomTotal + this.transTotal
-  
         })
-  
-
       })
 
     this.numDays = ((new Date(this.currRsvn.dateOut).getTime() - new Date(this.currRsvn.dateIn).getTime()) / this.appConstants.DAILYSECONDS) 

@@ -13,8 +13,6 @@
     text-align:center;
 }
 
-
-
 .active {
     cursor:pointer;
     font-weight:bold;
@@ -22,11 +20,18 @@
 }
 
 .charge-block  {
-    border:2px solid silver;
     padding:1em;
     margin-bottom:1em;
 }
 .dcell {
     text-align:right; 
     padding-right:40px;
+}
+.totalcell {
+    border-top:2px solid black;
+}
+
+.subtotalcell {
+    border-top:1px solid rgb(58, 58, 58);
+    border-bottom:1px solid rgb(58, 58, 58);
 }

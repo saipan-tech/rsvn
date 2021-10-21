@@ -178,6 +178,17 @@ class Charge(models.Model):
     @property
     def amount(self):
         return self.count * self.unit
+#---------------------------------------------------------
+
+class Payment(models.Model):
+    rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnPayment')
+    item        =   models.CharField(max_length=512)
+    date        =   models.DateField()
+    descr       =   models.CharField(max_length=2048, blank=True)
+    amount      = 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    clerk       =   models.CharField(max_length=80,default="FrontDesk")
+    created     =   models.DateTimeField(auto_now_add=True)
+    modified    =   models.DateTimeField(auto_now=True)
 
 #---------------------------------------------------------
 class Room (models.Model):

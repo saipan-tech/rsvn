@@ -1,91 +1,86 @@
-<div class="row headingrow">
-    <div class="col">Room Number</div>
-    <div class="col">Season</div>
-    <div class="col">Daily Rate</div>
-    <div class="col">Days</div>
-    <div class="col">Total</div>
-</div>
-<div *ngFor="let room of fullRoomList" class="row datarow">
-    <app-charge-line [roomall]='room' (roomallChange)='newRoomall($event)'>
-    </app-charge-line>
-</div>
-<div class="d-flex">
-    
+<section>
+    <h3 class="section-heading">Room Charges</h3>
+    <div class="section-body">
 
-    <div class=" col-7"></div>
-    <div class=" form-control col align-self-end"><strong>Room Charge</strong></div>
-    <div class=" form-control col align-self-end dcell"><strong>{{roomTotal | currency}}</strong></div>
-
-</div>
-
-<div class="charge-block">
-<strong>Transactions</strong>
-
-    <form novalidate [formGroup]="chargeEditForm">
-        <div class="d-flex">
-            <div class="form-control">
-                <label class="uppercell">Date</label>
-                <input class="form-control" type="date" formControlName='date'>
-            </div>
-
-            <div class="form-control">
-                <label class="uppercell">Item</label>
-                <input autofocus class="form-control" type="text" formControlName='item'>
-            </div>
-            <div class="form-control">
-                <label class="uppercell">Count</label>
-                <input class="form-control" type="number" formControlName='count'>
-            </div>
-            <div class="form-control">
-                <label class="uppercell">Unit</label>
-                <input class="form-control" type="float" formControlName='unit'>
-            </div>
-            <div class="form-control">
-                <label class="uppercell">Amount</label>
-                <input class="form-control" type="number" formControlName='amount'>
-            </div>
-
-
-            <div class="form-control">
-                <label class="uppercell">Controls</label>
-                <div > 
-                    <button [disabled]="!(chargeEditForm.valid&& currRsvn && currRsvn.id)"
-                        (click)='updateCharge(chargeEditForm.value)' class="btn-outline-primary">
-                        <span class="material-icons">
-                            save
-                        </span></button>
-                    <button [disabled]="!(currCharge && currCharge.id)" (click)='deleteCharge(chargeEditForm.value)'
-                        class="btn-outline-primary">
-                        <span class="material-icons"> delete </span>
-                    </button>
-                    <button [disabled]="!(currCharge && currCharge.id)" (click)='newCharge()'
-                        class="btn-outline-primary">
-                        <span class="material-icons"> note_add </span>
-                    </button>
-                </div>
-
-            </div>
+        <div class="row headingrow">
+            <div class="col">Room Number</div>
+            <div class="col">Season</div>
+            <div class="col">Daily Rate</div>
+            <div class="col">Nights</div>
+            <div class="col">Total</div>
         </div>
-    </form>
-</div>
+        <div *ngFor="let room of fullRoomList" class="row datarow">
+            <app-charge-line [roomall]='room' (roomallChange)='newRoomall($event)'>
+            </app-charge-line>
+        </div>
+        <div class="d-flex subtotalcell">
+            <div class=" col-7"></div>
+            <div class=" form-control col align-self-end"><strong>Room Charge</strong></div>
+            <div class=" form-control col align-self-end dcell"><strong>{{roomTotal | currency}}</strong></div>
+        </div>
+
+    </div>
+</section>
 
 
-<div class="d-flex" *ngFor='let chg of chargeList'>
-    <div class="form-control">{{chg.date }}</div>
-    <div class="active form-control" (click)="selectCharge(chg)">{{ chg.item }}</div>
-    <div class="form-control" style="text-align:center">{{ chg.count }}</div>
-    <div class="form-control dcell">{{ chg.unit }}</div>
-    <div class="form-control dcell">{{ chg.amount | currency}}</div>
-</div>
-<div class="d-flex totalcell">
-    <div class="form-control"></div>
-    <div class="form-control"><strong>Transaction Total Charges</strong></div>
-    <div class="form-control dcell"><strong>{{ transTotal | currency}}</strong></div>
+<section>
+    <h3 class="section-heading">Charges</h3>
+    <div class="section-body">
+        <div>
+            <div class="form-control">
+                <form novalidate [formGroup]="chargeEditForm">
+                    <div class="row">
+                        <div class="col-2">
+                            <input class="form-control" placeholder="Date" type="date" formControlName='date'>
+                        </div>
+                        <div class="col-2">
+                            <input autofocus class="form-control" placeholder="Item" type="text" formControlName='item'>
+                        </div>
+                        <div class="col-3">
+                            <input class="form-control" placeholder="Description" type="text" formControlName='descr'>
+                        </div>
+                        <div class="col-1">
+                            <input class="form-control" placeholder="Count" type="number" formControlName='count'>
+                        </div>
+                        <div class="col-2">
+                            <input class="form-control" placeholder="Unit" type="float" formControlName='unit'>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-control btn-group">
+                                <button class="btn btn-sm"
+                                    [disabled]="!(chargeEditForm.valid&& currRsvn && currRsvn.id)"
+                                    (click)='updateCharge(chargeEditForm.value)'>
+                                    <span class="material-icons">save</span></button>
+                                <button class="btn btn-sm" [disabled]="!(currCharge && currCharge.id)"
+                                    (click)='deleteCharge(chargeEditForm.value)'>
+                                    <span class="material-icons"> delete </span>
+                                </button>
+                                <button class="btn btn-sm" [disabled]="!(currCharge && currCharge.id)"
+                                    (click)='newCharge()'>
+                                    <span class="material-icons"> note_add </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
-</div>
+        </div>
 
-<div class="d-flex totalcell">
-    <div class="form-control"></div>
-    <div class="form-control"><strong>Total Charges</strong></div>
-    <div class="form-control dcell" ><strong>{{ grandTotal | currency}}</strong></div>
-</div>
+        <div class="d-flex" *ngFor='let chg of chargeList'>
+            <div class="form-control">{{chg.date }}</div>
+            <div class="active form-control" (click)="selectCharge(chg)">{{ chg.item }}</div>
+            <div class="active form-control" (click)="selectCharge(chg)">{{ chg.descr }}</div>
+            <div class="form-control" style="text-align:center">{{ chg.count }}</div>
+            <div class="form-control dcell">{{ chg.unit }}</div>
+            <div class="form-control dcell">{{ chg.amount | currency}}</div>
+        </div>
+        <div class="d-flex subtotalcell">
+            <div class="form-control"></div>
+            <div class="form-control"><strong>Misc Charges</strong></div>
+            <div class="form-control dcell"><strong>{{ transTotal | currency}}</strong></div>
+
+        </div>
+        </div>
+
+</section>

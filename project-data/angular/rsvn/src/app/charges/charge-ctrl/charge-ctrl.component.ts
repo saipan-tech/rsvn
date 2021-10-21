@@ -16,7 +16,8 @@ export class ChargeCtrlComponent implements OnInit {
   @Input() currRsvn:IRsvn = {} as IRsvn
   
   currCharge : ICharge = {} as ICharge
-
+  grandTotal = 0
+  balance = 0
   changeCharge(event:ICharge) {
     console.log("felt in CC Charge Ctrl")
   

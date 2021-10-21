@@ -30,8 +30,6 @@ from webapi.views.guest import *
 from webapi.views.rates import *
 from webapi.views.charges import *
 
-
-
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'groups', GroupViewSet)
@@ -47,10 +45,11 @@ router.register(r'dropdown',DropdownViewSet)
 router.register(r'rate',RateViewSet)
 router.register(r'taxrate',TaxRateViewSet)
 router.register(r'charge',ChargeViewSet)
-
+router.register(r'payment',PaymentViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
+
 urlpatterns = [
     path('', include(router.urls)),
     path('droplist/<name>/',DropListView.as_view()),
@@ -61,8 +60,3 @@ urlpatterns = [
     path('filein/',WorkFileView.as_view()),
     path('rsvntest/<id>/',RsvnTestView.as_view())
 ]
-
-
-
-
-

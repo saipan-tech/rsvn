@@ -99,3 +99,8 @@ class ChargeSerializer(serializers.ModelSerializer) :
         model = Charge
         fields = ['id','rsvn','date','item','descr','count','unit','amount','clerk','created','modified']
         
+        #---------------------------------------------------------
+class PaymentSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = Payment
+        fields = '__all__'

@@ -14,13 +14,15 @@ import { ChargeCtrlComponent } from './charge-ctrl/charge-ctrl.component';
 import { ChargeListComponent } from './charge-list/charge-list.component';
 import { ChargeLineComponent } from './charge-line/charge-line.component';
 import { ChargeEditComponent } from './charge-edit/charge-edit.component';
+import { ChargePmtComponent } from './charge-pmt/charge-pmt.component';
 
 @NgModule({
   declarations: [
     ChargeCtrlComponent,
     ChargeListComponent,
     ChargeLineComponent,
-    ChargeEditComponent
+    ChargeEditComponent,
+    ChargePmtComponent
   ],
   imports: [
    
