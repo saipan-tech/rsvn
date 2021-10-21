@@ -76,7 +76,8 @@ export class ChargeEditComponent implements OnInit {
   }
 
 
-
+//---------------------------------
+  
   selectCharge(chg:ICharge) {
     this.genericService.getItem('charge',chg.id)
       .subscribe(data => {
@@ -111,7 +112,6 @@ export class ChargeEditComponent implements OnInit {
       this.genericService.updateItem('charge', charge).subscribe(
         data => {
           console.log("saved",data)
-          this.chargeEditForm.reset()
           this.currChargeChange.emit(data)
           this.newCharge()
         },
@@ -140,11 +140,12 @@ export class ChargeEditComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     this.ngOnInit()
-    this.chargeEditForm.reset()
-    if (changes.currCharge) {
+    this.newCharge()
+/*    if (changes.currCharge) {
       this.chargeEditForm.patchValue(this.currCharge)
-    }
 
+    }
+*/
   }
   //--------------------------
   frlCheck(rms:any[]) {
@@ -172,6 +173,7 @@ export class ChargeEditComponent implements OnInit {
       }
     )
   }
+  //--------------------------
 
   transTally() {
     this.transTotal = 0
@@ -180,6 +182,20 @@ export class ChargeEditComponent implements OnInit {
         this.transTotal += tt.amount
       }
     )
+  }
+  //--------------------------
+
+  chargeSort(chgs:ICharge[]) {
+    chgs.sort((a, b) => {
+      if (a.date < b.date) {
+        return -1
+       }
+      if (a.date > b.date) {
+        return 1
+      }
+    return 0
+     })
+    return chgs
   }
 
 
@@ -195,7 +211,7 @@ export class ChargeEditComponent implements OnInit {
 
         this.chargeService.getRsvnCharge(this.currRsvn.id)
         .subscribe( data => {
-          this.chargeList = data
+          this.chargeList = this.chargeSort(data)
           this.transTally()
           this.grandTotal = this.roomTotal + this.transTotal
   
