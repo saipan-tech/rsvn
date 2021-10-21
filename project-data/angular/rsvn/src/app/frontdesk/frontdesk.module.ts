@@ -24,6 +24,8 @@ import { AppRoutingModule } from '@app/app-routing.module';
 import { ChargesModule } from '@app/charges/charges.module';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { MatDialogModule } from "@angular/material/dialog";
+import {SharedDialogModule} from "@app/shared/dialog/shared-dialog.module";
 
 @NgModule({
   declarations: [
@@ -38,7 +40,6 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     GridLineComponent,
     CurrGridComponent,
     RsvnCtrlComponent
-
   ],
   imports: [
     CommonModule,
@@ -52,10 +53,10 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     MatButtonModule,
     MatSliderModule,
     MatRadioModule,
+    SharedDialogModule,
     ChargesModule,
     AccordionModule.forRoot(),
     TabsModule.forRoot()
-    
   ],
   exports: [
     ClockComponent,

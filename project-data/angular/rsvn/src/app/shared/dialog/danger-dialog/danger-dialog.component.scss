@@ -1,0 +1,16 @@
+[mat-dialog-actions] {
+  display: flex;
+  justify-content: space-between;
+}
+
+[mat-dialog-title] {
+  display: flex;
+  align-items: center;
+
+  mat-icon {
+    margin-right: 0.5rem;
+    color: #f44336;
+    opacity: 0.5;
+  }
+}
+

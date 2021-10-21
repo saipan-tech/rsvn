@@ -8,6 +8,7 @@ import { IGuest } from '@app/_interface/guest';
 import { IRoom } from '@app/_interface/room';
 import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomService } from '@app/_services/room.service';
+import {DangerDialogComponent, DialogManagerService} from "@app/shared/dialog";
 
 @Component({
   selector: 'app-rsvn-edit',
@@ -22,8 +23,8 @@ export class RsvnEditComponent implements OnInit, OnChanges {
     private systemService: SystemService,
     private authService: AuthService,
     private rsvnService: RsvnService,
-    private roomService: RoomService
-
+    private roomService: RoomService,
+    private dialogManagerService: DialogManagerService,
   ) { }
 
 
@@ -184,26 +185,32 @@ export class RsvnEditComponent implements OnInit, OnChanges {
 
   //---------------------------------
   deleteRsvn(rsvn: any) {
-
-    if (!this.rsvnLocked()) {
-
-      this.genericService.deleteItem('rsvn', rsvn).subscribe(
-        data => {
-          this.currRsvn = null
-          this.currRsvnChange.emit(this.currRsvn)
-          this.rsvnEditFormInit()
-        },
-        err => {
-          console.log("ERROR in rsvn Delete", err)
-        }
-      )
-    }
+    this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {
+      data: {
+        title: 'Delete reservation?',
+        content: 'You cannot undue this action',
+        confirmAction: 'Delete',
+      }
+    }).afterClosed().subscribe(deleteConfirmed => {
+      if (deleteConfirmed && !this.rsvnLocked()) {
+        this.genericService.deleteItem('rsvn', rsvn).subscribe(
+          data => {
+            this.currRsvn = null
+            this.currRsvnChange.emit(this.currRsvn)
+            this.rsvnEditFormInit()
+          },
+          err => {
+            console.log("ERROR in rsvn Delete", err)
+          }
+        )
+      }
+    });
   }
   //---------------------------------
   ngOnChanges(changes: SimpleChanges) {
     this.rsvnEditForm.reset()
 //    if (this.currRsvn && this.currRsvn.id == 0) {
-  
+
       this.rsvnEditFormInit()
 //    }
     this.loadRsvn(this.currRsvn)
