@@ -26,48 +26,7 @@
 <section>
     <h3 class="section-heading">Charges</h3>
     <div class="section-body">
-        <div>
-            <div class="form-control">
-                <form novalidate [formGroup]="chargeEditForm">
-                    <div class="row">
-                        <div class="col-2">
-                            <input class="form-control" placeholder="Date" type="date" formControlName='date'>
-                        </div>
-                        <div class="col-2">
-                            <input autofocus class="form-control" placeholder="Item" type="text" formControlName='item'>
-                        </div>
-                        <div class="col-3">
-                            <input class="form-control" placeholder="Description" type="text" formControlName='descr'>
-                        </div>
-                        <div class="col-1">
-                            <input class="form-control" placeholder="Count" type="number" formControlName='count'>
-                        </div>
-                        <div class="col-2">
-                            <input class="form-control" placeholder="Unit" type="float" formControlName='unit'>
-                        </div>
-                        <div class="col-2">
-                            <div class="form-control btn-group">
-                                <button class="btn btn-sm"
-                                    [disabled]="!(chargeEditForm.valid&& currRsvn && currRsvn.id)"
-                                    (click)='updateCharge(chargeEditForm.value)'>
-                                    <span class="material-icons">save</span></button>
-                                <button class="btn btn-sm" [disabled]="!(currCharge && currCharge.id)"
-                                    (click)='deleteCharge(chargeEditForm.value)'>
-                                    <span class="material-icons"> delete </span>
-                                </button>
-                                <button class="btn btn-sm" [disabled]="!(currCharge && currCharge.id)"
-                                    (click)='newCharge()'>
-                                    <span class="material-icons"> note_add </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-
-        <div class="d-flex" *ngFor='let chg of chargeList'>
+       <div class="d-flex" *ngFor='let chg of chargeList'>
             <div class="form-control">{{chg.date }}</div>
             <div class="active form-control" (click)="selectCharge(chg)">{{ chg.item }}</div>
             <div class="active form-control" (click)="selectCharge(chg)">{{ chg.descr }}</div>

@@ -15,6 +15,9 @@ import { ChargeListComponent } from './charge-list/charge-list.component';
 import { ChargeLineComponent } from './charge-line/charge-line.component';
 import { ChargeEditComponent } from './charge-edit/charge-edit.component';
 import { ChargePmtComponent } from './charge-pmt/charge-pmt.component';
+import { ChargeEditPmtComponent } from './charge-edit-pmt/charge-edit-pmt.component';
+import { ChargeEditChgComponent } from './charge-edit-chg/charge-edit-chg.component';
+import { ChargeChgComponent } from './charge-chg/charge-chg.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { ChargePmtComponent } from './charge-pmt/charge-pmt.component';
     ChargeListComponent,
     ChargeLineComponent,
     ChargeEditComponent,
-    ChargePmtComponent
+    ChargePmtComponent,
+    ChargeEditPmtComponent,
+    ChargeEditChgComponent,
+    ChargeChgComponent
   ],
   imports: [
    
