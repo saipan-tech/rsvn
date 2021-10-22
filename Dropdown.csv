@@ -48,3 +48,11 @@ color,53,lightcyan,lightcyan
 color,55,gold,gold
 color,57,aquamarine,aquamarine
 color,59,cornsilk,cornsilk
+chgitem,1,Room,room
+chgitem,2,Amenity,amenity
+chgitem,3,Store,store
+chgitem,4,Fine,fine
+payitem,1,Credit,credit
+payitem,2,Voucher,voucher
+payitem,3,Cash,cash
+payitem,4,Transfer,transfer

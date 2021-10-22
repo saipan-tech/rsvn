@@ -2,13 +2,10 @@ import { IPayment } from '@app/_interface/payment'
 import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
 import { IBldg } from '@app/_interface/bldg';
-import { IRsvn } from '@app/_interface/rsvn'
 import { IRoom } from '@app/_interface/room'
 import { IRoominfo } from '@app/_interface/roominfo'
-import { IGuest } from '@app/_interface/guest'
-import { ICharge } from '@app/_interface/charge'
+import { IDropdown } from '@app/_interface/dropdown'
 import { GenericService } from '@app/_services/generic.service';
-import { RsvnService } from '@app/_services/rsvn.service';
 import { SystemService } from '@app/_services/system.service';
 import { AuthService } from '@app/_services/auth.service';
 import { RoomService } from '@app/_services/room.service';
@@ -52,7 +49,7 @@ export class ChargePmtComponent implements OnInit {
   grandTotal = 0
   payTotal = 0
   balance = 0
-
+  pmttypeList:IDropdown[] = []
 
   paymentEditForm = new FormGroup({
     id: new FormControl(''),
@@ -172,6 +169,10 @@ export class ChargePmtComponent implements OnInit {
   }
   //--------------------------
   ngOnInit(): void {
+    this.systemService.getDropdownList('payitem').subscribe(
+      data => this.pmttypeList = data
+    )
+
     this.authService.getSession().subscribe(
       data => this.user = data
     )

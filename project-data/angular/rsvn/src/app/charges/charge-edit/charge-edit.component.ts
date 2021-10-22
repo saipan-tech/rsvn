@@ -6,6 +6,7 @@ import { IRoom } from '@app/_interface/room'
 import { IRoominfo } from '@app/_interface/roominfo'
 import { IGuest } from '@app/_interface/guest'
 import { ICharge } from '@app/_interface/charge'
+import { IDropdown} from '@app/_interface/dropdown'
 import { GenericService } from '@app/_services/generic.service';
 import { RsvnService } from '@app/_services/rsvn.service';
 import { SystemService } from '@app/_services/system.service';
@@ -62,6 +63,7 @@ export class ChargeEditComponent implements OnInit {
   roomTotal = 0
   grandTotal = 0
   transTotal = 0
+  chgtypeList :IDropdown[] = []
   
   //---------------------------------
 
@@ -81,7 +83,6 @@ export class ChargeEditComponent implements OnInit {
   selectCharge(chg:ICharge) {
     this.genericService.getItem('charge',chg.id)
       .subscribe(data => {
-        console.log("new charger",data)
         this.currCharge= data
         this.currChargeChange.emit(data)
         this.chargeEditForm.patchValue(this.currCharge)
@@ -133,7 +134,6 @@ export class ChargeEditComponent implements OnInit {
 }
   //--------------------------
   newCharge() {
-    console.log("New Charge")
     this.chargeEditForm.reset()
     this.currCharge = {} as ICharge
   }
@@ -142,8 +142,7 @@ export class ChargeEditComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     this.ngOnInit()
-    console.log("ngOnChanges",this.currCharge)
-
+    
     if (this.currCharge && this.currCharge.id) {
       this.chargeEditForm.patchValue(this.currCharge)
 
@@ -205,6 +204,10 @@ export class ChargeEditComponent implements OnInit {
     this.authService.getSession().subscribe(
       data => this.user = data
     )
+    this.systemService.getDropdownList('chgitem').subscribe(
+      data => this.chgtypeList = data
+    )
+
     this.roomService.getRsvnRoomAll(this.currRsvn.id)
       .subscribe(data => {
         this.fullRoomList = this.frlCheck(data)
