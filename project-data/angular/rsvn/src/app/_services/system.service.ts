@@ -38,5 +38,16 @@ export class SystemService {
     }
 
 
-
+    //---------------------------------
+    toHTMLDate(d: Date) {
+        const day = String(d.getDate()).padStart(2, '0')
+        const month = String(d.getMonth() + 1).padStart(2, '0')
+        const year = String(d.getFullYear())
+        return `${year}-${month}-${day}`
+    }
+    //---------------------------------
+    fromHTMLDate(date: string) {
+        let ndate = new Date(`${date}`).toISOString().slice(0, 10)
+        return ndate
+    }
 }
