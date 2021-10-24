@@ -11,24 +11,22 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ChargeCtrlComponent } from './charge-ctrl/charge-ctrl.component';
-import { ChargeLineComponent } from './charge-line/charge-line.component';
-import { ChargeEditComponent } from './charge-edit/charge-edit.component';
-import { ChargePmtComponent } from './charge-pmt/charge-pmt.component';
+import { ChargeLineComponent } from './charge-room-list/charge-line/charge-line.component';
 import { ChargePmtEditComponent } from './charge-pmt-edit/charge-pmt-edit.component';
 import { ChargeChgEditComponent } from './charge-chg-edit/charge-chg-edit.component';
 import { ChargePmtListComponent } from './charge-pmt-list/charge-pmt-list.component';
 import { ChargeChgListComponent } from './charge-chg-list/charge-chg-list.component';
+import { ChargeRoomListComponent } from './charge-room-list/charge-room-list.component';
 
 @NgModule({
   declarations: [
     ChargeCtrlComponent,
     ChargeLineComponent,
-    ChargeEditComponent,
-    ChargePmtComponent,
     ChargePmtEditComponent,
     ChargeChgEditComponent,
     ChargePmtListComponent,
-    ChargeChgListComponent
+    ChargeChgListComponent,
+    ChargeRoomListComponent
   ],
   imports: [
    
