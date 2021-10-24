@@ -1,1 +1,23 @@
-<p>charge-room-list works!</p>
+<section>
+    <h3 class="section-heading">Room Charges</h3>
+    <div class="section-body">
+
+        <div class="row headingrow">
+            <div class="col">Room Number</div>
+            <div class="col">Season</div>
+            <div class="col">Daily Rate</div>
+            <div class="col">Nights</div>
+            <div class="col">Total</div>
+        </div>
+        <div *ngFor="let room of fullRoomList" class="row datarow">
+            <app-charge-line [roomall]='room' (roomallChange)='newRoomall($event)'>
+            </app-charge-line>
+        </div>
+        <div class="d-flex subtotalcell">
+            <div class=" col-7"></div>
+            <div class=" form-control col align-self-end"><strong>Room Charge</strong></div>
+            <div class=" form-control col align-self-end dcell"><strong>{{roomTotal | currency}}</strong></div>
+        </div>
+
+    </div>
+</section>

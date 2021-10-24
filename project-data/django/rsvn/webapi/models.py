@@ -79,15 +79,25 @@ class Rate(models.Model):
     rateName	=	models.CharField(max_length=512)
     rateType	=  	models.CharField(max_length=512, blank=True)
     rateClass   =  	models.CharField(max_length=512, blank=True)
-    offSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
-    lowSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
-    highSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
-    peakSeason	= 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
     color       =  	models.CharField(max_length=40, default='white')
     descr		=	models.CharField(max_length=1028, blank=True)	
 	
     def __str__(self):
         return(self.rateName)
+#---------------------------------------------------------
+class Season(models.Model):
+    name        =   models.CharField(max_length=250,unique=True)
+    descr       =   models.CharField(max_length=512)
+    dateStart 	=	models.DateField()
+    dateEnd 	=	models.DateField()
+#---------------------------------------------------------
+class SeasonRate(models.Model):
+    rate        =   models.ForeignKey(Rate,models.CASCADE)
+    season      =   models.ForeignKey(Season,models.CASCADE)
+    descr       =   models.CharField(max_length=512, blank=True)
+    amount	    = 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+
+
 #---------------------------------------------------------
 class Roominfo (models.Model):
     bldg        =   models.ForeignKey(Bldg,models.CASCADE)
