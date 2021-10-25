@@ -13,3 +13,39 @@ class TaxRateViewSet(viewsets.ModelViewSet):
     serializer_class = TaxRateSerializer
     queryset = TaxRate.objects.all()
     permission_classes = [permissions.IsAuthenticated]
+
+#===========================
+class SeasonViewSet(viewsets.ModelViewSet):
+    serializer_class = SeasonSerializer
+    queryset = Season.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+#===========================
+class SeasonRateViewSet(viewsets.ModelViewSet):
+    serializer_class = SeasonRateSerializer
+    queryset = SeasonRate.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+
+        queryset = super().get_queryset() 
+        if "rate" in self.request.GET :
+            queryset = queryset.filter(rate__id=self.request.GET['rate'])
+        if "season" in self.request.GET :
+            queryset = queryset.filter(season__id=self.request.GET['season'])
+        return queryset
+
+
+
+    def create(self,request):
+
+        season = Season.objects.get(id=int(request.data['season']))
+        rate = Rate.objects.get(id=int(request.data['rate']))
+        seasonrate = SeasonRate()
+        seasonrate.season = season
+        seasonrate.rate = rate
+        serializer = SeasonRateSerializer(seasonrate,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)

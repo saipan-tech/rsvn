@@ -104,3 +104,11 @@ class PaymentSerializer(serializers.ModelSerializer) :
     class Meta:
         model = Payment
         fields = '__all__'
+class SeasonSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = Season
+        fields = '__all__'
+class SeasonRateSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = SeasonRate
+        fields = '__all__'

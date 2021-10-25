@@ -34,8 +34,12 @@
             <div class="col">Type</div>
             <div class="col">Class</div>
             <div class="col">Description</div>
+            <div class="col" *ngFor="let x of seasonList">
+                {{ x.name }}
+            </div>
 
         </div>
+
         <div>
             <form novalidate [formGroup]="rateEditForm">
                 <div class="d-flex">
@@ -51,6 +55,8 @@
                     <input type="text" formControlName='rateType' class="form-control">
                     <input type="text" formControlName='rateClass' class="form-control">
                     <input type="text" formControlName='descr' class="form-control">
+                    <input *ngFor="let x of seasonList" type="number" formControlName='{{x.name}}' class="form-control">
+       
                 </div>
 
             </form>
@@ -69,6 +75,7 @@
             <div class="form-control">{{ r.rateType }}</div>
             <div class="form-control">{{ r.rateClass }}</div>
             <div class="form-control">{{ r.descr }}</div>
+            <div class="form-control" *ngFor="let x of r.seasonList">{{ x }}</div>
         </div>
     </div>
 

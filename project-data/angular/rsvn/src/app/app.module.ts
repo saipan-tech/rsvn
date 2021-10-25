@@ -28,6 +28,7 @@ import { FrontdeskModule } from '@app/frontdesk/frontdesk.module';
 import { RateListComponent } from '@app/config/rate-list/rate-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { SeasonCtrlComponent } from './config/season-ctrl/season-ctrl.component';
 
 
 
@@ -47,6 +48,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     DropdownComponent,
     FileinputComponent,
     RateListComponent,
+    SeasonCtrlComponent,
     
 
   ],

@@ -1,8 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { SystemService } from '@app/_services/system.service';
 import { GenericService } from '@app/_services/generic.service';
-import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
+import { SeasonService } from '@app/_services/season.service';
+import { FormArray, FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
 import { IRate } from '@app/_interface/rate';
+import { ISeason } from '@app/_interface/season';
+import { ISeasonRate } from '@app/_interface/seasonrate'
 import { IRoominfo } from '@app/_interface/roominfo';
 
 @Component({
@@ -14,68 +17,74 @@ export class RateListComponent implements OnInit {
 
   constructor(
     private genericService: GenericService,
-    private systemService: SystemService  
+    private systemService: SystemService,
+    private formBuilder: FormBuilder,
+    private seasonService: SeasonService
 
   ) { }
-  colorList:any
+  colorList: any
   currRate: IRate = {} as IRate
-  rateList : IRate[]  = [] 
-  rateEditForm = new FormGroup({
-    id: new FormControl(''),
-    alias:new FormControl(''),
-    rateCategory: new FormControl('', Validators.required),
-    rateName : new FormControl('', Validators.required),
-    rateType: new FormControl('', Validators.required),
-    rateClass :new FormControl('', Validators.required),
-    offSeason:new FormControl('', Validators.required),
-    lowSeason: new FormControl('', Validators.required),
-    highSeason: new FormControl('', Validators.required),
-    peakSeason: new FormControl('', Validators.required),
-    descr: new FormControl(''),
-    color: new FormControl(''),
+  rateList: any[] = []
+  seasonList: ISeason[] = []
+  seasonrateList: ISeasonRate[] = []
+
+  fixList:any = {}
+
+  rateEditForm = this.formBuilder.group({
+    id: [''],
+    alias: [''],
+    rateCategory: ['', Validators.required],
+    rateName: ['', Validators.required],
+    rateType: ['', Validators.required],
+    rateClass: ['', Validators.required],
+    descr: [''],
+    color: [''],
   })
 
-  sortRates(rlist:any) {
-    rlist.sort(function(a:any, b:any) {
+
+
+  sortRates(rlist: any) {
+    rlist.sort(function (a: any, b: any) {
       var A = a.alias.toUpperCase(); // ignore upper and lowercase
       var B = b.alias.toUpperCase(); // ignore upper and lowercase
       if (A < B) { return -1; }
-      if (A > B) { return 1;  }
-      return 0; });
+      if (A > B) { return 1; }
+      return 0;
+    });
     return rlist
   }
 
 
-//=================================
-// == this is when we  read in the CSV file
-//=================================
+  //=================================
+  // == this is when we  read in the CSV file
+  //=================================
 
-setResults(list: any[]) {
+  setResults(list: any[]) {
     list.forEach(rec => {
       const founder = this.rateList.find(d => d.alias == rec.alias)
-      if(founder) {
+      if (founder) {
         rec.id = founder.id
-       }
-       this.genericService.updateItem('rate', rec).subscribe(
+      }
+      this.genericService.updateItem('rate', rec).subscribe(
         data => {
-           this.ngOnInit()
+          this.ngOnInit()
         })
-        
+
     })
   }
-//=================================
+  //=================================
   ngOnChanges(changes: SimpleChanges) {
     this.ngOnInit()
   }
-//=================================
+  //=================================
   clearRate() {
     this.rateEditForm.reset()
     this.blankRate(this.currRate)
     this.ngOnInit()
   }
-//=================================
+  //=================================
   blankRate(rate: any) {
-    rate = { } 
+    rate = {}
     rate.id = 0
     for (const field in rate) {
       if (rate[field] == null) {
@@ -83,7 +92,7 @@ setResults(list: any[]) {
       }
     }
   }
-//=================================
+  //=================================
   selectRate(rate: IRate) {
     if (rate.id) {
       this.genericService.getItem('rate', rate.id).subscribe(
@@ -94,16 +103,52 @@ setResults(list: any[]) {
       )
     }
   }
-//=================================
-  updateRate(rate: any) {
-    this.genericService.updateItem('rate', rate).subscribe(
-      data => {
-        this.ngOnInit()
-        this.clearRate()
-      }
-    )
+  //=================================
+  updateSeasonRate(season:ISeason,rate:any) {
+    // check if exist search on season_id and rate_id
+    // run an update
+    let seasonRate:ISeasonRate = {
+      id          :0,
+      rate        :rate.id,
+      season      :season.id,
+      descr		    : '',
+      amount      : rate[season.name]
+    }
+   this.seasonService.getRateSeasonRate(season.id,rate.id)
+      .subscribe(data => {
+        if(data.length) {
+          seasonRate.id=data[0].id
+        }
+        this.genericService.updateItem("seasonrate",seasonRate)
+        .subscribe(data2 => {
+          console.log(data2)
+       })
+
+        
+     })
+   
   }
-//=================================
+
+
+
+  //=================================
+  updateRate(rate: any) {
+    this.seasonList.forEach( s => {
+      if(rate[s.name]) {
+        this.updateSeasonRate(s,rate)
+        console.log("gg-->",rate,s,"value",rate[s.name])
+      }
+
+    })
+
+//    this.genericService.updateItem('rate', rate).subscribe(
+//      data => {
+//        this.ngOnInit()
+//        this.clearRate()
+//      }
+//    )
+  }
+  //=================================
   deleteRate(rate: any) {
     this.genericService.deleteItem('rate', rate).subscribe(
       data => {
@@ -113,26 +158,62 @@ setResults(list: any[]) {
       }
     )
   }
-//=================================
+  //=================================
   refreshList() {
     this.ngOnInit()
   }
+  //=================================
+  addSeasonRate() {
+    this.rateList.forEach(rec => {
+      let s = this.seasonrateList.filter(srl =>   srl.rate == rec.id)
+      rec['seasonList'] = []
+      this.seasonList.forEach(
+        sl => {
+          let f = this.seasonrateList.find(srl => srl.rate == rec.id 
+              && srl.season == sl.id) 
+          if(f) {
+            rec['seasonList'].push(f.amount)
+          }
+          else {
+            rec['seasonList'].push('')
+          }
+        }
+      )
+    })
+  }
 
-
-
-//=================================
+  //=================================
   ngOnInit(): void {
+    this.genericService.getItemList('season')
+      .subscribe(
+        data => {
+          this.seasonList = data
+          this.seasonList.forEach(sl => {
+            this.rateEditForm.addControl(sl.name, new FormControl(''))
+
+          })
+        }
+      )
+
     this.currRate = {} as IRate
     this.genericService.getItemList('rate')
       .subscribe(
         data => {
           this.rateList = this.sortRates(data)
+          this.genericService.getItemList('seasonrate')
+            .subscribe(
+              data2 => {
+                this.seasonrateList = data2
+                console.log(data2)
+                this.addSeasonRate()
+              }
+            )
         }
       )
-      this.systemService.getDropdownList('color').subscribe(
-        data => this.colorList = data
-      )
-    
-  
-    }
+    this.systemService.getDropdownList('color').subscribe(
+      data => this.colorList = data
+    )
+
+
+  }
 }
