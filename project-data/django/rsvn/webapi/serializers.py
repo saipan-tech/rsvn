@@ -112,3 +112,4 @@ class SeasonRateSerializer(serializers.ModelSerializer) :
     class Meta:
         model = SeasonRate
         fields = '__all__'
+        depth = 1

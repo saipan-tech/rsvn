@@ -1,10 +1,6 @@
 <div class="card">
     <div class="card-header">
-
-
-
         <div class="row justify-content-end">
-
             <div class="col-8">
                 <h4> Rate Table</h4>
             </div>
@@ -18,17 +14,12 @@
                 <button [disabled]="!(rateEditForm.value.id)" (click)='deleteRate(rateEditForm.value)'>
                     <mat-icon>delete</mat-icon>
                 </button>
-
-
             </div>
         </div>
-
-
 
         <div class="heading d-flex">
             <div class="col">Alias </div>
             <div class="col">Color </div>
-
             <div class="col">Category </div>
             <div class="col">Name</div>
             <div class="col">Type</div>
@@ -37,7 +28,6 @@
             <div class="col" *ngFor="let x of seasonList">
                 {{ x.name }}
             </div>
-
         </div>
 
         <div>
@@ -75,12 +65,12 @@
             <div class="form-control">{{ r.rateType }}</div>
             <div class="form-control">{{ r.rateClass }}</div>
             <div class="form-control">{{ r.descr }}</div>
-            <div class="form-control" *ngFor="let x of r.seasonList">{{ x }}</div>
+            <div class="form-control" *ngFor="let x of r.seasonList"> {{x}} </div>
         </div>
     </div>
 
     <div class="card-footer">
         <app-fileinput (results)="setResults($event)"></app-fileinput>
     </div>
-
+{{ currRate | json }}
 </div>

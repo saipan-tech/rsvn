@@ -87,14 +87,11 @@ class Rate(models.Model):
 #---------------------------------------------------------
 class Season(models.Model):
     name        =   models.CharField(max_length=250,unique=True)
-    descr       =   models.CharField(max_length=512)
-    dateStart 	=	models.DateField()
-    dateEnd 	=	models.DateField()
+    descr       =   models.CharField(max_length=512, blank=True)
 #---------------------------------------------------------
 class SeasonRate(models.Model):
     rate        =   models.ForeignKey(Rate,models.CASCADE)
     season      =   models.ForeignKey(Season,models.CASCADE)
-    descr       =   models.CharField(max_length=512, blank=True)
     amount	    = 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
 
 
