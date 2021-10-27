@@ -1,4 +1,4 @@
-number,floor,beds,style,name,size,descr,alias
+number,floor,beds,style,name,size,descr,rate
 101,1,2,,none,1000,none,Standard01
 102,1,2,,none,1000,none,Standard02
 103,1,2,,none,1000,none,Deluxe01

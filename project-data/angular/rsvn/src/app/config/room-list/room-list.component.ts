@@ -19,28 +19,28 @@ export class RoomListComponent implements OnInit, OnChanges {
   constructor(
     private roomService: RoomService,
     private genericService: GenericService,
-    private systemService: SystemService   ,
+    private systemService: SystemService,
 
   ) { }
 
   @Output() currRoomChange = new EventEmitter<IRoom>();
-  @Input() currBldg = { } as IBldg;
+  @Input() currBldg = {} as IBldg;
 
 
   roomList: IRoominfo[] = [];
-  currRoom: IRoominfo = { } as IRoominfo;
+  currRoom: IRoominfo = {} as IRoominfo;
   currRoomID: number | null = null
-  rcolorList:any  = []
-  rateList : IRate[] = []
-  
+  rcolorList: any = []
+  rateList: IRate[] = []
+
   roomEditForm = new FormGroup({
     id: new FormControl(''),
     number: new FormControl('', Validators.required),
     floor: new FormControl(''),
-    rate:new FormControl(''),
+    rate: new FormControl(''),
     beds: new FormControl('', Validators.required),
-    style:new FormControl(''),
-    color:new FormControl(''),
+    style: new FormControl(''),
+    color: new FormControl(''),
     size: new FormControl(''),
     status: new FormControl(''),
     rsvn: new FormControl(''),
@@ -54,24 +54,15 @@ export class RoomListComponent implements OnInit, OnChanges {
   }
 
 
-  sortRates(rlist:any) {
-    rlist.sort(function(a:any, b:any) {
+  sortRates(rlist: any) {
+    rlist.sort(function (a: any, b: any) {
       var A = a.alias.toUpperCase(); // ignore upper and lowercase
       var B = b.alias.toUpperCase(); // ignore upper and lowercase
       if (A < B) { return -1; }
-      if (A > B) { return 1;  }
-      return 0; });
+      if (A > B) { return 1; }
+      return 0;
+    });
     return rlist
-  }
-
-  rateFind(styleid:any) {
-    const rf =  this.rateList.find( rate =>  rate.id === Number(styleid))
-   
-    if (rf) {
-      return rf.alias
-    }
-    return "None"
-   
   }
 
   clearRoom() {
@@ -81,7 +72,7 @@ export class RoomListComponent implements OnInit, OnChanges {
   }
 
   blankRoom(room: any) {
-    room = { } as IRoominfo;
+    room = {} as IRoominfo;
     this.currRoomID = 0
     room.id = 0
     for (const field in room) {
@@ -138,27 +129,24 @@ export class RoomListComponent implements OnInit, OnChanges {
   setResults(list: any[]) {
 
     list.forEach(rec => {
-      const founder = this.roomList.find(d => d.bldg == rec.bldg && d.number == rec.number)
-      if(founder) {
+      // find duplicatesd
+      const founder = this.roomList.find(d => this.currBldg.id == d.bldg && d.number == rec.number)
+      if (founder) {
+
         rec.id = founder.id
-        }
-      rec.bldg = this.currBldg.id
-
-      const rateFind =  this.rateList.find( rat =>  rat.alias == rec.alias)
-      if (rateFind) {
-        rec.rate = rateFind.id
-        delete rec.alias
-
-        this.genericService.updateItem('roominfo', rec).subscribe(
-          data =>{
-            this.ngOnInit()
-           } 
-         )
-  
       }
+      console.log("Not Found",rec,"Founder",founder)
+      rec.bldg = this.currBldg.id
+      this.genericService.updateItem('roominfo', rec).subscribe(
+        data => {
+          this.ngOnInit()
+        }
+      )
+
     })
   }
-  
+   
+
   ngOnInit(): void {
     if (this.currBldg.id) {
       this.roomEditForm.reset()
@@ -168,7 +156,7 @@ export class RoomListComponent implements OnInit, OnChanges {
         .subscribe(
           data => this.roomList = data
 
-          )
+        )
     }
     this.systemService.getDropdownList('rcolor').subscribe(
       data => this.rcolorList = data
@@ -177,7 +165,7 @@ export class RoomListComponent implements OnInit, OnChanges {
 
 
     this.genericService.getItemList("rate")
-      .subscribe( data => {
+      .subscribe(data => {
         this.rateList = this.sortRates(data)
       })
 

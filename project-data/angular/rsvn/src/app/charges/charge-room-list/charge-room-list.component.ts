@@ -58,16 +58,6 @@ export class ChargeRoomListComponent implements OnInit {
 
   }
   //--------------------------
-  frlCheck(rms:any[]) {
-    rms.forEach( r => {
-     r.ratelist = {peakSeason:r.roominfo.rate.peakSeason,
-                    highSeason: r.roominfo.rate.highSeason,
-                    lowSeason: r.roominfo.rate.lowSeason,
-                    offSeason: r.roominfo.rate.offSeason}
-                    })
-    return rms
-  }
-  //--------------------------
 
   newRoomall(roomall:IRoom) {
   this.ngOnInit()
@@ -108,7 +98,7 @@ export class ChargeRoomListComponent implements OnInit {
 
     this.roomService.getRsvnRoomAll(this.currRsvn.id)
       .subscribe(data => {
-        this.fullRoomList = this.frlCheck(data)
+        this.fullRoomList = data
         this.chargeTotal()
       })
 

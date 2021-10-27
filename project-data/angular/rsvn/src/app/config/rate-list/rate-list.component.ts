@@ -62,7 +62,6 @@ export class RateListComponent implements OnInit {
   //=================================
   setResults(list: any[]) {
     list.forEach(rec => {
-      console.log(rec)
       const founder = this.rateList.find(d => d.alias == rec.alias)
       if (founder) {
         rec.id = founder.id
@@ -71,7 +70,6 @@ export class RateListComponent implements OnInit {
         data => {
         this.seasonList.forEach( sl => {
           if(rec[sl.name]) {
-            console.log({ rate:data.id, season:sl.id,amount:rec[sl.name]})
             this.genericService.updateItem('seasonrate',{ rate:data.id, season:sl.id,amount:rec[sl.name]})
              .subscribe( 
                zz => { 
@@ -93,7 +91,7 @@ export class RateListComponent implements OnInit {
   }
   //=================================
   ngOnChanges(changes: SimpleChanges) {
-    this.ngOnInit()
+    
   }
   //=================================
   clearRate() {
@@ -137,8 +135,8 @@ export class RateListComponent implements OnInit {
       this.genericService.updateItem("seasonrate",seasonRate)
         .subscribe(data2 => {
           console.log(data2)
-          this.ngOnInit()
-       })
+          this.clearRate()
+        })
      })
   }
   //=================================
@@ -151,10 +149,7 @@ export class RateListComponent implements OnInit {
 
     this.genericService.updateItem('rate', rate).subscribe(
       data => {
-
-        this.ngOnInit()
         this.clearRate()
-        this.ngOnInit()
       }
     )
   }
@@ -162,9 +157,7 @@ export class RateListComponent implements OnInit {
   deleteRate(rate: any) {
     this.genericService.deleteItem('rate', rate).subscribe(
       data => {
-        this.ngOnInit()
         this.clearRate()
-        this.ngOnInit()
 
       }
     )
@@ -206,7 +199,6 @@ export class RateListComponent implements OnInit {
 
     this.currRate = {} as IRate
   //=================================
-    
     this.genericService.getItemList('rate')
       .subscribe(
         data => {

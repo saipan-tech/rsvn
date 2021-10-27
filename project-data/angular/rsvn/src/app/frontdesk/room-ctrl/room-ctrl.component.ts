@@ -35,7 +35,8 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
   currRoomList: any[] = []
 
-  dispList: any[] = []
+
+  dispList:any = []
   availRoominfo: IRoominfo[] = []
   unavailRoominfo: IRoominfo[] = []
   rsvnRoom: IRoom[] = []
@@ -78,31 +79,26 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
       })
   }
 
-  splitRooms(bldg: string, rooms: IRoominfo[]) {
-    let rate = new Set()
-    rooms.forEach(rm => rate.add(rm.rate))
-    let splitResult: { rate: any; room: IRoominfo[]; }[] = []
-    rate.forEach(rates => {
-      let room = rooms.filter(rf => rf.rate == rates)
-      let rate = this.rateList.find(ff => ff.id == rates)
-      splitResult.push({ rate, room })
-    })
-    return splitResult
-  }
+
+
+
 
   makeList() {
     this.dispList = []
-
     this.bldgList.forEach(
-      bld => {
-        let rms = this.availRoominfo.filter(r => r.bldg == bld.id)
-        let bldg = bld.name
-        let rooms = this.splitRooms(bldg, rms)
-        rooms = this.sortRateList(rooms)
-        this.dispList.push({ bldg, rooms })
+      bdg => {
+        
+        let rates:any = []
+        let bldg:IBldg  = bdg
+        let rms = this.availRoominfo.filter(r => r.bldg == bldg.id)
+        this.rateList.forEach( rate => {
+          rates.push({rate,rooms:rms.filter(x => x.rate == rate.alias)})
+        })  
+        this.dispList.push({rates,bldg})
       }
     )
 
+         console.log(this.dispList)
   }
 
 
@@ -111,8 +107,8 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
   sortRateList(rooms:any) {
     rooms.sort(function(a:any, b:any) {
-      var A = a.rate.alias; // ignore upper and lowercase
-      var B = b.rate.alias; // ignore upper and lowercase
+      var A = a.alias; // ignore upper and lowercase
+      var B = b.alias; // ignore upper and lowercase
       if (A > B) { return 1; }
       if (A < B) { return -1;  }
       return 0; });
@@ -120,31 +116,45 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
 
 
-
+/*
   bldgText(bldg: number) {
     return this.bldgList.find(b => b.id == bldg)?.name
   }
+*/
+
+
+
 
   ngOnChanges(changes: SimpleChanges) {
     this.ngOnInit()
   }
 
+
+
+
+
+
   ngOnInit(): void {
+
     // Get Rate List
     if (this.currRsvn && this.currRsvn.id) {
       this.genericService.getItemList("rate")
         .subscribe(
           data => {
-            this.rateList = data
+            this.rateList = this.sortRateList(data)
           })
-      // Get rooms for this RSVN
-      this.roomService.getRsvnRoom(this.currRsvn.id).subscribe(
+
+    // Get rooms for this RSVN
+    this.roomService.getRsvnRoom(this.currRsvn.id).subscribe(
         rooms => {
           this.currNumRooms = rooms.length
           this.currRooms = rooms
         }
       )
     }
+
+
+    // Looking at this rsvn date frame  - what is the state of rooms
     if (this.currRsvn && this.currRsvn.dateIn && this.currRsvn.dateOut) {
       // we are creating our UnAssigned Rooms here
       this.roomService.availableRooms(this.currRsvn.dateIn, this.currRsvn.dateOut)
@@ -154,6 +164,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
             bldgs => {
               this.bldgList = bldgs
               this.makeList()
+              console.log(this.bldgList)
             })
         })
       // we are creating our Assigned Rooms here
@@ -165,13 +176,15 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
               this.rsvnRoom = rroom
               this.currRoomList = []
               this.rsvnRoom.forEach(rsvrm => {
-                let roominfo = unavail.find(rrf => rrf.id == rsvrm.roominfo)
+                let roominfo:any  = unavail.find(rrf => rrf.id == rsvrm.roominfo)
                 let room = rsvrm
-                this.currRoomList.push({ room, roominfo })
+                let bldg = this.bldgList.find(bl => bl.id == roominfo.bldg)
+                this.currRoomList.push({ bldg, room, roominfo })
               })
+              console.log(this.currRoomList)
             })
         })
-    }
+    } 
   }
 }
 

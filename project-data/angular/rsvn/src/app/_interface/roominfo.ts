@@ -10,6 +10,6 @@ export interface IRoominfo  {
     size:string;
     descr:string;
     status:string;
-    rate:number;
+    rate:string;
 
 }
