@@ -3,11 +3,14 @@
         <h5>Room Control</h5>
     </div>
     <div class="card-body">
+
         <h4>{{currRsvn.primary.firstname}} {{currRsvn.primary.middlename}} {{currRsvn.primary.lastname}}</h4>
         <div class='d-flex'>
             <div class="form-control">Check In<br>{{ currRsvn.dateIn }}</div>
             <div class="form-control">Check Out<br>{{ currRsvn.dateOut }}</div>
         </div>
+
+
         <div class="section mt-2">Assigned Rooms - {{currNumRooms}}/{{currRsvn.numrooms}}</div>
         <div>
             <div>
@@ -29,29 +32,8 @@
                 </div>
             </div>
         </div>
-        <div class="section mt-2">Available Rooms</div>
 
-        <tabset>
-            <tab *ngFor="let dl of dispList"  heading={{dl.bldg.name}}>
-                <accordion>
-
-                    <accordion-group *ngFor="let r of dl.rates">
-                        <div  accordion-heading title="{{r.rate | json}}">{{ r.rate.alias}} </div>
-                        <div>
-                          
-                        </div>
-                        <div class="d-flex flex-wrap">
-
-                            <div *ngFor="let x of r.rooms">
-                                <button (click)='assignRoom(x)'>{{ x.number }} </button>
-                            </div>
-                        </div>
-
-                    </accordion-group>
-                </accordion>
-            </tab>
-        </tabset>
-
+        <app-room-list [currRsvn]='currRsvn' ></app-room-list>
     </div>
     <div class="card-footer">
     </div>

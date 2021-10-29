@@ -26,6 +26,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MatDialogModule } from "@angular/material/dialog";
 import {SharedDialogModule} from "@app/shared/dialog/shared-dialog.module";
+import { RoomListComponent } from './room-list/room-list.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {SharedDialogModule} from "@app/shared/dialog/shared-dialog.module";
     SearchCtrlComponent,
     GridLineComponent,
     CurrGridComponent,
-    RsvnCtrlComponent
+    RsvnCtrlComponent,
+    RoomListComponent
   ],
   imports: [
     CommonModule,

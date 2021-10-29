@@ -5,25 +5,27 @@ import { IRoom } from '@app/_interface/room'
 import { IRate } from '@app/_interface/rate'
 import { IRoominfo } from '@app/_interface/roominfo'
 import { ISeason } from '@app/_interface/season'
+import { ISeasonRate } from '@app/_interface/seasonrate'
 import { IGuest } from '@app/_interface/guest'
 import { GenericService } from '@app/_services/generic.service';
 import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomService } from '@app/_services/room.service';
 import { MatRadioModule } from '@angular/material/radio';
+import { filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-room-ctrl',
-  templateUrl: './room-ctrl.component.html',
-  styleUrls: ['./room-ctrl.component.scss']
+  selector: 'app-room-list',
+  templateUrl: './room-list.component.html',
+  styleUrls: ['./room-list.component.scss']
 })
-export class RoomCtrlComponent implements OnInit, OnChanges {
+export class RoomListComponent implements OnInit,OnChanges {
 
 
   @Input() currRsvn: any
   @Output() currRsvnChange = new EventEmitter<IRsvn>();
 
-  @Input() currGuest: any
-  @Output() currGuestChange = new EventEmitter<IGuest>();
+  //@Input() currGuest: any
+  //@Output() refresh = new EventEmitter<any>();
 
 
   currNumRooms = 0
@@ -32,15 +34,17 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   bldgList: IBldg[] = []
   roomList: IRoominfo[] = []
   rateList: IRate[] = []
+  seasonList: ISeason[] = [] 
+  seasonrateList: any[] = [] 
 
   currRoomList: any[] = []
-
-
   dispList:any = []
+
   availRoominfo: IRoominfo[] = []
   unavailRoominfo: IRoominfo[] = []
+
   rsvnRoom: IRoom[] = []
-  seasonList: ISeason[] = [] 
+
   constructor(
     private genericService: GenericService,
     private rsvnService: RsvnService,
@@ -79,11 +83,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
       })
   }
 
-
-
-
-
-  makeList() {
+ makeList() {
     this.dispList = []
     this.bldgList.forEach(
       bdg => {
@@ -92,7 +92,11 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
         let bldg:IBldg  = bdg
         let rms = this.availRoominfo.filter(r => r.bldg == bldg.id)
         this.rateList.forEach( rate => {
-          rates.push({rate,rooms:rms.filter(x => x.rate == rate.alias)})
+          rates.push({
+            rate,
+            rooms:rms.filter(x => x.rate == rate.alias),
+            seasonrate:this.seasonrateList.filter(srl=> srl.rate.id == rate.id)
+          })
         })  
         this.dispList.push({rates,bldg})
       }
@@ -100,10 +104,6 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
          console.log(this.dispList)
   }
-
-
-
-
 
   sortRateList(rooms:any) {
     rooms.sort(function(a:any, b:any) {
@@ -130,10 +130,6 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
 
 
-
-
-
-
   ngOnInit(): void {
 
     // Get Rate List
@@ -158,7 +154,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
       
     })
     
-    
+
     // Looking at this rsvn date frame  - what is the state of rooms
     if (this.currRsvn && this.currRsvn.dateIn && this.currRsvn.dateOut) {
       // we are creating our UnAssigned Rooms here
@@ -168,8 +164,16 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
           this.genericService.getItemList("bldg").subscribe(
             bldgs => {
               this.bldgList = bldgs
-              this.makeList()
-              console.log(this.bldgList)
+              
+              this.genericService.getItemList("seasonrate")
+              .subscribe(data => {
+                this.seasonrateList = data
+                this.makeList()
+          
+              })
+              
+              
+              
             })
         })
       // we are creating our Assigned Rooms here
@@ -186,10 +190,8 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
                 let bldg = this.bldgList.find(bl => bl.id == roominfo.bldg)
                 this.currRoomList.push({ bldg, room, roominfo })
               })
-              console.log(this.currRoomList)
             })
         })
     } 
   }
 }
-

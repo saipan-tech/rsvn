@@ -1,0 +1,31 @@
+<div class="section mt-2">Available Rooms</div>
+<tabset>
+    <tab *ngFor="let dl of dispList" heading={{dl.bldg.name}}>
+        <accordion>
+
+            <accordion-group *ngFor="let r of dl.rates">
+                <div accordion-heading title="{{r.rate | json}}">{{ r.rate.alias}} </div>
+                <div>
+
+                    <div>
+                        <table class="rate-hint table">
+
+                            <tr>
+                                <td *ngFor="let seas of r.seasonrate">{{ seas.season.name }}<br> {{seas.amount}} </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                    <div class="d-flex flex-wrap">
+                        <div *ngFor="let x of r.rooms">
+                            <button (click)='assignRoom(x)'>{{ x.number }} </button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </accordion-group>
+        </accordion>
+    </tab>
+</tabset>

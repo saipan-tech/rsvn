@@ -63,30 +63,27 @@ export class RateListComponent implements OnInit {
   setResults(list: any[]) {
     list.forEach(rec => {
       const founder = this.rateList.find(d => d.alias == rec.alias)
+      // If it exists let's put the id ion and only send the update to the rate
       if (founder) {
         rec.id = founder.id
       }
       this.genericService.updateItem('rate', rec).subscribe(
         data => {
+          // We check the season list and see if we have one listed
         this.seasonList.forEach( sl => {
-          if(rec[sl.name]) {
-            this.genericService.updateItem('seasonrate',{ rate:data.id, season:sl.id,amount:rec[sl.name]})
-             .subscribe( 
-               zz => { 
-              this.ngOnInit()
- 
-             },
-             err => {
-               console.log(err)
-             }
-             )
-                         
-          }
-        }
-
+          let seasonraterec = { id:0,rate:data.id, season:sl.id,amount:rec[sl.name]}
+          if(rec.id  && rec[sl.name]) {
+            // let's see if there is one already made
+            const slrfind = this.seasonrateList.find(srl => srl.rate.id == rec.id && srl.season.name == sl.name )
+            if (slrfind) {
+              seasonraterec.id = slrfind.id
+            }
+            this.genericService.updateItem('seasonrate',seasonraterec)
+             .subscribe()
+          }}
         )
+        this.ngOnInit()
       })
- 
     })
   }
   //=================================
@@ -134,7 +131,6 @@ export class RateListComponent implements OnInit {
         }
       this.genericService.updateItem("seasonrate",seasonRate)
         .subscribe(data2 => {
-          console.log(data2)
           this.clearRate()
         })
      })
