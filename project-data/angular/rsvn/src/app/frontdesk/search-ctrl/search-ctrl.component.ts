@@ -61,7 +61,7 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
     this.rsvnList = []
     this.guestList = []
 
-    switch (mode) {
+    switch(mode) {
       case 'active':
         this.rsvnService.getDateRsvn(new Date().toISOString())
           .subscribe(data => {

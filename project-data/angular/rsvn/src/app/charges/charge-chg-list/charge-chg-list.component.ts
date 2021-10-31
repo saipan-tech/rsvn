@@ -36,6 +36,7 @@ export class ChargeChgListComponent implements OnInit {
   @Input() currRsvn: any
   @Input() currCharge: ICharge = {} as ICharge
   @Output() currChargeChange = new EventEmitter<ICharge>()
+  @Output() chgSubTotal = new EventEmitter<Number>()
 
   form_error: any
   user: any
@@ -65,6 +66,12 @@ export class ChargeChgListComponent implements OnInit {
       })
 
   }
+
+  
+  //--------------------------
+  refreshChg() {
+    this.ngOnInit()
+  }
   //--------------------------
 
 
@@ -78,31 +85,11 @@ export class ChargeChgListComponent implements OnInit {
 
   }
   //--------------------------
-  frlCheck(rms:any[]) {
-    rms.forEach( r => {
-     r.ratelist = {peakSeason:r.roominfo.rate.peakSeason,
-                    highSeason: r.roominfo.rate.highSeason,
-                    lowSeason: r.roominfo.rate.lowSeason,
-                    offSeason: r.roominfo.rate.offSeason}
-                    })
-    return rms
-  }
-  //--------------------------
 
   newRoomall(roomall:IRoom) {
   this.ngOnInit()
 }
-
-
-  //--------------------------
-  chargeTotal() {
-    this.roomTotal = 0
-    this.fullRoomList.forEach(
-      rm => {
-        this.roomTotal += rm.rateCharge * this.numDays
-      }
-    )
-  }
+ 
   //--------------------------
   transTally() {
     this.transTotal = 0
@@ -111,6 +98,7 @@ export class ChargeChgListComponent implements OnInit {
         this.transTotal += tt.amount
       }
     )
+    this.chgSubTotal.emit(this.transTotal)
   }
   //--------------------------
   chargeSort(chgs:ICharge[]) {
@@ -134,18 +122,11 @@ export class ChargeChgListComponent implements OnInit {
       data => this.chgtypeList = data
     )
 
-    this.roomService.getRsvnRoomAll(this.currRsvn.id)
-      .subscribe(data => {
-        this.fullRoomList = this.frlCheck(data)
-        this.chargeTotal()
-
-        this.chargeService.getRsvnCharge(this.currRsvn.id)
+   this.chargeService.getRsvnCharge(this.currRsvn.id)
         .subscribe( data => {
           this.chargeList = this.chargeSort(data)
           this.transTally()
-          this.grandTotal = this.roomTotal + this.transTotal
         })
-      })
 
     this.numDays = ((new Date(this.currRsvn.dateOut).getTime() - new Date(this.currRsvn.dateIn).getTime()) / this.appConstants.DAILYSECONDS) 
 

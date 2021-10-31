@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <app-room-list [currRsvn]='currRsvn' ></app-room-list>
+        <app-room-list [currRsvn]='currRsvn' (currRsvnChange)= 'refreshRsvn()'></app-room-list>
     </div>
     <div class="card-footer">
     </div>

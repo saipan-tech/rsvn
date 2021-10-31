@@ -113,6 +113,7 @@ export class ChargeChgEditComponent implements OnInit {
   newCharge() {
     this.chargeEditForm.reset()
     this.currCharge = {} as ICharge
+    this.currChargeChange.emit(this.currCharge)
   }
   //--------------------------
 

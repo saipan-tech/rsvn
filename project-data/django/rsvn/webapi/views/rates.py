@@ -29,6 +29,8 @@ class SeasonRateViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
 
         queryset = super().get_queryset() 
+        if "alias" in self.request.GET :
+            queryset = queryset.filter(rate__alias=self.request.GET['alias'])
         if "rate" in self.request.GET :
             queryset = queryset.filter(rate__id=self.request.GET['rate'])
         if "season" in self.request.GET :

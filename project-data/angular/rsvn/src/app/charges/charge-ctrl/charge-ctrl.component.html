@@ -1,18 +1,17 @@
+<app-charge-room-list [currRsvn]='currRsvn' (roomSubTotal)="calcTotal('room',$event)"></app-charge-room-list>
+<app-charge-chg-list [currRsvn]='currRsvn' (chgSubTotal)="calcTotal('chg',$event)"></app-charge-chg-list>
+<app-charge-pmt-list [currRsvn]='currRsvn' (pmtSubTotal)="calcTotal('pmt',$event)"></app-charge-pmt-list>
 
-<app-charge-room-list [currRsvn]='currRsvn'></app-charge-room-list>
-<app-charge-chg-list [currRsvn]='currRsvn' ></app-charge-chg-list>
-<app-charge-pmt-list [currRsvn]='currRsvn'></app-charge-pmt-list>
+<section>
+    <div class="section-heading">
+        <h5>Totals</h5>
+    </div>
 
-
-
-<div class="d-flex totalcell">
-    <div class="form-control"></div>
-    <div class="form-control"><strong>Total Charges</strong></div>
-    <div class="form-control dcell" ><strong>{{ grandTotal | currency}}</strong></div>
-</div>
-
-<div class="d-flex totalcell">
-    <div class="form-control"></div>
-    <div class="form-control"><strong>Balance</strong></div>
-    <div class="form-control dcell" ><strong>{{ balance | currency}}</strong></div>
-</div>
+    <div class="section-body">
+        <div class="d-flex totalcell">
+            <div class="form-control"></div>
+            <div class="form-control"><strong>Balance</strong></div>
+            <div class="form-control dcell"><strong>{{ grandTotal | currency}}</strong></div>
+        </div>
+    </div>
+</section>

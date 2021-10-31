@@ -83,6 +83,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color:grey;
 }
 
+
+
+
 .uppercell {
   margin: 0;
   padding: 5px;
@@ -105,6 +108,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin-bottom: 1em;
 }
 
+
+
+
 .section-heading {
   width: 25%;
   font-family: Nova;
@@ -124,4 +130,84 @@ section {
 
 .req {
   color: var(--bs-danger);
+}
+
+
+
+.headingrow div {
+  text-align:center;
+  font-weight:bold;
+  font-size:small;
+  font-family:Nova;
+  border:none;
+}
+.dcell {
+  text-align:right; 
+  padding-right:40px;
+}
+
+
+.rctable div,option,select,input {
+  font-size:small;
+}
+
+.subtotal {
+  font-size:small;
+}
+
+
+.headingrow  div{
+  font-weight:bold;
+  text-align: center;
+  border:1px solid silver;
+
+}
+
+.datarow div {
+  font-size:1em;
+  padding:2px;
+}
+.uppercell {
+  text-align:center;
+  width:35%;
+  background-color:lightsteelblue
+}
+
+.active {
+  cursor:pointer;
+  font-weight:bold;
+  color:royalBlue;
+}
+
+.charge-block  {
+  padding:1em;
+  margin-bottom:1em;
+}
+.dcell {
+  text-align:right; 
+}
+.totalcell {
+  border-top:2px solid black;
+}
+
+.subtotalcell {
+  border-top:1px solid rgb(58, 58, 58);
+  border-bottom:1px solid rgb(58, 58, 58);
+}
+
+
+.charge-block  {
+  padding:1em;
+  margin-bottom:1em;
+}
+
+.totalcell {
+  border:2px solid teal;
+  font-size:medium;
+  padding:2px;
+}
+
+.subtotalcell {
+  border-top:1px solid rgb(58, 58, 58);
+  border-bottom:1px solid rgb(58, 58, 58);
 }

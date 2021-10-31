@@ -48,7 +48,7 @@
                     <div class="col"><input type="text" formControlName='style' class="form-control"> </div>
 
                     <div class="col">
-                        <select formControlName='rate' class="form-control">
+                        <select formControlName='rateAlias' class="form-control">
                             <option value=""></option>
                             <option *ngFor="let rl of rateList" [ngValue]="rl.alias">{{rl.alias}} </option>
                         </select>
@@ -75,7 +75,7 @@
                     <div class="form-control">{{ r.floor }}</div>
                     <div class="form-control">{{ r.beds }}</div>
                     <div class="form-control"> {{ r.style }}</div>
-                    <div class="form-control"> {{ r.rate }}</div>
+                    <div class="form-control"> {{ r.rateAlias }}</div>
                     <div class="form-control">{{ r.name }}</div>
                     <div class="form-control">{{ r.size }}</div>
                     <div class="form-control">{{ r.descr }}</div>

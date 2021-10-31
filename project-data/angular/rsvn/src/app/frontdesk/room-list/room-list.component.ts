@@ -94,7 +94,7 @@ export class RoomListComponent implements OnInit,OnChanges {
         this.rateList.forEach( rate => {
           rates.push({
             rate,
-            rooms:rms.filter(x => x.rate == rate.alias),
+            rooms:rms.filter(x => x.rateAlias == rate.alias),
             seasonrate:this.seasonrateList.filter(srl=> srl.rate.id == rate.id)
           })
         })  

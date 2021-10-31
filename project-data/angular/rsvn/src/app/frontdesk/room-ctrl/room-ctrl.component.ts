@@ -64,6 +64,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
       let newroom = { rsvn: this.currRsvn.id, roominfo: roominfo.id, status: 'new' }
       this.genericService.updateItem("room", newroom)
         .subscribe(data => {
+          
           this.ngOnInit()
           this.refreshRsvn();
         })
@@ -92,7 +93,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
         let bldg:IBldg  = bdg
         let rms = this.availRoominfo.filter(r => r.bldg == bldg.id)
         this.rateList.forEach( rate => {
-          rates.push({rate,rooms:rms.filter(x => x.rate == rate.alias)})
+          rates.push({rate,rooms:rms.filter(x => x.rateAlias == rate.alias)})
         })  
         this.dispList.push({rates,bldg})
       }

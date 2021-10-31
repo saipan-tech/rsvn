@@ -6,7 +6,6 @@ import { FormArray, FormGroup, FormBuilder, Validators, FormControl, EmailValida
 import { IRate } from '@app/_interface/rate';
 import { ISeason } from '@app/_interface/season';
 import { ISeasonRate } from '@app/_interface/seasonrate'
-import { IRoominfo } from '@app/_interface/roominfo';
 
 @Component({
   selector: 'app-rate-list',
@@ -121,7 +120,6 @@ export class RateListComponent implements OnInit {
       id          :0,
       rate        :rate.id,
       season      :season.id,
-      descr		    : '',
       amount      : rate[season.name]
     }
    this.seasonService.getRateSeasonRate(season.id,rate.id)
@@ -165,8 +163,8 @@ export class RateListComponent implements OnInit {
       rec['seasonList'] = []
       this.seasonList.forEach(
         sl => {
-          let f = this.seasonrateList.find(srl => srl.rate.id == rec.id 
-              && srl.season.id == sl.id) 
+          let f = this.seasonrateList.find(srl => srl.rate == rec.id 
+              && srl.season == sl.id) 
           if(f) {
             rec['seasonList'].push(f.amount)
             rec[sl.name] = f.amount

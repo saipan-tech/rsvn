@@ -30,5 +30,19 @@ export class SeasonService {
     return this.http
       .get<ISeasonRate[]>(`${this.urlRoot}/seasonrate?season=${season_id}&rate=${rate_id}`)
   }
-
+  
+  getRateSeason(rate_id:number): Observable<ISeasonRate[]> {
+    return this.http
+      .get<ISeasonRate[]>(`${this.urlRoot}/seasonrate?rate=${rate_id}`)
+  }
+  
+  getAliasSeasonRate(alias:string,season_id:number): Observable<ISeasonRate[]> {
+    return this.http
+      .get<ISeasonRate[]>(`${this.urlRoot}/seasonrate?alias=${alias}&season=${season_id}`)
+  }
+  getAliasRate(alias:string): Observable<ISeasonRate[]> {
+    return this.http
+      .get<ISeasonRate[]>(`${this.urlRoot}/seasonrate?alias=${alias}`)
+  }
+  
 }

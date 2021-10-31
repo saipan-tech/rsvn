@@ -19,6 +19,7 @@ export class ChargePmtListComponent implements OnInit {
   @Input() currRsvn: any
   @Input() currPayment: IPayment = {} as IPayment
   @Output() currPaymentChange = new EventEmitter<IPayment>()
+  @Output() pmtSubTotal = new EventEmitter<Number>()
 
   constructor(
 
@@ -56,6 +57,11 @@ export class ChargePmtListComponent implements OnInit {
       })
   }
   //--------------------------
+  refreshPmt() {
+    this.ngOnInit()
+  }
+
+  //--------------------------
   ngOnChanges(changes: SimpleChanges) {
     this.ngOnInit()
   }
@@ -64,9 +70,10 @@ export class ChargePmtListComponent implements OnInit {
     this.payTotal = 0
     this.paymentList.forEach(
       tt => {
-        this.payTotal += tt.amount
+        this.payTotal += Number(tt.amount)
       }
     )
+    this.pmtSubTotal.emit(this.payTotal)
   }
   //--------------------------
   paymentSort(chgs: IPayment[]) {

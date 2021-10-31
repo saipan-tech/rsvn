@@ -29,6 +29,7 @@ export class ChargeRoomListComponent implements OnInit {
   @Input() currRsvn: any
   @Input() currCharge: ICharge = {} as ICharge
   @Output() currChargeChange = new EventEmitter<ICharge>()
+  @Output() roomSubTotal = new EventEmitter<Number>()
 
   form_error: any
   user: any
@@ -71,7 +72,9 @@ export class ChargeRoomListComponent implements OnInit {
       rm => {
         this.roomTotal += rm.rateCharge * this.numDays
       }
+
     )
+   this.roomSubTotal.emit(this.roomTotal)
   }
  
   //--------------------------

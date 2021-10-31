@@ -83,6 +83,8 @@ export class ChargePmtEditComponent implements OnInit {
     console.log("New Payment")
     this.paymentEditForm.reset()
     this.currPayment = {} as IPayment
+    this.currPaymentChange.emit(this.currPayment)
+
   }
    
   //--------------------------

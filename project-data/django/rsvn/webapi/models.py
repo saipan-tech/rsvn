@@ -101,7 +101,7 @@ class Roominfo (models.Model):
     number  	=   models.CharField(max_length=20)
     floor       =   models.CharField(max_length=20, blank=True)
     style   	=   models.CharField(max_length=128, blank=True)
-    rate        =   models.CharField(max_length=128, blank=True)
+    rateAlias   =   models.CharField(max_length=128, blank=True)
     name        =   models.CharField(max_length=512, blank=True)
     beds        =   models.CharField(max_length=128, blank=True)
     size        =  	models.CharField(max_length=20, blank=True)

@@ -37,7 +37,7 @@ export class RoomListComponent implements OnInit, OnChanges {
     id: new FormControl(''),
     number: new FormControl('', Validators.required),
     floor: new FormControl(''),
-    rate: new FormControl(''),
+    rateAlias: new FormControl(''),
     beds: new FormControl('', Validators.required),
     style: new FormControl(''),
     color: new FormControl(''),
