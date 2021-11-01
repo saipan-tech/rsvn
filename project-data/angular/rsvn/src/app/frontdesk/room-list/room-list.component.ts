@@ -10,6 +10,7 @@ import { IGuest } from '@app/_interface/guest'
 import { GenericService } from '@app/_services/generic.service';
 import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomService } from '@app/_services/room.service';
+import { SeasonService } from '@app/_services/season.service';
 import { MatRadioModule } from '@angular/material/radio';
 import { filter } from 'rxjs/operators';
 
@@ -18,7 +19,7 @@ import { filter } from 'rxjs/operators';
   templateUrl: './room-list.component.html',
   styleUrls: ['./room-list.component.scss']
 })
-export class RoomListComponent implements OnInit,OnChanges {
+export class RoomListComponent implements OnInit, OnChanges {
 
 
   @Input() currRsvn: any
@@ -34,11 +35,12 @@ export class RoomListComponent implements OnInit,OnChanges {
   bldgList: IBldg[] = []
   roomList: IRoominfo[] = []
   rateList: IRate[] = []
-  seasonList: ISeason[] = [] 
-  seasonrateList: any[] = [] 
+  seasonList: ISeason[] = []
+  seasonrateList: any[] = []
+  seasonrateallList: any[] = []
 
   currRoomList: any[] = []
-  dispList:any = []
+  dispList: any = []
 
   availRoominfo: IRoominfo[] = []
   unavailRoominfo: IRoominfo[] = []
@@ -48,7 +50,8 @@ export class RoomListComponent implements OnInit,OnChanges {
   constructor(
     private genericService: GenericService,
     private rsvnService: RsvnService,
-    private roomService: RoomService
+    private roomService: RoomService,
+    private seasonService: SeasonService
   ) { }
 
 
@@ -83,44 +86,45 @@ export class RoomListComponent implements OnInit,OnChanges {
       })
   }
 
- makeList() {
+  makeList() {
     this.dispList = []
     this.bldgList.forEach(
       bdg => {
-        
-        let rates:any = []
-        let bldg:IBldg  = bdg
+
+        let rates: any = []
+        let bldg: IBldg = bdg
         let rms = this.availRoominfo.filter(r => r.bldg == bldg.id)
-        this.rateList.forEach( rate => {
+        this.rateList.forEach(rate => {
           rates.push({
             rate,
-            rooms:rms.filter(x => x.rateAlias == rate.alias),
-            seasonrate:this.seasonrateList.filter(srl=> srl.rate.id == rate.id)
+            rooms: rms.filter(x => x.rateAlias == rate.alias),
+            seasonrate: this.seasonrateallList.filter(srl => srl.rate.id == rate.id)
           })
-        })  
-        this.dispList.push({rates,bldg})
+        })
+        this.dispList.push({ rates, bldg })
       }
     )
 
-         console.log(this.dispList)
+    console.log(this.dispList)
   }
 
-  sortRateList(rooms:any) {
-    rooms.sort(function(a:any, b:any) {
+  sortRateList(rooms: any) {
+    rooms.sort(function (a: any, b: any) {
       var A = a.alias; // ignore upper and lowercase
       var B = b.alias; // ignore upper and lowercase
       if (A > B) { return 1; }
-      if (A < B) { return -1;  }
-      return 0; });
+      if (A < B) { return -1; }
+      return 0;
+    });
     return rooms
   }
 
 
-/*
-  bldgText(bldg: number) {
-    return this.bldgList.find(b => b.id == bldg)?.name
-  }
-*/
+  /*
+    bldgText(bldg: number) {
+      return this.bldgList.find(b => b.id == bldg)?.name
+    }
+  */
 
 
 
@@ -140,20 +144,30 @@ export class RoomListComponent implements OnInit,OnChanges {
             this.rateList = this.sortRateList(data)
           })
 
-    // Get rooms for this RSVN
-    this.roomService.getRsvnRoom(this.currRsvn.id).subscribe(
+      // Get rooms for this RSVN
+      this.roomService.getRsvnRoom(this.currRsvn.id).subscribe(
         rooms => {
           this.currNumRooms = rooms.length
           this.currRooms = rooms
         }
       )
     }
-    this.genericService.getItemList("season")
-    .subscribe(data => {
-      this.seasonList = data
-      
-    })
-    
+
+    this.genericService.getItemList('season')
+      .subscribe(data => {
+        this.seasonList = data
+      })
+    this.genericService.getItemList('seasonrateall')
+      .subscribe(data => {
+        this.seasonrateallList = data
+      })
+
+
+
+
+
+
+
 
     // Looking at this rsvn date frame  - what is the state of rooms
     if (this.currRsvn && this.currRsvn.dateIn && this.currRsvn.dateOut) {
@@ -164,16 +178,16 @@ export class RoomListComponent implements OnInit,OnChanges {
           this.genericService.getItemList("bldg").subscribe(
             bldgs => {
               this.bldgList = bldgs
-              
+
               this.genericService.getItemList("seasonrate")
-              .subscribe(data => {
-                this.seasonrateList = data
-                this.makeList()
-          
-              })
-              
-              
-              
+                .subscribe(data => {
+                  this.seasonrateList = data
+                  this.makeList()
+
+                })
+
+
+
             })
         })
       // we are creating our Assigned Rooms here
@@ -185,13 +199,13 @@ export class RoomListComponent implements OnInit,OnChanges {
               this.rsvnRoom = rroom
               this.currRoomList = []
               this.rsvnRoom.forEach(rsvrm => {
-                let roominfo:any  = unavail.find(rrf => rrf.id == rsvrm.roominfo)
+                let roominfo: any = unavail.find(rrf => rrf.id == rsvrm.roominfo)
                 let room = rsvrm
                 let bldg = this.bldgList.find(bl => bl.id == roominfo.bldg)
                 this.currRoomList.push({ bldg, room, roominfo })
               })
             })
         })
-    } 
+    }
   }
 }

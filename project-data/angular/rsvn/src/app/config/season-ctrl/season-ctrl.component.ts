@@ -70,7 +70,7 @@ export class SeasonCtrlComponent implements OnInit {
   }
 
   deleteSeason(season: ISeason) {
-    this.seasonService.getSeasonRate(season.id)
+    this.seasonService.getSeasonRate(`seasonrate=${season.id}`)
       .subscribe(
         data => {
           if (data.length == 0) {

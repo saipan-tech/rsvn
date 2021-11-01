@@ -63,7 +63,7 @@ export class ChargeLineComponent implements OnInit {
     this.genericService.getItemList('season')
         .subscribe(data => {
         this.seasonList = data
-        this.seasonService.getAliasRate(this.roomall.roominfo.rateAlias)
+        this.seasonService.getSeasonRate(`alias=${this.roomall.roominfo.rateAlias}`)
           .subscribe(data2 => {
               data2.forEach( ar => {
                 let aliasMerge = Object.assign(data.find(sl => sl.id == ar.season),ar)

@@ -27,7 +27,7 @@ export class RateListComponent implements OnInit {
   seasonList: ISeason[] = []
   seasonrateList: any[] = []
 
-  fixList:any = {}
+  fixList: any = {}
 
   rateEditForm = this.formBuilder.group({
     id: [''],
@@ -69,25 +69,26 @@ export class RateListComponent implements OnInit {
       this.genericService.updateItem('rate', rec).subscribe(
         data => {
           // We check the season list and see if we have one listed
-        this.seasonList.forEach( sl => {
-          let seasonraterec = { id:0,rate:data.id, season:sl.id,amount:rec[sl.name]}
-          if(rec.id  && rec[sl.name]) {
-            // let's see if there is one already made
-            const slrfind = this.seasonrateList.find(srl => srl.rate.id == rec.id && srl.season.name == sl.name )
-            if (slrfind) {
-              seasonraterec.id = slrfind.id
+          this.seasonList.forEach(sl => {
+            let seasonraterec = { id: 0, rate: data.id, season: sl.id, amount: rec[sl.name] }
+            if (rec.id && rec[sl.name]) {
+              // let's see if there is one already made
+              const slrfind = this.seasonrateList.find(srl => srl.rate.id == rec.id && srl.season.name == sl.name)
+              if (slrfind) {
+                seasonraterec.id = slrfind.id
+              }
+              this.genericService.updateItem('seasonrate', seasonraterec)
+                .subscribe()
             }
-            this.genericService.updateItem('seasonrate',seasonraterec)
-             .subscribe()
-          }}
-        )
-        this.ngOnInit()
-      })
+          }
+          )
+          this.ngOnInit()
+        })
     })
   }
   //=================================
   ngOnChanges(changes: SimpleChanges) {
-    
+
   }
   //=================================
   clearRate() {
@@ -113,31 +114,31 @@ export class RateListComponent implements OnInit {
     }
   }
   //=================================
-  updateSeasonRate(season:ISeason,rate:any) {
+  updateSeasonRate(season: ISeason, rate: any) {
     // check if exist search on season_id and rate_id
     // run an update
-    let seasonRate:ISeasonRate = {
-      id          :0,
-      rate        :rate.id,
-      season      :season.id,
-      amount      : rate[season.name]
+    let seasonRate: ISeasonRate = {
+      id: 0,
+      rate: rate.id,
+      season: season.id,
+      amount: rate[season.name]
     }
-   this.seasonService.getRateSeasonRate(season.id,rate.id)
+    this.seasonService.getSeasonRate(`season=${season.id}&rate=${rate.id}`)
       .subscribe(data => {
-        if(data.length) {
-          seasonRate.id=data[0].id
+        if (data.length) {
+          seasonRate.id = data[0].id
         }
-      this.genericService.updateItem("seasonrate",seasonRate)
-        .subscribe(data2 => {
-          this.clearRate()
-        })
-     })
+        this.genericService.updateItem("seasonrate", seasonRate)
+          .subscribe(data2 => {
+            this.clearRate()
+          })
+      })
   }
   //=================================
   updateRate(rate: any) {
-    this.seasonList.forEach( s => {
-      if(rate[s.name]) {
-        this.updateSeasonRate(s,rate)
+    this.seasonList.forEach(s => {
+      if (rate[s.name]) {
+        this.updateSeasonRate(s, rate)
       }
     })
 
@@ -156,16 +157,16 @@ export class RateListComponent implements OnInit {
       }
     )
   }
-  
+
   //=================================
   addSeasonRate() {
     this.rateList.forEach(rec => {
       rec['seasonList'] = []
       this.seasonList.forEach(
         sl => {
-          let f = this.seasonrateList.find(srl => srl.rate == rec.id 
-              && srl.season == sl.id) 
-          if(f) {
+          let f = this.seasonrateList.find(srl => srl.rate == rec.id
+            && srl.season == sl.id)
+          if (f) {
             rec['seasonList'].push(f.amount)
             rec[sl.name] = f.amount
           }
@@ -176,6 +177,7 @@ export class RateListComponent implements OnInit {
         }
       )
     })
+    console.log("ratelist",this.rateList)
   }
 
   //=================================
@@ -192,7 +194,7 @@ export class RateListComponent implements OnInit {
       )
 
     this.currRate = {} as IRate
-  //=================================
+    //=================================
     this.genericService.getItemList('rate')
       .subscribe(
         data => {

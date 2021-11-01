@@ -36,9 +36,6 @@ class SeasonRateViewSet(viewsets.ModelViewSet):
         if "season" in self.request.GET :
             queryset = queryset.filter(season__id=self.request.GET['season'])
         return queryset
-
-
-
     def create(self,request):
 
         season = Season.objects.get(id=int(request.data['season']))
@@ -51,3 +48,19 @@ class SeasonRateViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+#===========================
+class SeasonRateAllViewSet(viewsets.ModelViewSet):
+    serializer_class = SeasonRateAllSerializer
+    queryset = SeasonRate.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+
+        queryset = super().get_queryset() 
+        if "alias" in self.request.GET :
+            queryset = queryset.filter(rate__alias=self.request.GET['alias'])
+        if "rate" in self.request.GET :
+            queryset = queryset.filter(rate__id=self.request.GET['rate'])
+        if "season" in self.request.GET :
+            queryset = queryset.filter(season__id=self.request.GET['season'])
+        return queryset

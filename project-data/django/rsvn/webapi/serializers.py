@@ -113,3 +113,9 @@ class SeasonRateSerializer(serializers.ModelSerializer) :
         model = SeasonRate
         fields = '__all__'
       
+class SeasonRateAllSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = SeasonRate
+        fields = '__all__'
+        depth = 1
+      

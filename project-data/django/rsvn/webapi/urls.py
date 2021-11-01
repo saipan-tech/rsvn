@@ -48,6 +48,7 @@ router.register(r'charge',ChargeViewSet)
 router.register(r'payment',PaymentViewSet)
 router.register(r'season',SeasonViewSet)
 router.register(r'seasonrate',SeasonRateViewSet)
+router.register(r'seasonrateall',SeasonRateAllViewSet)
 
 # yrp
 # Wire up our API using automatic URL routing.
