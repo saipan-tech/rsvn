@@ -52,7 +52,7 @@
                         (click)='deletePayment(paymentEditForm.value)' data-bs-dismiss="modal">
                         <span class="material-icons"> delete </span>
                     </button>
-                    <button class="btn btn-sm" [disabled]="!(currPayment && currPayment.id)" (click)='newPayment()' data-bs-dismiss="modal">
+                    <button class="btn btn-sm" [disabled]="!(currPayment && currPayment.id)" (click)='newPayment()' >
                         <span class="material-icons"> note_add </span>
                     </button>
                     <button class="btn btn-sm" data-bs-dismiss="modal">

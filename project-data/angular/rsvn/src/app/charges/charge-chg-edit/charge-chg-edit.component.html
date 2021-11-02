@@ -52,7 +52,7 @@
                     (click)='deleteCharge(chargeEditForm.value)' data-bs-dismiss="modal">
                     <span class="material-icons"> delete </span>
                 </button>
-                <button class="btn" [disabled]="!(currCharge && currCharge.id)" data-bs-dismiss="modal" (click)='newCharge()'>
+                <button class="btn" [disabled]="!(currCharge && currCharge.id)"  (click)='newCharge()'>
                     <span class="material-icons"> note_add </span>
                 </button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
