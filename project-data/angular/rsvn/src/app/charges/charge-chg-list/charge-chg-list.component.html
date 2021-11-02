@@ -21,7 +21,7 @@
             <div class="form-control">{{chg.date }}</div>
             <div class="active form-control" (click)="selectCharge(chg)" data-bs-toggle="modal"
                 data-bs-target="#exampleModal">{{ chg.item }}</div>
-            <div class="active form-control" (click)="selectCharge(chg)">{{ chg.descr }}</div>
+            <div class="form-control" (click)="selectCharge(chg)">{{ chg.descr }}</div>
             <div class="form-control" style="text-align:center">{{ chg.count }}</div>
             <div class="form-control dcell">{{ chg.unit }}</div>
             <div class="form-control dcell">{{ chg.amount | currency}}</div>

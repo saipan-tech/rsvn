@@ -46,13 +46,13 @@
                 <div class="form-control d-flex justify-content-evenly">
 
                     <button class="btn btn-sm" [disabled]="!(paymentEditForm.valid&& currRsvn && currRsvn.id)"
-                        (click)='updatePayment(paymentEditForm.value)'>
+                        (click)='updatePayment(paymentEditForm.value)' data-bs-dismiss="modal">
                         <span class="material-icons">save</span></button>
                     <button class="btn btn-sm" [disabled]="!(currPayment && currPayment.id)"
-                        (click)='deletePayment(paymentEditForm.value)'>
+                        (click)='deletePayment(paymentEditForm.value)' data-bs-dismiss="modal">
                         <span class="material-icons"> delete </span>
                     </button>
-                    <button class="btn btn-sm" [disabled]="!(currPayment && currPayment.id)" (click)='newPayment()'>
+                    <button class="btn btn-sm" [disabled]="!(currPayment && currPayment.id)" (click)='newPayment()' data-bs-dismiss="modal">
                         <span class="material-icons"> note_add </span>
                     </button>
                     <button class="btn btn-sm" data-bs-dismiss="modal">

@@ -17,9 +17,9 @@
 
         <div class="d-flex datarow " *ngFor='let pmt of paymentList'>
             <div class="form-control">{{pmt.date }}</div>
-            <div class="form-control" (click)="selectPayment(pmt)" data-bs-toggle="modal"
+            <div class="active form-control" (click)="selectPayment(pmt)" data-bs-toggle="modal"
                 data-bs-target="#paymentModal">{{ pmt.item }}</div>
-            <div class="form-control" (click)="selectPayment(pmt)" data-bs-toggle="modal"
+            <div class="form-control" (click)="selectPayment(pmt)" 
                 data-bs-target="#paymentModal">{{ pmt.descr }}</div>
             <div class="form-control dcell">{{ pmt.amount | currency }}</div>
         </div>

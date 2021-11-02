@@ -94,6 +94,9 @@ export class RoomListComponent implements OnInit, OnChanges {
         let rates: any = []
         let bldg: IBldg = bdg
         let rms = this.availRoominfo.filter(r => r.bldg == bldg.id)
+
+
+
         this.rateList.forEach(rate => {
           rates.push({
             rate,
@@ -157,8 +160,14 @@ export class RoomListComponent implements OnInit, OnChanges {
       .subscribe(data => {
         this.seasonList = data
       })
+    let re = '/(Season)/'
     this.genericService.getItemList('seasonrateall')
       .subscribe(data => {
+        data.forEach(
+          rec => {
+            
+            rec.abbr = rec.season.name.split('Season')[0]
+          })
         this.seasonrateallList = data
       })
 
