@@ -104,6 +104,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   font-weight: bold;
 }
 
+
+
 .cellgroup {
   margin-bottom: 1em;
 }
@@ -134,39 +136,16 @@ section {
 
 
 
-.headingrow div {
-  text-align:center;
-  font-weight:bold;
-  font-size:small;
-  font-family:Nova;
-  border:none;
-}
-.dcell {
-  text-align:right; 
-  padding-right:40px;
-}
+
+
+
+
 
 
 .rctable div,option,select,input {
   font-size:small;
 }
 
-.subtotal {
-  font-size:small;
-}
-
-
-.headingrow  div{
-  font-weight:bold;
-  text-align: center;
-  border:1px solid silver;
-
-}
-
-.datarow div {
-  font-size:1em;
-  padding:2px;
-}
 .uppercell {
   text-align:center;
   width:35%;
@@ -179,27 +158,32 @@ section {
   color:royalBlue;
 }
 
+
 .charge-block  {
   padding:1em;
   margin-bottom:1em;
 }
+
+.headingrow div {
+  text-align:center;
+  font-weight:bold;
+  font-size:small;
+  font-family:Nova;
+  border:none;
+  border-bottom:1px solid  black;
+}
+
+
 .dcell {
   text-align:right; 
-}
-.totalcell {
-  border-top:2px solid black;
-}
-
-.subtotalcell {
-  border-top:1px solid rgb(58, 58, 58);
-  border-bottom:1px solid rgb(58, 58, 58);
+  padding-right:40px;
 }
 
 
-.charge-block  {
-  padding:1em;
-  margin-bottom:1em;
+.datarow div {
+  font-size:small;
 }
+
 
 .totalcell {
   border:2px solid teal;
@@ -210,4 +194,10 @@ section {
 .subtotalcell {
   border-top:1px solid rgb(58, 58, 58);
   border-bottom:1px solid rgb(58, 58, 58);
+  border-left:none;
+  border-right: none;
+}
+.form-control {
+  border:none;
+  border-bottom:1px solid silver;
 }

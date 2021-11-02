@@ -1,6 +1,6 @@
 <section>    
 <div class="section-heading">
-        <app-charge-pmt-edit [currRsvn]='currRsvn' (currPaymentChange)= 'refreshPmt()'></app-charge-pmt-edit>
+        <app-charge-pmt-edit [currRsvn]='currRsvn' [currPayment]="currPayment" (currPaymentChange)= 'refreshPmt()'></app-charge-pmt-edit>
         
     </div>
      
@@ -15,7 +15,7 @@
         </div>
 
 
-        <div class="d-flex " *ngFor='let pmt of paymentList'>
+        <div class="d-flex datarow " *ngFor='let pmt of paymentList'>
             <div class="form-control">{{pmt.date }}</div>
             <div class="form-control" (click)="selectPayment(pmt)" data-bs-toggle="modal"
                 data-bs-target="#paymentModal">{{ pmt.item }}</div>
