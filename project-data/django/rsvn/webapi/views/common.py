@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-
+import requests
 import re
 import csv
 import os

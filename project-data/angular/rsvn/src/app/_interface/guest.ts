@@ -10,7 +10,7 @@ export interface IGuest  {
     state:string;
     zipcode:string;
     email:string;
-    dob:string;
+    birthday:string;
     company:string;
     title:string;
     notes:string;

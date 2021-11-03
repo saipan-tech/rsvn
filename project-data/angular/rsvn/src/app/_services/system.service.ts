@@ -27,6 +27,11 @@ export class SystemService {
         return this.http.get<IDropdown[]>(`${this.urlRoot}/droplist/${name}/`)
 
     }
+    //==================================================
+    getPeople():Observable<any> {
+        return this.http.get<any>(`${this.urlRoot}/people/`)
+    }
+
     // -------------------------------------------
     daylister(start:string,days:number):any[] {
         var dayList:any = []
@@ -50,4 +55,6 @@ export class SystemService {
         let ndate = new Date(`${date}`).toISOString().slice(0, 10)
         return ndate
     }
+
+
 }

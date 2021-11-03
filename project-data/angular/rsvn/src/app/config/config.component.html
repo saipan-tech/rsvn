@@ -14,6 +14,7 @@
            <button class="list-group-item list-group-item-action bg-light" (click)="mode='lists'">Lists</button>
            <button class="list-group-item list-group-item-action bg-light" (click)="mode='rate'">Rate Table</button>
            <button class="list-group-item list-group-item-action bg-light" (click)="mode='season'">Season</button>
+           <button class="list-group-item list-group-item-action bg-light" (click)="mode='guest'">Guest</button>
        </div>
    </div>
    <!-- /#sidebar-wrapper -->
@@ -81,6 +82,9 @@
          </div>
          <div *ngIf="mode=='season'" style="margin:0 auto;">
             <app-season-ctrl></app-season-ctrl>
+         </div>
+         <div *ngIf="mode=='guest'" style="margin:0 auto;">
+            <app-guest-list></app-guest-list>
          </div>
        </div>
    </div>

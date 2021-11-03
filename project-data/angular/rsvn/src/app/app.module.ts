@@ -29,6 +29,7 @@ import { RateListComponent } from '@app/config/rate-list/rate-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { SeasonCtrlComponent } from './config/season-ctrl/season-ctrl.component';
+import { GuestListComponent } from './config/guest-list/guest-list.component';
 
 
 
@@ -49,6 +50,7 @@ import { SeasonCtrlComponent } from './config/season-ctrl/season-ctrl.component'
     FileinputComponent,
     RateListComponent,
     SeasonCtrlComponent,
+    GuestListComponent,
     
 
   ],

@@ -1,6 +1,6 @@
 from .common import *
 from .csvtools import load_data
-
+import json
 class DropdownViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -78,3 +78,20 @@ class WorkFileView(APIView):
             return Response(d, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class PeopleAPI(APIView):
+    
+    def get (self, request,format=None) :
+
+        url = "https://generate-people.p.rapidapi.com/generatepeople"
+        headers = {
+            'x-rapidapi-host': "generate-people.p.rapidapi.com",
+            'x-rapidapi-key': "0472c1a4ebmshf78b78358f3592ep10ef9djsn502077cd455e",
+             "content-type": "application/json",
+            }
+
+        response = requests.request("GET", url, headers=headers)
+
+        return Response(json.loads(response.text))
