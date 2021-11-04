@@ -8,7 +8,7 @@ import { GenericService } from '@app/_services/generic.service';
 @Component({
   selector: 'app-frontdesk',
   templateUrl: './frontdesk.component.html',
-  styleUrls: ['./frontdesk.component.css']
+  styleUrls: ['./frontdesk.component.scss']
 })
 export class FrontdeskComponent implements OnInit {
 

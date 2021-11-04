@@ -1,2 +1,41 @@
-<app-heading></app-heading>
-<p>admin works!</p>
+<!-- Navigation -->
+<nav style="height: 48px" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid" style="color:white">
+        <a class="navbar-brand" href="/dashboard"><img src="/assets/img/rsvn.png" style="border:none;width:80px"></a>
+        <div><h3>Administration</h3></div>
+        <app-clock></app-clock>
+        <div class="d-flex">
+            <div class="navbar-text" style="margin-right:3em;font-family:nova;font-weight:bold;font-size:12pt"> 
+            <!-- Welcome {{ user.username }}  -->    
+            </div>
+            <a class=" btn btn-outline-success" href="/login">Log Off</a>
+        </div>
+    </div>
+</nav>
+<!-- Page Tab Content -->
+<div class="content-box">
+      <div style="height:100%" class="d-flex flex-wrap">
+
+<!-- Sidebar Search Column-->
+        <div style="width:25%;height:100%">
+            <h3>Side Bar</h3>
+            <h4>Housekeeping</h4>
+            <h4>Maintenance</h4>
+            <h4>Contractors</h4>
+            
+        </div>
+
+<!-- Center Column -->        
+        <div style="width:50%;height:100%">
+            Center
+
+        </div>
+        <div style="width:25%;height:100%">
+            Right
+<!-- Right Column-->
+        </div>
+    </div>
+
+
+
+</div>
