@@ -8,7 +8,6 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { RoomCtrlComponent } from './room-ctrl/room-ctrl.component';
 import { SearchCtrlComponent } from './search-ctrl/search-ctrl.component';
 import { GridLineComponent } from './grid-line/grid-line.component';
-import { CurrGridComponent } from './curr-grid/curr-grid.component';
 import { RsvnCtrlComponent } from './rsvn-ctrl/rsvn-ctrl.component';
 import { ClockComponent } from '@app/system/clock/clock.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -27,6 +26,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MatDialogModule } from "@angular/material/dialog";
 import {SharedDialogModule} from "@app/shared/dialog/shared-dialog.module";
 import { RoomListComponent } from './room-list/room-list.component';
+import { CurrGridComponent } from './curr-grid/curr-grid.component';
+
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { RoomListComponent } from './room-list/room-list.component';
   ],
   exports: [
     ClockComponent,
+    CurrGridComponent,
   ]
 })
 export class FrontdeskModule { }

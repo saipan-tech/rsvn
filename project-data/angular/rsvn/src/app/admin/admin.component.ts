@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ThemePalette} from '@angular/material/core';
 
 @Component({
   selector: 'app-admin',
@@ -8,6 +9,17 @@ import { Component, OnInit } from '@angular/core';
 export class AdminComponent implements OnInit {
 
   constructor() { }
+  links = ['Housekeeping', 'Maintenance', 'Deliveries'];
+  activeLink = this.links[0];
+  background: ThemePalette = undefined;
+
+  toggleBackground() {
+    this.background = this.background ? undefined : 'primary';
+  }
+
+  addLink() {
+    this.links.push(`Link ${this.links.length + 1}`);
+  }
 
   ngOnInit(): void {
   }
