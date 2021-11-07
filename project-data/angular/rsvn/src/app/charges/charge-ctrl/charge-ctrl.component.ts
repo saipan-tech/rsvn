@@ -24,9 +24,7 @@ export class ChargeCtrlComponent implements OnInit {
 
 
   changeCharge(event:ICharge) {
-    console.log("felt in CC Charge Ctrl")
-  
-    this.currCharge = event
+      this.currCharge = event
     this.ngOnInit()
   }
 
@@ -47,10 +45,6 @@ export class ChargeCtrlComponent implements OnInit {
     }
     this.grandTotal =  this.chgSubTotal + this.roomSubTotal - this.pmtSubTotal
     
-    console.log(this.grandTotal,this.pmtSubTotal ,this.chgSubTotal ,this.roomSubTotal)
-   
-    console.log(mode, "GrandTotal", this.grandTotal)
-  
   }
 
   //--------------------------

@@ -24,11 +24,13 @@
     
 }
 .repair {
-    background-color:maroon;    
+    background-color:maroon;   
+    color:yellow; 
     
 }
 .ooc {
     background-color:black;    
+    color:white;
     
 }
 .unknown {
@@ -38,7 +40,7 @@
 }
 
 ::ng-deep .customize {
-    background:teal;
+    background:linen;
 }
 .roomHeading {
     font-size:small;

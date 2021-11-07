@@ -28,7 +28,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import {SharedDialogModule} from "@app/shared/dialog/shared-dialog.module";
 import { RoomListComponent } from './room-list/room-list.component';
 import { CurrGridComponent } from './curr-grid/curr-grid.component';
-
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -58,7 +58,7 @@ import { CurrGridComponent } from './curr-grid/curr-grid.component';
     MatSliderModule,
     MatRadioModule,
     MatMenuModule,
-    
+    MatExpansionModule,
     SharedDialogModule,
     ChargesModule,
     AccordionModule.forRoot(),

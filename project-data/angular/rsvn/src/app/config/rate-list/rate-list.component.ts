@@ -177,7 +177,6 @@ export class RateListComponent implements OnInit {
         }
       )
     })
-    console.log("ratelist",this.rateList)
   }
 
   //=================================

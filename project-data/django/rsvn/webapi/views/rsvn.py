@@ -65,14 +65,23 @@ class RsvnViewSet(viewsets.ModelViewSet):
         if  "dateIn" in self.request.GET and "dateOut" in self.request.GET :
             dateIn = self.request.GET['dateIn']
             dateOut = self.request.GET['dateOut']
+        
+        
             if "exclude" in self.request.GET  :
-                queryset = RsvnTestView
+                queryset = queryset.exclude(
+                    Q(dateIn__lte = dateIn) & Q(dateOut__gte = dateIn) |
+                    Q(dateIn__lte = dateOut) & Q(dateOut__gte = dateIn) |
+                    Q(dateIn__lte = dateOut) & Q(dateOut__gte =  dateOut) 
+                    )
             elif "include" in self.request.GET :
                 queryset = queryset.filter(
                     Q(dateIn__lte = dateIn) & Q(dateOut__gte = dateIn) |
                     Q(dateIn__lte = dateOut) & Q(dateOut__gte = dateIn) |
                     Q(dateIn__lte = dateOut) & Q(dateOut__gte =  dateOut) 
                     )
+        if "noroom" in self.request.GET:
+            queryset = queryset.filter(dateOut__gt=self.request.GET['noroom'])
+            
         return queryset    
 
     def create(self,request):

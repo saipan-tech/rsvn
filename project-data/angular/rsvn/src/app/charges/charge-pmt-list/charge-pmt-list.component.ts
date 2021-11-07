@@ -51,7 +51,6 @@ export class ChargePmtListComponent implements OnInit {
    selectPayment(pmt: IPayment) {
     this.genericService.getItem('payment', pmt.id)
       .subscribe(data => {
-        console.log("new payments", data)
         this.currPayment = data
         this.currPaymentChange.emit(data)
       })

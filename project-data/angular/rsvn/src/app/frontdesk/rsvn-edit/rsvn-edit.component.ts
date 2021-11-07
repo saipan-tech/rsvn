@@ -162,7 +162,6 @@ export class RsvnEditComponent implements OnInit, OnChanges {
                   this.currRsvn =  data
                   this.loadRsvn(data)
                   this.currRsvnChange.emit(data)
-                  console.log("should be sending out changes",data)
                 }
               )
 

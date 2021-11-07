@@ -108,7 +108,6 @@ export class RoomListComponent implements OnInit, OnChanges {
       }
     )
 
-    console.log(this.dispList)
   }
 
   sortRateList(rooms: any) {

@@ -44,6 +44,15 @@ export class RoomService {
       .get<IRoom[]>(`${this.urlRoot}/room?rsvn=${rsvnid}`)
 
   }
+
+
+
+  getSpecialRoom(query:string) : Observable<IRoom[]>{
+    return this.http
+      .get<IRoom[]>(`${this.urlRoot}/room?${query}`)
+  }
+
+  
   getRsvnRoomAll(rsvnid:number) : Observable<IRoom[]> {
     return this.http
       .get<IRoom[]>(`${this.urlRoot}/roomall?rsvn=${rsvnid}`)
@@ -63,4 +72,5 @@ export class RoomService {
     return this.http.get<IStatuslog[]>(`${this.urlRoot}/statuslog?roominfo=${roominfo}`)
 
   }
+
 }

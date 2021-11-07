@@ -22,6 +22,9 @@ class RoomViewSet(viewsets.ModelViewSet):
 
         if "rsvn" in self.request.GET :
             queryset = queryset.filter(rsvn__id=self.request.GET['rsvn'])
+        
+        if "future" in self.request.GET :
+            queryset = queryset.filter( rsvn__dateOut__gt=self.request.GET['future'])
 
 
         if  "dateIn" in self.request.GET and "dateOut" in self.request.GET :

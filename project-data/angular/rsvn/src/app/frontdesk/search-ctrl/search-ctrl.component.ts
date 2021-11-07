@@ -4,6 +4,7 @@ import { GenericService } from '@app/_services/generic.service';
 import { SystemService } from '@app/_services/system.service';
 import { GuestService } from '@app/_services/guest.service';
 import { RsvnService } from '@app/_services/rsvn.service';
+import { RoomService } from '@app/_services/room.service';
 
 import { IRsvn } from '@app/_interface/rsvn';
 import { IGuest } from '@app/_interface/guest';
@@ -23,6 +24,7 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
     private systemService: SystemService,
     private guestService: GuestService,
     private rsvnService: RsvnService,
+    private roomService: RoomService,
 
   ) { }
 
@@ -87,12 +89,34 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
       case 'checkin':
       case 'checkout':
       case 'future':
-         this.rsvnService.rsvnSpecial(`${mode}=${this.today }`)
+          this.rsvnService.rsvnSpecial(`${mode}=${this.today }`)
           .subscribe(data => {
              this.rsvnList = data
             this.makeNewList()
           })
         break;
+      case 'noroom':
+        this.rsvnService.rsvnSpecial(`${mode}=${this.today }`)
+        .subscribe(data => {
+          let rList = data
+          this.rsvnList = []
+          // rList has all future reservaions
+          this.roomService.getSpecialRoom(`future=${this.today}`)
+            .subscribe(data2 => {
+              // data2 has all future rooms
+              rList.forEach(rrec => { 
+
+                if(! data2.find(d => d.rsvn == rrec.id)) {
+                  this.rsvnList.push(rrec)
+                }
+
+              }  )
+              this.makeNewList()
+
+            })
+          
+        })
+      break;
     }
   }
 

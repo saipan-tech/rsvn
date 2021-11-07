@@ -80,7 +80,6 @@ export class ChargePmtEditComponent implements OnInit {
   }
   //--------------------------
   newPayment() {
-    console.log("New Payment")
     this.paymentEditForm.reset()
     this.currPayment = {} as IPayment
     this.currPaymentChange.emit(this.currPayment)
@@ -91,8 +90,7 @@ export class ChargePmtEditComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     this.ngOnInit()
-    console.log("ngOnChanges", this.currPayment)
-
+  
     if (this.currPayment && this.currPayment.id) {
       this.paymentEditForm.patchValue(this.currPayment)
     } else {

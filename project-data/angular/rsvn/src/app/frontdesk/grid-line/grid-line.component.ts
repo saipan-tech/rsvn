@@ -1,5 +1,6 @@
 import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core';
 import { IRoom }from '@app/_interface/room';
+import { IRsvn } from '@app/_interface/rsvn'
 import { SystemService } from '@app/_services/system.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class GridLineComponent implements OnInit{
   @Input() room:any
   @Input() days = 0
   @Input() currDateStart = ''
-
+  @Input() currRsvn = {} as IRsvn
+  
   @Output() selected = new EventEmitter<any>();
 
 

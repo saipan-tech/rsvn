@@ -98,8 +98,6 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
         this.dispList.push({rates,bldg})
       }
     )
-
-         console.log(this.dispList)
   }
 
 
@@ -170,7 +168,6 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
             bldgs => {
               this.bldgList = bldgs
               this.makeList()
-              console.log(this.bldgList)
             })
         })
       // we are creating our Assigned Rooms here
@@ -187,7 +184,6 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
                 let bldg = this.bldgList.find(bl => bl.id == roominfo.bldg)
                 this.currRoomList.push({ bldg, room, roominfo })
               })
-              console.log(this.currRoomList)
             })
         })
     } 

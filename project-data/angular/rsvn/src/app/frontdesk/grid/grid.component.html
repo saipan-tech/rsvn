@@ -32,7 +32,7 @@
 
                 <div *ngFor="let r of b.rooms">
                     <app-grid-line (selected)='gridSelected($event)' [room]='r' [days]='days'
-                        [currDateStart]='currDateStart'></app-grid-line>
+                        [currDateStart]='currDateStart' [currRsvn]='currRsvn'></app-grid-line>
                 </div>
 
             </div>

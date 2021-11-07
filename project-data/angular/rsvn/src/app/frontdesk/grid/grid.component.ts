@@ -10,6 +10,7 @@ import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomService } from '@app/_services/room.service';
 import { AppConstants } from '@app/app.constants';
 import { SystemService } from '@app/_services/system.service';
+import { ChildActivationStart } from '@angular/router';
 
 
 @Component({
@@ -30,10 +31,11 @@ export class GridComponent implements OnInit, OnChanges {
   today = new Date().toISOString().slice(0, 10)
   selected: any
   sliderValue: any
+  currRsvnRooms: IRoom[] = []
 
   // -------------------------------------------
-  @Input() currRsvn = {} as IRsvn 
-  @Input() currGuest  = {} as IGuest
+  @Input() currRsvn = {} as IRsvn
+  @Input() currGuest = {} as IGuest
   @Input() currDateStart = this.addDay(this.today, -4)
   @Input() days = 24
   // -------------------------------------------
@@ -84,7 +86,7 @@ export class GridComponent implements OnInit, OnChanges {
         this.dispList.push({ bldg, rooms })
       }
     )
-   
+
   }
 
   // -------------------------------------------
@@ -102,7 +104,12 @@ export class GridComponent implements OnInit, OnChanges {
       var dateOut = rl.rsvn.dateOut;
       var primary: any = rl.rsvn.primary;
       var rsvnc = rl.rsvn.color;
-      this.rsvnRoomList.push({ roomid, rsvnid, dateIn, dateOut, primary, rsvnc })
+      var current = ''
+      if (this.currRsvn && this.currRsvnRooms.find(crr => crr.rsvn == rl.rsvn.id)) {
+        current = 'red';
+
+      }
+      this.rsvnRoomList.push({ roomid, rsvnid, dateIn, dateOut, primary, rsvnc, current })
     }
     )
   }
@@ -118,10 +125,10 @@ export class GridComponent implements OnInit, OnChanges {
       }
     )
   }
- 
 
-  shiftDate(d:string) {
-    this.currDateStart = this.addDay(d,-2)
+
+  shiftDate(d: string) {
+    this.currDateStart = this.addDay(d, -2)
     this.ngOnInit()
 
   }
@@ -133,6 +140,13 @@ export class GridComponent implements OnInit, OnChanges {
   // -------------------------------------------
   ngOnInit(): void {
     this.gridwidth = 100 / (Number(this.days) + 1)
+    if (this.currRsvn && this.currRsvn.id) {
+      this.roomService.getRsvnRoom(this.currRsvn.id)
+        .subscribe(data => 
+          {
+            this.currRsvnRooms = data
+          })
+    }
     this.dayList = this.systemService.daylister(this.currDateStart, this.days)
     this.currDateEnd = this.addDay(this.currDateStart, this.days)
     this.roomService.roomScan(this.currDateStart, this.currDateEnd)

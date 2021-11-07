@@ -49,7 +49,6 @@ export class RoomListComponent implements OnInit, OnChanges {
     descr: new FormControl(''),
   })
   ngOnChanges(changes: SimpleChanges) {
-    console.log("feeling it")
     this.ngOnInit()
   }
 
@@ -135,7 +134,6 @@ export class RoomListComponent implements OnInit, OnChanges {
 
         rec.id = founder.id
       }
-      console.log("Not Found",rec,"Founder",founder)
       rec.bldg = this.currBldg.id
       this.genericService.updateItem('roominfo', rec).subscribe(
         data => {
