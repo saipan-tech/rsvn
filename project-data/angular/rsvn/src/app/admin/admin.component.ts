@@ -12,6 +12,7 @@ export class AdminComponent implements OnInit {
   links = ['Housekeeping', 'Maintenance', 'Deliveries'];
   activeLink = this.links[0];
   background: ThemePalette = undefined;
+  cellMenu = ["dirty","cleaning","done"]
 
   toggleBackground() {
     this.background = this.background ? undefined : 'primary';

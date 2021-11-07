@@ -106,6 +106,7 @@ class Roominfo (models.Model):
     beds        =   models.CharField(max_length=128, blank=True)
     size        =  	models.CharField(max_length=20, blank=True)
     descr       =   models.TextField(blank=True)
+    status      =   models.CharField(max_length=12, default="unknown")
     def __str__(self) :
         return f"{self.bldg.name} -- {self.number}"
 
@@ -206,3 +207,12 @@ class Room (models.Model):
 
     def __str__(self) :
         return f"{self.rsvn.primary.firstname} {self.rsvn.primary.lastname}  -- {self.roominfo.number}"
+
+
+class StatusLog (models.Model): 
+    roominfo    =   models.ForeignKey(Roominfo,models.CASCADE)
+    from_status =   models.CharField(max_length=12)
+    to_status   =   models.CharField(max_length=12)
+    clerk       =   models.CharField(max_length=80)
+    created     =   models.DateTimeField(auto_now_add=True)
+            

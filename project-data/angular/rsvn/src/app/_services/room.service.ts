@@ -3,6 +3,7 @@ import {IBldg } from '@app/_interface/bldg';
 import {IRoom } from '@app/_interface/room';
 import {IRsvn } from '@app/_interface/rsvn';
 import {IRoominfo } from '@app/_interface/roominfo';
+import {IStatuslog } from '@app/_interface/statuslog';
 import { HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
@@ -58,4 +59,8 @@ export class RoomService {
     return this.http.get<any[]>(`${this.urlRoot}/roomall?dateIn=${dateIn}&dateOut=${dateOut}`)
   }
 
+  getStatusLog(roominfo:number):Observable<IStatuslog[]> {
+    return this.http.get<IStatuslog[]>(`${this.urlRoot}/statuslog?roominfo=${roominfo}`)
+
+  }
 }

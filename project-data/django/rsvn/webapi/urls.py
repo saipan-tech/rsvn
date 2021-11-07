@@ -49,6 +49,7 @@ router.register(r'payment',PaymentViewSet)
 router.register(r'season',SeasonViewSet)
 router.register(r'seasonrate',SeasonRateViewSet)
 router.register(r'seasonrateall',SeasonRateAllViewSet)
+router.register(r'statuslog',StatusLogViewSet)
 
 # yrp
 # Wire up our API using automatic URL routing.

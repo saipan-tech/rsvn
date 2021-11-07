@@ -35,3 +35,18 @@ class RoominfoViewSet(viewsets.ModelViewSet):
                     )
         return queryset    
 
+class StatusLogViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows logs to be viewed.
+    """
+    queryset = StatusLog.objects.all().order_by('-created')
+    serializer_class = StatusLogSerializer
+    permission_classes = [permissions.IsAuthenticated]    
+    
+     
+    def get_queryset(self):
+        queryset = super().get_queryset() 
+        if "roominfo" in self.request.GET :
+            queryset = queryset.filter(roominfo__id=self.request.GET['roominfo'])
+
+        return queryset    

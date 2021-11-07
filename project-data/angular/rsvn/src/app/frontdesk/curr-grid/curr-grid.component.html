@@ -1,20 +1,33 @@
-
-
 <div class="card" style="width:400px">
     <div class="card-header">
-       <h4>Current Status</h4> 
+        <h4>Current Status</h4>
     </div>
     <div class="card-body">
         <div *ngFor="let b of dispList">
             <h6>{{b.bldg }}</h6>
             <div class="d-flex flex-wrap">
                 <div *ngFor="let r of b.rooms">
-                    <button [style.border-color]="r.color"  [style.background-color]="r.status" class="form-control">{{ r.number }}</button> 
-                    </div>
-        
+                    <button class="{{r.status}} " (mouseover)='logView(r)' mat-button [matMenuTriggerFor]="menu">{{
+                        r.number }}</button>
+
+                    <mat-menu class="customize" #menu="matMenu">
+                        <div style="text-align:center"><u>Room {{r.number}}</u></div>
+                        <div (click)='setStatus(bb,r)' *ngFor='let bb of cellMenu' mat-menu-item>{{bb}}</div>
+                    </mat-menu>
+                </div>
+
             </div>
         </div>
 
     </div>
-    <div class="card-footer"></div>
+    <div class="card-footer">
+        <div style="height:200px;overflow-y:scroll">
+            <div *ngIf="currRoominfo && currBldg" class="roomHeading">{{currBldg.name}} - {{ currRoominfo.number }}</div>
+            <div *ngFor="let l of statuslogList">
+                <div style="font-size:small">{{ l.created | date:'short' }} {{ l.from_status }} => {{ l.to_status }} : {{ l.clerk }} </div>                <div class="d-flex">
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>

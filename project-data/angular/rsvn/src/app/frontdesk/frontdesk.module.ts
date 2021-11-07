@@ -19,6 +19,7 @@ import { MatIconModule} from '@angular/material/icon';
 import { MatButtonModule} from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule} from '@angular/material/radio';
+import { MatMenuModule} from '@angular/material/menu';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { ChargesModule } from '@app/charges/charges.module';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
@@ -56,6 +57,8 @@ import { CurrGridComponent } from './curr-grid/curr-grid.component';
     MatButtonModule,
     MatSliderModule,
     MatRadioModule,
+    MatMenuModule,
+    
     SharedDialogModule,
     ChargesModule,
     AccordionModule.forRoot(),

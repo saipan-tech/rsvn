@@ -119,3 +119,8 @@ class SeasonRateAllSerializer(serializers.ModelSerializer) :
         fields = '__all__'
         depth = 1
       
+class StatusLogSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = StatusLog
+        fields = '__all__'
+

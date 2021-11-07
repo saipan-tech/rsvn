@@ -56,3 +56,12 @@ payitem,1,Credit,credit
 payitem,2,Voucher,voucher
 payitem,3,Cash,cash
 payitem,4,Transfer,transfer
+roomstatus,0,Unknown,unknown
+roomstatus,1,Ready,ready
+roomstatus,2,Occupied,occupied
+roomstatus,3,Dirty,dirty
+roomstatus,4,Assigned,assigned
+roomstatus,5,Cleaning,cleaning
+roomstatus,6,Done,done
+roomstatus,7,Repair,repair
+roomstatus,8,OOC,ooc
