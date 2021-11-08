@@ -1,12 +1,5 @@
 <div class="section mt-2">Available Rooms</div>
 
-
-<select class="form-select">
-    <option value="">Select the Season</option>
-    <option *ngFor="let i of seasonList" [ngValue]="i.name">{{i.name}} </option>
-</select>
-
-
 <tabset>
     <tab *ngFor="let dl of dispList" heading={{dl.bldg.name}}>
         

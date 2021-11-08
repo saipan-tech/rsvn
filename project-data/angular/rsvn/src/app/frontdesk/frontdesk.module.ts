@@ -30,6 +30,8 @@ import { RoomListComponent } from './room-list/room-list.component';
 import { CurrGridComponent } from './curr-grid/curr-grid.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { SearchListComponent } from './search-list/search-list.component';
+import { MatTabsModule } from '@angular/material/tabs';
+
 
 @NgModule({
   declarations: [
@@ -61,6 +63,7 @@ import { SearchListComponent } from './search-list/search-list.component';
     MatRadioModule,
     MatMenuModule,
     MatExpansionModule,
+    MatTabsModule,
     SharedDialogModule,
     ChargesModule,
     AccordionModule.forRoot(),
