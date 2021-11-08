@@ -88,7 +88,7 @@ DATABASES = {
         'NAME': 'rsvn',
         'USER': 'rsvnuser',
         'PASSWORD': 'rsvnpass',
-        'HOST':'mysql',
+        'HOST':'rigel.saipantech.com',
 	    'PORT':'3306',
         },
     }

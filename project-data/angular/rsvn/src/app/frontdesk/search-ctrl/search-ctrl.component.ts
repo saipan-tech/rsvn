@@ -14,7 +14,7 @@ import { subscribeOn } from 'rxjs/operators';
 @Component({
   selector: 'app-search-ctrl',
   templateUrl: './search-ctrl.component.html',
-  styleUrls: ['./search-ctrl.component.css']
+  styleUrls: ['./search-ctrl.component.scss']
 })
 
 export class SearchCtrlComponent implements OnInit, OnChanges {
@@ -41,13 +41,13 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
   @Input() query: any
   @Input() dquery: any
 
-  today = new Date().toISOString().slice(0,10)
+  today = new Date().toISOString().slice(0, 10)
 
 
   guestList: any[] = []
   rsvnList: any[] = []
   resultInfo: any
-
+  noRoomResult = ''
   view_rsvn = false
   cell = 'cell'
   resultList: any[] = []
@@ -58,12 +58,37 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
     archive: new FormControl(''),
   });
 
+
+  noRoomCheck() {
+    this.noRoomResult = ""
+    this.rsvnService.rsvnSpecial(`noroom=${this.today}`)
+      .subscribe(data => {
+        let rList = data
+          // rList has all future reservaions
+        this.roomService.getSpecialRoom(`future=${this.today}`)
+          .subscribe(data2 => {
+            // data2 has all future rooms
+            rList.forEach(rrec => {
+
+              if (!data2.find(d => d.rsvn == rrec.id)) {
+                this.noRoomResult = 'pink'
+              }
+
+            })
+
+          })
+
+      })
+
+  }
+
+
   activeRes(mode: string) {
     this.resultList = []
     this.rsvnList = []
     this.guestList = []
 
-    switch(mode) {
+    switch (mode) {
       case 'active':
         this.rsvnService.getDateRsvn(new Date().toISOString())
           .subscribe(data => {
@@ -89,58 +114,61 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
       case 'checkin':
       case 'checkout':
       case 'future':
-          this.rsvnService.rsvnSpecial(`${mode}=${this.today }`)
+        this.rsvnService.rsvnSpecial(`${mode}=${this.today}`)
           .subscribe(data => {
-             this.rsvnList = data
+            this.rsvnList = data
             this.makeNewList()
           })
         break;
       case 'noroom':
-        this.rsvnService.rsvnSpecial(`${mode}=${this.today }`)
-        .subscribe(data => {
-          let rList = data
-          this.rsvnList = []
-          // rList has all future reservaions
-          this.roomService.getSpecialRoom(`future=${this.today}`)
-            .subscribe(data2 => {
-              // data2 has all future rooms
-              rList.forEach(rrec => { 
+        this.rsvnService.rsvnSpecial(`${mode}=${this.today}`)
+          .subscribe(data => {
+            let rList = data
+            this.rsvnList = []
+            // rList has all future reservaions
+            this.roomService.getSpecialRoom(`future=${this.today}`)
+              .subscribe(data2 => {
+                // data2 has all future rooms
+                rList.forEach(rrec => {
 
-                if(! data2.find(d => d.rsvn == rrec.id)) {
-                  this.rsvnList.push(rrec)
-                }
+                  if (!data2.find(d => d.rsvn == rrec.id)) {
+                    this.rsvnList.push(rrec)
+                  }
 
-              }  )
-              this.makeNewList()
+                })
+                this.makeNewList()
 
-            })
-          
-        })
-      break;
+              })
+
+          })
+        break;
     }
   }
 
 
-sortRsvnDateList(rlist:any) {
-  rlist.sort(function(a:any, b:any) {
-    var A = a.dateIn; // ignore upper and lowercase
-    var B = b.dateIn; // ignore upper and lowercase
-    if (A > B) { return -1; }
-    if (A < B) { return 1;  }
-    return 0; });
-  return rlist
-}
+  sortRsvnDateList(rlist: any) {
+    rlist.sort(function (a: any, b: any) {
+      var A = a.dateIn; // ignore upper and lowercase
+      var B = b.dateIn; // ignore upper and lowercase
+      if (A > B) { return -1; }
+      if (A < B) { return 1; }
+      return 0;
+    });
+    return rlist
+  }
 
-sortResultNames(rlist:any) {
-  rlist.sort(function(a:any, b:any) {
-    var A = a.guest.lastname.toUpperCase(); // ignore upper and lowercase
-    var B = b.guest.lastname.toUpperCase(); // ignore upper and lowercase
-    if (A < B) { return -1; }
-    if (A > B) { return 1;  }
-    return 0; });
-  return rlist
-}
+  sortResultNames(rlist: any) {
+    rlist.sort(function (a: any, b: any) {
+      var A = a.guest.lastname.toUpperCase(); // ignore upper and lowercase
+      var B = b.guest.lastname.toUpperCase(); // ignore upper and lowercase
+      if (A < B) { return -1; }
+      if (A > B) { return 1; }
+      return 0;
+    });
+    return rlist
+  }
 
+  // create the result list
   makeNewList() {
     let glist = new Set()
     this.resultList = []
@@ -150,10 +178,10 @@ sortResultNames(rlist:any) {
       }
     )
     for (let entry of glist) {
-      let rsvn = this.sortRsvnDateList(this.rsvnList.filter(rs =>rs.primary.id == entry ))
+      let rsvn = this.sortRsvnDateList(this.rsvnList.filter(rs => rs.primary.id == entry))
       let guest = rsvn[0].primary
-      this.resultList.push({rsvn, guest})
-    } 
+      this.resultList.push({ rsvn, guest })
+    }
     this.resultList = this.sortResultNames(this.resultList)
   }
 
@@ -167,7 +195,7 @@ sortResultNames(rlist:any) {
         let rsvn = this.rsvnList.filter(
           rsvlist => rsvlist.primary.id == grec.id
         )
-        rsvn = this.sortRsvnDateList(rsvn) 
+        rsvn = this.sortRsvnDateList(rsvn)
         this.resultList.push({ guest, rsvn })
       }
     )
@@ -197,13 +225,13 @@ sortResultNames(rlist:any) {
     this.currGuestChange.emit(rsvn.primary)
   }
 
-  
+
   selectGuest(guest: any) {
-  
+
     this.clearFields()
     this.currGuestChange.emit(guest)
     this.runSearch(guest.lastname)
-    
+
   }
 
   clearFields() {
@@ -227,10 +255,12 @@ sortResultNames(rlist:any) {
     this.currGuestChange.emit(this.currGuest)
   }
   ngOnInit(): void {
+    this.noRoomCheck()
   }
   ngOnChanges(changes: SimpleChanges) {
-    if(changes && changes.currRsvn && this.currRsvn &&  this.currRsvn.primary ) {
+    if (changes && changes.currRsvn && this.currRsvn && this.currRsvn.primary) {
       this.runSearch(this.currRsvn.primary.lastname)
     }
+    this.noRoomCheck()
   }
 }

@@ -1,0 +1,24 @@
+<div *ngFor="let rec of resultList" class="result-cell">
+    <div (click)="selectGuest(rec.guest)" class=" form-control result-name">
+
+    </div>
+    <div *ngIf="!rec.rsvn.length" class='form-control' (click)='selectGuest(rec.guest)'>
+        {{ rec.guest.firstname }} {{ rec.guest.lastname }}
+    </div>
+    <mat-accordion *ngIf="rec.rsvn.length">
+        <mat-expansion-panel class="custom" >
+
+            <mat-expansion-panel-header>
+                <mat-panel-title class="custom" (click)='selectGuest(rec.guest)' >
+                    {{ rec.guest.firstname }} {{ rec.guest.lastname }}
+                    <span style="margin-left:2em" 
+                        *ngIf='rec.rsvn.length > 0'> ( {{ rec.rsvn.length }} )</span>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngFor="let rs of rec.rsvn" (click)='selectRsvn(rs)' class="d-flex result-rsvn">
+                <div class="form-control"> {{ rs.dateIn }} </div>
+                <div class="form-control">{{ rs.dateOut }}</div>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

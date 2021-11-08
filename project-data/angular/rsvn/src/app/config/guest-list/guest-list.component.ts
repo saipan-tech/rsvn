@@ -33,7 +33,7 @@ export class GuestListComponent implements OnInit {
         this.dst.birthday = src.Birthdate
         this.dst.company = src.Company
         this.dst.idnum = src.Credits
-        this.dst.idtype = "Passport"
+        this.dst.idtype = "driver"
         this.dst.idexpire = "12/25/2040"
         this.dst.clerk = "api"
 

@@ -4,6 +4,7 @@
             <div class="d-flex">
                 <input autofocus placeholder="Name" type="text" formControlName='name' class="form-control">
                 <input placeholder="Description" type="text" formControlName='descr' class="form-control">
+                
                 <div class="d-flex"> 
                     <button class="form-control" [disabled]="!(seasonEditForm.valid)" (click)="updateSeason(seasonEditForm.value)">
                         <mat-icon>save</mat-icon>

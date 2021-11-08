@@ -29,6 +29,7 @@ import {SharedDialogModule} from "@app/shared/dialog/shared-dialog.module";
 import { RoomListComponent } from './room-list/room-list.component';
 import { CurrGridComponent } from './curr-grid/curr-grid.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { SearchListComponent } from './search-list/search-list.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     GridLineComponent,
     CurrGridComponent,
     RsvnCtrlComponent,
-    RoomListComponent
+    RoomListComponent,
+    SearchListComponent
   ],
   imports: [
     CommonModule,

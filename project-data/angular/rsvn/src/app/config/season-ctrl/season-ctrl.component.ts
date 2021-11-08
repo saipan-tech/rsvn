@@ -29,8 +29,7 @@ export class SeasonCtrlComponent implements OnInit {
     id: new FormControl(''),
     name: new FormControl('', Validators.required),
     descr: new FormControl(''),
-   
-
+  
   })
 
   clearSeason() {
