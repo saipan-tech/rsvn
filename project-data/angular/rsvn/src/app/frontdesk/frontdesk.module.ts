@@ -72,6 +72,7 @@ import { MatTabsModule } from '@angular/material/tabs';
   exports: [
     ClockComponent,
     CurrGridComponent,
+    FrontdeskComponent
   ]
 })
 export class FrontdeskModule { }

@@ -32,6 +32,7 @@ import { SeasonCtrlComponent } from './config/season-ctrl/season-ctrl.component'
 import { GuestListComponent } from './config/guest-list/guest-list.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AdminModule } from '@app/admin/admin.module';
+import { HeaderComponent } from './header/header.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { AdminModule } from '@app/admin/admin.module';
     FileinputComponent,
     RateListComponent,
     SeasonCtrlComponent,
-    GuestListComponent
+    GuestListComponent,
+    HeaderComponent
 
     
 
@@ -71,6 +73,7 @@ import { AdminModule } from '@app/admin/admin.module';
     AdminModule,
     AccordionModule.forRoot()
   ],
+  
 
 
   
