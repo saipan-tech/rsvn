@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@app/_services/auth.service';
 import { Router } from '@angular/router';
-
+import { ThemePalette } from '@angular/material/core';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -14,12 +14,11 @@ export class HeaderComponent implements OnInit {
     private router: Router,
   ) { }
   user: any
-
+  activeLink = 'dashboard'
+  
   logOff() {
-    this.authService.logout()
-    this.router.navigate(['login']);
-
-  }
+    this.authService.Logout()
+   }
 
   ngOnInit(): void {
     this.authService.isLoggedIn.subscribe(
@@ -27,10 +26,13 @@ export class HeaderComponent implements OnInit {
         if (!token) {
           this.router.navigate(['login']);
         }
+      
       }
     )
-    this.authService.getSession().subscribe(
-      data => this.user = data
+    this.authService.isUsername.subscribe(
+      username => {
+        this.user = username
+      }
     )
 
   }

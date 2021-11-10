@@ -19,12 +19,19 @@ import { MatTabsModule } from '@angular/material/tabs';
     
   ],
   imports: [
-    CommonModule,
+   
+    CommonModule,    
     AppRoutingModule,
     BrowserModule,
     FrontdeskModule,
     MatTabsModule,
   
+
+  ],
+  exports : [
+    StaffComponent,
+    HouseComponent,
+    MaintComponent,
 
   ]
 

@@ -38,8 +38,13 @@ export class HeadingComponent implements OnInit {
   ) { }
 
   logOff() {
-    this.authService.logout()
-    this.router.navigate(['login']);
+    this.authService.Logout()
+    .subscribe(
+      data => {
+        this.router.navigate(['login']);
+
+      }
+    )
 
   }
 
@@ -49,6 +54,11 @@ export class HeadingComponent implements OnInit {
         if (!token) {
           this.router.navigate(['login']);
         }
+      }
+    )
+    this.authService.isUsername.subscribe(
+      username => {
+        
       }
     )
     this.authService.getSession().subscribe(

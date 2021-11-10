@@ -39,7 +39,6 @@ export class ChargeChgListComponent implements OnInit {
   @Output() chgSubTotal = new EventEmitter<Number>()
 
   form_error: any
-  user: any
   numDays = 0
   
   roomList: IRoom[] = []
@@ -115,9 +114,6 @@ export class ChargeChgListComponent implements OnInit {
   }
   //--------------------------
   ngOnInit(): void {
-    this.authService.getSession().subscribe(
-      data => this.user = data
-    )
     this.systemService.getDropdownList('chgitem').subscribe(
       data => this.chgtypeList = data
     )

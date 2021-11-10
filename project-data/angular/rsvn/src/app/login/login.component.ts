@@ -28,16 +28,12 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(formdata:any) {
-
-    this.authService.login(formdata)
+    this.authService.Login(formdata)
       .subscribe(
-         (data) => {
-          localStorage.setItem('token',data.token);
-          this.authService.changeLoggedIn(true);
+        data => {
           this.router.navigate(['dashboard']);
-
-        
-      })
+        }
+      )
     }
   } 
   

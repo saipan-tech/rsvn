@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ThemePalette} from '@angular/material/core';
-
+import { AuthService } from '@app/_services/auth.service';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -8,7 +8,9 @@ import {ThemePalette} from '@angular/material/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private authService : AuthService
+  ) { }
   links = ['Housekeeping', 'Maintenance', 'Deliveries'];
   activeLink = this.links[0];
   background: ThemePalette = undefined;
@@ -23,6 +25,7 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  
   }
 
 }

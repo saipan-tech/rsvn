@@ -14,7 +14,6 @@ import { BldgListComponent } from '@app/config/bldg-list/bldg-list.component';
 import { RoomListComponent } from '@app/config/room-list/room-list.component';
 import { AmenityListComponent } from '@app/config/amenity-list/amenity-list.component';
 import { ConfigComponent } from '@app/config/config.component';
-import { HeadingComponent } from './heading.component';
 import { CafeComponent } from './cafe/cafe.component';
 import { ToursComponent } from './tours/tours.component';
 import { DropdownComponent } from './config/dropdown/dropdown.component';
@@ -31,6 +30,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { SeasonCtrlComponent } from './config/season-ctrl/season-ctrl.component';
 import { GuestListComponent } from './config/guest-list/guest-list.component';
 import { MatTabsModule } from '@angular/material/tabs';
+
 import { AdminModule } from '@app/admin/admin.module';
 import { HeaderComponent } from './header/header.component';
 
@@ -44,7 +44,6 @@ import { HeaderComponent } from './header/header.component';
     RoomListComponent,
     AmenityListComponent,
     ConfigComponent,
-    HeadingComponent,
     CafeComponent,
     ToursComponent,
     DropdownComponent,
@@ -53,8 +52,7 @@ import { HeaderComponent } from './header/header.component';
     SeasonCtrlComponent,
     GuestListComponent,
     HeaderComponent
-
-    
+  
 
   ],
   imports: [
@@ -74,7 +72,9 @@ import { HeaderComponent } from './header/header.component';
     AccordionModule.forRoot()
   ],
   
-
+exports: [
+  HeaderComponent
+],
 
   
   providers: [authInterceptorProviders,AppEnv,AppConstants],
