@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {ThemePalette} from '@angular/material/core';
-
  @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',

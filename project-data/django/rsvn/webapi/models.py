@@ -90,11 +90,14 @@ class Season(models.Model):
     descr       =   models.CharField(max_length=512, blank=True)
 #---------------------------------------------------------
 class SeasonRate(models.Model):
-    rate        =   models.ForeignKey(Rate,models.CASCADE)
     season      =   models.ForeignKey(Season,models.CASCADE)
+    rate        =   models.ForeignKey(Rate,models.CASCADE)
     amount	    = 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
-
-
+#---------------------------------------------------------
+class SeasonMap(models.Model):
+    season      =   models.ForeignKey(Season,models.CASCADE)
+    startDate   =   models.DateField()
+    endDate     =   models.DateField()
 #---------------------------------------------------------
 class Roominfo (models.Model):
     bldg        =   models.ForeignKey(Bldg,models.CASCADE)
@@ -110,7 +113,6 @@ class Roominfo (models.Model):
     status      =   models.CharField(max_length=12, default="unknown")
     def __str__(self) :
         return f"{self.bldg.name} -- {self.number}"
-
 #---------------------------------------------------------
 class Rsvn (models.Model):
     primary     =    models.ForeignKey(Guest,models.CASCADE)
@@ -152,9 +154,9 @@ class Service (models.Model):
 	earlyin			=	models.BooleanField(default=False)
 	lateout			=	models.BooleanField(default=False)
 	event			=	models.BooleanField(default=False)
-#=================================================================================
+#---------------------------------------------------------
 class WorkFile(models.Model):
-#=================================================================================
+#---------------------------------------------------------
     file        =   models.FileField(blank=False,null=False)
     def __str__(self):
         return self.file.name

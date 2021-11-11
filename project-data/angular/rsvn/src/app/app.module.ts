@@ -33,7 +33,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 import { AdminModule } from '@app/admin/admin.module';
 import { HeaderComponent } from './header/header.component';
-
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 @NgModule({
   declarations: [
@@ -69,7 +69,8 @@ import { HeaderComponent } from './header/header.component';
     AppRoutingModule,
     FrontdeskModule,
     AdminModule,
-    AccordionModule.forRoot()
+    AccordionModule.forRoot(),
+    CarouselModule.forRoot()
   ],
   
 exports: [
