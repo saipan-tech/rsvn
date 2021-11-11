@@ -24,7 +24,7 @@ export class FrontdeskComponent implements OnInit {
   user: any = {}
   currRsvn: any;
   currGuest: IGuest = {} as IGuest;
-
+  gridOn = false
   @Output() viewControl = new EventEmitter<string>();
 
   days = 0

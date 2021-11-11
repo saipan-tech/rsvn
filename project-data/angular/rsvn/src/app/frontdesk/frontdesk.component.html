@@ -1,39 +1,35 @@
 <!-- Page Tab Content -->
 <div class="content-box">
-      <div style="height:100%" class="d-flex flex-wrap">
+    <div style="height:100%" class="d-flex flex-wrap centerbox">
 
-<!-- Sidebar Search Column-->
+        <!-- Sidebar Search Column-->
         <div style="width:20%;height:100%">
             <app-search-ctrl [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-search-ctrl>
         </div>
 
-<!-- Center Column -->        
-        <div style="width:55%;height:100%">
+        <!-- Center Column -->
+        <div style="width:55%;height:100%;overflow-y:scroll">
+            <div class="card">
+                <div class="card-header d-flex">
+                    <div class="form-control">Guest Information Dashboard</div>
+                    <button class="form-control" (click)="gridOn=!gridOn">{{ gridOn ? 'Grid Off' : 'Grid On'}}</button>
+                </div>
+                <div class="card-body" style="padding:0;margin:0">
+                    <app-grid *ngIf="gridOn" [currRsvn]='currRsvn' (gridSelect)="selectedGuest($event)"> </app-grid>
+                    <app-rsvn-ctrl *ngIf="!gridOn" [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-rsvn-ctrl>
+                </div>
+            </div>
 
-
-            <mat-tab-group style="background-color:white">
-                <mat-tab label="Guest Control" style="height:100%">
-                    <app-rsvn-ctrl [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-rsvn-ctrl>
-                </mat-tab>
-                <mat-tab label="Grid View" style="height:100%">
-                    <app-grid [currRsvn]='currRsvn' (gridSelect)="selectedGuest($event)"> </app-grid>
-                </mat-tab>
-                <mat-tab label="Calendars" style="height:100%">
-                    <app-curr-grid></app-curr-grid>  
-                </mat-tab>
-            </mat-tab-group>
-
+  
 
 
         </div>
         <div style="width:25%;height:100%">
-<!-- Right Column-->
-     <app-room-ctrl [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-room-ctrl>       
+            <!-- Right Column-->
+            <app-room-ctrl [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-room-ctrl>
         </div>
     </div>
 
 
 
 </div>
-
-

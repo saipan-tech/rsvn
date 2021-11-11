@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
   ) { }
   user: any
   activeLink = 'dashboard'
+  currRsvn : any;
   
   logOff() {
     this.authService.Logout()

@@ -10,7 +10,7 @@ import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomService } from '@app/_services/room.service';
 import { AppConstants } from '@app/app.constants';
 import { SystemService } from '@app/_services/system.service';
-import { ChildActivationStart } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -51,7 +51,8 @@ export class GridComponent implements OnInit, OnChanges {
     private rsvnService: RsvnService,
     private roomService: RoomService,
     private appCons: AppConstants,
-    private systemService: SystemService
+    private systemService: SystemService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
 
@@ -139,13 +140,14 @@ export class GridComponent implements OnInit, OnChanges {
   }
   // -------------------------------------------
   ngOnInit(): void {
+
+
     this.gridwidth = 100 / (Number(this.days) + 1)
     if (this.currRsvn && this.currRsvn.id) {
       this.roomService.getRsvnRoom(this.currRsvn.id)
-        .subscribe(data => 
-          {
-            this.currRsvnRooms = data
-          })
+        .subscribe(data => {
+          this.currRsvnRooms = data
+        })
     }
     this.dayList = this.systemService.daylister(this.currDateStart, this.days)
     this.currDateEnd = this.addDay(this.currDateStart, this.days)

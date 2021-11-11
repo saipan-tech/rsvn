@@ -23,10 +23,11 @@
        [active]="activeLink == 'dashboard'" routerLink="/dashboard"> Dashboard </a>
     <a mat-tab-link 
        (click)="activeLink = 'frontdesk'"
-       [active]="activeLink == 'frontdesk'" routerLink="/frontdesk"> Front Desk </a>
+       [active]="activeLink == 'frontdesk'" routerLink="/frontdesk"> Guest and Reservations </a>
+    
     <a mat-tab-link 
        (click)="activeLink = 'house'"
-       [active]="activeLink == 'house'" routerLink="/house">HouseKeeping</a>
+       [active]="activeLink == 'house'" routerLink="/house">House Keeping</a>
     <a mat-tab-link 
        (click)="activeLink = 'maint'"
        [active]="activeLink == 'maint'" routerLink="/maint">Maintenance</a>
@@ -36,5 +37,11 @@
     <a mat-tab-link 
        (click)="activeLink = 'config'"
        [active]="activeLink == 'config'" routerLink="/config">Configuration</a>
+<div>
 
+ <!--   <app-grid [currRsvn]='currRsvn' (gridSelect)="selectedGuest($event)"> </app-grid> -->
+
+</div>
   </nav>
+
+  
