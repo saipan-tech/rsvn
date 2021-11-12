@@ -46,7 +46,7 @@
                     <input type="text" formControlName='rateClass' class="form-control">
                     <input type="text" formControlName='descr' class="form-control">
                     <input *ngFor="let x of seasonList" type="number" formControlName='{{x.name}}' class="form-control">
-       
+
                 </div>
 
             </form>
@@ -72,5 +72,6 @@
     <div class="card-footer">
         <app-fileinput (results)="setResults($event)"></app-fileinput>
     </div>
+    <app-rate-calendar></app-rate-calendar>
 
 </div>

@@ -1,12 +1,9 @@
-<!-- Page Tab Content -->
 <div class="content-box">
     <div style="height:100%" class="d-flex flex-wrap centerbox">
-
         <!-- Sidebar Search Column-->
         <div style="width:20%;height:100%">
             <app-search-ctrl [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-search-ctrl>
         </div>
-
         <!-- Center Column -->
         <div style="width:55%;height:100%;overflow-y:scroll">
             <div class="card">
@@ -19,17 +16,10 @@
                     <app-rsvn-ctrl *ngIf="!gridOn" [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-rsvn-ctrl>
                 </div>
             </div>
-
-  
-
-
         </div>
         <div style="width:25%;height:100%">
             <!-- Right Column-->
             <app-room-ctrl [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-room-ctrl>
         </div>
     </div>
-
-
-
 </div>
