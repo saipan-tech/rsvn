@@ -24,6 +24,8 @@
             <div class="col">Name</div>
             <div class="col">Type</div>
             <div class="col">Class</div>
+            <div class="col">Rack Rate</div>
+            
             <div class="col">Description</div>
             <div class="col" *ngFor="let x of seasonList">
                 {{ x.name }}
@@ -44,6 +46,8 @@
                     <input type="text" formControlName='rateName' class="form-control">
                     <input type="text" formControlName='rateType' class="form-control">
                     <input type="text" formControlName='rateClass' class="form-control">
+                    <input type="number" formControlName='rack' class="form-control">
+
                     <input type="text" formControlName='descr' class="form-control">
                     <input *ngFor="let x of seasonList" type="number" formControlName='{{x.name}}' class="form-control">
 
@@ -64,6 +68,7 @@
             <div class="form-control">{{ r.rateName }}</div>
             <div class="form-control">{{ r.rateType }}</div>
             <div class="form-control">{{ r.rateClass }}</div>
+            <div class="form-control">{{ r.rack }}</div>
             <div class="form-control">{{ r.descr }}</div>
             <div class="form-control" *ngFor="let x of r.seasonList"> {{x}} </div>
         </div>
@@ -72,6 +77,6 @@
     <div class="card-footer">
         <app-fileinput (results)="setResults($event)"></app-fileinput>
     </div>
-    <app-rate-calendar></app-rate-calendar>
+
 
 </div>

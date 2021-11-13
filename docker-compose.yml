@@ -67,6 +67,7 @@ services:
       context: nginx
     volumes:
       - ./project-data:/usr/src/app/
+      - ./project-data/html:/usr/share/nginx/html/
     ports:
       - "80:80"
     depends_on:

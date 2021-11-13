@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { SystemService } from '@app/_services/system.service';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 @Component({
   selector: 'app-rate-calendar',
   templateUrl: './rate-calendar.component.html',
@@ -7,32 +8,48 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RateCalendarComponent implements OnInit {
 
-  constructor() { }
-  ngOnInit(): void {
-    var dateList = []
-    var dateObject:any = {}
+  constructor(
+    private systemService : SystemService
+  ) { }
+
+  monthLister:any[] = []  
+  weekdays = ['Sun','Mon','Tue','Wed','Thr','Fri','Sat']
+  months= ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  
+  makeDisplayList(year:any) {
+    year = Number(year)
+    let dater = this.systemService.yearDater(year)
+    let monthList:any[] = []
+    let maxMonth = 0
+    let mCounter :any[] = []
+
+    console.log(dater)
     
-    let d1 = new Date()
-  let first_second =new Date(d1.getFullYear(),0,1).getTime()
-  let tickperday = 60 * 60 * 24 * 1000
-  let currDay 
-  for(let x=0;x<365;++x) {
-    currDay = new Date(first_second + (tickperday * x) ) 
-    dateList.push(currDay.toISOString().slice(0,10))
-    if(!dateObject[currDay.getMonth()] ) {
-      dateObject[currDay.getMonth()] = []   
+    dater.months.forEach(
+      month => {
+        let date = new Date(month[0])
+        let head = {year:date.getUTCFullYear(),dow:date.getUTCDay(),date:date,month:this.months[date.getUTCMonth()]}
+        let days = Array(date.getUTCDay())
+        days = days.concat(month)
+        monthList.push({head,days})
+        maxMonth= Math.max(days.length,maxMonth)
+      })
+      mCounter = Array(maxMonth)
+      console.log(mCounter,maxMonth,monthList)
+      return {mCounter,maxMonth,monthList}
+     
+  
     }
-    dateObject[currDay.getMonth()].push(currDay.toISOString().slice(0,10))   
 
+
+  ngOnInit(): void {
+    for (let i of [0,1]) {
+      console.log("i",i)
+      this.monthLister.push(this.makeDisplayList(i))
+
+    }
   }
-  
-  console.log(dateObject,dateList)
-  
 
-
-
-  
-  }
   setResults(file:[]) {
 
   }

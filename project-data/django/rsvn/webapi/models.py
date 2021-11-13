@@ -79,6 +79,7 @@ class Rate(models.Model):
     rateName	=	models.CharField(max_length=512)
     rateType	=  	models.CharField(max_length=512, blank=True)
     rateClass   =  	models.CharField(max_length=512, blank=True)
+    rack        = 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
     color       =  	models.CharField(max_length=40, default='white')
     descr		=	models.CharField(max_length=1028, blank=True)	
 	
@@ -105,7 +106,6 @@ class Roominfo (models.Model):
     floor       =   models.CharField(max_length=20, blank=True)
     style   	=   models.CharField(max_length=128, blank=True)
     rateAlias   =   models.CharField(max_length=128, blank=True)
-    rack        = 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
     name        =   models.CharField(max_length=512, blank=True)
     beds        =   models.CharField(max_length=128, blank=True)
     size        =  	models.CharField(max_length=20, blank=True)

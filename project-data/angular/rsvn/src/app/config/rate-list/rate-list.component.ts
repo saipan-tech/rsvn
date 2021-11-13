@@ -36,6 +36,7 @@ export class RateListComponent implements OnInit {
     rateName: ['', Validators.required],
     rateType: ['', Validators.required],
     rateClass: ['', Validators.required],
+    rack:     ['', Validators.required],
     descr: [''],
     color: [''],
   })
@@ -114,17 +115,20 @@ export class RateListComponent implements OnInit {
     }
   }
   //=================================
-  updateSeasonRate(season: ISeason, rate: any) {
+  updateSeasonRate(season: any, rate: any) {
     // check if exist search on season_id and rate_id
     // run an update
     let seasonRate: ISeasonRate = {
       id: 0,
-      rate: rate.id,
-      season: season.id,
+      rate: rate,
+      season: season,
       amount: rate[season.name]
     }
-    this.seasonService.getSeasonRate(`season=${season.id}&rate=${rate.id}`)
+    console.log("season Rate",seasonRate)
+    this.seasonService.getSeasonRate(`season=${season}&rate=${rate}`)
       .subscribe(data => {
+        console.log("season Rate",seasonRate)
+        
         if (data.length) {
           seasonRate.id = data[0].id
         }
@@ -134,6 +138,9 @@ export class RateListComponent implements OnInit {
           })
       })
   }
+
+
+  
   //=================================
   updateRate(rate: any) {
     this.seasonList.forEach(s => {
