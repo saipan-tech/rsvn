@@ -19,7 +19,6 @@ class Staff (models.Model):
     state  	    = 	models.CharField(max_length=60)
     country 	= 	models.CharField(max_length=60, blank=True)
     email 		= 	models.EmailField()
-
 #---------------------------------------------------------
 class Guest (models.Model):
     firstname	=	models.CharField(max_length=80)
@@ -89,16 +88,16 @@ class Rate(models.Model):
 class Season(models.Model):
     name        =   models.CharField(max_length=250,unique=True)
     descr       =   models.CharField(max_length=512, blank=True)
+    color       =  	models.CharField(max_length=40, default='white')
 #---------------------------------------------------------
 class SeasonRate(models.Model):
     season      =   models.ForeignKey(Season,models.CASCADE)
     rate        =   models.ForeignKey(Rate,models.CASCADE)
     amount	    = 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
 #---------------------------------------------------------
-class SeasonMap(models.Model):
-    season      =   models.ForeignKey(Season,models.CASCADE)
-    startDate   =   models.DateField()
-    endDate     =   models.DateField()
+class SeasonCal(models.Model):
+    date        =   models.DateField(unique=True)
+    season      =   models.CharField(max_length=250)
 #---------------------------------------------------------
 class Roominfo (models.Model):
     bldg        =   models.ForeignKey(Bldg,models.CASCADE)
@@ -136,8 +135,6 @@ class Rsvn (models.Model):
         return  (self.dateOut - self.dateIn).days
     def __str__(self) :
         return f"{self.primary.firstname} {self.primary.lastname}  {self.dateIn}  {self.dateOut}"
-
-
 #---------------------------------------------------------
 class Service (models.Model):
 	rsvn			= 	models.ForeignKey(Rsvn,on_delete=models.CASCADE)
@@ -160,9 +157,6 @@ class WorkFile(models.Model):
     file        =   models.FileField(blank=False,null=False)
     def __str__(self):
         return self.file.name
-
-
-
 #---------------------------------------------------------
 class TaxRate(models.Model):
     taxCategory = models.CharField(max_length=512)
@@ -190,7 +184,6 @@ class Charge(models.Model):
     def amount(self):
         return self.count * self.unit
 #---------------------------------------------------------
-
 class Payment(models.Model):
     rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnPayment')
     item        =   models.CharField(max_length=512)
@@ -200,22 +193,18 @@ class Payment(models.Model):
     clerk       =   models.CharField(max_length=80,default="FrontDesk")
     created     =   models.DateTimeField(auto_now_add=True)
     modified    =   models.DateTimeField(auto_now=True)
-
 #---------------------------------------------------------
 class Room (models.Model):
     rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnOf')
     roominfo 	=   models.ForeignKey(Roominfo,models.CASCADE, related_name='roominfoOf')
     rateCharge  =   models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
     status      =   models.CharField(max_length=12, default="none")
-
     def __str__(self) :
         return f"{self.rsvn.primary.firstname} {self.rsvn.primary.lastname}  -- {self.roominfo.number}"
-
-
+#---------------------------------------------------------
 class StatusLog (models.Model): 
     roominfo    =   models.ForeignKey(Roominfo,models.CASCADE)
     from_status =   models.CharField(max_length=12)
     to_status   =   models.CharField(max_length=12)
     clerk       =   models.CharField(max_length=80)
-    created     =   models.DateTimeField(auto_now_add=True)
-            
+    created     =   models.DateTimeField(auto_now_add=True)            

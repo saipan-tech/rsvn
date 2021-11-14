@@ -2,10 +2,10 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
 import { GenericService } from '@app/_services/generic.service';
 import { RoomService } from '@app/_services/room.service';
 import { ISeason } from '@app/_interface/season';
-
+import { IDropdown } from '@app/_interface/dropdown';
 import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
 import { SeasonService } from '@app/_services/season.service';
-
+import { SystemService } from '@app/_services/system.service';
 @Component({
   selector: 'app-season-ctrl',
   templateUrl: './season-ctrl.component.html',
@@ -15,11 +15,12 @@ export class SeasonCtrlComponent implements OnInit {
 
   constructor(
     private genericService: GenericService,
-    private seasonService:  SeasonService
+    private seasonService:  SeasonService,
+    private systemService:  SystemService
 
   ) { }
 
-
+  colorList : IDropdown[] = []
   currSeason : ISeason = {} as ISeason
   seasonList : ISeason[] = []
 
@@ -29,6 +30,7 @@ export class SeasonCtrlComponent implements OnInit {
     id: new FormControl(''),
     name: new FormControl('', Validators.required),
     descr: new FormControl(''),
+    color: new FormControl(''),
   
   })
 
@@ -90,5 +92,9 @@ export class SeasonCtrlComponent implements OnInit {
       .subscribe(
         data => this.seasonList = data
       )
+    this.systemService.getDropdownList('color').subscribe(
+        data => this.colorList = data
+      )
+  
   }
 }

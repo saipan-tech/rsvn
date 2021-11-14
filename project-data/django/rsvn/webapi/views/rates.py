@@ -64,3 +64,15 @@ class SeasonRateAllViewSet(viewsets.ModelViewSet):
         if "season" in self.request.GET :
             queryset = queryset.filter(season__id=self.request.GET['season'])
         return queryset
+#===========================
+class SeasonCalViewSet(viewsets.ModelViewSet):
+    serializer_class = SeasonCalSerializer
+    queryset = SeasonCal.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+
+        queryset = super().get_queryset() 
+        if "year" in self.request.GET :
+            queryset = queryset.filter(date__year=int(self.request.GET['year'])).order_by('date')
+        return queryset

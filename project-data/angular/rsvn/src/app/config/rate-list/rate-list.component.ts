@@ -120,15 +120,12 @@ export class RateListComponent implements OnInit {
     // run an update
     let seasonRate: ISeasonRate = {
       id: 0,
-      rate: rate,
-      season: season,
+      rate: rate.id,
+      season: season.id,
       amount: rate[season.name]
     }
-    console.log("season Rate",seasonRate)
-    this.seasonService.getSeasonRate(`season=${season}&rate=${rate}`)
+    this.seasonService.getSeasonRate(`season=${season.id}&rate=${rate.id}`)
       .subscribe(data => {
-        console.log("season Rate",seasonRate)
-        
         if (data.length) {
           seasonRate.id = data[0].id
         }
@@ -138,19 +135,20 @@ export class RateListComponent implements OnInit {
           })
       })
   }
-
-
-  
   //=================================
   updateRate(rate: any) {
-    this.seasonList.forEach(s => {
-      if (rate[s.name]) {
-        this.updateSeasonRate(s, rate)
-      }
-    })
-
+  
     this.genericService.updateItem('rate', rate).subscribe(
       data => {
+        // if this is a new rate we must inject the id
+        if (!rate.id) {
+          rate.id = data.id
+        }
+        this.seasonList.forEach(s => {
+          if (rate[s.name]) {
+            this.updateSeasonRate(s, rate)
+          }
+        })
         this.clearRate()
       }
     )
@@ -167,25 +165,23 @@ export class RateListComponent implements OnInit {
 
   //=================================
   addSeasonRate() {
-    this.rateList.forEach(rec => {
-      rec['seasonList'] = []
+    this.rateList.forEach(rl => {
+      rl.seasonList = []
       this.seasonList.forEach(
         sl => {
-          let f = this.seasonrateList.find(srl => srl.rate == rec.id
-            && srl.season == sl.id)
+          let f = this.seasonrateList.find(srl => srl.rate == rl.id && srl.season == sl.id)
           if (f) {
-            rec['seasonList'].push(f.amount)
-            rec[sl.name] = f.amount
+            rl.seasonList.push(f.amount)
+            rl[sl.name] = f.amount
           }
           else {
-            rec['seasonList'].push('')
-            rec[sl.name] = ''
+            rl.seasonList.push('')
+            rl[sl.name] = ''
           }
         }
       )
     })
-  }
-
+   }
   //=================================
   ngOnInit(): void {
     this.genericService.getItemList('season')
@@ -198,7 +194,6 @@ export class RateListComponent implements OnInit {
           })
         }
       )
-
     this.currRate = {} as IRate
     //=================================
     this.genericService.getItemList('rate')
@@ -210,7 +205,6 @@ export class RateListComponent implements OnInit {
               data2 => {
                 this.seasonrateList = data2
                 this.addSeasonRate()
-
               }
             )
         }

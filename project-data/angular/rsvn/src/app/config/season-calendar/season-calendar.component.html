@@ -1,0 +1,38 @@
+<div class="card">
+    <div class="card-header" style="text-align:center">
+        <div class="d-flex">
+            <div style="width:15%">
+                <h4>Season Calendar</h4>
+            </div>
+
+            <div style="width:15%">select year</div>
+            <div style="width:15%">
+                <select [(ngModel)]='currYear' (change)='setTable(currYear)' class="form-control">
+                    <option *ngFor="let y of yearList" [value]="y.value">{{y.display}} </option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="card-body">
+    <table class="datatable">
+        <tr>
+            <th>
+                <h4 style="color:black">{{ monthList.year }}</h4>
+            </th>
+            <th *ngFor='let m of monthList.mCounter;let i = index'>{{weekdays[i % 7]}}</th>
+        </tr>
+        <tr *ngFor="let ml of monthList.monthList ">
+            <td class="head">{{ml.head.month }}</td>
+            <td *ngFor='let d of ml.days'>
+                <button *ngIf="d" class="button" (click)="selectDay($event,d)">{{d | slice:-2}}</button>
+            </td>
+        </tr>
+    </table>
+
+   
+</div>
+
+<div class="card-footer">
+</div>

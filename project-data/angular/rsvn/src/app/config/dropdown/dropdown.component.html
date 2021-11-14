@@ -22,17 +22,7 @@
                             <h4> {{ currDropdown.name }} Table</h4>
                         </div>
                         <div class="col-4">
-                            <button [disabled]="!(dropdownEditForm.valid)"
-                                (click)="updateDropdown(dropdownEditForm.value)">
-                                <mat-icon>save</mat-icon>
-                            </button>
-                            <button [disabled]="!(currDropdown && currDropdown.id)" (click)="clearDropdown()">
-                                <mat-icon>note_add</mat-icon>
-                            </button>
-                            <button [disabled]="!(dropdownEditForm.value.id)"
-                                (click)='deleteDropdown(dropdownEditForm.value)'>
-                                <mat-icon>delete</mat-icon>
-                            </button>
+
                         </div>
                     </div>
 
@@ -53,7 +43,21 @@
                                     <div><input type="number" formControlName='sequence' class="form-control"> </div>
                                     <div><input type="text" formControlName='display' class="form-control"> </div>
                                     <div><input type="text" formControlName='value' class="form-control"> </div>
-                                </div>
+                                    <div>
+
+                                        <button [disabled]="!(dropdownEditForm.valid)"
+                                            (click)="updateDropdown(dropdownEditForm.value)">
+                                            <mat-icon>save</mat-icon>
+                                        </button>
+                                        <button [disabled]="!(currDropdown && currDropdown.id)" (click)="clearDropdown()">
+                                            <mat-icon>note_add</mat-icon>
+                                        </button>
+                                        <button [disabled]="!(dropdownEditForm.value.id)"
+                                            (click)='deleteDropdown(dropdownEditForm.value)'>
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </div>
+                                            </div>
                             </form>
                         </div>
 

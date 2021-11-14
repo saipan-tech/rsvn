@@ -34,7 +34,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AdminModule } from '@app/admin/admin.module';
 import { HeaderComponent } from './header/header.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
-import { RateCalendarComponent } from './config/rate-calendar/rate-calendar.component';
+import { SeasonCalendarComponent } from './config/season-calendar/season-calendar.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +53,7 @@ import { RateCalendarComponent } from './config/rate-calendar/rate-calendar.comp
     SeasonCtrlComponent,
     GuestListComponent,
     HeaderComponent,
-    RateCalendarComponent
+    SeasonCalendarComponent
   
 
   ],
