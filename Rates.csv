@@ -1,10 +1,10 @@
-alias,rateCategory,rateName,rateType,rack,rateClass,offSeason,lowSeason,highSeason,peakSeason,xmasSeason,descr,color
-Standard01,Rooms,Standard,1 King,290,flex,120,150,250,290,500,,aquamarine
-Standard02,Rooms,Standard,2 Twin,300,flex,130,160,260,300,501,,sandybrown
-Deluxe01,Rooms,Deluxe,1 King,315,flex,145,175,275,315,502,,beige
-Deluxe02,Rooms,Deluxe,2 Twin,325,flex,155,185,285,325,503,,mint
-Suite01,Rooms,Suite,2 Queen,380,flex,210,240,340,380,504,,lavender
-Suite02,Rooms,Suite,2 King,385,flex,215,245,345,385,505,,skyblue
-Patio01,Rooms,Patio Standard,1 King,450,tour,280,310,410,450,506,,teal
-Patio02,Rooms,Patio Standard,2 Queen,460,tour,290,320,420,460,507,,whitesmoke
-Patio03,Rooms,Patio Deluxe,2 Queen,470,flex,300,330,430,470,508,,salmon
+alias,rateCategory,rateName,rateType,rack,rateClass,offSeason,lowSeason,highSeason,peakSeason,xmasSeason,noSeason,descr,color
+Standard01,Rooms,Standard,1 King,290,flex,120,150,250,290,500,261,,aquamarine
+Standard02,Rooms,Standard,2 Twin,300,flex,130,160,260,300,501,270,,sandybrown
+Deluxe01,Rooms,Deluxe,1 King,315,flex,145,175,275,315,502,283.5,,beige
+Deluxe02,Rooms,Deluxe,2 Twin,325,flex,155,185,285,325,503,292.5,,mint
+Suite01,Rooms,Suite,2 Queen,380,flex,210,240,340,380,504,342,,lavender
+Suite02,Rooms,Suite,2 King,385,flex,215,245,345,385,505,346.5,,skyblue
+Patio01,Rooms,Patio Standard,1 King,450,tour,280,310,410,450,506,405,,teal
+Patio02,Rooms,Patio Standard,2 Queen,460,tour,290,320,420,460,507,414,,whitesmoke
+Patio03,Rooms,Patio Deluxe,2 Queen,470,flex,300,330,430,470,508,423,,salmon

@@ -208,3 +208,11 @@ class StatusLog (models.Model):
     to_status   =   models.CharField(max_length=12)
     clerk       =   models.CharField(max_length=80)
     created     =   models.DateTimeField(auto_now_add=True)            
+#---------------------------------------------------------
+class Calendar(models.Model):    
+    category    =   models.CharField(max_length=1024)
+    name        =   models.CharField(max_length=512)
+    item        =   models.CharField(max_length=1024, blank=True)
+    date        =   models.DateField()
+    descr       =   models.CharField(max_length=2048, blank=True)
+    notes       =   models.CharField(max_length=4096, blank=True)

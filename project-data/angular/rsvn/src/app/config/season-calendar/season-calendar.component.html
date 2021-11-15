@@ -6,16 +6,30 @@
             </div>
 
             <div style="width:15%">select year</div>
-            <div style="width:15%">
+            <div style="width:45%">
                 <select [(ngModel)]='currYear' (change)='setTable(currYear)' class="form-control">
-                    <option *ngFor="let y of yearList" [value]="y.value">{{y.display}} </option>
+                    <option *ngFor="let y of yearList" [ngValue]="y.value">{{y.display}} </option>
                 </select>
+             
             </div>
+ 
         </div>
 
     </div>
 </div>
 <div class="card-body">
+    <div>
+        <div class="d-flex">
+            <div [ngStyle]="({'background-color':seas.color})" class="legend" *ngFor="let seas of seasonList">
+                <button (click)='markDates(seas)'>{{ seas.name }}</button>
+            </div>
+            <div>
+                <span style="margin-left:2em" *ngFor="let c of clipboard" >{{ c.date }}</span>
+            </div>
+ 
+        </div>
+        
+    </div>
     <table class="datatable">
         <tr>
             <th>
@@ -26,7 +40,8 @@
         <tr *ngFor="let ml of monthList.monthList ">
             <td class="head">{{ml.head.month }}</td>
             <td *ngFor='let d of ml.days'>
-                <button *ngIf="d" class="button" (click)="selectDay($event,d)">{{d | slice:-2}}</button>
+                <button *ngIf="d" class="zbutton" [ngStyle]="({'background-color':seasonColor[d.season]})" 
+                    (click)="selectDay($event,d)">{{d.date | slice:-2}}</button>
             </td>
         </tr>
     </table>

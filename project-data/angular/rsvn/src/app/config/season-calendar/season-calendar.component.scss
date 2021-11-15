@@ -1,5 +1,8 @@
 @use "sass:math";
-
+.legend {
+    padding:10px;
+    margin-left:1em;
+}
 .rheading {
     text-align:center;
     padding:10px;
@@ -17,11 +20,12 @@
 .rcell {
     width: math.div(96,36) * 100%
 }
-.button {
+.zbutton {
     width:100%;
     height:100%;
-    border: none;
+    border:none;
     cursor:pointer;
+    background-color:white;
 }
 .datatable {
     width:100%;

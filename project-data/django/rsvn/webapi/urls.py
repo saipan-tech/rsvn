@@ -29,6 +29,7 @@ from webapi.views.system import *
 from webapi.views.guest import *
 from webapi.views.rates import *
 from webapi.views.charges import *
+from webapi.views.calendar import *
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -51,6 +52,8 @@ router.register(r'seasonrate',SeasonRateViewSet)
 router.register(r'seasonrateall',SeasonRateAllViewSet)
 router.register(r'statuslog',StatusLogViewSet)
 router.register(r'seasoncal',SeasonCalViewSet)
+router.register(r'calendar',CalendarViewSet)
+
 
 
 # yrp
@@ -66,6 +69,8 @@ urlpatterns = [
     path('session/',Session.as_view()),
     path('filein/',WorkFileView.as_view()),
     path('rsvntest/<id>/',RsvnTestView.as_view()),
-    path('people/',PeopleAPI.as_view())
+    path('people/',PeopleAPI.as_view()),
+    path('holiday/<year>/',HolidayAPI.as_view()),
+    
     
 ]

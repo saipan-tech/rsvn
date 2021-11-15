@@ -35,6 +35,7 @@ import { AdminModule } from '@app/admin/admin.module';
 import { HeaderComponent } from './header/header.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { SeasonCalendarComponent } from './config/season-calendar/season-calendar.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { SeasonCalendarComponent } from './config/season-calendar/season-calenda
     SeasonCtrlComponent,
     GuestListComponent,
     HeaderComponent,
-    SeasonCalendarComponent
+    SeasonCalendarComponent,
+    CalendarComponent
   
 
   ],

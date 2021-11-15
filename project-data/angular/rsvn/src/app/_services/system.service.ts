@@ -31,6 +31,10 @@ export class SystemService {
     getPeople(): Observable<any> {
         return this.http.get<any>(`${this.urlRoot}/people/`)
     }
+   //==================================================
+   getHoliday(year:number): Observable<any> {
+        return this.http.get<any>(`${this.urlRoot}/holiday/${year}/`)
+}
 
     //==================================================
     daylister(start: string, days: number): any[] {
@@ -41,6 +45,21 @@ export class SystemService {
         }
         return dayList
     }
+  //==================================================
+  daySpanSeq(d1: string, d2: string): any[] {
+    
+    var d1D = new Date(d1).getTime()
+    var d2D = new Date(d2).getTime()
+    
+    let start = Math.min(d1D,d2D)
+    let end  = Math.max(d1D,d2D)
+    var dayList: any = []
+    while ( start <= end) {
+        dayList.push(new Date(start).toISOString().slice(0, 10))
+        start += this.appCons.DAILYSECONDS
+    }
+    return dayList
+}
 
     //==================================================
     

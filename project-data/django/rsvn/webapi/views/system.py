@@ -95,3 +95,22 @@ class PeopleAPI(APIView):
         response = requests.request("GET", url, headers=headers)
 
         return Response(json.loads(response.text))
+
+class HolidayAPI(APIView):
+    
+    def get (self, request,year,format=None) :
+
+        url = f"https://public-holiday.p.rapidapi.com/{year}/US"
+        headers = {
+            'x-rapidapi-host': 'public-holiday.p.rapidapi.com',
+            'x-rapidapi-key': '0472c1a4ebmshf78b78358f3592ep10ef9djsn502077cd455e',
+             "content-type": "application/json",
+            }
+
+        response = requests.request("GET", url, headers=headers)
+
+        return Response(json.loads(response.text))
+
+
+
+        
