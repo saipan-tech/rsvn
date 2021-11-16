@@ -40,6 +40,10 @@ export class GenericService {
     return this.http.delete<any>(`${this.urlRoot}/${base}/${item.id}/`)
   }
 
+  getItemQueryList(base:string,query:string): Observable<any[]> {
+    return this.http
+      .get<any[]>(`${this.urlRoot}/${base}?${query}`)
+  }
 
 }
 

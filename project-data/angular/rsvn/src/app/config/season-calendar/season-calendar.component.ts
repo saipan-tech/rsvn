@@ -11,7 +11,6 @@ import { ISeason } from '@app/_interface/season';
   styleUrls: ['./season-calendar.component.scss']
 })
 export class SeasonCalendarComponent implements OnInit {
-
   constructor(
     private systemService : SystemService,
     private seasonService : SeasonService,
@@ -29,53 +28,67 @@ export class SeasonCalendarComponent implements OnInit {
   dateList:any[] = []
   seasonColor:any  = {}
   holidayList:any[] = []
-  //===========================================================
-  makeDisplayList(currCal:ISeasonCal[]) {
-    let dater = this.seasonService.yearDater(currCal)
 
-    let monthList:any[] = []
+  //===========================================================
+  newDisplayList(currCal:any[]) {
+    console.log("Running the List again")
+    var dateObject: any = {}
+    var currDay
+    var monthList =[]
     let maxMonth = 0
     let mCounter :any[] = []
-    let year = new Date(dater.days[0].date).getUTCFullYear()
-
-    dater.months.forEach(
-      month => {
-  
-        let date = new Date(month[0].date)
+    let year = this.currYear
+    // initialize months
+    for (let x = 0; x < 12; ++x) {
+      dateObject[x] = []
+    }
+//step through each dates
+    currCal.forEach(
+      scal => {
+        currDay = new Date(scal.date)
+        let h = this.holidayList.find(x => scal.date == x.date)
+        if(h) {
+          if(!scal.holiday) scal.holiday = []
+          scal.holiday.push(h) 
+        }
+        let m = this.dateList.find(x => scal.date == x)
+        scal.mark = false
+        if(m) {
+          scal.mark = true 
+        }
+        dateObject[currDay.getUTCMonth()].push(scal)
+      // let's update the marks here
+      
+      
+      })
+      for (let x = 0; x < 12; ++x) {
+        let m = dateObject[x]
+        let date = new Date(m[0].date)
         let head = {year:date.getUTCFullYear(),dow:date.getUTCDay(),date:date,month:this.months[date.getUTCMonth()]}
-    
         let days = Array(date.getUTCDay())
-        days = days.concat(month)
+        days = days.concat(m)
         monthList.push({head,days})
         maxMonth= Math.max(days.length,maxMonth)
-      })
+
+      }
       mCounter = Array(maxMonth)
-      
       this.monthList= {year,mCounter,maxMonth,monthList}
-      console.log(this.monthList)
-    }
+    } 
   //===========================================================
   setTable(year:number) {
     this.currYear = year
     this.ngOnInit()
   }  
   //===========================================================
-  markDates(season:ISeason) {
-    let objList:any = []
-    if(this.clipboard.length >1 ) {
-      this.dateList = this.systemService.daySpanSeq( this.clipboard.pop().date,this.clipboard.pop().date)
-      this.dateList.forEach(
-        dl => {
-          let ol:any  = this.currCal.find(f => f.date == dl)
-          ol.season = season.name
-          objList.push(ol)
-      })
-    } else if(this.clipboard.length == 1) {
+  saveDates(season:ISeason) {
 
-      let ol:any  = this.clipboard.pop() 
-      ol.season = season.name
-      objList.push(ol)
-    }
+    let objList:any = []
+    this.dateList.forEach(
+      dl => {
+        let ol:any  = this.currCal.find(f => f.date == dl)
+        ol.season = season.name
+        objList.push(ol)
+    })
     this.seasonService.saveList(objList)
     .subscribe(
       data => {
@@ -83,18 +96,31 @@ export class SeasonCalendarComponent implements OnInit {
     },
     err => console.log(err)
    )
+  }
+  //===========================================================
+  markDates() {
+    if(this.clipboard.length >1 ) {
 
-
+    } else if(this.clipboard.length == 1) {
+      this.dateList.push(this.clipboard.pop().date)
+    }
   }
   //===========================================================
   selectDay(event:any,date:any) {
     console.log(event.shiftKey,event.ctrlKey,date)
     if(event.shiftKey) {
       this.clipboard.push(date)
+      if(this.clipboard.length >1)  {
+        this.dateList = this.systemService.daySpanSeq( this.clipboard.pop().date,this.clipboard.pop().date)
+      }
     } else {
       this.clipboard = [ date ]
+      this.dateList = [ date.date ]
+      
     }
-    console.log(this.clipboard)
+    this.newDisplayList(this.currCal)
+      
+ 
   }
   //===========================================================
   ngOnInit(): void {
@@ -110,18 +136,18 @@ export class SeasonCalendarComponent implements OnInit {
     this.systemService.getDropdownList('years').subscribe(
       data => this.yearList = data
     )
+
     this.seasonService.seasonCalInitialize(this.currYear)
     this.seasonService.getSeasonCalendar(`year=${this.currYear}`)
       .subscribe( data => {
         this.currCal = data
-        this.makeDisplayList(this.currCal)
+        this.newDisplayList(this.currCal)
       })
-      this.systemService.getHoliday(this.currYear)
-        .subscribe(data => {
-          this.holidayList = data
-          console.log(data)
-
-        })
+    this.genericService.getItemQueryList('calendar',`year=${this.currYear}&category=holiday`)
+      .subscribe(data => {
+        this.holidayList = data
+        console.log("holiday",data)
+      })  
  }
   //===========================================================
   setResults(file:[]) {

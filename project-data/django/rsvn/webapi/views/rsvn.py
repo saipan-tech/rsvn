@@ -94,8 +94,6 @@ class RsvnViewSet(viewsets.ModelViewSet):
             x = serializer.save()
             x.confirm = confirm_gen(x.id)
             x.save()
-
-
             return Response(serializer.data)
         return Response(serializer.errors)
 

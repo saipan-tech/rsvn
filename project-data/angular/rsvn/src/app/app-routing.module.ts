@@ -14,6 +14,7 @@ import { HouseComponent } from './admin/house/house.component';
 import { MaintComponent } from './admin/maint/maint.component';
 import { StaffComponent } from './admin/staff/staff.component';
 import { GridComponent } from './frontdesk/grid/grid.component';
+import { CalendarComponent } from './calendar/calendar.component';
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
@@ -28,7 +29,9 @@ const appRoutes: Routes = [
   { path: 'house', component:  HouseComponent },
   { path: 'maint', component:  MaintComponent },
   { path: 'staff', component:  StaffComponent },
-  { path: 'grid', component:  GridComponent }
+  { path: 'grid', component:  GridComponent },
+  { path: 'calendar', component:  CalendarComponent },
+  
   
 ];
 

@@ -4,7 +4,6 @@ import { FrontdeskComponent } from './frontdesk.component';
 import { RsvnEditComponent } from './rsvn-edit/rsvn-edit.component';
 import { GuestEditComponent } from './guest-edit/guest-edit.component';
 import { GridComponent } from './grid/grid.component';
-import { CalendarComponent } from './calendar/calendar.component';
 import { RoomCtrlComponent } from './room-ctrl/room-ctrl.component';
 import { SearchCtrlComponent } from './search-ctrl/search-ctrl.component';
 import { GridLineComponent } from './grid-line/grid-line.component';
@@ -40,7 +39,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     RsvnEditComponent,
     GuestEditComponent,
     GridComponent,
-    CalendarComponent,
+
     RoomCtrlComponent,
     SearchCtrlComponent,
     GridLineComponent,

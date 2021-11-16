@@ -1,1 +1,16 @@
-<p>calendar works!</p>
+<div class="card"  style="width:700px">
+    <div class="card-header d-flex" >
+        <button class="btn btn-primary" (click)='getHolidays(currYear)'>Synch Holidays</button> 
+        <h5 style="margin-left:200px">Current Year: {{currYear}} Holidays</h5>
+            </div>
+    <div class="card-body">
+        <div *ngFor='let cy of currList' class='d-flex'>
+            <div class="form-control">{{ cy.date }}</div>
+            <div class="form-control">{{ cy.name }}</div>
+            <div class="form-control">{{ cy.category }}</div>
+        </div>
+        
+    </div>
+</div>
+
+
