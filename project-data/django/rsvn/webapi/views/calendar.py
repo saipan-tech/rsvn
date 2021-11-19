@@ -15,8 +15,7 @@ class CalendarViewSet(viewsets.ModelViewSet):
         if "month" in self.request.GET :
             queryset = queryset.filter(date__month=int(self.request.GET['month'])).order_by('date')
         if "name" in self.request.GET  and  "date" in self.request.GET :
-            queryset = queryset.filter(date=self.request.GET['date'],name=self.request.GET['name']
-            ).order_by('date')
-        
+            queryset = queryset.filter(date=self.request.GET['date'],name=self.request.GET['name']).order_by('date')
+
         return queryset
 

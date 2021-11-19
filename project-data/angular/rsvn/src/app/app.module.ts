@@ -17,25 +17,23 @@ import { ConfigComponent } from '@app/config/config.component';
 import { CafeComponent } from './cafe/cafe.component';
 import { ToursComponent } from './tours/tours.component';
 import { DropdownComponent } from './config/dropdown/dropdown.component';
-import { FileinputComponent } from './system/fileinput/fileinput.component';
 import { MatIconModule} from '@angular/material/icon';
 import { MatButtonModule} from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule} from '@angular/material/radio';
 
 import { FrontdeskModule } from '@app/frontdesk/frontdesk.module';
-import { RateListComponent } from '@app/config/rate-list/rate-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
-import { SeasonCtrlComponent } from './config/season-ctrl/season-ctrl.component';
 import { GuestListComponent } from './config/guest-list/guest-list.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AdminModule } from '@app/admin/admin.module';
 import { HeaderComponent } from './header/header.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
-import { SeasonCalendarComponent } from './config/season-calendar/season-calendar.component';
-import { CalendarComponent } from './calendar/calendar.component';
+import { RatemgrModule } from './ratemgr/ratemgr.module';
+import { SharedModule } from '@app/shared/shared.module'
 
 @NgModule({
   declarations: [
@@ -49,17 +47,14 @@ import { CalendarComponent } from './calendar/calendar.component';
     CafeComponent,
     ToursComponent,
     DropdownComponent,
-    FileinputComponent,
-    RateListComponent,
-    SeasonCtrlComponent,
     GuestListComponent,
     HeaderComponent,
-    SeasonCalendarComponent,
-    CalendarComponent
+    
   
 
   ],
   imports: [
+    SharedModule,
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,
@@ -68,18 +63,17 @@ import { CalendarComponent } from './calendar/calendar.component';
     MatIconModule,
     MatButtonModule,
     MatSliderModule,
+    MatSelectModule,
     MatRadioModule,
     MatTabsModule,
     AppRoutingModule,
     FrontdeskModule,
     AdminModule,
+    RatemgrModule,
     AccordionModule.forRoot(),
     CarouselModule.forRoot()
   ],
   
-exports: [
-  HeaderComponent
-],
 
   
   providers: [authInterceptorProviders,AppEnv,AppConstants],

@@ -39,7 +39,6 @@ import { MatTabsModule } from '@angular/material/tabs';
     RsvnEditComponent,
     GuestEditComponent,
     GridComponent,
-
     RoomCtrlComponent,
     SearchCtrlComponent,
     GridLineComponent,

@@ -9,9 +9,6 @@
            <button class="list-group-item list-group-item-action bg-light" (click)="mode='logo'">Logo and Branding</button>
            <button class="list-group-item list-group-item-action bg-light" (click)="mode='dropdown'">Dropdown</button>
            <button class="list-group-item list-group-item-action bg-light" (click)="mode='lists'">Lists</button>
-           <button class="list-group-item list-group-item-action bg-light" (click)="mode='rate'">Rate Table</button>
-           <button class="list-group-item list-group-item-action bg-light" (click)="mode='season'">Season</button>
-           <button class="list-group-item list-group-item-action bg-light" (click)="mode='seasoncalendar'">Season Calendar</button>
            <button class="list-group-item list-group-item-action bg-light" (click)="mode='guest'">Guest</button>
        </div>
    </div>
@@ -36,17 +33,8 @@
          <div *ngIf="mode=='lists'" style="margin:0 auto;">
             <app-amenity-list></app-amenity-list>
          </div>
-         <div *ngIf="mode=='rate'" style="margin:0 auto;">
-            <app-rate-list></app-rate-list>
-         </div>
-         <div *ngIf="mode=='season'" style="margin:0 auto;">
-            <app-season-ctrl></app-season-ctrl>
-         </div>
          <div *ngIf="mode=='guest'" style="margin:0 auto;">
             <app-guest-list></app-guest-list>
-         </div>
-         <div *ngIf="mode=='seasoncalendar'" style="margin:0 auto;">
-            <app-season-calendar></app-season-calendar>
          </div>
          
        </div>

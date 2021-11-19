@@ -5,6 +5,7 @@ import { SeasonService } from '@app/_services/season.service';
 import { ISeasonCal } from '@app/_interface/seasoncal';
 import { GenericService } from '@app/_services/generic.service';
 import { ISeason } from '@app/_interface/season'; 
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-season-calendar',
   templateUrl: './season-calendar.component.html',
@@ -21,19 +22,19 @@ export class SeasonCalendarComponent implements OnInit {
   weekdays = ['Sun','Mon','Tue','Wed','Thr','Fri','Sat']
   months= ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
   yearList:IDropdown[] = []
-  currYear = new Date().getFullYear()
+  currYear = new Date().getUTCFullYear()
+  currYearS = String(this.currYear)
   currCal:ISeasonCal[]= []
   seasonList:ISeason[] = []
   clipboard : any[] = []
   dateList:any[] = []
   seasonColor:any  = {}
   holidayList:any[] = []
-
+  seasonCount:any = {}
   //===========================================================
   newDisplayList(currCal:any[]) {
-    console.log("Running the List again")
     var dateObject: any = {}
-    var currDay
+    var currDay 
     var monthList =[]
     let maxMonth = 0
     let mCounter :any[] = []
@@ -75,8 +76,8 @@ export class SeasonCalendarComponent implements OnInit {
       this.monthList= {year,mCounter,maxMonth,monthList}
     } 
   //===========================================================
-  setTable(year:number) {
-    this.currYear = year
+  setTable(year:string) {
+    this.currYear = Number(year)
     this.ngOnInit()
   }  
   //===========================================================
@@ -90,12 +91,14 @@ export class SeasonCalendarComponent implements OnInit {
         objList.push(ol)
     })
     this.seasonService.saveList(objList)
-    .subscribe(
-      data => {
-      console.log(data)
-    },
-    err => console.log(err)
-   )
+     .subscribe(
+       data => console.log(data),
+       err => console.log("this is error"),
+       () => {
+         this.ngOnInit()
+         console.log("finished")
+       }
+     )
   }
   //===========================================================
   markDates() {
@@ -107,7 +110,6 @@ export class SeasonCalendarComponent implements OnInit {
   }
   //===========================================================
   selectDay(event:any,date:any) {
-    console.log(event.shiftKey,event.ctrlKey,date)
     if(event.shiftKey) {
       this.clipboard.push(date)
       if(this.clipboard.length >1)  {
@@ -123,7 +125,28 @@ export class SeasonCalendarComponent implements OnInit {
  
   }
   //===========================================================
+  seasonTally() {
+    this.seasonCount = {}
+    this.currCal.forEach( cc => {
+      if( !this.seasonCount[cc.season]) this.seasonCount[cc.season] = 0
+      this.seasonCount[cc.season] += 1
+    })
+  
+  }
+  //===========================================================
+  refreshTable() {
+    this.seasonService.getSeasonCalendar(`year=${this.currYear}`)
+    .subscribe( data => {
+      this.currCal = data
+      this.newDisplayList(this.currCal)
+      this.seasonTally()
+    })
+
+  }
+  //===========================================================
   ngOnInit(): void {
+    this.clipboard = []
+    this.dateList = []
     this.genericService.getItemList("season")
       .subscribe( data =>  {
         this.seasonList = data
@@ -134,20 +157,19 @@ export class SeasonCalendarComponent implements OnInit {
           })
       })
     this.systemService.getDropdownList('years').subscribe(
-      data => this.yearList = data
+      data => {
+          this.yearList = data
+          console.log(data)
+        }
     )
 
     this.seasonService.seasonCalInitialize(this.currYear)
-    this.seasonService.getSeasonCalendar(`year=${this.currYear}`)
-      .subscribe( data => {
-        this.currCal = data
-        this.newDisplayList(this.currCal)
-      })
+    this.refreshTable()
     this.genericService.getItemQueryList('calendar',`year=${this.currYear}&category=holiday`)
       .subscribe(data => {
         this.holidayList = data
-        console.log("holiday",data)
       })  
+
  }
   //===========================================================
   setResults(file:[]) {

@@ -15,6 +15,11 @@ import { MaintComponent } from './admin/maint/maint.component';
 import { StaffComponent } from './admin/staff/staff.component';
 import { GridComponent } from './frontdesk/grid/grid.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { RatemgrCtrlComponent } from './ratemgr/ratemgr-ctrl/ratemgr-ctrl.component';
+import { SeasonService } from './_services/season.service';
+import { SeasonCtrlComponent } from './ratemgr/season-ctrl/season-ctrl.component';
+import { SeasonCalendarComponent } from './ratemgr/season-calendar/season-calendar.component';
+import { RateListComponent } from './ratemgr/rate-list/rate-list.component';
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
@@ -23,16 +28,23 @@ const appRoutes: Routes = [
   { path: 'tours', component: ToursComponent },
   { path: 'cafe', component: CafeComponent },
   { path: 'admin', component: AdminComponent },
-  { path: 'frontdesk', component:  FrontdeskComponent },
-  { path: 'guest', component:  GuestEditComponent },
-  { path: 'dropdown', component:  DropdownComponent },
-  { path: 'house', component:  HouseComponent },
-  { path: 'maint', component:  MaintComponent },
-  { path: 'staff', component:  StaffComponent },
-  { path: 'grid', component:  GridComponent },
-  { path: 'calendar', component:  CalendarComponent },
-  
-  
+  { path: 'frontdesk', component: FrontdeskComponent },
+  { path: 'guest', component: GuestEditComponent },
+  { path: 'dropdown', component: DropdownComponent },
+  { path: 'house', component: HouseComponent },
+  { path: 'maint', component: MaintComponent },
+  { path: 'staff', component: StaffComponent },
+  { path: 'grid', component: GridComponent },
+  { path: 'calendar', component: CalendarComponent },
+  { path: 'ratemgr', component: RatemgrCtrlComponent,
+    children: [
+      { path: 'season', component: SeasonCtrlComponent },
+      { path: 'seasoncal', component: SeasonCalendarComponent },
+      { path: 'ratelist', component: RateListComponent },
+
+    ]
+  }
+
 ];
 
 @NgModule({
@@ -40,9 +52,9 @@ const appRoutes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forRoot(appRoutes,
-      { onSameUrlNavigation:'reload'}),
+      { onSameUrlNavigation: 'reload' }),
 
- 
+
   ],
   exports: [
     RouterModule

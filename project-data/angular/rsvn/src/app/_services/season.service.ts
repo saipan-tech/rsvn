@@ -45,7 +45,7 @@ export class SeasonService {
   //==================================================
   makeCalendar(year: number) {
     let first_second = new Date(year, 0, 1).getTime()
-    let last_second = new Date(Number(year) + 1, 0, 1).getTime()
+    let last_second = new Date(year + 1, 0, 1).getTime()
     let tickperday = 60 * 60 * 24 * 1000
     let currDay
     let num_days = (last_second - first_second) / tickperday
@@ -54,7 +54,8 @@ export class SeasonService {
       currDay = new Date(first_second + (tickperday * x)).toISOString().slice(0, 10)
 
       this.genericService.updateItem("seasoncal", { id: '', date: currDay, season: 'noSeason' })
-        .subscribe(data => console.log("success"),
+        .subscribe(
+          data => console.log("success"),
           err => console.log("error", err))
     }
   }

@@ -1,0 +1,19 @@
+<div class="card">
+    <div class="card-header">
+        <nav mat-tab-nav-bar [ngStyle]="({'background-color':'skyblue'})">
+            <a mat-tab-link 
+               (click)="activeLink = 'seasoncal'"
+               [active]="activeLink == 'seasoncal'" routerLink="seasoncal"> Season Calendar </a>
+            <a mat-tab-link 
+               (click)="activeLink = 'season'"
+               [active]="activeLink == 'season'" routerLink="season"> Season </a>
+            <a mat-tab-link 
+               (click)="activeLink = 'ratelist'"
+               [active]="activeLink == 'ratelist'" routerLink="ratelist"> Rate List </a>
+          </nav>
+    </div>
+    <div class="card-body">
+        <router-outlet></router-outlet>
+    </div>
+    <div class="card-footer"></div>
+</div>

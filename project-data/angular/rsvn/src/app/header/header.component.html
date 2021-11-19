@@ -37,6 +37,10 @@
        (click)="activeLink = 'staff'"
        [active]="activeLink == 'staff'" routerLink="/staff">Staff</a>
     <a mat-tab-link 
+       (click)="activeLink = 'ratemgr'"
+       [active]="activeLink == 'ratemgr'" routerLink="/ratemgr">Rate Management</a>
+       
+    <a mat-tab-link 
        (click)="activeLink = 'config'"
        [active]="activeLink == 'config'" routerLink="/config">Configuration</a>
   </nav>
