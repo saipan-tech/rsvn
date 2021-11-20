@@ -75,4 +75,7 @@ class SeasonCalViewSet(viewsets.ModelViewSet):
         queryset = super().get_queryset() 
         if "year" in self.request.GET :
             queryset = queryset.filter(date__year=int(self.request.GET['year'])).order_by('date')
+        if "date" in self.request.GET :
+            queryset = queryset.filter(date=self.request.GET['date'])
+            
         return queryset

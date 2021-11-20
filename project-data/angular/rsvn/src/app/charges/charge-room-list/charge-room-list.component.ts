@@ -11,6 +11,8 @@ import { RoomService } from '@app/_services/room.service';
 
 import { ChargeService } from '@app/_services/charge.service';
 import { AppConstants } from '@app/app.constants';
+import { from } from 'rxjs';
+import { concatMap,tap } from 'rxjs/operators';
 @Component({
   selector: 'app-charge-room-list',
   templateUrl: './charge-room-list.component.html',
@@ -23,6 +25,8 @@ export class ChargeRoomListComponent implements OnInit {
     private systemService: SystemService,
     private authService: AuthService,
     private appConstants: AppConstants,
+    private genericService: GenericService
+    
 
 
   ) { }
@@ -50,13 +54,11 @@ export class ChargeRoomListComponent implements OnInit {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    this.ngOnInit()
-    
-    if (this.currCharge && this.currCharge.id) {
-
-    } else {
+    console.log("changes",changes)
+    if(! changes.currRsvn.firstChange) {
+        this.ngOnInit()
     }
-
+  
   }
   //--------------------------
 
@@ -99,11 +101,63 @@ export class ChargeRoomListComponent implements OnInit {
       data => this.chgtypeList = data
     )
 
-    this.roomService.getRsvnRoomAll(this.currRsvn.id)
+    this.genericService.getItemQueryList('room',`rsvn=${this.currRsvn.id}`)
       .subscribe(data => {
         this.fullRoomList = data
+        console.log("FullRoomList",data)
         this.chargeTotal()
       })
+    this.genericService.getItemQueryList('room',`rsvn=${this.currRsvn.id}`)
+      .pipe(
+        concatMap((result) =>
+          from(result).pipe(
+            tap( r => console.log(r,this.currRsvn.dateIn,this.currRsvn.dateOut))
+          )
+        )
+      ).subscribe()
+/*
+
+          this.systemService.getHoliday(year)
+          .pipe(
+            concatMap(
+              (result: any) =>
+                // separate the array into individual observables
+                from(result).pipe(
+                  concatMap(
+                    (hol: any) =>
+                      // check for duplicates
+                      this.noDuplicate(hol)
+                        .pipe(
+                          // if not a duplicate save to db
+                          concatMap(dd => iif(() => dd, this.saveHoliday(hol))),
+                        )
+                  )
+                )
+            )
+        
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     this.numDays = ((new Date(this.currRsvn.dateOut).getTime() - new Date(this.currRsvn.dateIn).getTime()) / this.appConstants.DAILYSECONDS) 
 

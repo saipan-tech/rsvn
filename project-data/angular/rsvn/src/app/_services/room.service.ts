@@ -24,11 +24,6 @@ export class RoomService {
 
   private urlRoot = `${this.env.WEB_API}` 
   
-  getRoominfoList(): Observable<IRoominfo[]> {
-    return this.http
-      .get<IRoominfo[]>(`${this.urlRoot}/roominfo/`)
-  }
-  
   getFullBldgList(): Observable<any[]> {
     return this.http
       .get<any[]>(`${this.urlRoot}/bldg?full=1`)
@@ -39,25 +34,7 @@ export class RoomService {
       .get<IRoominfo[]>(`${this.urlRoot}/roominfo?bldgid=${bldgid}`)
   }
 
-  getRsvnRoom(rsvnid:number) : Observable<IRoom[]> {
-    return this.http
-      .get<IRoom[]>(`${this.urlRoot}/room?rsvn=${rsvnid}`)
-
-  }
-
-
-
-  getSpecialRoom(query:string) : Observable<IRoom[]>{
-    return this.http
-      .get<IRoom[]>(`${this.urlRoot}/room?${query}`)
-  }
-
-  
-  getRsvnRoomAll(rsvnid:number) : Observable<IRoom[]> {
-    return this.http
-      .get<IRoom[]>(`${this.urlRoot}/roomall?rsvn=${rsvnid}`)
-
-  }
+ 
   availableRooms(dateIn:string,dateOut:string):Observable<IRoominfo[]> {
     return this.http.get<IRoominfo[]>(`${this.urlRoot}/roominfo?exclude=1&dateIn=${dateIn}&dateOut=${dateOut}`)
   }
@@ -70,6 +47,10 @@ export class RoomService {
 
   getStatusLog(roominfo:number):Observable<IStatuslog[]> {
     return this.http.get<IStatuslog[]>(`${this.urlRoot}/statuslog?roominfo=${roominfo}`)
+
+  }
+  getRoomCalc(roominfo_id:number,date1:string,date2:string):Observable<any[]> {
+    return this.http.get<any[]>(`${this.urlRoot}/roomcalc/${roominfo_id}/${date1}/${date2}/`)
 
   }
 

@@ -64,8 +64,8 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
     this.rsvnService.rsvnSpecial(`noroom=${this.today}`)
       .subscribe(data => {
         let rList = data
-          // rList has all future reservaions
-        this.roomService.getSpecialRoom(`future=${this.today}`)
+          // rList has all future reservations
+        this.genericService.getItemQueryList('room',`future=${this.today}`)
           .subscribe(data2 => {
             // data2 has all future rooms
             rList.forEach(rrec => {
@@ -126,7 +126,7 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
             let rList = data
             this.rsvnList = []
             // rList has all future reservaions
-            this.roomService.getSpecialRoom(`future=${this.today}`)
+            this.genericService.getItemQueryList('room',`future=${this.today}`)
               .subscribe(data2 => {
                 // data2 has all future rooms
                 rList.forEach(rrec => {

@@ -2,8 +2,8 @@ import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChange
 import { SystemService } from '@app/_services/system.service';
 import { ICalendar } from '@app/_interface/calendar';
 import { GenericService } from '@app/_services/generic.service';
-import { catchError, tap, map, concatMap, mergeMap} from 'rxjs/operators';
-import { from,iif, Observable } from 'rxjs';
+import { catchError, tap, map, concatMap, mergeMap } from 'rxjs/operators';
+import { from, iif, Observable } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 
@@ -22,15 +22,16 @@ export class CalendarComponent implements OnInit, OnChanges {
   @Input() currYear: number = new Date().getFullYear();
   holidayList: ICalendar[] = []
   currList: ICalendar[] = []
-//====================================================
-refreshList() {
+  dateSeasonList: { date: string, season: string }[] = []
+  //====================================================
+  refreshList() {
     this.genericService.getItemQueryList('calendar', `year=${this.currYear}`)
       .subscribe(data => {
         this.currList = data
       })
   }
-//====================================================
-syncCalendar(dateList: any[]) {
+  //====================================================
+  syncCalendar(dateList: any[]) {
     dateList.forEach(rec => {
       this.genericService.getItemQueryList('calendar', `year=${this.currYear}&name=${rec.name}&date=${rec.date}`)
         .subscribe(data => {
@@ -43,56 +44,73 @@ syncCalendar(dateList: any[]) {
         })
     })
   }
-//====================================================
-noDuplicate(rec: { name: string, date: string }) {
+  //====================================================
+  noDuplicate(rec: { name: string, date: string }) {
     let year = new Date(rec.date).getUTCFullYear()
     return this.genericService.getItemQueryList('calendar', `year=${year}&name=${rec.name}&date=${rec.date}`)
       .pipe(
         map(data => !!!data.length)
       )
   }
-//====================================================
-saveHoliday(rec: { name: string, date: string }) {
-    let newrec  = { name:rec.name, date:rec.date, category:'holiday'}    
+  //====================================================
+  saveHoliday(rec: { name: string, date: string }) {
+    let newrec = { name: rec.name, date: rec.date, category: 'holiday' }
     return this.genericService.updateItem('calendar', newrec)
   }
 
-//====================================================
-getHolidays(year: number) {
+  //====================================================
+  getHolidays(year: number) {
     this.systemService.getHoliday(year)
       .subscribe(data => {
         this.syncCalendar(data)
       })
   }
-//====================================================
-getHolidays2(year: number) {
+  //====================================================
+  getHolidays2(year: number) {
     // get the holiday array from the API
     this.systemService.getHoliday(year)
       .pipe(
         concatMap(
           (result: any) =>
-          // separate the array into individual observables
+            // separate the array into individual observables
             from(result).pipe(
               concatMap(
-                (hol:any) => 
+                (hol: any) =>
                   // check for duplicates
                   this.noDuplicate(hol)
                     .pipe(
                       // if not a duplicate save to db
-                     concatMap(dd => iif(() => dd,this.saveHoliday(hol)) ),
+                      concatMap(dd => iif(() => dd, this.saveHoliday(hol))),
                     )
+              )
             )
         )
-     )
-    ).subscribe(data => {},err => {}, () =>this.refreshList() )
+      ).subscribe(data => { }, err => { }, () => this.refreshList())
   }
-//====================================================
-ngOnChanges(changes: SimpleChanges) {
+  //====================================================
+  ngOnChanges(changes: SimpleChanges) {
     this.refreshList()
   }
-//====================================================
-ngOnInit(): void {
-  this.refreshList()
+  //====================================================
+  ngOnInit(): void {
+    let dsl: any = []
+    this.refreshList()
+
+    this.systemService.seasonSpanSeq('2021-12-3', '2021-12-26')
+      .pipe(
+        concatMap((d3: any) =>
+          from(d3)
+            .pipe(
+              map(data => data),
+              tap(d => dsl.push(d))
+            )
+        )
+      )
+      .subscribe(
+        data => { },
+        err => { },
+        () => console.log(dsl))
 
   }
 }
+//       {date:d3[0].date;season:d3[0].season}),

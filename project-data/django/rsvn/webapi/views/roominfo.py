@@ -1,4 +1,5 @@
 from .common import *
+from webapi.tools.datespan import *
 
 class RoominfoViewSet(viewsets.ModelViewSet):
     """
@@ -50,3 +51,27 @@ class StatusLogViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(roominfo__id=self.request.GET['roominfo'])
 
         return queryset    
+
+
+
+class RoomCalc(APIView):
+    def get(self,request,roominfo_id,dateIn,dateOut, format=None)  :
+        roominfo = Roominfo.objects.filter(id=roominfo_id)
+        if not roominfo :
+            return Response([])
+        alias = roominfo[0].rateAlias
+        dspan = Dspan(dateIn,dateOut)
+        xarray = []
+        for x in dspan.datestack() :
+            dd = SeasonCalSerializer(SeasonCal.objects.get(date=x)).data
+            dd['alias'] = alias
+            dd['seasonrate'] = SeasonRateSerializer(SeasonRate.objects.get(rate__alias=alias,season__name=dd['season'])).data['amount']
+            xarray.append(dd)
+                    
+
+        # create a date list
+        # match seasoncal and season rate
+        # send off
+        
+
+        return Response( xarray)        

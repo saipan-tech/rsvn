@@ -11,7 +11,7 @@ import { IRoominfo } from '@app/_interface/roominfo';
 @Component({
   selector: 'app-room-list',
   templateUrl: './room-list.component.html',
-  styleUrls: ['./room-list.component.css']
+  styleUrls: ['./room-list.component.scss']
 })
 
 export class RoomListComponent implements OnInit, OnChanges {

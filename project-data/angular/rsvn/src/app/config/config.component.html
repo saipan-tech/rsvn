@@ -2,27 +2,34 @@
 
    <!-- Sidebar -->
    <div class="bg-light border-right" id="sidebar-wrapper" [ngClass]="status ? 'hide' : 'show'">
-       <div class="list-group list-group-flush">
-           
-           <button class="list-group-item list-group-item-action bg-light" (click)="mode='bldg'">Building and Rooms</button>
-           <button class="list-group-item list-group-item-action bg-light" (click)="mode='themes'">Themes and Colors</button>
-           <button class="list-group-item list-group-item-action bg-light" (click)="mode='logo'">Logo and Branding</button>
-           <button class="list-group-item list-group-item-action bg-light" (click)="mode='dropdown'">Dropdown</button>
-           <button class="list-group-item list-group-item-action bg-light" (click)="mode='lists'">Lists</button>
-           <button class="list-group-item list-group-item-action bg-light" (click)="mode='guest'">Guest</button>
-       </div>
+      <div class="list-group list-group-flush">
+
+         <button class="list-group-item list-group-item-action bg-light" (click)="mode='bldg'">Building and
+            Rooms</button>
+         <button class="list-group-item list-group-item-action bg-light" (click)="mode='themes'">Themes and
+            Colors</button>
+         <button class="list-group-item list-group-item-action bg-light" (click)="mode='logo'">Logo and
+            Branding</button>
+         <button class="list-group-item list-group-item-action bg-light" (click)="mode='dropdown'">Dropdown</button>
+         <button class="list-group-item list-group-item-action bg-light" (click)="mode='lists'">Lists</button>
+         <button class="list-group-item list-group-item-action bg-light" (click)="mode='guest'">Guest</button>
+      </div>
    </div>
    <!-- /#sidebar-wrapper -->
 
    <!-- Page Content -->
    <div id="page-content-wrapper">
 
-     
-       <div class="fluid-container" style="width:98%" >
-         <div *ngIf="mode=='bldg'" >
+
+      <div class="fluid-container" style="width:98%">
+         <div *ngIf="mode=='bldg'">
             <div class="row">
-                <div class="col-3"><app-bldg-list (currBldgChange)='currBldg = $event' ></app-bldg-list></div>
-                <div class="col-9"><app-room-list *ngIf="currBldg && currBldg.id" [currBldg]='currBldg'></app-room-list></div>
+               <div class="col-3">
+                  <app-bldg-list (currBldgChange)='currBldg = $event'></app-bldg-list>
+               </div>
+               <div class="col-9">
+                  <app-room-list *ngIf="currBldg && currBldg.id" [currBldg]='currBldg'></app-room-list>
+               </div>
             </div>
          </div>
          <div *ngIf="mode=='themes'" style="margin:0 auto;"></div>
@@ -36,8 +43,8 @@
          <div *ngIf="mode=='guest'" style="margin:0 auto;">
             <app-guest-list></app-guest-list>
          </div>
-         
-       </div>
+
+      </div>
    </div>
    <!-- /#page-content-wrapper -->
 

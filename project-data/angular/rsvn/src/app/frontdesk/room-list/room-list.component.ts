@@ -147,7 +147,7 @@ export class RoomListComponent implements OnInit, OnChanges {
           })
 
       // Get rooms for this RSVN
-      this.roomService.getRsvnRoom(this.currRsvn.id).subscribe(
+      this.genericService.getItemQueryList('room',`rsvn=${this.currRsvn.id}`).subscribe(
         rooms => {
           this.currNumRooms = rooms.length
           this.currRooms = rooms
@@ -202,7 +202,7 @@ export class RoomListComponent implements OnInit, OnChanges {
       this.roomService.unavailableRooms(this.currRsvn.dateIn, this.currRsvn.dateOut)
         .subscribe(unavail => {
           this.unavailRoominfo = unavail
-          this.roomService.getRsvnRoom(this.currRsvn.id)
+          this.genericService.getItemQueryList('room',`rsvn=${this.currRsvn.id}`)
             .subscribe(rroom => {
               this.rsvnRoom = rroom
               this.currRoomList = []

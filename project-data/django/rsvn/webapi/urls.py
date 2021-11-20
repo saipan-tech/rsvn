@@ -71,6 +71,7 @@ urlpatterns = [
     path('rsvntest/<id>/',RsvnTestView.as_view()),
     path('people/',PeopleAPI.as_view()),
     path('holiday/<year>/',HolidayAPI.as_view()),
+    path('roomcalc/<roominfo_id>/<dateIn>/<dateOut>/',RoomCalc.as_view())
     
     
 ]

@@ -8,7 +8,7 @@ import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from 
 @Component({
   selector: 'app-bldg-list',
   templateUrl: './bldg-list.component.html',
-  styleUrls: ['./bldg-list.component.css']
+  styleUrls: ['./bldg-list.component.scss']
 })
 export class BldgListComponent implements OnInit {
   constructor(

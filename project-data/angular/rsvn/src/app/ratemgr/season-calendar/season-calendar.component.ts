@@ -43,7 +43,7 @@ export class SeasonCalendarComponent implements OnInit {
     for (let x = 0; x < 12; ++x) {
       dateObject[x] = []
     }
-//step through each dates
+//step through each dates - add holidays or marker to the cell data
     currCal.forEach(
       scal => {
         currDay = new Date(scal.date)
@@ -157,12 +157,7 @@ export class SeasonCalendarComponent implements OnInit {
           })
       })
     this.systemService.getDropdownList('years').subscribe(
-      data => {
-          this.yearList = data
-          console.log(data)
-        }
-    )
-
+      data =>  this.yearList = data    )
     this.seasonService.seasonCalInitialize(this.currYear)
     this.refreshTable()
     this.genericService.getItemQueryList('calendar',`year=${this.currYear}&category=holiday`)

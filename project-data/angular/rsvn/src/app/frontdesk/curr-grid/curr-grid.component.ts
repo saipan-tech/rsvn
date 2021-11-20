@@ -101,7 +101,7 @@ export class CurrGridComponent implements OnInit {
     this.systemService.getDropdownList('roomstatus').subscribe(
       data => this.roomstatusList = data
     )
-    this.roomService.getRoominfoList()
+    this.genericService.getItemList('roominfo')
       .subscribe(data => {
         this.roomList = data
         this.genericService.getItemList("bldg").subscribe(

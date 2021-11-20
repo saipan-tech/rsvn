@@ -1,12 +1,2 @@
 <div class="d-flex rctable">
-    <div class="form-control">{{ roomall.roominfo.bldg.name}} - {{ roomall.roominfo.number}}</div>
-    
-    <select class="form-control" style="font-size:small"  [(ngModel)]="selectSeason" (change)='updateRoomCharge(selectSeason)'>
-        <option value=0.00>Select a Rate</option>
-        <option *ngFor="let c of aliasRates" [ngValue]="c">{{c.name}} {{ c.amount }}</option>
-    </select>
-    
-    <div class="form-control dcell">{{ roomall.rateCharge}}</div>
-    <div class="form-control" style="text-align:center">{{ numDays }}</div>
-    <div class="form-control dcell">{{ numDays * roomall.rateCharge| currency }}</div>
 </div>

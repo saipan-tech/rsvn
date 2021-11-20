@@ -89,8 +89,8 @@ export class ChargePmtListComponent implements OnInit {
   }
   //--------------------------
   ngOnInit(): void {
-
-    this.roomService.getRsvnRoomAll(this.currRsvn.id)
+ 
+    this.genericService.getItemQueryList('roomall',`rsvn=${this.currRsvn.id}`)
       .subscribe(data => {
         this.chargeService.getRsvnPayment(this.currRsvn.id)
           .subscribe(data => {

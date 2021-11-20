@@ -107,7 +107,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
         data => {
           this.rsvnEditForm.patchValue(data)
           this.currRsvn = data
-          this.roomService.getRsvnRoom(data.id).subscribe(
+          this.genericService.getItemQueryList('room',`rsvn=${data.id}`).subscribe(
             rooms => {
               this.currNumRooms = rooms.length
               this.currRooms = rooms

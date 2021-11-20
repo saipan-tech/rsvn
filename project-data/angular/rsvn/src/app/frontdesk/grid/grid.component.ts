@@ -144,7 +144,7 @@ export class GridComponent implements OnInit, OnChanges {
 
     this.gridwidth = 100 / (Number(this.days) + 1)
     if (this.currRsvn && this.currRsvn.id) {
-      this.roomService.getRsvnRoom(this.currRsvn.id)
+      this.genericService.getItemQueryList('room',`rsvn=${this.currRsvn.id}`)
         .subscribe(data => {
           this.currRsvnRooms = data
         })
