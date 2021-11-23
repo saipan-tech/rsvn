@@ -1,2 +1,14 @@
-<div class="d-flex rctable">
+<div class="rctable">
+    <div><h5 style="display:inline">{{ bldgName(roomall.roominfo.bldg) }} </h5>
+        <h6  style="display:inline">Room - {{ roomall.roominfo.number }}</h6>  </div>
+      <div *ngFor="let dys of roomall.days" class="d-flex">
+
+        <div class="form-control">  {{dys.date}}  </div>
+        <div class="form-control">  {{dys.alias}}  </div>
+        <div class="form-control">  {{dys.season}}  </div>
+        <div class="form-control">  {{dys.seasonrate}}  </div>
+        <div class="form-control">  {{dys.seasonrate}}  </div>
+        
+
+    </div>
 </div>

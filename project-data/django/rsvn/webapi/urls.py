@@ -32,8 +32,9 @@ from webapi.views.charges import *
 from webapi.views.calendar import *
 
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
-router.register(r'groups', GroupViewSet)
+router.register(r'user', UserViewSet)
+router.register(r'staff', StaffViewSet)
+router.register(r'group', GroupViewSet)
 router.register(r'bldg', BldgViewSet)
 router.register(r'room', RoomViewSet)
 router.register(r'roomall', RoomAllViewSet)
@@ -71,7 +72,6 @@ urlpatterns = [
     path('rsvntest/<id>/',RsvnTestView.as_view()),
     path('people/',PeopleAPI.as_view()),
     path('holiday/<year>/',HolidayAPI.as_view()),
-    path('roomcalc/<roominfo_id>/<dateIn>/<dateOut>/',RoomCalc.as_view())
-    
-    
+    path('roomcalc/<roominfo_id>/<dateIn>/<dateOut>/',RoomCalc.as_view()),
+    path('rsvncalc/<rsvnid>/',RsvnCalc.as_view())
 ]

@@ -5,7 +5,6 @@ import { SeasonService } from '@app/_services/season.service';
 import { ISeasonCal } from '@app/_interface/seasoncal';
 import { GenericService } from '@app/_services/generic.service';
 import { ISeason } from '@app/_interface/season'; 
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-season-calendar',
   templateUrl: './season-calendar.component.html',
@@ -137,6 +136,7 @@ export class SeasonCalendarComponent implements OnInit {
   refreshTable() {
     this.seasonService.getSeasonCalendar(`year=${this.currYear}`)
     .subscribe( data => {
+
       this.currCal = data
       this.newDisplayList(this.currCal)
       this.seasonTally()

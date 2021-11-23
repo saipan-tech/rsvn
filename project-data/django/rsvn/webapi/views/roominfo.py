@@ -75,3 +75,29 @@ class RoomCalc(APIView):
         
 
         return Response( xarray)        
+
+class RsvnCalc(APIView):
+    def get(self,request,rsvnid, format=None)  :
+        rooms = Room.objects.filter(rsvn__id=rsvnid)
+        roomArray = []
+        for rms in rooms :
+            alias = rms.roominfo.rateAlias
+            dspan = Dspan(rms.rsvn.dateIn.isoformat(),rms.rsvn.dateOut.isoformat())            
+            xarray = []
+
+
+            for x in dspan.datestack() :
+                dd = SeasonCalSerializer(SeasonCal.objects.get(date=x)).data
+                dd['alias'] = alias
+                dd['seasonrate'] = SeasonRateSerializer(SeasonRate.objects.get(rate__alias=alias,season__name=dd['season'])).data['amount']
+                xarray.append(dd)
+            roomArray.append({'days':xarray,'roominfo':RoominfoSerializer(rms.roominfo).data, 'room':RoomSerializer(rms).data})        
+
+        # create a date list
+        # match seasoncal and season rate
+        # send off
+        
+
+        return Response( roomArray)        
+
+        

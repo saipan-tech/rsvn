@@ -8,6 +8,14 @@ import { AdminComponent } from './admin.component';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { FrontdeskModule } from '@app/frontdesk/frontdesk.module';
 import { MatTabsModule } from '@angular/material/tabs';
+import { StaffListComponent } from './staff/staff-list/staff-list.component';
+import { StaffEditComponent } from './staff/staff-edit/staff-edit.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 @NgModule({
@@ -15,7 +23,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     StaffComponent,
     HouseComponent,
     MaintComponent,
-    AdminComponent
+    AdminComponent,
+    StaffListComponent,
+    StaffEditComponent
     
   ],
   imports: [
@@ -23,9 +33,15 @@ import { MatTabsModule } from '@angular/material/tabs';
     CommonModule,    
     AppRoutingModule,
     BrowserModule,
-    FrontdeskModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    FormsModule,
     MatTabsModule,
-  
+    MatIconModule,
+    MatButtonModule,
+    MatSliderModule,
+    MatRadioModule,
+    FrontdeskModule
 
   ],
   exports : [

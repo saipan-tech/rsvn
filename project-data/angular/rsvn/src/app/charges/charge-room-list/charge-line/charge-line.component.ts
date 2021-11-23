@@ -4,6 +4,8 @@ import { RsvnService } from '@app/_services/rsvn.service';
 import { SystemService } from '@app/_services/system.service';
 import { AuthService } from '@app/_services/auth.service';
 import { IRoom } from '@app/_interface/room'
+import { IBldg } from '@app/_interface/bldg'
+
 import { IRoominfo } from '@app/_interface/roominfo'
 import { IGuest } from '@app/_interface/guest'
 import { ICharge } from '@app/_interface/charge'
@@ -27,13 +29,9 @@ export class ChargeLineComponent implements OnInit {
   @Input() roomall: IRoom | any
   @Output() roomallChange = new EventEmitter<IRoom>();
 
-  numDays = 0
-  selectSeason: any
-  seasonrateList: ISeasonRate[] = []
-  seasonList: ISeason[] = []
-  seasonRate: ISeasonRate = {} as ISeasonRate
-  aliasRates:any = []
-
+  
+  bldgList :IBldg[] = []
+  
   constructor(
     private appConstants: AppConstants,
     private roomService: RoomService,
@@ -43,7 +41,13 @@ export class ChargeLineComponent implements OnInit {
   ) { }
 
 
+  bldgName(id:number) {
+    const b:any = this.bldgList.find(f => id==id)
+    if(b) return b.name
+    else return {}
 
+    
+  }
   updateRoomCharge(season: any) {
     this.genericService.updateItem("room", {
       id: this.roomall.id,
@@ -60,30 +64,14 @@ export class ChargeLineComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.genericService.getItemList('season')
-        .subscribe(data => {
-        this.seasonList = data
-        this.seasonService.getSeasonRate(`alias=${this.roomall.roominfo.rateAlias}`)
-          .subscribe(data2 => {
-              data2.forEach( ar => {
-                let aliasMerge = Object.assign(data.find(sl => sl.id == ar.season),ar)
-                this.aliasRates.push(aliasMerge)
-                if(this.roomall.rateCharge == ar.amount) {
-                  this.selectSeason = aliasMerge
-                  
+      this.genericService.getItemList('bldg')
+        .subscribe(
+          data => {
+            this.bldgList = data
+          }
+        )
 
-                }
-              })
-          })
-      })
-    
-    
-    
-
-
-    this.numDays = ((new Date(this.roomall.rsvn.dateOut).getTime() - new Date(this.roomall.rsvn.dateIn).getTime()) / this.appConstants.DAILYSECONDS)
-  }
-
+      }
 }
 
 

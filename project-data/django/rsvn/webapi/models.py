@@ -19,6 +19,12 @@ class Staff (models.Model):
     state  	    = 	models.CharField(max_length=60)
     country 	= 	models.CharField(max_length=60, blank=True)
     email 		= 	models.EmailField()
+    temppass    =  	models.CharField(max_length=60,blank=True)
+    title    	=	models.CharField(max_length=80,blank=True)
+    clerk		=   models.CharField(max_length=20, blank=True)
+    created     =   models.DateTimeField(auto_now_add=True)
+    modified    =   models.DateTimeField(auto_now=True) 
+    
 #---------------------------------------------------------
 class Guest (models.Model):
     firstname	=	models.CharField(max_length=80)
@@ -197,10 +203,19 @@ class Payment(models.Model):
 class Room (models.Model):
     rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnOf')
     roominfo 	=   models.ForeignKey(Roominfo,models.CASCADE, related_name='roominfoOf')
-    rateCharge  =   models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
     status      =   models.CharField(max_length=12, default="none")
     def __str__(self) :
         return f"{self.rsvn.primary.firstname} {self.rsvn.primary.lastname}  -- {self.roominfo.number}"
+#---------------------------------------------------------
+class RoomCharge (models.Model):
+    room        =   models.ForeignKey(Room,models.CASCADE, related_name='roomOf')
+    date        =   models.DateField()
+    amount      =   models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+    clerk       =   models.CharField(max_length=80,default="FrontDesk")
+    created     =   models.DateTimeField(auto_now_add=True)
+    modified    =   models.DateTimeField(auto_now=True)
+    def __str__(self) :
+        return f"{self.room.roominfo.bldg.name} {self.room.roominfo.number}   -- {self.date}"
 #---------------------------------------------------------
 class StatusLog (models.Model): 
     roominfo    =   models.ForeignKey(Roominfo,models.CASCADE)

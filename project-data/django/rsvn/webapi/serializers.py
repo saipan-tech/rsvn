@@ -27,7 +27,11 @@ class StaffSerializer(serializers.ModelSerializer):
     class Meta:
         model= Staff
         fields = '__all__'
-
+#---------------------------------------------------------
+class StaffSerializerNoUser(serializers.ModelSerializer):
+    class Meta:
+        model= Staff
+        exclude=['user']
 
 #---------------------------------------------------------
 class GuestSerializer(serializers.ModelSerializer):

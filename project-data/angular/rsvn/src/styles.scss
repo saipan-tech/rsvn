@@ -86,17 +86,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 
+
+$inputshade : #e6f6ff;
+
+
+
+
 .uppercell {
   margin: 0;
   padding: 5px;
   font-size: 0.85rem;
   text-align: left;
-  color: var(--bs-gray);
+  color: var(--bs-gray-600);
 }
 
 .lowercell {
   margin: 0;
-  background-color: #f8f9fb;
+  background-color: $inputshade;
+
 }
 .error {
   color: yellow !important;
@@ -149,7 +156,6 @@ section {
   padding:1em;
   margin-bottom:1em;
 }
-
 .headingrow div {
   text-align:center;
   font-weight:bold;
@@ -182,8 +188,4 @@ section {
   border-bottom:1px solid rgb(58, 58, 58);
   border-left:none;
   border-right: none;
-}
-.form-control {
-  border:none;
-  border-bottom:1px solid silver;
 }

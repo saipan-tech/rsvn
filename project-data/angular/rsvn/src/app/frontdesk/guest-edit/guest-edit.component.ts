@@ -10,7 +10,7 @@ import {DangerDialogComponent, DialogManagerService} from "@app/shared/dialog";
 @Component({
   selector: 'app-guest-edit',
   templateUrl: './guest-edit.component.html',
-  styleUrls: ['./guest-edit.component.css']
+  styleUrls: ['./guest-edit.component.scss']
 })
 export class GuestEditComponent implements OnInit, OnChanges {
 

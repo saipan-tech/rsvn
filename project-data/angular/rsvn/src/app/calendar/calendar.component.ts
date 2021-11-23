@@ -96,20 +96,6 @@ export class CalendarComponent implements OnInit, OnChanges {
     let dsl: any = []
     this.refreshList()
 
-    this.systemService.seasonSpanSeq('2021-12-3', '2021-12-26')
-      .pipe(
-        concatMap((d3: any) =>
-          from(d3)
-            .pipe(
-              map(data => data),
-              tap(d => dsl.push(d))
-            )
-        )
-      )
-      .subscribe(
-        data => { },
-        err => { },
-        () => console.log(dsl))
 
   }
 }
