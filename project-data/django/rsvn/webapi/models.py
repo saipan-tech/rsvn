@@ -8,6 +8,8 @@ from decimal import Decimal
 #---------------------------------------------------------
 class Staff (models.Model):
     user        =   models.ForeignKey(User,models.CASCADE)
+    username    =	models.CharField(max_length=256)
+    temppass    =  	models.CharField(max_length=60,blank=True)
     firstname	=	models.CharField(max_length=80)
     middlename  =   models.CharField(max_length=80, blank=True)
     lastname 	=	models.CharField(max_length=80)
@@ -19,7 +21,6 @@ class Staff (models.Model):
     state  	    = 	models.CharField(max_length=60)
     country 	= 	models.CharField(max_length=60, blank=True)
     email 		= 	models.EmailField()
-    temppass    =  	models.CharField(max_length=60,blank=True)
     title    	=	models.CharField(max_length=80,blank=True)
     clerk		=   models.CharField(max_length=20, blank=True)
     created     =   models.DateTimeField(auto_now_add=True)

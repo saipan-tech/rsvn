@@ -32,6 +32,7 @@ export class StaffEditComponent implements OnInit {
 
   staffEditForm = new FormGroup({
     id: new FormControl(''),
+    username: new FormControl('', Validators.required),
     firstname: new FormControl('', Validators.required),
     lastname: new FormControl('', Validators.required),
     middlename: new FormControl(''),

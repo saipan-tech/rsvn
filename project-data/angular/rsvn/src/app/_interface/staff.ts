@@ -1,6 +1,7 @@
 export interface IStaff {
     id:number;
     user:string;
+    username:string;
     firstname :string;
     middlename:string;
     lastname:string;
