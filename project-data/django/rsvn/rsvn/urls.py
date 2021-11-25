@@ -17,13 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.authtoken import views as tkn_views
 from django.views.decorators.csrf import ensure_csrf_cookie
-import webapi
+from webapi.views.system import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/auth/', tkn_views.obtain_auth_token),
+    path('verify/', VerifyView, name='verify'),
     path('webapi/',include('webapi.urls')),
-
 ]
 
 

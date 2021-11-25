@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.decorators.csrf import ensure_csrf_cookie
+
 from rest_framework_simplejwt import views as jwt_views
 from rest_framework.authtoken import views as tkn_views
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework import routers
 
-from django.views.decorators.csrf import ensure_csrf_cookie
 from webapi.views.users import *
 from webapi.views.room import *
 from webapi.views.roominfo import *
@@ -30,6 +31,7 @@ from webapi.views.guest import *
 from webapi.views.rates import *
 from webapi.views.charges import *
 from webapi.views.calendar import *
+from webapi.views.staff import *
 
 router = routers.DefaultRouter()
 router.register(r'user', UserViewSet)
@@ -54,8 +56,6 @@ router.register(r'seasonrateall',SeasonRateAllViewSet)
 router.register(r'statuslog',StatusLogViewSet)
 router.register(r'seasoncal',SeasonCalViewSet)
 router.register(r'calendar',CalendarViewSet)
-
-
 
 # yrp
 # Wire up our API using automatic URL routing.

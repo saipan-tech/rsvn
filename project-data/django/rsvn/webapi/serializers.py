@@ -12,7 +12,7 @@ class WorkFileSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
   class Meta:
     model= User
-    fields = [ 'username', 'email', 'groups']
+    fields = '__all__'
 
 #---------------------------------------------------------
 class GroupSerializer(serializers.ModelSerializer):

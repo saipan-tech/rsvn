@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn" [disabled]="!(staffEditForm.valid&& currRsvn && currRsvn.id)"
+                <button class="btn" [disabled]="!(staffEditForm.valid)"
                     (click)='updateStaff(staffEditForm.value)' data-bs-dismiss="modal">
                     <span class="material-icons">save</span></button>
                 <button class="btn" [disabled]="!(currStaff && currStaff.id)"

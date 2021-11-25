@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 
 # Create your views here.
 import requests
@@ -19,3 +19,6 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework import status
 from datetime import *
 import os, binascii
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from webapi.tools.mailtools import *

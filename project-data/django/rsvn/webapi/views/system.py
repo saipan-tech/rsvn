@@ -81,7 +81,9 @@ class WorkFileView(APIView):
 
 
 
+#-----------------------------------------------------
 class PeopleAPI(APIView):
+#-----------------------------------------------------
     
     def get (self, request,format=None) :
 
@@ -96,7 +98,9 @@ class PeopleAPI(APIView):
 
         return Response(json.loads(response.text))
 
+#-----------------------------------------------------
 class HolidayAPI(APIView):
+#-----------------------------------------------------
     
     def get (self, request,year,format=None) :
 
@@ -113,4 +117,19 @@ class HolidayAPI(APIView):
 
 
 
-        
+
+#-----------------------------------------------------
+def VerifyView(request) :
+#-----------------------------------------------------
+    result = {}
+    if 'token' in request.GET:
+        tmppass = request.GET['token']
+        try:
+            u = Staff.objects.get(temppass=tmppass)
+        except:
+            result["error_message"] = "Token Not Found"
+
+    return  render(request,'verify.html',context=result)
+ 
+
+

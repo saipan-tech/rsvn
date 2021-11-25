@@ -151,23 +151,3 @@ def email_reset_password(username,temp_key) :
 	text = "Here is the text version: please click http://{}/verification/{}/{}".format(cfg.main_url,username,temp_key)
 
 	mailbox(username,subject,text,html)
-#----------------------------------
-def msg_received_ack(msg) :
-#----------------------------------
-	html =	"""\
-		<!doctype html>
-		<html>
-			<body>
-				<h3>Message Acknowledgement</h3>
-					Dear {} {},
-					<br><br>
-					<p>We have received your message and will be working to resolve any issues.</p>
-					<hr><p> {}</p><hr>
-					<br>
-					<p>Thank you, from the Mount Carmel Team</p>
-			</body>	
-		</html> """.format(msg.first_name, msg.last_name, msg.message)	
-	subject= "MCS Admissions Portal Message Received - {}".format(msg.subject)
-	text = "Here is the text version: Message Acknowledged"
-	mailbox(msg.email,subject,text,html)
-

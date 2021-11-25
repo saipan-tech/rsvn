@@ -4,7 +4,7 @@ import { IBldg } from '@app/_interface/bldg';
 import { IRoom } from '@app/_interface/room'
 import { IRoominfo } from '@app/_interface/roominfo'
 import { IStaff } from '@app/_interface/staff'
-import { IDropdown} from '@app/_interface/dropdown'
+import { IDropdown } from '@app/_interface/dropdown'
 import { GenericService } from '@app/_services/generic.service';
 import { SystemService } from '@app/_services/system.service';
 import { AuthService } from '@app/_services/auth.service';
@@ -51,54 +51,51 @@ export class StaffEditComponent implements OnInit {
   roominfoList: IRoominfo[] = []
   staffList: IStaff[] = []
   bldgList: IBldg[] = []
-  fullRoomList :any[] = []
-  selectedValue =0
+  fullRoomList: any[] = []
+  selectedValue = 0
   roomTotal = 0
   grandTotal = 0
   transTotal = 0
-  chgtypeList :IDropdown[] = []
+  chgtypeList: IDropdown[] = []
   //---------------------------------
-  deleteStaff(staff:IStaff) {
-    this.genericService.deleteItem('staff',staff)
+  deleteStaff(staff: IStaff) {
+    this.genericService.deleteItem('staff', staff)
       .subscribe(data => {
         this.newStaff()
         this.currStaffChange.emit(data)
       })
   }
-//---------------------------------
-  selectStaff(staff:IStaff) {
-    this.genericService.getItem('staff',staff.id)
+  //---------------------------------
+  selectStaff(staff: IStaff) {
+    this.genericService.getItem('staff', staff.id)
       .subscribe(data => {
-        this.currStaff= data
+        this.currStaff = data
         this.currStaffChange.emit(data)
         this.staffEditForm.patchValue(this.currStaff)
       })
   }
-//--------------------------
+  //--------------------------
   updateStaff(staff: IStaff) {
-    if (this.currRsvn.id) {
-      this.genericService.updateItem('staff', staff).subscribe(
-        data => {
-          
 
-
-          this.currStaffChange.emit(data)
-          this.newStaff()
-          this.ngOnInit()
-        },
-        err => console.log("Error",err)
-      )
-    }
+    this.genericService.updateItem('staff', staff).subscribe(
+      data => {
+        console.log(data)
+        this.currStaffChange.emit(data)
+        this.newStaff()
+        this.ngOnInit()
+      },
+      err => console.log("Error", err)
+    )
   }
- //---------------------------------
- blankStaff(staff: any) {
-  for (const field in staff) {
-    if (staff[field] == null) {
-    staff [field] = ''
+  //---------------------------------
+  blankStaff(staff: any) {
+    for (const field in staff) {
+      if (staff[field] == null) {
+        staff[field] = ''
+      }
     }
+    return staff
   }
-  return staff
-}
   //--------------------------
   newStaff() {
     this.staffEditForm.reset()
@@ -108,7 +105,7 @@ export class StaffEditComponent implements OnInit {
   //--------------------------
   ngOnChanges(changes: SimpleChanges) {
     this.ngOnInit()
-    
+
     if (this.currStaff && this.currStaff.id) {
       this.staffEditForm.patchValue(this.currStaff)
 
