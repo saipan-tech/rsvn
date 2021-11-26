@@ -78,26 +78,20 @@ class WorkFileView(APIView):
             return Response(d, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
 #-----------------------------------------------------
 class PeopleAPI(APIView):
 #-----------------------------------------------------
     
     def get (self, request,format=None) :
-
         url = "https://generate-people.p.rapidapi.com/generatepeople"
         headers = {
             'x-rapidapi-host': "generate-people.p.rapidapi.com",
             'x-rapidapi-key': "0472c1a4ebmshf78b78358f3592ep10ef9djsn502077cd455e",
              "content-type": "application/json",
             }
-
         response = requests.request("GET", url, headers=headers)
 
         return Response(json.loads(response.text))
-
 #-----------------------------------------------------
 class HolidayAPI(APIView):
 #-----------------------------------------------------
@@ -114,22 +108,53 @@ class HolidayAPI(APIView):
         response = requests.request("GET", url, headers=headers)
 
         return Response(json.loads(response.text))
-
-
-
-
+#-----------------------------------------------------
+def password_check(get) :
+#-----------------------------------------------------
+    if 'newpassword' in get and 'newconfirm' in get and get['newpassword'] == get['newconfirm']:
+        passwd = get['newpassword']
+        if len(passwd) < 8 :
+            msg = ' Password too short'
+        else :
+            return True,'ok'
+    else : 
+        msg = 'Passwords do not match'
+    return False, msg
 #-----------------------------------------------------
 def VerifyView(request) :
 #-----------------------------------------------------
     result = {}
-    if 'token' in request.GET:
+    result['post'] = request.POST
+    result['get'] = request.GET
+    result['step'] = '0'
+    view_html = 'error.html'
+    if 'token' in request.GET :
         tmppass = request.GET['token']
         try:
             u = Staff.objects.get(temppass=tmppass)
+            view_html = "verify.html"
         except:
-            result["error_message"] = "Token Not Found"
-
-    return  render(request,'verify.html',context=result)
+            view_html = "error.html"
+        if ('continue' in request.POST and 
+            request.POST['continue']== '1' and
+            request.POST['username'] == u.username and
+            request.POST['lastname'] == u.lastname and
+            request.POST['firstname'] == u.firstname) :
+            result['step'] = '1'
+        elif 'continue' in request.POST and request.POST['continue'] == '1':
+            result['step'] = '5'
+        if 'continue' in request.POST and request.POST['continue'] == '2':
+            if password_check(request.POST)[0] :
+                user =  User.objects.get(username=request.POST['username'])
+                user.set_password(request.POST['newpassword'])
+                user.save()	
+                u.temppass = ''
+                u.save()
+                result['step'] = '2'
+            else:    
+                result['error_message'] = password_check(request.POST)[1]
+                result['step'] = '1'
+    return  render(request,view_html,context=result)
  
 
 

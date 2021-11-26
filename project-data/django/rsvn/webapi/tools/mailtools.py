@@ -7,7 +7,7 @@ from email.mime.text  import MIMEText
 from email.mime.image  import MIMEImage
 from email.mime.multipart import MIMEMultipart
 
-from config import Sysconf
+
 
 
 #----------------------------------
@@ -59,7 +59,7 @@ def multimail(strFrom,strTo,subject,text,html) :
 #=======================================================
 class MailMessage(object) :
 #=======================================================
-	config = Sysconf()
+
 	#--------------------------------
 	heading = """
 		<!doctype><html><head><meta charset="UTF-8"></head>
@@ -96,12 +96,7 @@ class MailMessage(object) :
 		multimail(self.strFrom,"jc@mcsaipan.net",
 				self.subject,self.text, html)
 
-	#--------------------------------
-	# just need body and subject
-	def send_to_admin(self) :
-		html = self.heading+self.body+self.footer
-		multimail(self.config.system_email,self.config.admin_email,
-					self.subject,"Internal Record", html)
+
 
 #=======================================================
 def mailserver1() :

@@ -1,5 +1,114 @@
-<h1>Verify </h1>
+{% extends "base.html" %}
+{% block body_main %}
 
-<div> What Is the answer {{ request.user }} </div> 
+<div class="card" style="margin:200px auto; border:none; width:400px">
 
-error: {{ error_message }}
+ {% if step == '0' %}
+
+    <div class='card-header' style="text-align: center">
+        <h5 class='card-title'>Verification </h5>
+        Please enter the information below.
+    </div>
+
+    <div class="card-body" style="background-color:snow">
+        <div style="padding:2em">
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" class="form-control" name="username" placeholder="Username">
+                <br />
+
+                <input type="text" class="form-control" name="firstname" placeholder="First Name">
+                <br />
+
+                <input type="text" class="form-control" name="lastname" placeholder="Last Name">
+                <br />
+
+                <button type="submit" name="continue" value='1' class="form-control btn btn-outline-success"
+                    style="border-color:#00bb00">Continue</button>
+
+            </form>
+        </div>
+    </div>
+
+{% endif %}
+
+
+ {% if step == '1'  %}
+
+    <div class='card-header' style="text-align: center">
+
+        <h5 class='card-title'>Update Password</h5>
+        <h5 style="color:red" >{{ error_message }}</h5>
+        Please enter your new password below.
+    </div>
+
+    <div class="card-body" style="background-color:snow">
+        <div style="padding:2em">
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="password" class="form-control" name="newpassword" placeholder="New Password">
+                <br />
+
+                <input type="password" class="form-control" name="newconfirm" placeholder="Confirm Password">
+                <br />
+                <div class="d-flex">
+                <button type="submit" name="step" value='0' class="form-control btn btn-outline-success"
+                    style="border-color:#00bb00">Back</button>
+
+                <button type="submit" name="continue" value= '2' class="form-control btn btn-outline-success"
+                    style="border-color:#00bb00">Continue</button>
+                </div>
+                <input type="hidden" name="username"  value="{{post.username}}">
+                <input type="hidden" name="firstname"  value="{{post.firstname}}">
+                <input type="hidden" name="lastname"   value="{{post.lastname}}">
+            </form>
+        </div>
+    </div>
+
+{% endif %}
+ {% if step == '2'  %}
+
+    <div class='card-header' style="text-align: center">
+        <h5 class='card-title'>Success</h5>
+        You have successfully changed your password.<br>
+        Logon to dashboard <a href="http://rigel.saipantech.com:4200">here.</a>
+    </div>
+
+    <div class="card-body" style="background-color:snow">
+        <div style="padding:3em">
+
+                <a href="http://rigel.saipantech.com:4200"> RSVN Dashboard</a>
+            
+        </div>
+    </div>
+
+{% endif %}
+
+
+ {% if step == '5'  %}
+
+    <div class='card-header' style="text-align: center">
+        <h5 class='card-title'>ERROR</h5>
+        The values do not match any on record.<br>
+        Please verify spelling or contact the administrator
+    </div>
+
+    <div class="card-body" style="background-color:snow">
+        <div style="padding:2em">
+
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" name="step" value='0' class="form-control btn btn-outline-success"
+                    style="border-color:#00bb00">Back</button>
+            </form>
+        </div>
+    </div>
+
+{% endif %}
+
+
+</div>
+
+{% endblock %}
