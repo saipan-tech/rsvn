@@ -1,0 +1,32 @@
+    <form novalidate [formGroup]="roomEditForm" >
+                <div class="d-flex">
+
+                    <div class="col"><input type="text" formControlName='number' class="col form-control"></div>
+                    <div class="col"><input type="text" formControlName='floor' class="form-control"> </div>
+
+                    <div class="col"><input type="text" formControlName='beds' class="form-control"> </div>
+                    <div class="col"><input type="text" formControlName='style' class="form-control"> </div>
+
+                    <div class="col">
+                        <select formControlName='rateAlias' class="form-control">
+                            <option value=""></option>
+                            <option *ngFor="let rl of rateList" [ngValue]="rl.alias">{{rl.alias}} </option>
+                        </select>
+
+                    </div>
+  
+                    <div class="col"><input type="text" formControlName='name' class="form-control"> </div>
+                    <div class="col"><input type="text" formControlName='size' class="form-control"></div>
+                    <div class="col"><input type="text" formControlName='status' class="form-control"></div>
+
+                    <div class="col"><input type="text" formControlName='descr' class='form-control'></div>
+                    <div style="width:26px">
+
+                        <button [disabled]="!(roomEditForm.value.id)" (click)='deleteRoom(roomEditForm.value)'>
+                            <mat-icon >delete</mat-icon>
+                        </button>
+           
+                    </div>
+
+                </div>
+            </form>

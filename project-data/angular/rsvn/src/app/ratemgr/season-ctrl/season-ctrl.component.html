@@ -14,6 +14,8 @@
         </div>
         <div style="cursor:pointer" class="d-flex headingrow">
             <div class="form-control">Name</div>
+            <div class="form-control">Discount</div>
+            
             <div class="form-control">Description</div>
             <div class="form-control">Color</div>
             
@@ -21,7 +23,9 @@
         <form novalidate [formGroup]="seasonEditForm">
             <div class="d-flex">
                 <input autofocus placeholder="Name" type="text" formControlName='name' class="form-control">
+                <input placeholder="Discount" type="number" formControlName='discount' class="form-control">
                 <input placeholder="Description" type="text" formControlName='descr' class="form-control">
+                
                 <select class="form-control"  placeholder="Color" 
                     [ngStyle]="{'background-color':seasonEditForm.value.color}"
                     formControlName='color'>
@@ -39,6 +43,7 @@
 
         <div style="cursor:pointer" class="d-flex" *ngFor="let s of seasonList">
             <div class="form-control active" (click)='selectSeason(s)'>{{s.name}}</div>
+            <div class="form-control">{{s.discount}}</div>
             <div class="form-control">{{s.descr}}</div>
             <div class="form-control" [ngStyle]="{'background-color':s.color}">{{s.color}}</div>
 

@@ -34,7 +34,14 @@
             <div class="form-control">Size</div>
             <div class="form-control">Status</div>
             <div class="form-control">Description</div>
-
+            <div style="width:36px">
+                <button [disabled]='true' (click)="updateRoom(roomEditForm.value)">
+                    <mat-icon>save</mat-icon>
+                </button>
+           
+            
+    
+            </div>
         </div>
 
         <div style="background-color:white">
@@ -61,6 +68,13 @@
                     <div class="col"><input type="text" formControlName='status' class="form-control"></div>
 
                     <div class="col"><input type="text" formControlName='descr' class='form-control'></div>
+                    <div style="width:36px">
+
+                        <button [disabled]="!(roomEditForm.valid)" (click)="updateRoom(roomEditForm.value)">
+                            <mat-icon>save</mat-icon>
+                        </button>
+                   
+                    </div>
 
                 </div>
             </form>
@@ -70,26 +84,12 @@
     <div class="card-body" style="height:100vh;overflow-y:scroll">
 
         <div>
-            <div *ngFor="let r of roomList">
+            <div *ngFor="let room of roomList">
                 <div class="d-flex">
-   
-                    <div class="form-control active" (click)='selectRoom(r)'>{{ r.number }}</div>
-                    <div class="form-control">{{ r.floor }}</div>
-                    <div class="form-control">{{ r.beds }}</div>
-                    <div class="form-control"> {{ r.style }}</div>
-                    <div class="form-control"> {{ r.rateAlias }}</div>
-                    <div class="form-control">{{ r.name }}</div>
-                    <div class="form-control">{{ r.size }}</div>
-                    <div class="form-control">{{ r.status }}</div>
-                    <div class="form-control">{{ r.descr }}</div>
-
-
+                    <app-room-list-item (refresh)='refreshList()' [room]='room' [rateList]='rateList' [rcolorList]='rcolorList' ></app-room-list-item>
                 </div>
-
             </div>
         </div>
-
-
 
     </div>
     <div class="card-footer">

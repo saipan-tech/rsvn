@@ -17,7 +17,7 @@ class TaxRateViewSet(viewsets.ModelViewSet):
 #===========================
 class SeasonViewSet(viewsets.ModelViewSet):
     serializer_class = SeasonSerializer
-    queryset = Season.objects.all()
+    queryset = Season.objects.all().order_by('discount')
     permission_classes = [permissions.IsAuthenticated]
 
 #===========================

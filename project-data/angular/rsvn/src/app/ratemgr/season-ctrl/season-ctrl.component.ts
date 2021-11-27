@@ -3,7 +3,7 @@ import { GenericService } from '@app/_services/generic.service';
 import { RoomService } from '@app/_services/room.service';
 import { ISeason } from '@app/_interface/season';
 import { IDropdown } from '@app/_interface/dropdown';
-import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator, FormsModule } from '@angular/forms';
 import { SeasonService } from '@app/_services/season.service';
 import { SystemService } from '@app/_services/system.service';
 @Component({
@@ -29,6 +29,7 @@ export class SeasonCtrlComponent implements OnInit {
   seasonEditForm = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', Validators.required),
+    discount: new FormControl('', Validators.required),
     descr: new FormControl(''),
     color: new FormControl(''),
   

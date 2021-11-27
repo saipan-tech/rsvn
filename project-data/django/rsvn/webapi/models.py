@@ -95,6 +95,7 @@ class Rate(models.Model):
 class Season(models.Model):
     name        =   models.CharField(max_length=250,unique=True)
     descr       =   models.CharField(max_length=512, blank=True)
+    discount    = 	models.DecimalField(max_digits=9, decimal_places=3,default=Decimal('00.000'))
     color       =  	models.CharField(max_length=40, default='white')
 #---------------------------------------------------------
 class SeasonRate(models.Model):

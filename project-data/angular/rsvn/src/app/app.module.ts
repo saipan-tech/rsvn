@@ -33,7 +33,8 @@ import { AdminModule } from '@app/admin/admin.module';
 import { HeaderComponent } from './header/header.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { RatemgrModule } from './ratemgr/ratemgr.module';
-import { SharedModule } from '@app/shared/shared.module'
+import { SharedModule } from '@app/shared/shared.module';
+import { RoomListItemComponent } from './config/room-list/room-list-item.component'
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { SharedModule } from '@app/shared/shared.module'
     DropdownComponent,
     GuestListComponent,
     HeaderComponent,
+    RoomListItemComponent,
     
   
 
