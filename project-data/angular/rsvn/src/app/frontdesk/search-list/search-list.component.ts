@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core';
 import { IGuest } from '@app/_interface/guest';
 import { IRsvn } from '@app/_interface/rsvn';
 @Component({
@@ -6,7 +6,7 @@ import { IRsvn } from '@app/_interface/rsvn';
   templateUrl: './search-list.component.html',
   styleUrls: ['./search-list.component.scss']
 })
-export class SearchListComponent implements OnInit {
+export class SearchListComponent implements OnInit,OnChanges {
 
   constructor() { }
   @Input() resultList:any
@@ -16,7 +16,12 @@ export class SearchListComponent implements OnInit {
 
 
   ngOnInit(): void {
+    console.log("test",this.resultList)
   }
+  ngOnChanges(changes: SimpleChanges) {
+    console.log("test",this.resultList)
+  
+  }  
   selectRsvn(rsvn: any) {
     this.currRsvnChange.emit(rsvn)
   }

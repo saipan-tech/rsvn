@@ -47,7 +47,6 @@ export class ChargeRoomListComponent implements OnInit {
   chgtypeList: IDropdown[] = []
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log("changes", changes)
     if (!changes.currRsvn.firstChange) {
       this.ngOnInit()
     }
@@ -63,14 +62,14 @@ export class ChargeRoomListComponent implements OnInit {
   //--------------------------
   chargeTotal() {
     this.roomTotal = 0
-    console.log(this.fullRoomList)
+//    console.log(this.fullRoomList)
     this.fullRoomList.forEach(
       rm  => {
         let rr = {} as {days:any[],roominfo:any}
         rr = rm
         rr.days.forEach(
           r =>  {
-            this.roomTotal += Number(r.seasonrate) 
+  //          this.roomTotal += Number(r.seasonrate) 
           }
         )
       }
@@ -99,6 +98,7 @@ export class ChargeRoomListComponent implements OnInit {
     this.systemService.getDropdownList('chgitem').subscribe(
       data => this.chgtypeList = data
     )
+    
     this.roomService.getRsvnCalc(this.currRsvn.id)
       .subscribe(data => {
         this.fullRoomList = data  

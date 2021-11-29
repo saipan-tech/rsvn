@@ -3,12 +3,17 @@
         <h6  style="display:inline">Room - {{ roomall.roominfo.number }}</h6>  </div>
       <div *ngFor="let dys of roomall.days" class="d-flex">
 
-        <div class="form-control">  {{dys.date}}  </div>
+        <div class="form-control" >  {{dys.date}}  </div>
         <div class="form-control">  {{dys.alias}}  </div>
         <div class="form-control">  {{dys.season}}  </div>
-        <div class="form-control">  {{dys.seasonrate}}  </div>
-        <div class="form-control">  {{dys.seasonrate}}  </div>
+        <div class="form-control" style="text-align:right">  {{dys.amount}}  </div>
+        <div class="form-control" style="text-align:right">  {{dys.amount}}  </div>
+        
         
 
+    </div>
+    <div class="d-flex">
+     <div class="form-control" style="text-align:center">Sub Total</div> 
+     <div class="form-control" style="text-align:right">{{ roomTotal | currency }}</div>
     </div>
 </div>

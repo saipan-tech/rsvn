@@ -5,7 +5,8 @@ import { SeasonService } from '@app/_services/season.service';
 import { FormArray, FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
 import { IRate } from '@app/_interface/rate';
 import { ISeason } from '@app/_interface/season';
-import { ISeasonRate } from '@app/_interface/seasonrate'
+import { concatMap, tap } from 'rxjs/operators';
+import { RaceOperator } from 'rxjs/internal/observable/race';
 
 @Component({
   selector: 'app-rate-list',
@@ -27,8 +28,6 @@ export class RateListComponent implements OnInit {
   seasonList: ISeason[] = []
   seasonrateList: any[] = []
 
-  fixList: any = {}
-
   rateEditForm = this.formBuilder.group({
     id: [''],
     alias: [''],
@@ -36,16 +35,13 @@ export class RateListComponent implements OnInit {
     rateName: ['', Validators.required],
     rateType: ['', Validators.required],
     rateClass: ['', Validators.required],
-    rack:     ['', Validators.required],
+    rack: ['', Validators.required],
     descr: [''],
     color: [''],
   })
 
-
-
-
+  fixList: any = {}
   //=================================
-
   sortRates(rlist: any) {
     rlist.sort(function (a: any, b: any) {
       var A = a.alias.toUpperCase(); // ignore upper and lowercase
@@ -67,35 +63,16 @@ export class RateListComponent implements OnInit {
       if (founder) {
         rec.id = founder.id
       }
-      this.genericService.updateItem('rate', rec).subscribe(
-        data => {
-          // We check the season list and see if we have one listed
-          this.seasonList.forEach(sl => {
-            let seasonraterec = { id: 0, rate: data.id, season: sl.id, amount: rec[sl.name] }
-            if (rec.id && rec[sl.name]) {
-              // let's see if there is one already made
-              const slrfind = this.seasonrateList.find(srl => srl.rate.id == rec.id && srl.season.name == sl.name)
-              if (slrfind) {
-                seasonraterec.id = slrfind.id
-              }
-              this.genericService.updateItem('seasonrate', seasonraterec)
-                .subscribe()
-            }
-          }
-          )
-          this.ngOnInit()
-        })
+      this.genericService.updateItem('rate', rec).subscribe()
     })
+  }
+  //=================================
+  clearRate() {
+
   }
   //=================================
   ngOnChanges(changes: SimpleChanges) {
 
-  }
-  //=================================
-  clearRate() {
-    this.rateEditForm.reset()
-    this.blankRate(this.currRate)
-    this.ngOnInit()
   }
   //=================================
   blankRate(rate: any) {
@@ -107,108 +84,47 @@ export class RateListComponent implements OnInit {
       }
     }
   }
-  //=================================
-  selectRate(rate: IRate) {
-    if (rate.id) {
-      let fnd = this.rateList.find(rl => rate.id == rl.id)
-      this.rateEditForm.patchValue(fnd)
-    }
-  }
-  //=================================
-  updateSeasonRate(season: any, rate: any) {
-    // check if exist search on season_id and rate_id
-    // run an update
-    let seasonRate: ISeasonRate = {
-      id: 0,
-      rate: rate.id,
-      season: season.id,
-      amount: rate[season.name]
-    }
-    this.seasonService.getSeasonRate(`season=${season.id}&rate=${rate.id}`)
-      .subscribe(data => {
-        if (data.length) {
-          seasonRate.id = data[0].id
-        }
-        this.genericService.updateItem("seasonrate", seasonRate)
-          .subscribe(data2 => {
-            this.clearRate()
-          })
-      })
-  }
+
+
   //=================================
   updateRate(rate: any) {
-  
     this.genericService.updateItem('rate', rate).subscribe(
-      data => {
-        // if this is a new rate we must inject the id
-        if (!rate.id) {
-          rate.id = data.id
-        }
-        this.seasonList.forEach(s => {
-          if (rate[s.name]) {
-            this.updateSeasonRate(s, rate)
-          }
-        })
-        this.clearRate()
-      }
+      () => this.ngOnInit()
     )
   }
   //=================================
-  deleteRate(rate: any) {
-    this.genericService.deleteItem('rate', rate).subscribe(
-      data => {
-        this.clearRate()
-
-      }
-    )
+  refresh() {
+    this.ngOnInit()
   }
-
-  //=================================
-  addSeasonRate() {
-    this.rateList.forEach(rl => {
-      rl.seasonList = []
-      this.seasonList.forEach(
-        sl => {
-          let f = this.seasonrateList.find(srl => srl.rate == rl.id && srl.season == sl.id)
-          if (f) {
-            rl.seasonList.push(f.amount)
-            rl[sl.name] = f.amount
-          }
-          else {
-            rl.seasonList.push('')
-            rl[sl.name] = ''
-          }
-        }
-      )
-    })
-   }
   //=================================
   ngOnInit(): void {
+    let _rList: IRate[] = []
+    this.rateList = []
     this.genericService.getItemList('season')
-      .subscribe(
-        data => {
-          this.seasonList = data
-          this.seasonList.forEach(sl => {
-            this.rateEditForm.addControl(sl.name, new FormControl(''))
+      .pipe(
+        tap(d1 => this.seasonList = d1),
+        concatMap((d1,d2) => this.genericService.getItemList('rate')),
+        tap(d2 => {
+          _rList = this.sortRates(d2)
+          _rList.forEach(
+            rl => {
+              let rcalc: any = []
+              this.seasonList.forEach(
+                season => {
+                  rcalc.push({ season: season.name, amount: rl.rack * season.discount })
+                })
+              this.rateList.push({ rate: rl, rcalc: rcalc })
+            })
 
-          })
         }
-      )
-    this.currRate = {} as IRate
-    //=================================
-    this.genericService.getItemList('rate')
-      .subscribe(
-        data => {
-          this.rateList = this.sortRates(data)
-          this.genericService.getItemList('seasonrate')
-            .subscribe(
-              data2 => {
-                this.seasonrateList = data2
-                this.addSeasonRate()
-              }
-            )
-        }
-      )
+
+        )
+        
+      ).subscribe(data => console.log(data))
+
+
+
+
     this.systemService.getDropdownList('color').subscribe(
       data => this.colorList = data
     )

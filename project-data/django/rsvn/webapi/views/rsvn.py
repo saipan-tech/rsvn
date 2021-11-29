@@ -60,7 +60,7 @@ class RsvnViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter( dateOut=self.request.GET['checkout'])
 
         if "future" in self.request.GET :
-            queryset = queryset.filter( dateIn__gt=self.request.GET['future'])
+            queryset = queryset.filter( dateIn__gte=self.request.GET['future'])
 
         if  "dateIn" in self.request.GET and "dateOut" in self.request.GET :
             dateIn = self.request.GET['dateIn']
@@ -79,8 +79,7 @@ class RsvnViewSet(viewsets.ModelViewSet):
                     Q(dateIn__lte = dateOut) & Q(dateOut__gte = dateIn) |
                     Q(dateIn__lte = dateOut) & Q(dateOut__gte =  dateOut) 
                     )
-        if "noroom" in self.request.GET:
-            queryset = queryset.filter(dateOut__gt=self.request.GET['noroom'])
+    
             
         return queryset    
 

@@ -15,12 +15,14 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { SharedModule } from '@app/shared/shared.module';
+import { RateListLineComponent } from './rate-list/rate-list-line.component';
 @NgModule({
   declarations: [
     RatemgrCtrlComponent,
     RateListComponent,
     SeasonCalendarComponent,
-    SeasonCtrlComponent
+    SeasonCtrlComponent,
+    RateListLineComponent
   ],
   imports: [
   

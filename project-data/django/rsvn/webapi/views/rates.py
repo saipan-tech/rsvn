@@ -20,50 +20,7 @@ class SeasonViewSet(viewsets.ModelViewSet):
     queryset = Season.objects.all().order_by('discount')
     permission_classes = [permissions.IsAuthenticated]
 
-#===========================
-class SeasonRateViewSet(viewsets.ModelViewSet):
-    serializer_class = SeasonRateSerializer
-    queryset = SeasonRate.objects.all()
-    permission_classes = [permissions.IsAuthenticated]
 
-    def get_queryset(self):
-
-        queryset = super().get_queryset() 
-        if "alias" in self.request.GET :
-            queryset = queryset.filter(rate__alias=self.request.GET['alias'])
-        if "rate" in self.request.GET :
-            queryset = queryset.filter(rate__id=self.request.GET['rate'])
-        if "season" in self.request.GET :
-            queryset = queryset.filter(season__id=self.request.GET['season'])
-        return queryset
-    def create(self,request):
-
-        season = Season.objects.get(id=int(request.data['season']))
-        rate = Rate.objects.get(id=int(request.data['rate']))
-        seasonrate = SeasonRate()
-        seasonrate.season = season
-        seasonrate.rate = rate
-        serializer = SeasonRateSerializer(seasonrate,data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
-#===========================
-class SeasonRateAllViewSet(viewsets.ModelViewSet):
-    serializer_class = SeasonRateAllSerializer
-    queryset = SeasonRate.objects.all()
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-
-        queryset = super().get_queryset() 
-        if "alias" in self.request.GET :
-            queryset = queryset.filter(rate__alias=self.request.GET['alias'])
-        if "rate" in self.request.GET :
-            queryset = queryset.filter(rate__id=self.request.GET['rate'])
-        if "season" in self.request.GET :
-            queryset = queryset.filter(season__id=self.request.GET['season'])
-        return queryset
 #===========================
 class SeasonCalViewSet(viewsets.ModelViewSet):
     serializer_class = SeasonCalSerializer

@@ -12,12 +12,11 @@
                 <mat-panel-title class="custom" (click)='selectGuest(rec.guest)' >
                     {{ rec.guest.firstname }} {{ rec.guest.lastname }}
                     <span style="margin-left:2em" 
-                        *ngIf='rec.rsvn.length > 0'> ( {{ rec.rsvn.length }} )</span>
+                        *ngIf='rec.rsvn.length > 0'> ( {{ rec.rsvn.length }} ) </span>
                 </mat-panel-title>
             </mat-expansion-panel-header>
-            <div *ngFor="let rs of rec.rsvn" (click)='selectRsvn(rs)' class="d-flex result-rsvn">
-                <div class="form-control"> {{ rs.dateIn }} </div>
-                <div class="form-control">{{ rs.dateOut }}</div>
+            <div *ngFor="let rs of rec.rsvn" (click)='selectRsvn(rs)' class="result-rsvn" style="background-color:{{ rs.marker }}" >
+                <div> <strong>{{ rs.dateIn }} >>  {{ rs.dateOut }}</strong></div>
             </div>
         </mat-expansion-panel>
     </mat-accordion>

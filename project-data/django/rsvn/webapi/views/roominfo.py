@@ -70,7 +70,7 @@ class RoomCalc(APIView):
             for x in dspan.datestack() :
                 dd = SeasonCalSerializer(SeasonCal.objects.get(date=x)).data
                 dd['alias'] = alias
-                dd['seasonrate'] = SeasonRateSerializer(SeasonRate.objects.get(rate__alias=alias,season__name=dd['season'])).data['amount']
+      #          dd['seasonrate'] = SeasonRateSerializer(SeasonRate.objects.get(rate__alias=alias,season__name=dd['season'])).data['amount']
                 xarray.append(dd)
                         
 
@@ -81,16 +81,29 @@ class RoomCalc(APIView):
 
         return Response( xarray)        
 
+
+
+
+
+
+
 #------------------------------------------
 class RsvnCalc(APIView):
 #------------------------------------------
+    
+
     def get(self,request,rsvnid, format=None)  :
         rooms = Room.objects.filter(rsvn__id=rsvnid)
+        season = Season.objects.all()
         roomArray = []
-        
+        rate = Rate()
         if request.user.is_authenticated :
             for rms in rooms :
                 alias = rms.roominfo.rateAlias
+                try:
+                    rate = Rate.objects.get(alias=alias)
+                except:
+                    raise Http404                    
                 dspan = Dspan(rms.rsvn.dateIn.isoformat(),rms.rsvn.dateOut.isoformat())            
                 xarray = []
 
@@ -98,9 +111,10 @@ class RsvnCalc(APIView):
                 for x in dspan.datestack() :
                     dd = SeasonCalSerializer(SeasonCal.objects.get(date=x)).data
                     dd['alias'] = alias
-                    dd['seasonrate'] = SeasonRateSerializer(SeasonRate.objects.get(rate__alias=alias,season__name=dd['season'])).data['amount']
+                    dd['amount'] = season.get(name=dd['season']).discount * rate.rack
+                    
                     xarray.append(dd)
-                roomArray.append({'days':xarray,'roominfo':RoominfoSerializer(rms.roominfo).data, 'room':RoomSerializer(rms).data})        
+                roomArray.append({'days':xarray, 'roominfo':RoominfoSerializer(rms.roominfo).data, 'room':RoomSerializer(rms).data})        
 
             # create a date list
         # match seasoncal and season rate

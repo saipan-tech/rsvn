@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ISeason } from '@app/_interface/season';
 import { ISeasonCal } from '@app/_interface/seasoncal';
-import { ISeasonRate } from '@app/_interface/seasonrate';
 import { IRoom } from '@app/_interface/room';
 import { IRsvn } from '@app/_interface/rsvn';
 import { IRoominfo } from '@app/_interface/roominfo';
@@ -27,16 +26,7 @@ export class SeasonService {
 
   private urlRoot = `${this.env.WEB_API}`
 
-  //==================================================
-  getSeasonRate(query: string): Observable<ISeasonRate[]> {
-    return this.http
-      .get<ISeasonRate[]>(`${this.urlRoot}/seasonrate?${query}`)
-  }
-  //==================================================
-  getSeasonRateAll(query: string): Observable<ISeasonRate[]> {
-    return this.http
-      .get<ISeasonRate[]>(`${this.urlRoot}/seasonrateall?${query}`)
-  }
+  
   //==================================================
   getSeasonCalendar(query: string): Observable<ISeasonCal[]> {
     return this.http

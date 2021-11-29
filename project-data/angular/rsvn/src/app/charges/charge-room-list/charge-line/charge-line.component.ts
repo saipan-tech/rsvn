@@ -16,7 +16,6 @@ import { SeasonService } from '@app/_services/season.service';
 
 import { ChargeService } from '@app/_services/charge.service';
 import { AppConstants } from '@app/app.constants';
-import { ISeasonRate } from '@app/_interface/seasonrate';
 import { subscribeOn } from 'rxjs/operators';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
@@ -26,12 +25,13 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 })
 export class ChargeLineComponent implements OnInit {
 
-  @Input() roomall: IRoom | any
+  @Input() roomall: any
   @Output() roomallChange = new EventEmitter<IRoom>();
 
-  
-  bldgList :IBldg[] = []
-  
+
+  bldgList: IBldg[] = []
+  roomTotal = 0
+
   constructor(
     private appConstants: AppConstants,
     private roomService: RoomService,
@@ -41,13 +41,14 @@ export class ChargeLineComponent implements OnInit {
   ) { }
 
 
-  bldgName(id:number) {
-    const b:any = this.bldgList.find(f => id==id)
-    if(b) return b.name
+  bldgName(id: number) {
+    const b: any = this.bldgList.find(f => id == id)
+    if (b) return b.name
     else return {}
 
-    
+
   }
+
   updateRoomCharge(season: any) {
     this.genericService.updateItem("room", {
       id: this.roomall.id,
@@ -64,14 +65,17 @@ export class ChargeLineComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.genericService.getItemList('bldg')
-        .subscribe(
-          data => {
-            this.bldgList = data
-          }
-        )
+    this.genericService.getItemList('bldg')
+      .subscribe(
+        data => {
+          this.bldgList = data
+        }
+      )
+      this.roomall.days.forEach(
+        (ra: { amount: number; }) => this.roomTotal += ra.amount
+      )
 
-      }
+  }
 }
 
 

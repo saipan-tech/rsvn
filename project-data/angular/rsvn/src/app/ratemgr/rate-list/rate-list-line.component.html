@@ -1,0 +1,28 @@
+<div>
+    <form novalidate [formGroup]="rateEditForm">
+        <div class="d-flex">
+            
+
+            <input type="text" formControlName='alias' class="form-control">
+            <select class="form-control" [ngStyle]="{'background-color':rateEditForm.value.color}" formControlName='color'>
+                <option value=""></option>
+                <option [ngStyle]="{'background-color':c.value}" *ngFor="let c of colorList" [ngValue]="c.value">
+                    {{c.display}} </option>
+            </select>
+            <input type="text" formControlName='rateCategory' class="form-control">
+            <input type="text" formControlName='rateName' class="form-control">
+            <input type="text" formControlName='rateType' class="form-control">
+            <input type="text" formControlName='rateClass' class="form-control">
+            <input type="text" formControlName='descr' class="form-control">
+            <input type="number" formControlName='rack' class="form-control">
+            <div class="form-control" style="text-align:right" *ngFor="let x of rate.rcalc">
+                {{ x.amount | currency }}
+            </div>
+
+
+        </div>
+
+    </form>
+
+
+</div>

@@ -72,22 +72,16 @@ export class SeasonCtrlComponent implements OnInit {
   }
 
   deleteSeason(season: ISeason) {
-    this.seasonService.getSeasonRate(`seasonrate=${season.id}`)
-      .subscribe(
+      this.genericService.deleteItem('season', season).subscribe(
         data => {
-          if (data.length == 0) {
-            this.genericService.deleteItem('season', season).subscribe(
-              data => {
-                this.clearSeason()
-                this.currSeasonChange.emit(this.currSeason)
-                this.ngOnInit()
-              }
-            )
-
-          }
+          this.clearSeason()
+          this.currSeasonChange.emit(this.currSeason)
+          this.ngOnInit()
         }
       )
-  }
+
+    }
+
   ngOnInit(): void {
     this.genericService.getItemList('season')
       .subscribe(

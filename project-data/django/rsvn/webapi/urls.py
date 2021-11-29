@@ -51,8 +51,6 @@ router.register(r'taxrate',TaxRateViewSet)
 router.register(r'charge',ChargeViewSet)
 router.register(r'payment',PaymentViewSet)
 router.register(r'season',SeasonViewSet)
-router.register(r'seasonrate',SeasonRateViewSet)
-router.register(r'seasonrateall',SeasonRateAllViewSet)
 router.register(r'statuslog',StatusLogViewSet)
 router.register(r'seasoncal',SeasonCalViewSet)
 router.register(r'calendar',CalendarViewSet)
@@ -60,6 +58,8 @@ router.register(r'calendar',CalendarViewSet)
 # yrp
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
+
+
 
 urlpatterns = [
     path('', include(router.urls)),

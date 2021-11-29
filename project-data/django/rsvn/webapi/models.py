@@ -97,11 +97,7 @@ class Season(models.Model):
     descr       =   models.CharField(max_length=512, blank=True)
     discount    = 	models.DecimalField(max_digits=9, decimal_places=3,default=Decimal('00.000'))
     color       =  	models.CharField(max_length=40, default='white')
-#---------------------------------------------------------
-class SeasonRate(models.Model):
-    season      =   models.ForeignKey(Season,models.CASCADE)
-    rate        =   models.ForeignKey(Rate,models.CASCADE)
-    amount	    = 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
+
 #---------------------------------------------------------
 class SeasonCal(models.Model):
     date        =   models.DateField(unique=True)

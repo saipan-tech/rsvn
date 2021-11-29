@@ -61,25 +61,21 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
 
   noRoomCheck() {
     this.noRoomResult = ""
-    this.rsvnService.rsvnSpecial(`noroom=${this.today}`)
+    this.genericService.getItemQueryList('rsvn', `future=${this.today}`)
       .subscribe(data => {
         let rList = data
-          // rList has all future reservations
-        this.genericService.getItemQueryList('room',`future=${this.today}`)
+        // rList has all future reservations
+        this.genericService.getItemQueryList('room', `future=${this.today}`)
           .subscribe(data2 => {
             // data2 has all future rooms
             rList.forEach(rrec => {
-
-              if (!data2.find(d => d.rsvn == rrec.id)) {
+              let df = data2.filter(d => d.rsvn == rrec.id)
+              if (df.length < rrec.numrooms) {
                 this.noRoomResult = 'pink'
               }
-
             })
-
           })
-
       })
-
   }
 
 
@@ -114,33 +110,39 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
       case 'checkin':
       case 'checkout':
       case 'future':
-        this.rsvnService.rsvnSpecial(`${mode}=${this.today}`)
+        this.genericService.getItemQueryList('rsvn', `${mode}=${this.today}`)
           .subscribe(data => {
             this.rsvnList = data
             this.makeNewList()
           })
         break;
       case 'noroom':
-        this.rsvnService.rsvnSpecial(`${mode}=${this.today}`)
+        this.genericService.getItemQueryList('rsvn', `future=${this.today}`)
           .subscribe(data => {
             let rList = data
             this.rsvnList = []
             // rList has all future reservaions
-            this.genericService.getItemQueryList('room',`future=${this.today}`)
-              .subscribe(data2 => {
-                // data2 has all future rooms
-                rList.forEach(rrec => {
-
-                  if (!data2.find(d => d.rsvn == rrec.id)) {
-                    this.rsvnList.push(rrec)
-                  }
+            this.genericService.getItemQueryList('rsvn', `future=${this.today}`)
+              .subscribe(data => {
+                let rList = data
+                // rList has all future reservations
+                this.genericService.getItemQueryList('room', `future=${this.today}`)
+                  .subscribe(data2 => {
+                    // data2 has all future rooms
+                    rList.forEach(rrec => {
+                      let df = data2.filter(d => d.rsvn == rrec.id)
+                      if (df.length < rrec.numrooms) {
+                        rrec.marker = "pink"
+                        this.rsvnList.push(rrec)
+                      }
+                    })
+                    this.makeNewList()
+                  })
 
                 })
-                this.makeNewList()
-
-              })
 
           })
+
         break;
     }
   }
