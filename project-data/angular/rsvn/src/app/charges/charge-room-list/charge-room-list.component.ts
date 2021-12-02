@@ -69,7 +69,7 @@ export class ChargeRoomListComponent implements OnInit {
         rr = rm
         rr.days.forEach(
           r =>  {
-  //          this.roomTotal += Number(r.seasonrate) 
+            this.roomTotal += Number(r.amount) 
           }
         )
       }
@@ -102,6 +102,7 @@ export class ChargeRoomListComponent implements OnInit {
     this.roomService.getRsvnCalc(this.currRsvn.id)
       .subscribe(data => {
         this.fullRoomList = data  
+        console.log(data)
         this.chargeTotal()
         
       })

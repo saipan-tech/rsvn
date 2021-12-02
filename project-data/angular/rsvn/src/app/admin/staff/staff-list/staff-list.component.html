@@ -1,4 +1,60 @@
-<p>staff-list works!</p>
-staff ->{{staffList | json}}
-<br>
-user -> {{userList |json }}
+
+
+
+
+{{ dispList | json}}
+
+
+<div class="card">
+    <div class="card-header">
+       <nav class="navbar">
+        <h5 class='card-title'>Staff List</h5>
+        <button (click)='newStaff()'>New Staff</button> 
+
+       </nav>
+    </div>
+     <div class="card-body">
+
+        <div class="d-flex">
+            <div class="form-control">Title</div>
+            <div class="form-control">First Name</div>
+            <div class="form-control">Last Name</div>
+
+            <div class="form-control">Telephone</div>
+            <div class="form-control">Email</div>
+            
+            <div class="form-control">Address</div>
+            <div class="form-control">City</div>
+            <div class="form-control">State</div>
+            <div class="form-control">Zipcode</div>
+            <div class="form-control">Temp Passwd</div>
+            <div class="form-control">Active</div>
+            <div class="form-control">Staff</div>
+            <div class="form-control">Super</div>
+            <div class="form-control">Joined</div>
+            <div class="form-control">Last Login</div>
+            
+            
+        </div>
+         <div class="d-flex" style="border:1px solid silver" *ngFor="let x of dispList">
+            <div class="form-control active" (click)='selectStaff(x)'>{{x.staff.title}}</div>
+            <div class="form-control">{{x.staff.firstname}}</div>
+            <div class="form-control">{{x.staff.lastname}}</div>
+            <div class="form-control">{{x.staff.phone1}}</div>
+            <div class="form-control">{{x.staff.email}}</div>
+            <div class="form-control">{{x.staff.address}}</div>
+            <div class="form-control">{{x.staff.city}}</div>
+            <div class="form-control">{{x.staff.state}}</div>
+            <div class="form-control">{{x.staff.zipcode}}</div>
+            <div class="form-control">{{x.staff.temppass | slice:0:10}}</div>
+            <div class="form-control">{{x.user.is_active}}</div>
+            <div class="form-control">{{x.user.is_staff}}</div>
+            <div class="form-control">{{x.user.is_superuser}}</div>
+            <div class="form-control">{{x.user.date_joined}}</div>
+            <div class="form-control">{{x.user.last_login}}</div>
+        </div>
+     </div>
+    <div class="card-footer"></div>
+</div>
+
+

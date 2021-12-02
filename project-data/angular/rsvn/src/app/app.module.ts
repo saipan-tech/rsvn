@@ -73,12 +73,14 @@ import { RoomListItemComponent } from './config/room-list/room-list-item.compone
     AdminModule,
     RatemgrModule,
     AccordionModule.forRoot(),
-    CarouselModule.forRoot()
+    CarouselModule.forRoot(),
+
   ],
   
 
   
   providers: [authInterceptorProviders,AppEnv,AppConstants],
   bootstrap: [AppComponent]
+
 })
 export class AppModule { }

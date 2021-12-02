@@ -1,95 +1,100 @@
-<h5>Staff</h5>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Add Staff
-</button>
+<div class="form-control">
+    <form novalidate [formGroup]="staffEditForm">
+        <div class="d-flex">
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Staff</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="form-control">
+                <div class="d-flex">
+                    <label class="uppercell form-control">First Name<abbr class="req" title="Required">*</abbr></label>
+                    <input class="lowercell form-control" type="text" formControlName='firstname'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Middle Name</label>
+                    <input class="lowercell form-control" type="text" formControlName='middlename'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Last Name<abbr class="req" title="Required">*</abbr></label>
+                    <input class="lowercell form-control" type="text" formControlName='lastname'>
+                </div>
+
+                <div class="d-flex">
+                    <label class="uppercell form-control">Primary Phone<abbr class="req"
+                            title="Required">*</abbr></label>
+                    <input class="lowercell form-control" type="text" formControlName='phone1'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Secondary Phone</label>
+                    <input class="lowercell form-control" type="text" formControlName='phone2'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Address<abbr class="req" title="Required">*</abbr></label>
+                    <input class="lowercell form-control" type="text" formControlName='address'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">City<abbr class="req" title="Required">*</abbr></label>
+                    <input class="lowercell form-control" type="text" formControlName='city'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">State<abbr class="req" title="Required">*</abbr></label>
+                    <input class="lowercell form-control" type="text" formControlName='state'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Postal Code<abbr class="req" title="Required">*</abbr></label>
+                    <input class="lowercell form-control" type="text" formControlName='zipcode'>
+                </div>
+
+                <div class="d-flex">
+                    <label class="uppercell form-control">Country</label>
+                    <input class="lowercell form-control" type="text" formControlName='country'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Title</label>
+                    <input class="lowercell form-control" type="text" formControlName='title'>
+                </div>
+
             </div>
-            <div class="modal-body">
-                <div class="form-control">
-                    <form novalidate [formGroup]="staffEditForm">
-                        <div>
-
-
-
-                            <div class="d-flex">
-                                <label class="uppercell form-control">Username<abbr class="req" title="Required">*</abbr></label>
-                                <input class="lowercell form-control"  type="text" formControlName='username'>
-                            </div>
-                            <div class="d-flex">
-                                <label class="uppercell form-control">First Name<abbr class="req" title="Required">*</abbr></label>
-                                <input class="lowercell form-control"  type="text" formControlName='firstname'>
-                            </div>
-                            <div class="d-flex">
-                                <label class="uppercell form-control">Middle Name</label>
-                                <input class="lowercell form-control"  type="text" formControlName='middlename'>
-                            </div>
-                            <div class="d-flex">
-                                <label class="uppercell form-control">Last Name<abbr class="req" title="Required">*</abbr></label>
-                                <input class="lowercell form-control"  type="text" formControlName='lastname'>
-                            </div>
-                            <div class="d-flex">
-                                <label class="uppercell form-control">Primary Phone<abbr class="req" title="Required">*</abbr></label>
-                                <input class="lowercell form-control"  type="text" formControlName='phone1'>
-                            </div>
-                            <div class="d-flex">
-                                <label class="uppercell form-control">Secondary Phone</label>
-                                <input class="lowercell form-control"  type="text" formControlName='phone2'>
-                            </div>
-                            <div class="d-flex">
-                                <label class="uppercell form-control">Primary Address<abbr class="req" title="Required">*</abbr></label>
-                                <input class="lowercell form-control"  type="text" formControlName='address1'>
-                            </div>
-                            <div class="d-flex">
-                                <label class="uppercell form-control">Secondary Address</label>
-                                <input class="lowercell form-control"  type="text" formControlName='address2'>
-                            </div>
-                            <div class="d-flex">
-                                <label class="uppercell form-control">City<abbr class="req" title="Required">*</abbr></label>
-                                <input class="lowercell form-control"  type="text" formControlName='city'>
-                            </div>
-                            <div class="d-flex">
-                                <label class="uppercell form-control">State<abbr class="req" title="Required">*</abbr></label>
-                                <input class="lowercell form-control"  type="text" formControlName='state'>
-                            </div>
-                            <div class="d-flex">
-                                <label class="uppercell form-control">Country</label>
-                                <input class="lowercell form-control"  type="text" formControlName='country'>
-                            </div>
-                            <div class="d-flex">
-                                <label class="uppercell form-control">Email<abbr class="req" title="Required">*</abbr></label>
-                                <input class="lowercell form-control"  type="email" formControlName='email'>
-                            </div>
-                            <div class="d-flex">
-                                <label class="uppercell form-control">Title</label>
-                                <input class="lowercell form-control"  type="text" formControlName='title'>
-                            </div>
-                        
-                        </div>
-                    </form>
+            <div class="form-control">
+                <div class="d-flex">
+                    <label class="uppercell form-control">Username<abbr class="req" title="Required">*</abbr></label>
+                    <input class="lowercell form-control" type="text" formControlName='username'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Email<abbr class="req" title="Required">*</abbr></label>
+                    <input class="lowercell form-control" type="email" formControlName='email'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Is Active</label>
+                    <input class="lowercell form-control" type="text" formControlName='is_active'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Is Staff</label>
+                    <input class="lowercell form-control" type="text" formControlName='is_staff'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Is Superuser</label>
+                    <input class="lowercell form-control" type="text" formControlName='is_superuser'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Date Joined</label>
+                    <input class="lowercell form-control" type="text" formControlName='date_joined'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Last Login</label>
+                    <input class="lowercell form-control" type="text" formControlName='last_login'>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn" [disabled]="!(staffEditForm.valid)"
-                    (click)='updateStaff(staffEditForm.value)' data-bs-dismiss="modal">
-                    <span class="material-icons">save</span></button>
-                <button class="btn" [disabled]="!(currStaff && currStaff.id)"
-                    (click)='deleteStaff(staffEditForm.value)' data-bs-dismiss="modal">
-                    <span class="material-icons"> delete </span>
-                </button>
-                <button class="btn" [disabled]="!(currStaff && currStaff.id)"  (click)='newStaff()'>
-                    <span class="material-icons"> note_add </span>
-                </button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <span class="material-icons"> close </span>
-                </button>
-            </div>
         </div>
-    </div>
+
+    </form>
 </div>
+
+<button class="btn" [disabled]="!(staffEditForm.valid)" (click)='updateStaff(staffEditForm.value)'
+    data-bs-dismiss="modal">
+    <span class="material-icons">save</span></button>
+<button class="btn" [disabled]="!(currxRec && currxRec.staff.id)" (click)='deleteStaff(staffEditForm.value)'
+    data-bs-dismiss="modal">
+    <span class="material-icons"> delete </span>
+</button>
+
+<button type="button" (click)='close()'>
+    <span class="material-icons"> close </span>
+</button>
