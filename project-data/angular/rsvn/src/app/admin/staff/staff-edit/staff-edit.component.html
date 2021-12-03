@@ -5,17 +5,24 @@
             <div class="form-control">
                 <div class="d-flex">
                     <label class="uppercell form-control">First Name<abbr class="req" title="Required">*</abbr></label>
-                    <input class="lowercell form-control" type="text" formControlName='firstname'>
+                    <input class="lowercell form-control" type="text" formControlName='first_name'>
                 </div>
                 <div class="d-flex">
                     <label class="uppercell form-control">Middle Name</label>
-                    <input class="lowercell form-control" type="text" formControlName='middlename'>
+                    <input class="lowercell form-control" type="text" formControlName='middle_name'>
                 </div>
                 <div class="d-flex">
                     <label class="uppercell form-control">Last Name<abbr class="req" title="Required">*</abbr></label>
-                    <input class="lowercell form-control" type="text" formControlName='lastname'>
+                    <input class="lowercell form-control" type="text" formControlName='last_name'>
                 </div>
-
+                <div class="d-flex">
+                    <label class="uppercell form-control">Username<abbr class="req" title="Required">*</abbr></label>
+                    <input class="lowercell form-control" type="text" formControlName='username'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Email<abbr class="req" title="Required">*</abbr></label>
+                    <input class="lowercell form-control" type="email" formControlName='email'>
+                </div>
                 <div class="d-flex">
                     <label class="uppercell form-control">Primary Phone<abbr class="req"
                             title="Required">*</abbr></label>
@@ -41,7 +48,6 @@
                     <label class="uppercell form-control">Postal Code<abbr class="req" title="Required">*</abbr></label>
                     <input class="lowercell form-control" type="text" formControlName='zipcode'>
                 </div>
-
                 <div class="d-flex">
                     <label class="uppercell form-control">Country</label>
                     <input class="lowercell form-control" type="text" formControlName='country'>
@@ -50,36 +56,26 @@
                     <label class="uppercell form-control">Title</label>
                     <input class="lowercell form-control" type="text" formControlName='title'>
                 </div>
-
             </div>
-            <div class="form-control">
-                <div class="d-flex">
-                    <label class="uppercell form-control">Username<abbr class="req" title="Required">*</abbr></label>
-                    <input class="lowercell form-control" type="text" formControlName='username'>
-                </div>
-                <div class="d-flex">
-                    <label class="uppercell form-control">Email<abbr class="req" title="Required">*</abbr></label>
-                    <input class="lowercell form-control" type="email" formControlName='email'>
-                </div>
+            <div class="form-control" *ngIf='currxRec.user && currxRec.user.id'>
+              
                 <div class="d-flex">
                     <label class="uppercell form-control">Is Active</label>
-                    <input class="lowercell form-control" type="text" formControlName='is_active'>
+                    <select formControlName='is_active' class="lowercell form-control">
+                        <option *ngFor="let a of ackList" [ngValue]=a>{{a}} </option>
+                    </select>
                 </div>
                 <div class="d-flex">
                     <label class="uppercell form-control">Is Staff</label>
-                    <input class="lowercell form-control" type="text" formControlName='is_staff'>
+                    <select formControlName='is_staff' class="lowercell form-control">
+                        <option *ngFor="let a of ackList" [ngValue]=a>{{a}} </option>
+                    </select>
                 </div>
                 <div class="d-flex">
                     <label class="uppercell form-control">Is Superuser</label>
-                    <input class="lowercell form-control" type="text" formControlName='is_superuser'>
-                </div>
-                <div class="d-flex">
-                    <label class="uppercell form-control">Date Joined</label>
-                    <input class="lowercell form-control" type="text" formControlName='date_joined'>
-                </div>
-                <div class="d-flex">
-                    <label class="uppercell form-control">Last Login</label>
-                    <input class="lowercell form-control" type="text" formControlName='last_login'>
+                    <select formControlName='is_superuser' class="lowercell form-control">
+                        <option *ngFor="let a of ackList" [ngValue]=a>{{a}} </option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -87,14 +83,11 @@
     </form>
 </div>
 
-<button class="btn" [disabled]="!(staffEditForm.valid)" (click)='updateStaff(staffEditForm.value)'
-    data-bs-dismiss="modal">
+<button class="btn" [disabled]="!(staffEditForm.valid)" (click)='updateStaff()'>
     <span class="material-icons">save</span></button>
-<button class="btn" [disabled]="!(currxRec && currxRec.staff.id)" (click)='deleteStaff(staffEditForm.value)'
-    data-bs-dismiss="modal">
+<button class="btn" [disabled]="!(currxRec && currxRec.staff && currxRec.staff.id)" (click)='deleteStaff()'>
     <span class="material-icons"> delete </span>
 </button>
-
 <button type="button" (click)='close()'>
     <span class="material-icons"> close </span>
 </button>

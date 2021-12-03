@@ -2,9 +2,9 @@ export interface IStaff {
     id:number;
     user:number;
     username:string;
-    firstname :string;
-    middlename:string;
-    lastname:string;
+    first_name :string;
+    middle_name:string;
+    last_name:string;
     phone1:string ;
     phone2:string;
     temppass:string;

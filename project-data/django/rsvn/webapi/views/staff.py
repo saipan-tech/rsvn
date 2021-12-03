@@ -16,29 +16,30 @@ class StaffViewSet(viewsets.ModelViewSet):
     # ----------------------------
     def create(self,request):
     # ----------------------------
-        if request.data['username'] :
-            user = User.objects.filter(username=request.data['username'])
-            if not user and request.data['email']:
-                datarec = request.data
-                username = request.data['username']
-                password = contact_keygen()
-                email = request.data['email']
-                u = User.objects.create_user(username, email, password)
-                u.first_name =  request.data['firstname']
-                u.last_name =  request.data['lastname']
-                u.save()
+      
+      if request.data['username'] :
+          user = User.objects.filter(username=request.data['username'])
+          if not user and request.data['email']:
+              datarec = request.data
+              username = request.data['username']
+              password = contact_keygen()
+              email = request.data['email']
+              u = User.objects.create_user(username, email, password)
+              u.first_name =  request.data['first_name']
+              u.last_name =  request.data['last_name']
+              u.save()
 
-                if u :
-                  datarec["user"] = u.id
-                  datarec['temppass'] = password
-                  serializer = StaffSerializer(Staff(),data=datarec)
-                  if serializer.is_valid():
-                    serializer.save()
-                    return Response(serializer.data)
-                  u.delete()
-                  return Response(serializer.errors)
-                return Response(["User create error",u])
-        return Response(["no Username"])
+              if u :
+                datarec["user"] = u.id
+                datarec['temppass'] = password
+                serializer = StaffSerializer(Staff(),data=datarec)
+                if serializer.is_valid():
+                  serializer.save()
+                  return Response(serializer.data)
+                u.delete()
+                return Response(serializer.errors)
+              return Response(["User create error",u])
+      return Response(["no Username"])
 
 
 

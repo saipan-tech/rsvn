@@ -12,7 +12,7 @@ class WorkFileSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
   class Meta:
     model= User
-    fields = '__all__'
+    exclude=['password']
 
 #---------------------------------------------------------
 class GroupSerializer(serializers.ModelSerializer):

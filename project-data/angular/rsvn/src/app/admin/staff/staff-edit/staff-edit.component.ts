@@ -8,16 +8,22 @@ import { IDropdown } from '@app/_interface/dropdown'
 import { GenericService } from '@app/_services/generic.service';
 import { SystemService } from '@app/_services/system.service';
 import { AuthService } from '@app/_services/auth.service';
-import { MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Inject } from '@angular/core';
 import { IUser } from '@app/_interface/user';
+import { catchError, tap, map, mergeMap } from 'rxjs/operators';
 
 interface xRec {
   staff: IStaff;
-  user : IUser;
+  user: IUser;
 }
+let staffkey = [ "user","username","first_name","last_name","middle_name","phone1","phone2",
+    "address","city","state","zipcode","country","title","email" ]
 
-@Component({
+
+ let userkey = ["first_name",  "last_name",  "username",  "email",  "is_staff",  "is_active","is_superuser" ]
+
+ @Component({
   selector: 'app-staff-edit',
   templateUrl: './staff-edit.component.html',
   styleUrls: ['./staff-edit.component.scss']
@@ -25,21 +31,18 @@ interface xRec {
 
 
 export class StaffEditComponent implements OnInit {
-  currxRec : xRec = {} as xRec;
-
   constructor(
     private genericService: GenericService,
     private systemService: SystemService,
     private authService: AuthService,
-    private dialogRef: MatDialogRef<StaffEditComponent>,    
-    @Inject(MAT_DIALOG_DATA) data:any
-    )
-   { 
+    private dialogRef: MatDialogRef<StaffEditComponent>,
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
 
     this.currxRec = data.currxRec
 
   }
- 
+
   @Output() currStaffChange = new EventEmitter<IStaff>()
 
   form_error: any
@@ -47,12 +50,11 @@ export class StaffEditComponent implements OnInit {
   numDays = 0
 
   staffEditForm = new FormGroup({
-    id: new FormControl(''),
     user: new FormControl(''),
     username: new FormControl('', Validators.required),
-    firstname: new FormControl('', Validators.required),
-    lastname: new FormControl('', Validators.required),
-    middlename: new FormControl(''),
+    first_name: new FormControl('', Validators.required),
+    last_name: new FormControl('', Validators.required),
+    middle_name: new FormControl(''),
     phone1: new FormControl('', Validators.required),
     phone2: new FormControl(''),
     address: new FormControl('', Validators.required),
@@ -62,14 +64,16 @@ export class StaffEditComponent implements OnInit {
     country: new FormControl(''),
     title: new FormControl(''),
     email: new FormControl('', Validators.required),
-    is_staff:new FormControl(''),
-    is_active:new FormControl(''),
-    is_superuser:new FormControl(''),
+    is_staff: new FormControl(''),
+    is_active: new FormControl(''),
+    is_superuser: new FormControl(''),
     date_joined: new FormControl(''),
     last_login: new FormControl('')
   })
 
-  
+  currxRec: xRec = {} as xRec;
+  ackList = [true,false]
+
   roomList: IRoom[] = []
   roominfoList: IRoominfo[] = []
   staffList: IStaff[] = []
@@ -81,9 +85,12 @@ export class StaffEditComponent implements OnInit {
   transTotal = 0
   chgtypeList: IDropdown[] = []
   //---------------------------------
-  deleteStaff(staff: IStaff) {
-    this.genericService.deleteItem('staff', staff)
-      .subscribe(data => {    
+  deleteStaff() {
+    this.genericService.deleteItem('staff', this.currxRec.staff)
+      .pipe(
+        mergeMap(data => this.genericService.deleteItem('user', this.currxRec.user))
+      )
+      .subscribe(data => {
         this.currxRec = {} as xRec
         this.dialogRef.close(this.currxRec)
       })
@@ -99,39 +106,73 @@ export class StaffEditComponent implements OnInit {
   }
   */
   //--------------------------
-  updateStaff(staff: IStaff) {
-    console.log("Staff",staff)
-
-    this.genericService.updateItem('staff', staff).subscribe(
-      data => {
-        this.dialogRef.close(data)
-      },
-      err => console.log("Error", err)
-    )
-  }
-  //---------------------------------
-  close() {
-  this.dialogRef.close(this.currxRec)
-  }
+  updateStaff() {
  
-  //--------------------------
-/*
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.currStaff && this.currStaff.id) {
-      this.staffEditForm.patchValue(this.currStaff)
-
-    } else {
-      this.newStaff()
+    this.form2rec()
+    let staff$ = this.genericService.updateItem('staff', this.currxRec.staff)
+    if (this.currxRec.staff.id && this.currxRec.user.id) {
+      staff$ = staff$.pipe(
+        mergeMap(data => this.genericService.updateItem('user', this.currxRec.user))
+      )
     }
 
+    staff$.subscribe(
+        data => {
+          this.close()
+        },
+        err => console.log("Error", err)
+      )
   }
-  */
+  /*
+  
+*/
+  //---------------------------------
+  close() {
+    this.dialogRef.close(this.currxRec)
+  }
+
+  //--------------------------
+  /*
+    ngOnChanges(changes: SimpleChanges) {
+      if (this.currStaff && this.currStaff.id) {
+        this.staffEditForm.patchValue(this.currStaff)
+  
+      } else {
+        this.newStaff()
+      }
+  
+    }
+    */
+  form2rec() {
+    if (!this.currxRec.staff.id) {
+      this.currxRec.staff.id = 0
+      this.currxRec.staff.clerk = ''
+      this.currxRec.staff.temppass = ''
+      
+      
+    }
+    staffkey.forEach(sk =>  {
+       Object.defineProperty(this.currxRec.staff, sk, 
+        { value: this.staffEditForm.value[sk],
+          writable: true,
+          configurable:true,
+          enumerable:true} )
+    })
+    userkey.forEach(sk =>  {
+      Object.defineProperty(this.currxRec.user, sk, 
+        { value: this.staffEditForm.value[sk] ,
+          writable: true,
+          configurable:true,
+          enumerable:true} )
+    })
+  }
   //--------------------------
   ngOnInit(): void {
+  
+    
     this.authService.getSession().subscribe(
       data => this.user = data
     )
-    console.log(this.currxRec)
     this.staffEditForm.patchValue(this.currxRec.staff)
     this.staffEditForm.patchValue(this.currxRec.user)
   }

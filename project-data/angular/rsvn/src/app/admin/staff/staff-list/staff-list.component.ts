@@ -42,6 +42,7 @@ export class StaffListComponent implements OnInit, OnChanges {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.panelClass = [];
     dialogConfig.data = {
       currxRec: currxRec
     }
@@ -85,7 +86,7 @@ export class StaffListComponent implements OnInit, OnChanges {
   //--------------------------
   newStaff() {
 
-    this.currxRec = {} as xRec
+    this.currxRec = {staff:{} as IStaff,user:{} as IUser} as xRec
     this.openDialog(this.currxRec)
   }
   //--------------------------
@@ -102,7 +103,6 @@ export class StaffListComponent implements OnInit, OnChanges {
     let users$ = this.genericService.getItemList("user")
     combineLatest([staff$, users$])
       .subscribe(data => {
-        console.log(data)
         this.staffList = data[0];
         this.userList = data[1];
       },
