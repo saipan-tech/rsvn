@@ -10,6 +10,7 @@ import { GenericService } from '@app/_services/generic.service';
 import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomService } from '@app/_services/room.service';
 import { MatRadioModule } from '@angular/material/radio';
+import {DangerDialogComponent, DialogManagerService} from "@app/shared/dialog";
 
 @Component({
   selector: 'app-room-ctrl',
@@ -44,7 +45,9 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   constructor(
     private genericService: GenericService,
     private rsvnService: RsvnService,
-    private roomService: RoomService
+    private roomService: RoomService,
+    private dialogManagerService: DialogManagerService,
+
   ) { }
 
 
@@ -72,14 +75,31 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
   }
 
+
+
   unassignRoom(room: any) {
+    let rm = this.currRoomList.find(rec => room.id == rec.room.id )
+    console.log(this.currRsvn )
+    this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {
+      data: {
+        title: `Delete Room (${rm.bldg.name} - ${rm.roominfo.number}) from the 
+            \n (${this.currRsvn.primary.firstname} ${this.currRsvn.primary.lastname}) Reservation?`,
+        content: 'You cannot undue this action',
+        confirmAction: 'Delete',
+      }
+    }).afterClosed().subscribe(deleteConfirmed => {
+      if (deleteConfirmed) {
+
+
+
+
     this.genericService.deleteItem("room", room)
       .subscribe(data => {
         this.ngOnInit()
         this.refreshRsvn();
       })
   }
-
+    })}
 
 
 

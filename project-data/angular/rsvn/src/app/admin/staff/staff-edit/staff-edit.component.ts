@@ -12,18 +12,19 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Inject } from '@angular/core';
 import { IUser } from '@app/_interface/user';
 import { catchError, tap, map, mergeMap } from 'rxjs/operators';
+import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
 
 interface xRec {
   staff: IStaff;
   user: IUser;
 }
-let staffkey = [ "user","username","first_name","last_name","middle_name","phone1","phone2",
-    "address","city","state","zipcode","country","title","email" ]
+let staffkey = ["user", "username", "first_name", "last_name", "middle_name", "phone1", "phone2",
+  "address", "city", "state", "zipcode", "country", "title", "email"]
 
 
- let userkey = ["first_name",  "last_name",  "username",  "email",  "is_staff",  "is_active","is_superuser" ]
+let userkey = ["first_name", "last_name", "username", "email", "is_staff", "is_active", "is_superuser"]
 
- @Component({
+@Component({
   selector: 'app-staff-edit',
   templateUrl: './staff-edit.component.html',
   styleUrls: ['./staff-edit.component.scss']
@@ -36,7 +37,9 @@ export class StaffEditComponent implements OnInit {
     private systemService: SystemService,
     private authService: AuthService,
     private dialogRef: MatDialogRef<StaffEditComponent>,
-    @Inject(MAT_DIALOG_DATA) data: any
+    @Inject(MAT_DIALOG_DATA) data: any,
+    private dialogManagerService: DialogManagerService,
+
   ) {
 
     this.currxRec = data.currxRec
@@ -72,7 +75,7 @@ export class StaffEditComponent implements OnInit {
   })
 
   currxRec: xRec = {} as xRec;
-  ackList = [true,false]
+  ackList = [true, false]
 
   roomList: IRoom[] = []
   roominfoList: IRoominfo[] = []
@@ -86,14 +89,26 @@ export class StaffEditComponent implements OnInit {
   chgtypeList: IDropdown[] = []
   //---------------------------------
   deleteStaff() {
-    this.genericService.deleteItem('staff', this.currxRec.staff)
-      .pipe(
-        mergeMap(data => this.genericService.deleteItem('user', this.currxRec.user))
-      )
-      .subscribe(data => {
-        this.currxRec = {} as xRec
-        this.dialogRef.close(this.currxRec)
-      })
+
+    this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {
+      data: {
+        title: 'Delete Staff Member?',
+        content: 'You cannot undue this action',
+        confirmAction: 'Delete',
+      }
+    }).afterClosed().subscribe(deleteConfirmed => {
+      if (deleteConfirmed) {
+
+        this.genericService.deleteItem('staff', this.currxRec.staff)
+          .pipe(
+            mergeMap(data => this.genericService.deleteItem('user', this.currxRec.user))
+          )
+          .subscribe(data => {
+            this.currxRec = {} as xRec
+            this.dialogRef.close(this.currxRec)
+          })
+      }
+    })
   }
   //---------------------------------
   /*
@@ -107,21 +122,21 @@ export class StaffEditComponent implements OnInit {
   */
   //--------------------------
   updateStaff() {
- 
-    this.form2rec()
+
+      this.form2rec()
     let staff$ = this.genericService.updateItem('staff', this.currxRec.staff)
-    if (this.currxRec.staff.id && this.currxRec.user.id) {
+    if(this.currxRec.staff.id && this.currxRec.user.id) {
       staff$ = staff$.pipe(
         mergeMap(data => this.genericService.updateItem('user', this.currxRec.user))
       )
     }
 
     staff$.subscribe(
-        data => {
-          this.close()
-        },
-        err => console.log("Error", err)
-      )
+      data => {
+        this.close()
+      },
+      err => console.log("Error", err)
+    )
   }
   /*
   
@@ -148,28 +163,32 @@ export class StaffEditComponent implements OnInit {
       this.currxRec.staff.id = 0
       this.currxRec.staff.clerk = ''
       this.currxRec.staff.temppass = ''
-      
-      
+
+
     }
-    staffkey.forEach(sk =>  {
-       Object.defineProperty(this.currxRec.staff, sk, 
-        { value: this.staffEditForm.value[sk],
+    staffkey.forEach(sk => {
+      Object.defineProperty(this.currxRec.staff, sk,
+        {
+          value: this.staffEditForm.value[sk],
           writable: true,
-          configurable:true,
-          enumerable:true} )
+          configurable: true,
+          enumerable: true
+        })
     })
-    userkey.forEach(sk =>  {
-      Object.defineProperty(this.currxRec.user, sk, 
-        { value: this.staffEditForm.value[sk] ,
+    userkey.forEach(sk => {
+      Object.defineProperty(this.currxRec.user, sk,
+        {
+          value: this.staffEditForm.value[sk],
           writable: true,
-          configurable:true,
-          enumerable:true} )
+          configurable: true,
+          enumerable: true
+        })
     })
   }
   //--------------------------
   ngOnInit(): void {
-  
-    
+
+
     this.authService.getSession().subscribe(
       data => this.user = data
     )
