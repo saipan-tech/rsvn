@@ -34,7 +34,7 @@ class PostOffice(object) :
 			return
 
 		self.html_msg()
-		self.multimail()
+
 
 	def html_msg(self) :
 		self.Html =	"""

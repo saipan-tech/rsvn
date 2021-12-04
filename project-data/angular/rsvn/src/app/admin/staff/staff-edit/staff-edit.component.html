@@ -1,5 +1,12 @@
 <div class="card stafftable">
-    <div class="card-header" style="text-align:center"> <h5>Staff Edit</h5></div>
+    <div class="card-header" style="text-align:center"> 
+        <nav class='navbar'>
+            <h5>Staff Edit</h5>
+            <button type="button" (click)='close()'>
+                <span class="material-icons"> close </span>
+            </button>
+        </nav>
+    </div>
     
     <div class="card-body">
 
@@ -26,6 +33,19 @@
                 <div class="d-flex">
                     <label class="uppercell form-control">Email<abbr class="req" title="Required">*</abbr></label>
                     <input class="lowercell form-control" type="email" formControlName='email'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Department</label>
+                    <select formControlName='department' class="lowercell form-control">
+                        <option *ngFor="let a of deptList" [ngValue]='a.display'>{{a.display}} </option>
+                    </select>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Title</label>
+                    <select formControlName='title' class="lowercell form-control">
+                        <option *ngFor="let a of titleList" [ngValue]='a.display'>{{a.display}} </option>
+                    </select>
+
                 </div>
                 <div class="d-flex">
                     <label class="uppercell form-control">Primary Phone<abbr class="req"
@@ -55,10 +75,6 @@
                 <div class="d-flex">
                     <label class="uppercell form-control">Country</label>
                     <input class="lowercell form-control" type="text" formControlName='country'>
-                </div>
-                <div class="d-flex">
-                    <label class="uppercell form-control">Title</label>
-                    <input class="lowercell form-control" type="text" formControlName='title'>
                 </div>
             </div>
             <div class="form-control" *ngIf='currxRec.user && currxRec.user.id'>
@@ -95,7 +111,7 @@
                 </div>
 
                 <div *ngIf="currxRec.staff.temppass"><button mat-button color="primary" (click)=sendEmail()>Send email verification</button></div>
-                <div><button mat-button color="primary" (click)=resetEmail()>Reset Password and email Verification</button></div>
+                <div *ngIf="!currxRec.staff.temppass"><button mat-button color="primary" (click)=resetEmail()>Reset Password</button></div>
             </div>
         </div>
 
@@ -106,11 +122,9 @@
 
 <button class="btn" [disabled]="!(staffEditForm.valid)" (click)='updateStaff()'>
     <span class="material-icons">save</span></button>
-<button class="btn" [disabled]="!(currxRec && currxRec.staff && currxRec.staff.id)" (click)='deleteStaff()'>
+<button class="btn" style="margin-left:6em" [disabled]="!(currxRec && currxRec.staff && currxRec.staff.id)" (click)='deleteStaff()'>
     <span class="material-icons"> delete </span>
 </button>
-<button type="button" (click)='close()'>
-    <span class="material-icons"> close </span>
-</button>
+
 
 </div>

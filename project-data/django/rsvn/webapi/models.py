@@ -21,8 +21,9 @@ class Staff (models.Model):
     country 	= 	models.CharField(max_length=60, blank=True)
     zipcode     = 	models.CharField(max_length=20, blank=True)
     email 		= 	models.EmailField()
-    title    	=	models.CharField(max_length=80,blank=True)
-    clerk		=   models.CharField(max_length=20, blank=True)
+    title    	=	models.CharField(max_length=128,blank=True)
+    department =	models.CharField(max_length=128,blank=True)
+    clerk		=   models.CharField(max_length=50, blank=True)
     created     =   models.DateTimeField(auto_now_add=True)
     modified    =   models.DateTimeField(auto_now=True) 
     

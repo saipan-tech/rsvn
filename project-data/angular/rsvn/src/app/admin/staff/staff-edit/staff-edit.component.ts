@@ -20,7 +20,7 @@ interface xRec {
   user: IUser;
 }
 let staffkey = ["user", "username", "first_name", "last_name", "middle_name", "phone1", "phone2",
-  "address", "city", "state", "zipcode", "country", "title", "email"]
+  "address", "city", "state", "zipcode", "country", "title", "email",'department']
 
 
 let userkey = ["first_name", "last_name", "username", "email", "is_staff", "is_active", "is_superuser"]
@@ -68,6 +68,7 @@ export class StaffEditComponent implements OnInit {
     zipcode: new FormControl('', Validators.required),
     country: new FormControl(''),
     title: new FormControl(''),
+    department: new FormControl(''),
     email: new FormControl('', Validators.required),
     is_staff: new FormControl(''),
     is_active: new FormControl(''),
@@ -79,7 +80,8 @@ export class StaffEditComponent implements OnInit {
 
   currxRec: xRec = {} as xRec;
   ackList = [true, false]
-
+  deptList:any[] = []
+  titleList:any[] = []
   roomList: IRoom[] = []
   roominfoList: IRoominfo[] = []
   staffList: IStaff[] = []
@@ -95,7 +97,7 @@ export class StaffEditComponent implements OnInit {
 
     this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {
       data: {
-        title: 'Delete Staff Member?',
+        title: `Delete Staff Member ${this.currxRec.staff.first_name}  ${this.currxRec.staff.last_name}`  ,
         content: 'You cannot undue this action',
         confirmAction: 'Delete',
       }
@@ -190,28 +192,42 @@ export class StaffEditComponent implements OnInit {
   }
   sendEmail() {
     let sform = this.staffEditForm.value
-    console.log(sform)
     let emailBody = {To:sform.email,Username:sform.username,Token:sform.temppass}
     this.postalService.sendEmail('jc@saipantech.com',emailBody)
       .subscribe(
-        data => console.log(data)
+        data => console.log("sending email", data),
+        err => console.log("error",err)
+
       )
-
   }
-  resetEmail() {
 
+  resetEmail() {
+    let sform = this.staffEditForm.value
+    let emailBody = {Username:sform.username,Reset:1}
+    this.postalService.sendEmail('jc@saipantech.com',emailBody)
+      .subscribe(
+        data => console.log("reset Return", data)
+      )
   }
   //--------------------------
   ngOnInit(): void {
+
+    this.systemService.getDropdownList('dept').subscribe(
+      data => this.deptList = data
+    )
+
+    this.systemService.getDropdownList('title').subscribe(
+      data => this.titleList = data
+    )
+
+
 
 
     this.authService.getSession().subscribe(
       data => { 
         this.user = data;
       
-      }
-
-      )
+      })
     this.staffEditForm.patchValue(this.currxRec.staff)
     this.staffEditForm.patchValue(this.currxRec.user)
   }

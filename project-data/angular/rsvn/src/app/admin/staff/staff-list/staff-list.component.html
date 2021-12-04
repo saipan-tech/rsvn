@@ -9,10 +9,9 @@
     <div class="card-body">
 
         <div class="d-flex">
+            <div class="form-control">Name</div>
+            <div class="form-control">Department</div>
             <div class="form-control">Title</div>
-            <div class="form-control">First Name</div>
-            <div class="form-control">Middle Name</div>
-            <div class="form-control">Last Name</div>
 
             <div class="form-control">Telephone</div>
             <div class="form-control">Email</div>
@@ -25,15 +24,16 @@
                 <div class="form-control" style="border:0;padding:1px">Su</div>
             </div>
             <div class="form-control">Joined</div>
-            <div class="form-control">Last Login</div>
 
 
         </div>
         <div class="d-flex displist" style="border:1px solid silver" *ngFor="let x of dispList">
-            <div class="form-control active" (click)='selectStaff(x)'>{{x.staff.title}}</div>
-            <div class="form-control">{{x.staff.first_name}}</div>
-            <div class="form-control">{{x.staff.middle_name}}</div>
-            <div class="form-control">{{x.staff.last_name}}</div>
+            <div class="form-control active"  (click)='selectStaff(x)'>{{x.staff.first_name}} {{x.staff.last_name}} 
+                
+            </div>
+            
+            <div class="form-control">{{x.staff.department}}</div>
+            <div class="form-control">{{x.staff.title}}</div>
             <div class="form-control">{{x.staff.phone1}}</div>
             <div class="form-control">{{x.staff.email}}</div>
             <div class="form-control">{{x.staff.temppass | slice:0:10}}</div>
@@ -44,7 +44,6 @@
             </div>
             
             <div class="form-control">{{x.user.date_joined | date: 'shortDate'}}</div>
-            <div class="form-control">{{x.user.last_login}}</div>
         </div>
     </div>
     <div class="card-footer"></div>

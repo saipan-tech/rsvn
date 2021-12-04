@@ -1,5 +1,7 @@
 from .common import *
 from .csvtools import load_data
+from .staff import contact_keygen
+
 import json
 class DropdownViewSet(viewsets.ModelViewSet):
     """
@@ -159,7 +161,30 @@ def VerifyView(request) :
 #-----------------------------------------------------
 class PostOfficeView(APIView):
 #-----------------------------------------------------
-    
+    def reset(self,request) :
+        token = contact_keygen()
+        try:
+            user = User.objects.get(username=request.data['Username'])
+            staff = Staff.objects.get(username=request.data['Username'])
+        except:
+            return False
+
+        user.set_password(token)
+        user.save()
+        staff.temppass = token
+        staff.save()
+        return True
+
+
     def post(self, request, *args, **kwargs):
-        po = PostOffice(request.data)
-        return Response('message Sent',status=status.HTTP_201_CREATED)
+        if 'Reset' in request.data :
+            if self.reset(request): 
+                return Response('user reset',status=status.HTTP_201_CREATED)
+            else:
+                return Response('ERROR',status=status.HTTP_400_BAD_REQUEST)
+
+        else :
+
+            po = PostOffice(request.data)
+            po.multimail()
+            return Response('message Sent',status=status.HTTP_201_CREATED)
