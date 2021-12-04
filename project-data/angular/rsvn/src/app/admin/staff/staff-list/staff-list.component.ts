@@ -43,6 +43,8 @@ export class StaffListComponent implements OnInit, OnChanges {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.panelClass = [];
+    dialogConfig.minWidth = '70%';
+    
     dialogConfig.data = {
       currxRec: currxRec
     }

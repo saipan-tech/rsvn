@@ -138,8 +138,8 @@ def VerifyView(request) :
         if ('continue' in request.POST and 
             request.POST['continue']== '1' and
             request.POST['username'] == u.username and
-            request.POST['lastname'] == u.lastname and
-            request.POST['firstname'] == u.firstname) :
+            request.POST['last_name'] == u.last_name and
+            request.POST['first_name'] == u.first_name) :
             result['step'] = '1'
         elif 'continue' in request.POST and request.POST['continue'] == '1':
             result['step'] = '5'
@@ -156,5 +156,10 @@ def VerifyView(request) :
                 result['step'] = '1'
     return  render(request,view_html,context=result)
  
-
-
+#-----------------------------------------------------
+class PostOfficeView(APIView):
+#-----------------------------------------------------
+    
+    def post(self, request, *args, **kwargs):
+        po = PostOffice(request.data)
+        return Response('message Sent',status=status.HTTP_201_CREATED)

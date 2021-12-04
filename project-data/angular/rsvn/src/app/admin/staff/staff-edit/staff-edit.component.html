@@ -1,4 +1,8 @@
-<div class="form-control">
+<div class="card stafftable">
+    <div class="card-header" style="text-align:center"> <h5>Staff Edit</h5></div>
+    
+    <div class="card-body">
+
     <form novalidate [formGroup]="staffEditForm">
         <div class="d-flex">
 
@@ -77,11 +81,28 @@
                         <option *ngFor="let a of ackList" [ngValue]=a>{{a}} </option>
                     </select>
                 </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Date Joined</label>
+                    <input class="lowercell form-control" type="text" formControlName='date_joined'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Last Login</label>
+                    <input class="lowercell form-control" type="text" formControlName='last_login'>
+                </div>
+                <div class="d-flex">
+                    <label class="uppercell form-control">Temp Password</label>
+                    <input class="lowercell form-control" type="text" formControlName='temppass'>
+                </div>
+
+                <div *ngIf="currxRec.staff.temppass"><button mat-button color="primary" (click)=sendEmail()>Send email verification</button></div>
+                <div><button mat-button color="primary" (click)=resetEmail()>Reset Password and email Verification</button></div>
             </div>
         </div>
 
     </form>
 </div>
+</div>
+<div class="card-footer">
 
 <button class="btn" [disabled]="!(staffEditForm.valid)" (click)='updateStaff()'>
     <span class="material-icons">save</span></button>
@@ -91,3 +112,5 @@
 <button type="button" (click)='close()'>
     <span class="material-icons"> close </span>
 </button>
+
+</div>

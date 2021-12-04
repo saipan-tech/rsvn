@@ -13,6 +13,7 @@ import { Inject } from '@angular/core';
 import { IUser } from '@app/_interface/user';
 import { catchError, tap, map, mergeMap } from 'rxjs/operators';
 import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
+import { PostalService } from '@app/_services/postal.service';
 
 interface xRec {
   staff: IStaff;
@@ -39,6 +40,7 @@ export class StaffEditComponent implements OnInit {
     private dialogRef: MatDialogRef<StaffEditComponent>,
     @Inject(MAT_DIALOG_DATA) data: any,
     private dialogManagerService: DialogManagerService,
+    private postalService: PostalService
 
   ) {
 
@@ -71,7 +73,8 @@ export class StaffEditComponent implements OnInit {
     is_active: new FormControl(''),
     is_superuser: new FormControl(''),
     date_joined: new FormControl(''),
-    last_login: new FormControl('')
+    last_login: new FormControl(''),
+    temppass:new FormControl('')
   })
 
   currxRec: xRec = {} as xRec;
@@ -161,7 +164,7 @@ export class StaffEditComponent implements OnInit {
   form2rec() {
     if (!this.currxRec.staff.id) {
       this.currxRec.staff.id = 0
-      this.currxRec.staff.clerk = ''
+      this.currxRec.staff.clerk = this.user.username
       this.currxRec.staff.temppass = ''
 
 
@@ -185,13 +188,30 @@ export class StaffEditComponent implements OnInit {
         })
     })
   }
+  sendEmail() {
+    let sform = this.staffEditForm.value
+    console.log(sform)
+    let emailBody = {To:sform.email,Username:sform.username,Token:sform.temppass}
+    this.postalService.sendEmail('jc@saipantech.com',emailBody)
+      .subscribe(
+        data => console.log(data)
+      )
+
+  }
+  resetEmail() {
+
+  }
   //--------------------------
   ngOnInit(): void {
 
 
     this.authService.getSession().subscribe(
-      data => this.user = data
-    )
+      data => { 
+        this.user = data;
+      
+      }
+
+      )
     this.staffEditForm.patchValue(this.currxRec.staff)
     this.staffEditForm.patchValue(this.currxRec.user)
   }

@@ -10,7 +10,7 @@ import { GenericService } from '@app/_services/generic.service';
 import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomService } from '@app/_services/room.service';
 import { MatRadioModule } from '@angular/material/radio';
-import {DangerDialogComponent, DialogManagerService} from "@app/shared/dialog";
+import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
 
 @Component({
   selector: 'app-room-ctrl',
@@ -37,11 +37,11 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   currRoomList: any[] = []
 
 
-  dispList:any = []
+  dispList: any = []
   availRoominfo: IRoominfo[] = []
   unavailRoominfo: IRoominfo[] = []
   rsvnRoom: IRoom[] = []
-  seasonList: ISeason[] = [] 
+  seasonList: ISeason[] = []
   constructor(
     private genericService: GenericService,
     private rsvnService: RsvnService,
@@ -67,7 +67,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
       let newroom = { rsvn: this.currRsvn.id, roominfo: roominfo.id, status: 'new' }
       this.genericService.updateItem("room", newroom)
         .subscribe(data => {
-          
+
           this.ngOnInit()
           this.refreshRsvn();
         })
@@ -75,11 +75,9 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
   }
 
-
-
   unassignRoom(room: any) {
-    let rm = this.currRoomList.find(rec => room.id == rec.room.id )
-    console.log(this.currRsvn )
+    let rm = this.currRoomList.find(rec => room.id == rec.room.id)
+    console.log(this.currRsvn)
     this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {
       data: {
         title: `Delete Room (${rm.bldg.name} - ${rm.roominfo.number}) from the 
@@ -89,33 +87,27 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
       }
     }).afterClosed().subscribe(deleteConfirmed => {
       if (deleteConfirmed) {
-
-
-
-
-    this.genericService.deleteItem("room", room)
-      .subscribe(data => {
-        this.ngOnInit()
-        this.refreshRsvn();
-      })
+        this.genericService.deleteItem("room", room)
+          .subscribe(data => {
+            this.ngOnInit()
+            this.refreshRsvn();
+          })
+      }
+    })
   }
-    })}
-
-
-
 
   makeList() {
     this.dispList = []
     this.bldgList.forEach(
       bdg => {
-        
-        let rates:any = []
-        let bldg:IBldg  = bdg
+
+        let rates: any = []
+        let bldg: IBldg = bdg
         let rms = this.availRoominfo.filter(r => r.bldg == bldg.id)
-        this.rateList.forEach( rate => {
-          rates.push({rate,rooms:rms.filter(x => x.rateAlias == rate.alias)})
-        })  
-        this.dispList.push({rates,bldg})
+        this.rateList.forEach(rate => {
+          rates.push({ rate, rooms: rms.filter(x => x.rateAlias == rate.alias) })
+        })
+        this.dispList.push({ rates, bldg })
       }
     )
   }
@@ -124,22 +116,23 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
 
 
-  sortRateList(rooms:any) {
-    rooms.sort(function(a:any, b:any) {
+  sortRateList(rooms: any) {
+    rooms.sort(function (a: any, b: any) {
       var A = a.alias; // ignore upper and lowercase
       var B = b.alias; // ignore upper and lowercase
       if (A > B) { return 1; }
-      if (A < B) { return -1;  }
-      return 0; });
+      if (A < B) { return -1; }
+      return 0;
+    });
     return rooms
   }
 
 
-/*
-  bldgText(bldg: number) {
-    return this.bldgList.find(b => b.id == bldg)?.name
-  }
-*/
+  /*
+    bldgText(bldg: number) {
+      return this.bldgList.find(b => b.id == bldg)?.name
+    }
+  */
 
 
 
@@ -163,22 +156,22 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
             this.rateList = this.sortRateList(data)
           })
 
-    // Get rooms for this RSVN
-    this.genericService.getItemQueryList('room',`rsvn=${this.currRsvn.id}`)
-      .subscribe(
-        rooms => {
-          this.currNumRooms = rooms.length
-          this.currRooms = rooms
-        }
-      )
+      // Get rooms for this RSVN
+      this.genericService.getItemQueryList('room', `rsvn=${this.currRsvn.id}`)
+        .subscribe(
+          rooms => {
+            this.currNumRooms = rooms.length
+            this.currRooms = rooms
+          }
+        )
     }
     this.genericService.getItemList("season")
-    .subscribe(data => {
-      this.seasonList = data
-      
-    })
-    
-    
+      .subscribe(data => {
+        this.seasonList = data
+
+      })
+
+
     // Looking at this rsvn date frame  - what is the state of rooms
     if (this.currRsvn && this.currRsvn.dateIn && this.currRsvn.dateOut) {
       // we are creating our UnAssigned Rooms here
@@ -195,19 +188,19 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
       this.roomService.unavailableRooms(this.currRsvn.dateIn, this.currRsvn.dateOut)
         .subscribe(unavail => {
           this.unavailRoominfo = unavail
-          this.genericService.getItemQueryList('room',`rsvn=${this.currRsvn.id}`)
+          this.genericService.getItemQueryList('room', `rsvn=${this.currRsvn.id}`)
             .subscribe(rroom => {
               this.rsvnRoom = rroom
               this.currRoomList = []
               this.rsvnRoom.forEach(rsvrm => {
-                let roominfo:any  = unavail.find(rrf => rrf.id == rsvrm.roominfo)
+                let roominfo: any = unavail.find(rrf => rrf.id == rsvrm.roominfo)
                 let room = rsvrm
                 let bldg = this.bldgList.find(bl => bl.id == roominfo.bldg)
                 this.currRoomList.push({ bldg, room, roominfo })
               })
             })
         })
-    } 
+    }
   }
 }
 
