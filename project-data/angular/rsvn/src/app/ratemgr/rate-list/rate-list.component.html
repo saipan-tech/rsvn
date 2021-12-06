@@ -61,11 +61,11 @@
     <div class="card-body">
         <div *ngFor="let r of rateList" class="d-flex">
             <app-rate-list-line 
-            (rateChange)='updateRate($event)' 
-            (refresh)='refresh()'
-            [rate]='r' [colorList]='colorList' 
-            [seasonList]='seasonList'
-            >   </app-rate-list-line>     
+                (rateChange)='updateRate($event)' 
+                (refresh)='refresh()'
+                [rate]='r' [colorList]='colorList' 
+                [seasonList]='seasonList'>   
+            </app-rate-list-line>     
         </div>
     </div>
 

@@ -2,7 +2,7 @@
     <form novalidate [formGroup]="rateEditForm">
         <div class="d-flex">
             
-
+            <button (click)="deleteRate(rate.rate)">X</button>
             <input type="text" formControlName='alias' class="form-control">
             <select class="form-control" [ngStyle]="{'background-color':rateEditForm.value.color}" formControlName='color'>
                 <option value=""></option>

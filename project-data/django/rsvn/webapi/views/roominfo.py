@@ -110,8 +110,24 @@ class RsvnCalc(APIView):
 
                 for x in dspan.datestack() :
                     dd = SeasonCalSerializer(SeasonCal.objects.get(date=x)).data
+                    rc = RoomCharge.objects.filter(date=x,room=rms)
+                    if rc :
+                        dd['amount'] = rc[0].amount     
+                        dd['seasonnow'] = season.get(name=dd['season']).discount * rate.rack
+                        dd['signal']= 'RoomCharge'
+                        
+                    else :
+
+                        dd['amount'] = season.get(name=dd['season']).discount * rate.rack
+                        dd['seasonnow'] = dd["amount"]
+                        dd['signal'] = "Season Charge"
+                        rc = RoomCharge()
+                        rc.date=x
+                        rc.amount = dd['amount']
+                        rc.room = rms
+                        rc.save()
+                    dd['delta'] = dd['seasonnow'] - dd['amount']  
                     dd['alias'] = alias
-                    dd['amount'] = season.get(name=dd['season']).discount * rate.rack
                     
                     xarray.append(dd)
                 roomArray.append({'days':xarray, 'roominfo':RoominfoSerializer(rms.roominfo).data, 'room':RoomSerializer(rms).data})        

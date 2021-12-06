@@ -6,6 +6,8 @@ import { IDropdown } from '@app/_interface/dropdown';
 import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator, FormsModule } from '@angular/forms';
 import { SeasonService } from '@app/_services/season.service';
 import { SystemService } from '@app/_services/system.service';
+import { Observable, concat, throwError } from 'rxjs';
+
 @Component({
   selector: 'app-season-ctrl',
   templateUrl: './season-ctrl.component.html',
@@ -81,7 +83,25 @@ export class SeasonCtrlComponent implements OnInit {
       )
 
     }
-
+    setResults(list: any[]) {
+      let season$: any = []
+      list.forEach(rec => {
+        const founder = this.seasonList.find(d => d.name == rec.name)
+        // If it exists let's put the id in and only send the update to the rate
+        if (founder) {
+          rec.id = founder.id
+        }
+        season$.push(this.genericService.updateItem('season', rec))
+      })
+      concat(...season$)
+        .subscribe(
+          data => { },
+          err => { },
+          () => {
+            this.ngOnInit()
+          }
+        )
+    }
   ngOnInit(): void {
     this.genericService.getItemList('season')
       .subscribe(

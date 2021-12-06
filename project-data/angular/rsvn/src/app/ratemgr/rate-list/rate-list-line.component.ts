@@ -6,6 +6,7 @@ import { FormArray, FormGroup, FormBuilder, Validators, FormControl, EmailValida
 import { IRate } from '@app/_interface/rate';
 import { ISeason } from '@app/_interface/season';
 import { IDropdown } from '@app/_interface/dropdown';
+import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
 
 @Component({
   selector: 'app-rate-list-line',
@@ -18,15 +19,17 @@ export class RateListLineComponent implements OnInit {
     private genericService: GenericService,
     private systemService: SystemService,
     private formBuilder: FormBuilder,
-    private seasonService: SeasonService
+    private seasonService: SeasonService,
+    private dialogManagerService: DialogManagerService
+
   ) { }
-  
-  @Input() rate:any 
-  @Input() colorList:IDropdown[] = []
-  @Input()  seasonList:ISeason[] = []
+
+  @Input() rate: any
+  @Input() colorList: IDropdown[] = []
+  @Input() seasonList: ISeason[] = []
   @Output() rateChange = new EventEmitter<IRate>()
   @Output() refresh = new EventEmitter<any>()
-  
+
 
   rateEditForm = this.formBuilder.group({
     id: [''],
@@ -35,7 +38,7 @@ export class RateListLineComponent implements OnInit {
     rateName: ['', Validators.required],
     rateType: ['', Validators.required],
     rateClass: ['', Validators.required],
-    rack:     ['', Validators.required],
+    rack: ['', Validators.required],
     descr: [''],
     color: [''],
   })
@@ -46,19 +49,29 @@ export class RateListLineComponent implements OnInit {
 
     this.rateEditForm.statusChanges.subscribe(x => {
       this.updateRate(x)
-  })
-  
-  }
-  
-   //=================================
-   deleteRate(rate: any) {
-    this.genericService.deleteItem('rate', rate).subscribe(
-      () => this.refresh.emit(true)
-    )
+    })
 
   }
-   //=================================
-   updateRate(rate: any) {
-      this.rateChange.emit(rate)
+
+  //=================================
+  deleteRate(rate: any) {
+
+    this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {
+      data: {
+        title: `Delete Rate (${rate.alias}) ?`,
+        content: 'You cannot undue this action',
+        confirmAction: 'Delete',
+      }
+    }).afterClosed().subscribe(deleteConfirmed => {
+
+      if (deleteConfirmed) {
+        this.genericService.deleteItem('rate', rate).subscribe(
+          () => this.refresh.emit(true))
+      }
+    })
+  }
+  //=================================
+  updateRate(rate: any) {
+    this.rateChange.emit(rate)
   }
 }

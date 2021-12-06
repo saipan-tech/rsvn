@@ -1,0 +1,7 @@
+name,discount,color,descr
+lowSeason,0.45,aquamarine,
+noSeason,0.25,mintcream,
+highSeason,0.9,mistyrose,
+offSeason,0.3,orange,
+peakSeason,0.8,plum,
+xmasSeason,0.95,salmon,

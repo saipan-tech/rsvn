@@ -65,6 +65,7 @@ export class ChargeLineComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.roomall)
     this.genericService.getItemList('bldg')
       .subscribe(
         data => {

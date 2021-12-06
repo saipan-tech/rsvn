@@ -210,7 +210,6 @@ class RoomCharge (models.Model):
     room        =   models.ForeignKey(Room,models.CASCADE, related_name='roomOf')
     date        =   models.DateField()
     amount      =   models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
-    clerk       =   models.CharField(max_length=80,default="FrontDesk")
     created     =   models.DateTimeField(auto_now_add=True)
     modified    =   models.DateTimeField(auto_now=True)
     def __str__(self) :

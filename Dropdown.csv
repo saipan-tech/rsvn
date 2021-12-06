@@ -1,23 +1,8 @@
 name,sequence,display,value
-idtype,1,Driver’s License,driver
-idtype,2,Passport,passport
-idtype,3,Government,govt
-idtype,4,Other,other
-source,1,FIT Traveller,fit
-source,2,Tour,tour
-source,3,Expedia,expedia
-source,4,"Booking,com",booking
-source,5,Other,other
-status,1,Not Confirmed,notconfirm
-status,2,Confirmed,confirmed
-status,3,Delayed,delayed
-status,4,No Show,noshow
-status,10,Cancelled,cancel
-vcolor,1,Local,palegreen
-vcolor,2,Tour,pink
-vcolor,3,Atlas Agency,lightyellow
-vcolor,4,Comp,Seagreen
-vcolor,5,Walk In,Violet
+chgitem,1,Room,room
+chgitem,2,Amenity,amenity
+chgitem,3,Store,store
+chgitem,4,Fine,fine
 color,1,maroon,maroon
 color,3,brown,brown
 color,5,olive,olive
@@ -48,10 +33,15 @@ color,53,lightcyan,lightcyan
 color,55,gold,gold
 color,57,aquamarine,aquamarine
 color,59,cornsilk,cornsilk
-chgitem,1,Room,room
-chgitem,2,Amenity,amenity
-chgitem,3,Store,store
-chgitem,4,Fine,fine
+dept,1,Development,Development
+dept,2,Desk,Desk
+dept,3,Maintenance,Maintenance
+dept,4,Housekeeping,Housekeeping
+dept,5,Manager,Manager
+idtype,1,Driver’s License,driver
+idtype,2,Passport,passport
+idtype,3,Government,govt
+idtype,4,Other,other
 payitem,1,Credit,credit
 payitem,2,Voucher,voucher
 payitem,3,Cash,cash
@@ -65,3 +55,26 @@ roomstatus,5,Cleaning,cleaning
 roomstatus,6,Done,done
 roomstatus,7,Repair,repair
 roomstatus,8,OOC,ooc
+source,1,FIT Traveller,fit
+source,2,Tour,tour
+source,3,Expedia,expedia
+source,4,"Booking,com",booking
+source,5,Other,other
+status,1,Not Confirmed,notconfirm
+status,2,Confirmed,confirmed
+status,3,Delayed,delayed
+status,4,No Show,noshow
+status,10,Cancelled,cancel
+title,1,Lead,Lead
+title,2,Senior,Senior
+title,3,Trainee,Trainee
+vcolor,1,Local,palegreen
+vcolor,2,Tour,pink
+vcolor,3,Atlas Agency,lightyellow
+vcolor,4,Comp,Seagreen
+vcolor,5,Walk In,Violet
+years,0,2020,2020
+years,1,2021,2021
+years,2,2022,2022
+years,3,2023,2023
+years,4,2024,2024

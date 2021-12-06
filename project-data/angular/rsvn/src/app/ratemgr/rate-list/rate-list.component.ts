@@ -7,6 +7,7 @@ import { IRate } from '@app/_interface/rate';
 import { ISeason } from '@app/_interface/season';
 import { concatMap, tap } from 'rxjs/operators';
 import { RaceOperator } from 'rxjs/internal/observable/race';
+import { Observable, concat, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-rate-list',
@@ -57,14 +58,28 @@ export class RateListComponent implements OnInit {
   // == this is when we  read in the CSV file
   //=================================
   setResults(list: any[]) {
+    let rate$: any = []
     list.forEach(rec => {
-      const founder = this.rateList.find(d => d.alias == rec.alias)
-      // If it exists let's put the id ion and only send the update to the rate
+      const founder = this.rateList.find(d => d.rate.alias == rec.alias)
+      // If it exists let's put the id in and only send the update to the rate
       if (founder) {
-        rec.id = founder.id
+        rec.id = founder.rate.id
       }
-      this.genericService.updateItem('rate', rec).subscribe()
+      rate$.push(this.genericService.updateItem('rate', rec))
     })
+    concat(...rate$)
+      .subscribe(
+        data => { },
+        err => { },
+        () => {
+          this.ngOnInit()
+        }
+
+
+
+      )
+
+
   }
   //=================================
   clearRate() {
@@ -103,7 +118,7 @@ export class RateListComponent implements OnInit {
     this.genericService.getItemList('season')
       .pipe(
         tap(d1 => this.seasonList = d1),
-        concatMap((d1,d2) => this.genericService.getItemList('rate')),
+        concatMap((d1, d2) => this.genericService.getItemList('rate')),
         tap(d2 => {
           _rList = this.sortRates(d2)
           _rList.forEach(
@@ -115,12 +130,7 @@ export class RateListComponent implements OnInit {
                 })
               this.rateList.push({ rate: rl, rcalc: rcalc })
             })
-
-        }
-
-        )
-        
-      ).subscribe(data => console.log(data))
+        })).subscribe()
 
 
 

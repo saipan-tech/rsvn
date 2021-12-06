@@ -16,11 +16,9 @@ export class SearchListComponent implements OnInit,OnChanges {
 
 
   ngOnInit(): void {
-    console.log("test",this.resultList)
   }
   ngOnChanges(changes: SimpleChanges) {
-    console.log("test",this.resultList)
-  
+ 
   }  
   selectRsvn(rsvn: any) {
     this.currRsvnChange.emit(rsvn)
