@@ -64,7 +64,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
   assignRoom(roominfo: IRoominfo) {
     if (this.currNumRooms < Number(this.currRsvn.numrooms)) {
-      let newroom = { rsvn: this.currRsvn.id, roominfo: roominfo.id, status: 'new' }
+      let newroom = { rsvn: this.currRsvn.id, roominfo: roominfo.id, status: 'none' }
       this.genericService.updateItem("room", newroom)
         .subscribe(data => {
 

@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { ChargeCtrlComponent } from './charge-ctrl/charge-ctrl.component';
 import { ChargeLineComponent } from './charge-room-list/charge-line/charge-line.component';
@@ -40,7 +41,8 @@ import { ChargeRoomListComponent } from './charge-room-list/charge-room-list.com
     MatButtonModule,
     MatSliderModule,
     MatRadioModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatExpansionModule,
   ],
   exports: [
     ChargeCtrlComponent

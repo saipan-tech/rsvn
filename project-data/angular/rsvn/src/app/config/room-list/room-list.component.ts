@@ -48,6 +48,7 @@ export class RoomListComponent implements OnInit, OnChanges {
     name: new FormControl(''),
     descr: new FormControl(''),
   })
+  
   ngOnChanges(changes: SimpleChanges) {
     this.ngOnInit()
   }

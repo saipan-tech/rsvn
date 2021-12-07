@@ -2,14 +2,7 @@
     <h3 class="section-heading">Room Charges</h3>
     <div class="section-body ">
 
-        <div class="d-flex headingrow">
-            <div class="form-control">Date</div>
-            <div class="form-control">RoomType</div>
-            <div class="form-control">Season</div>
-            <div class="form-control">Amount</div>
-            <div class="form-control">Charged</div>
-            
-        </div>
+  
         <app-charge-line *ngFor="let room of fullRoomList" [roomall]='room' (roomallChange)='newRoomall($event)'>
         </app-charge-line>
         <div class="d-flex subtotalcell">

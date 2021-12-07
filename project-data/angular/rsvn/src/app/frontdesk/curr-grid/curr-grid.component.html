@@ -11,7 +11,9 @@
                         r.number }}</button>
 
                     <mat-menu class="customize" #menu="matMenu">
-                        <div style="text-align:center"><u>Room {{r.number}}</u></div>
+                        <div style="text-align:center">
+                            <u>Room {{r.number}}</u>
+                        </div>
                         <div (click)='setStatus(bb,r)' *ngFor='let bb of cellMenu' mat-menu-item>{{bb}}</div>
                     </mat-menu>
                 </div>

@@ -6,7 +6,7 @@
         {{ rec.guest.firstname }} {{ rec.guest.lastname }}
     </div>
     <mat-accordion *ngIf="rec.rsvn.length">
-        <mat-expansion-panel class="custom" >
+        <mat-expansion-panel class="custom" hideToggle>
 
             <mat-expansion-panel-header>
                 <mat-panel-title class="custom" (click)='selectGuest(rec.guest)' >

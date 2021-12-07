@@ -7,7 +7,8 @@ import { IBldg } from '@app/_interface/bldg';
 import { IRoom } from '@app/_interface/room';
 import { IRate } from '@app/_interface/rate';
 import { IRoominfo } from '@app/_interface/roominfo';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
+
 
 @Component({
   selector: 'app-room-list-item',
@@ -39,37 +40,40 @@ export class RoomListItemComponent implements OnInit {
     private roomService: RoomService,
     private genericService: GenericService,
     private systemService: SystemService,
+    private dialogManagerService: DialogManagerService
+
 
 
   ) { }
 
   updateRoom(room: any) {
-
     for (const field in room) {
       if (room[field] == null) {
         room[field] = ''
       }
     }
     this.genericService.updateItem('roominfo', room).subscribe(
-      data => {
-        console.log(data)
-
-      }
-    )
+      data =>  console.log(data)  
+      )
   }
-
   deleteRoom(room: any) {
-    this.genericService.deleteItem('roominfo', room).subscribe(
-      data => {
-        this.refresh.emit(true)
-
+    this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {
+      data: {
+        title: `Delete Room (${room.number}) ?`,
+        content: 'You cannot undue this action',
+        confirmAction: 'Delete',
       }
-    )
+    }).afterClosed().subscribe(deleteConfirmed => {
+      if (deleteConfirmed) {
+        this.genericService.deleteItem('roominfo', room).subscribe(
+          data => {
+            this.refresh.emit(true)
+        })
+      }
+    }) 
   }
   ngOnInit(): void {
     this.roomEditForm.patchValue(this.room)
-
-
     this.roomEditForm.valueChanges.subscribe(x => {
       this.updateRoom(x)
   })

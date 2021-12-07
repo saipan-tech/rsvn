@@ -11,22 +11,17 @@
         </div>
 
 
-        <div class="section mt-2">Assigned Rooms - {{currNumRooms}}/{{currRsvn.numrooms}}</div>
+        <div class="section">Assigned Rooms - {{currNumRooms}}/{{currRsvn.numrooms}}</div>
         <div>
             <div>
-                <div *ngFor="let r of currRoomList">
-                    <div class="d-flex">
-                        <button style='width:75%' class='form-control' (click)="unassignRoom(r.room)">
+                <div *ngFor="let r of currRoomList" class="rlcell">
+                    <div class="d-flex" >
+                        <button mat-button style='width:75%' class='form-control' (click)="unassignRoom(r.room)">
                             {{ r.bldg.name }} -- {{ r.roominfo.number }} -
                             {{ r.roominfo.beds }} Beds
                         </button>
                         <div style='width:25%'>
-                            <mat-radio-group aria-label="Select an option">
-                                <mat-radio-button style="margin-left:2px;font-size:9pt" [labelPosition]="'before'"
-                                    style=' background-color:lightpink' value="checkin"></mat-radio-button>
-                                <mat-radio-button style="margin-left:2px;font-size:9pt" [labelPosition]="'before'"
-                                    style=' background-color:khaki' value="checkout"></mat-radio-button>
-                            </mat-radio-group>
+                       {{r.room.status }}
                         </div>
                     </div>
                 </div>

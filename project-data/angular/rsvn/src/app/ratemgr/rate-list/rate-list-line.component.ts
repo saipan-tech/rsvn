@@ -48,7 +48,7 @@ export class RateListLineComponent implements OnInit {
     this.rateEditForm.patchValue(this.rate.rate)
 
     this.rateEditForm.statusChanges.subscribe(x => {
-      this.updateRate(x)
+      this.updateRate(this.rateEditForm.value)
     })
 
   }
@@ -72,6 +72,9 @@ export class RateListLineComponent implements OnInit {
   }
   //=================================
   updateRate(rate: any) {
-    this.rateChange.emit(rate)
+    console.log("on Line", rate)
+    this.genericService.updateItem('rate', rate).subscribe(
+     
+    )
   }
 }

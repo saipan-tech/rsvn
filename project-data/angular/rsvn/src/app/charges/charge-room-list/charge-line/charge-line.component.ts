@@ -48,7 +48,7 @@ export class ChargeLineComponent implements OnInit {
 
 
   }
-
+/*
   updateRoomCharge(season: any) {
     this.genericService.updateItem("room", {
       id: this.roomall.id,
@@ -63,13 +63,13 @@ export class ChargeLineComponent implements OnInit {
         }
       )
   }
-
+*/
   ngOnInit(): void {
-    console.log(this.roomall)
     this.genericService.getItemList('bldg')
       .subscribe(
         data => {
           this.bldgList = data
+          this.roomall.bldg = data.find(rec => rec.id == this.roomall.roominfo.bldg)
         }
       )
       this.roomall.days.forEach(

@@ -93,13 +93,15 @@ export class CurrGridComponent implements OnInit {
   }
   // -------------------------------------------
   ngOnInit(): void {
-
-
     this.authService.getSession().subscribe(
       data => this.user = data
     )
     this.systemService.getDropdownList('roomstatus').subscribe(
-      data => this.roomstatusList = data
+      data => 
+      {
+        this.roomstatusList = data
+        console.log(data)
+      }
     )
     this.genericService.getItemList('roominfo')
       .subscribe(data => {
@@ -110,8 +112,6 @@ export class CurrGridComponent implements OnInit {
             this.makeList()
           }
         )
-      }
-      )
+      })
   }
-
 }

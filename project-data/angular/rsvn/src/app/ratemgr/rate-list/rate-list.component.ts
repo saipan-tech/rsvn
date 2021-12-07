@@ -84,6 +84,7 @@ export class RateListComponent implements OnInit {
   //=================================
   clearRate() {
 
+    this.rateEditForm.reset()
   }
   //=================================
   ngOnChanges(changes: SimpleChanges) {
@@ -103,8 +104,11 @@ export class RateListComponent implements OnInit {
 
   //=================================
   updateRate(rate: any) {
+    console.log(rate)
     this.genericService.updateItem('rate', rate).subscribe(
-      () => this.ngOnInit()
+     data => {
+       this.ngOnInit()
+     }
     )
   }
   //=================================
