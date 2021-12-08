@@ -30,6 +30,8 @@ import { CurrGridComponent } from './curr-grid/curr-grid.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { SearchListComponent } from './search-list/search-list.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { SearcherCtrlComponent } from './searcher-ctrl/searcher-ctrl.component';
+import { SearcherListComponent } from './searcher-list/searcher-list.component';
 
 
 @NgModule({
@@ -45,7 +47,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     CurrGridComponent,
     RsvnCtrlComponent,
     RoomListComponent,
-    SearchListComponent
+    SearchListComponent,
+    SearcherCtrlComponent,
+    SearcherListComponent
   ],
   imports: [
     CommonModule,

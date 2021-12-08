@@ -25,9 +25,11 @@
         </div>
     </div>
     <div class="card-body" style="padding:0" >
-        <app-search-list 
-            (currGuestChange)='selectGuest($event)' 
-            (currRsvnChange)='selectRsvn($event)'[resultList]='resultList' ></app-search-list>
+       <app-search-list             
+       (currGuestChange)='selectGuest($event)' (currRsvnChange)='selectRsvn($event)'[resultList]='resultList' >
+    </app-search-list>
+    
+
     </div>
     <div class="card-footer d-flex">
 

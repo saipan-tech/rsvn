@@ -1,0 +1,19 @@
+<div *ngFor="let rec of resultList">
+    <button *ngIf='!rec.rsvn.length'  
+        (click)='selectGuest(rec)' 
+        [ngStyle]="{'width':'100%','text-align':'left'}" 
+        mat-button>{{ rec.fullname }}</button>
+    <div *ngIf='rec.rsvn.length' (click)='selectGuest(rec)'>
+        <button *ngIf='rec.rsvn.length' mat-button 
+            [ngClass] = "{'rsvn buttn':true}"
+            [matMenuTriggerFor]="menu">
+            {{rec.fullname }}
+        </button>
+        <mat-menu #menu="matMenu">
+            <div mat-menu-item (click)='selectRsvn(r)' *ngFor="let r of rec.rsvn">
+                <div class="form-control">{{r.dateIn}} -- {{r.dateOut}}</div>
+            </div>
+        </mat-menu>
+    </div>
+
+</div>

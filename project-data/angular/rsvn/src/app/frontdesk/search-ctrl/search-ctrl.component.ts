@@ -25,25 +25,16 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
     private guestService: GuestService,
     private rsvnService: RsvnService,
     private roomService: RoomService,
-
   ) { }
-
-
   @Input() currRsvn: any
   @Output() currRsvnChange = new EventEmitter<IRsvn>();
-
   @Input() currGuest: any
   @Output() currGuestChange = new EventEmitter<IGuest>();
-
-
   @Output() viewControl = new EventEmitter<string>();
-
   @Input() query: any
   @Input() dquery: any
 
   today = new Date().toISOString().slice(0, 10)
-
-
   guestList: any[] = []
   rsvnList: any[] = []
   resultInfo: any
@@ -57,7 +48,6 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
     query: new FormControl(''),
     archive: new FormControl(''),
   });
-
 
   noRoomCheck() {
     this.noRoomResult = ""
@@ -122,10 +112,6 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
             let rList = data
             this.rsvnList = []
             // rList has all future reservaions
-            this.genericService.getItemQueryList('rsvn', `future=${this.today}`)
-              .subscribe(data => {
-                let rList = data
-                // rList has all future reservations
                 this.genericService.getItemQueryList('room', `future=${this.today}`)
                   .subscribe(data2 => {
                     // data2 has all future rooms
@@ -139,9 +125,8 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
                     this.makeNewList()
                   })
 
-                })
+              })
 
-          })
 
         break;
     }
@@ -256,6 +241,10 @@ export class SearchCtrlComponent implements OnInit, OnChanges {
     this.currGuest.id = 0
     this.currGuestChange.emit(this.currGuest)
   }
+
+
+
+  
   ngOnInit(): void {
     this.noRoomCheck()
   }

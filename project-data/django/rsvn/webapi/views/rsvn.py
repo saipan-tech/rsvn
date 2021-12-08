@@ -52,7 +52,12 @@ class RsvnViewSet(viewsets.ModelViewSet):
    
     def get_queryset(self):
         queryset = super().get_queryset() 
-        
+        if "guest" in self.request.GET:
+            queryset = queryset.filter(primary__id=self.request.GET['guest'])
+
+        if "rsvn" in self.request.GET:
+            queryset = queryset.filter(dateOut__gte=self.request.GET['rsvn']).order_by('primary__lastname','primary__firstname')
+    
         if "checkin" in self.request.GET :
             queryset = queryset.filter( dateIn=self.request.GET['checkin'])
 

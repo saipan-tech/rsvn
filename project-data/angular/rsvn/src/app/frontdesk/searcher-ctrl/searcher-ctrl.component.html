@@ -1,0 +1,35 @@
+<div class="card" style="height:98%;overflow-y:scroll">
+    <div class="card-header"  >
+        <form novalidate [formGroup]="searchForm" class="form-inline">
+            <div class="d-flex  mt-3">
+                <input type="search" formControlName='query' placeholder="Search" (focus)="searchForm.reset()"
+                    (change)="runSearch(searchForm.value.query)" class="form-control">
+                <button style="width:60px" class="form-control">
+                    <span class="material-icons">
+                        search
+                        </span> </button>
+            </div>
+        </form>
+    <hr>
+        <div style="text-align:left">
+            <button  mat-button (click)="activeRes('active')">Active</button>
+            <button  mat-button (click)="activeRes('guests')">Guests</button>
+            <button  mat-button (click)="activeRes('rsvns')">Rsvn</button>
+            <button  mat-button (click)="activeRes('Rooms')">Rooms</button>
+        </div>
+
+    </div>
+
+    <div class="card-body mt-4 p-0"  >
+        <app-searcher-list 
+            (currGuestChange)='selectGuest($event)' 
+            (currRsvnChange)='selectRsvn($event)' 
+            [resultList]='resultList' > 
+        </app-searcher-list>
+    </div>
+
+    <div class="card-footer d-flex">
+
+    </div>
+</div>
+
