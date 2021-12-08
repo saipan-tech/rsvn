@@ -17,7 +17,7 @@
             </mat-expansion-panel-header>
             <div *ngFor="let rs of rec.rsvn" (click)='selectRsvn(rs)' class="result-rsvn" 
             [ngStyle]="{'background-color':rs.marker}" >
-                <div> <strong>{{ rs.dateIn }} >>  {{ rs.dateOut }}</strong></div>
+                <div> <strong>{{ rs.dateIn }} >> {{ rs.dateOut }}</strong></div>
             </div>
         </mat-expansion-panel>
     </mat-accordion>

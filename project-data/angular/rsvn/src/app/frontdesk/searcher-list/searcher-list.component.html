@@ -1,9 +1,10 @@
 <div *ngFor="let rec of resultList">
-    <button *ngIf='!rec.rsvn.length'  
+
+    <button *ngIf='rec.rsvn && !rec.rsvn.length'  
         (click)='selectGuest(rec)' 
         [ngStyle]="{'width':'100%','text-align':'left'}" 
         mat-button>{{ rec.fullname }}</button>
-    <div *ngIf='rec.rsvn.length' (click)='selectGuest(rec)'>
+    <div *ngIf='rec.rsvn && rec.rsvn.length' (click)='selectGuest(rec)'>
         <button *ngIf='rec.rsvn.length' mat-button 
             [ngClass] = "{'rsvn buttn':true}"
             [matMenuTriggerFor]="menu">

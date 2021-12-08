@@ -8,12 +8,14 @@ import { SystemService } from '@app/_services/system.service';
 import { GuestService } from '@app/_services/guest.service';
 import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomService } from '@app/_services/room.service';
+
 @Component({
   selector: 'app-searcher-ctrl',
   templateUrl: './searcher-ctrl.component.html',
   styleUrls: ['./searcher-ctrl.component.scss']
 })
-export class SearcherCtrlComponent implements OnInit {
+
+export class SearcherCtrlComponent implements OnInit,OnChanges {
   @Input() currRsvn: any
   @Output() currRsvnChange = new EventEmitter<IRsvn>();
   @Input() currGuest: any
@@ -45,6 +47,29 @@ export class SearcherCtrlComponent implements OnInit {
   cell = 'cell'
   resultList: any[] = []
 
+  sortRsvnDateList(rlist: any) {
+    rlist.sort(function (a: any, b: any) {
+      var A = a.dateIn; // ignore upper and lowercase
+      var B = b.dateIn; // ignore upper and lowercase
+      if (A > B) { return -1; }
+      if (A < B) { return 1; }
+      return 0;
+    });
+    return rlist
+  }
+
+  sortResultNames(rlist: any) {
+    rlist.sort(function (a: any, b: any) {
+      var A = a.guest.lastname.toUpperCase(); // ignore upper and lowercase
+      var B = b.guest.lastname.toUpperCase(); // ignore upper and lowercase
+      if (A < B) { return -1; }
+      if (A > B) { return 1; }
+      return 0;
+    });
+    return rlist
+  }
+
+
   runSearch(search: any) {
     // with a partial search Guests and return list
     this.guestService.getGuest(search)
@@ -57,7 +82,10 @@ export class SearcherCtrlComponent implements OnInit {
             }
             )
         }
-        ))).subscribe(d => this.resultList = d)
+        ))).subscribe(d => {
+          this.resultList = d
+          console.log(this.resultList)
+        })
   }
 
 
@@ -95,7 +123,7 @@ export class SearcherCtrlComponent implements OnInit {
         break;
 
       case 'rsvns':
-        rsvn$ = this.genericService.getItemQueryList("rsvn", `rsvn=${this.today}`)
+        rsvn$ = this.genericService.getItemList("rsvn")
         break;
 
       case 'future':
@@ -104,11 +132,56 @@ export class SearcherCtrlComponent implements OnInit {
       case 'noroom':
         break;
 
+
     }
+    if(rsvn$) {
+      rsvn$.subscribe(
+        data => {
+          this.resultList = []
+          this.rsvnList = data
+          this.makeNewList(data).forEach(gid => {
+            let _rec = this.rsvnList.find(rr => rr.primary.id == gid)
+            let rec = _rec.primary
+            rec.fullname = rec.firstname + ' ' + rec.lastname
+            rec.rsvn = []
+            this.resultList.push(rec)
+
+          })
+          this.resultList.forEach(
+            rec => {
+              this.genericService.getItemQueryList("rsvn",`guest=${rec.id}`)
+                .subscribe(data => rec.rsvn = data)
+            }
+          )
+        }
+      )
+    }
+  }
+
+  // create the result list
+  makeNewList(rlist:any[]) {
+    let glist = new Set()
+    rlist.forEach(
+      rsv => {
+        glist.add(rsv.primary.id)
+      }
+    )
+  return glist
+  }
+  ngOnChanges(changes: SimpleChanges) {
+
   }
 
 
   ngOnInit(): void {
+    this.searchForm.valueChanges
+      .subscribe(val => {
+        if( val.query && val.query.length > 1) {
+          console.log("search",val)
+          this.runSearch(val.query)
+        }
+
+      })
   }
 
 }

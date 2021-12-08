@@ -3,11 +3,10 @@
         <form novalidate [formGroup]="searchForm" class="form-inline">
             <div class="d-flex  mt-3">
                 <input type="search" formControlName='query' placeholder="Search" (focus)="searchForm.reset()"
-                    (change)="runSearch(searchForm.value.query)" class="form-control">
+                     class="form-control">
                 <button style="width:60px" class="form-control">
-                    <span class="material-icons">
-                        search
-                        </span> </button>
+                    <span class="material-icons">search</span> 
+                </button>
             </div>
         </form>
     <hr>
