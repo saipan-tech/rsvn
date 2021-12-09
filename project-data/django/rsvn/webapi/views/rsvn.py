@@ -67,6 +67,9 @@ class RsvnViewSet(viewsets.ModelViewSet):
         if "future" in self.request.GET :
             queryset = queryset.filter( dateIn__gte=self.request.GET['future'])
 
+        if "active" in self.request.GET :
+            queryset = queryset.filter( dateIn__lte=self.request.GET['active'],dateOut__gte=self.request.GET['active'])
+
         if  "dateIn" in self.request.GET and "dateOut" in self.request.GET :
             dateIn = self.request.GET['dateIn']
             dateOut = self.request.GET['dateOut']

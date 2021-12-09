@@ -11,10 +11,17 @@
         </form>
     <hr>
         <div style="text-align:left">
-            <button  mat-button (click)="activeRes('active')">Active</button>
-            <button  mat-button (click)="activeRes('guests')">Guests</button>
-            <button  mat-button (click)="activeRes('rsvns')">Rsvn</button>
-            <button  mat-button (click)="activeRes('Rooms')">Rooms</button>
+            <div>
+                <button  mat-button (click)="activeRes('rsvns')">All Rsvns</button>
+                <button  mat-button (click)="activeRes('active')">Active</button>
+                <button  mat-button (click)="activeRes('future')">Future</button>
+            </div>
+            <div>
+                <button  mat-button (click)="activeRes('rooms')">Rooms Need Verification</button>
+            </div>
+            <div>
+                <button  mat-button (click)="activeRes('guests')">Guests</button>
+            </div>
         </div>
 
     </div>
