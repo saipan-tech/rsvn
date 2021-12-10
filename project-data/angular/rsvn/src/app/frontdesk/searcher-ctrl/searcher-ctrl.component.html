@@ -17,16 +17,19 @@
                 <button  mat-button (click)="activeRes('future')">Future</button>
             </div>
             <div>
-                <button  mat-button (click)="activeRes('rooms')">Rooms Need Verification</button>
+                <button  mat-button [ngClass]="{'markit':scanList.length}" (click)="activeRes('noroom')">Room Scanner</button>
             </div>
             <div>
                 <button  mat-button (click)="activeRes('guests')">Guests</button>
             </div>
         </div>
-
+    
     </div>
 
     <div class="card-body mt-4 p-0"  >
+        <div style="text-align:center"><h5>{{ selectHead }}</h5></div>
+        <hr>
+
         <app-searcher-list 
             (currGuestChange)='selectGuest($event)' 
             (currRsvnChange)='selectRsvn($event)' 

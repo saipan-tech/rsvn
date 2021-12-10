@@ -1,6 +1,19 @@
 from .common import *
 
 #===========================
+class RsvnCheckView(APIView) :
+
+    def get(self, request,format=None):
+        result = []
+        rsvn_dict = Rsvn.objects.all()
+        for x in rsvn_dict :
+            rms = Room.objects.filter(rsvn__id=x.id)
+            if not rms :
+                result.append({"rsvn":x.id,"error":"noRooms"})
+            elif not x.numrooms == len(rms) :
+                result.append({"rsvn":x.id,"error":"roomCount"})
+        return Response( result )
+#===========================
 def checkRsvn(rsvn,dI,dO) :
     res = []
     rooms = Room.objects.filter(

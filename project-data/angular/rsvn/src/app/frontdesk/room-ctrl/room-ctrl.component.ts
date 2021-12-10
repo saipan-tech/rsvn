@@ -77,7 +77,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
   unassignRoom(room: any) {
     let rm = this.currRoomList.find(rec => room.id == rec.room.id)
-    console.log(this.currRsvn)
+  
     this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {
       data: {
         title: `Delete Room (${rm.bldg.name} - ${rm.roominfo.number}) from the 

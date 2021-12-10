@@ -45,4 +45,9 @@ export class RsvnService {
   rsvnTest(id:string,dateIn:string,dateOut:string):Observable<any> {
     return this.http.get<any>(`${this.urlRoot}/rsvntest/${id}?dateIn=${dateIn}&dateOut=${dateOut}`)
   }
+
+  rsvnCheck():Observable<any[]> {
+    return this.http.get<any[]>(`${this.urlRoot}/rsvncheck/`)
+
+  }
 }

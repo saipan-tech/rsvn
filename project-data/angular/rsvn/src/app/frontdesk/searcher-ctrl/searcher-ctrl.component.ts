@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
-import { catchError, tap, map, mergeMap } from 'rxjs/operators';
+import { catchError, tap, map, mergeMap, subscribeOn } from 'rxjs/operators';
 import { IRsvn } from '@app/_interface/rsvn';
 import { IGuest } from '@app/_interface/guest';
 import { GenericService } from '@app/_services/generic.service';
@@ -47,7 +47,9 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
   view_rsvn = false
   cell = 'cell'
   resultList: any[] = []
-
+  scanList : any[] = []
+  rsvn$ : any
+  selectHead = ''
   //--------------------------------------
   sortRsvnDateList(rlist: any) {
     rlist.sort(function (a: any, b: any) {
@@ -80,13 +82,12 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
             .subscribe(data => {
               g.rsvn = data;
               if (data.length) g.marker = 'rsvn'
-            }
-            )
-        }
-        ))).subscribe(d => {
-          this.resultList = d
-
+            })
         })
+      )
+      ).subscribe(d => {
+        this.resultList = d
+      })
   }
   //--------------------------------------
   selectRsvn(rsvn: any) {
@@ -107,18 +108,17 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
     this.currRsvnChange.emit(this.currRsvn)
   }
   //--------------------------------------
-  guestConvert(guest$:any) {
-  guest$
-    .pipe(tap (
-      ( data:any[]) => {
+  guestConvert(guest$: any) {
+    guest$
+      .pipe(tap(
+        (data: any[]) => {
           this.resultList = this.sortResultNames(data)
           this.resultList.forEach(guest => {
             this.genericService.getItemQueryList("rsvn", `guest=${guest.id}`)
-              .subscribe(data => 
-                {
-                  guest.rsvn = data
+              .subscribe(data => {
+                guest.rsvn = data
               })
-            }
+          }
           )
         }
       )).subscribe()
@@ -127,7 +127,7 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
   rsvnConvert(rsvn$: any) {
     rsvn$.subscribe(
       (data: any[]) => {
-        this.resultList = []
+        console.log(data)
         this.rsvnList = data
         this.makeNewList(data).forEach(gid => {
           let _rec = this.rsvnList.find(rr => rr.primary.id == gid)
@@ -143,8 +143,11 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
               .subscribe(data => rec.rsvn = data)
           }
         )
-      }
+      },
+      
+    
     )
+    
   }
   //--------------------------------------
   activeRes(mode: string) {
@@ -156,26 +159,33 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
     switch (mode) {
       case 'active':
         rsvn$ = this.genericService.getItemQueryList("rsvn", `active=${this.today}`)
+        this.selectHead = "Active Reservations"
         break;
 
       case 'guests':
         guest$ = this.genericService.getItemList("guest")
+        this.selectHead = "All Guests"
         break;
 
       case 'rsvns':
         rsvn$ = this.genericService.getItemList("rsvn")
+        this.selectHead = "All Reservations"
         break;
 
       case 'future':
         rsvn$ = this.genericService.getItemQueryList("rsvn", `future=${this.today}`)
+        this.selectHead = "Future Reservations"
         break;
 
       case 'noroom':
-        break;
+     this.resultList = this.scanList;
+     this.rsvn$.subscribe()
+     this.selectHead = "Room Count Issues"
+     break;
     }
     if (rsvn$) {
       this.rsvnConvert(rsvn$)
-    } else if(guest$)  {
+    } else if (guest$) {
       this.guestConvert(guest$)
     }
   }
@@ -193,18 +203,38 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
 
   //--------------------------------------
   ngOnChanges(changes: SimpleChanges) {
-  
+
+
+     if(this.rsvn$) this.rsvn$.subscribe()
   }
   //--------------------------------------
   ngOnInit(): void {
     this.searchForm.valueChanges
       .subscribe(val => {
         if (val.query && val.query.length > 1) {
-          console.log("search", val)
-          this.runSearch(val.query)
+           this.runSearch(val.query)
+           this.selectHead = "Query Result"
         }
 
       })
-  }
+      this.rsvn$ = this.rsvnService.rsvnCheck()
+      .pipe(tap(
+        data => {
+          this.scanList = []
+          data.forEach( d  => {
+            this.genericService.getItem("rsvn",d.rsvn)
+              .subscribe( rsvn => 
+                {
+                  let g = rsvn.primary;
+                  g.fullname = g.firstname + ' ' + g.lastname
+                  g.marker =  d.error;
+                  g.rsvn =  [ rsvn ]
+                  this.scanList.push(g)
+                } )
+          })
+         })
+      )
+    this.rsvn$.subscribe()
+    }
 
 }

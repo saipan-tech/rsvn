@@ -14,20 +14,20 @@ export class SearcherListComponent implements OnInit, OnChanges {
   constructor() { }
   
   selectGuest(guest:IGuest) {
-    console.log("Guest",guest)
+  
     this.currGuestChange.emit(guest)
   }
   selectRsvn(rsvn:IRsvn) {
-    console.log("RSVN",rsvn)
+  
     this.currRsvnChange.emit(rsvn)
   }
   
   ngOnChanges(changes: SimpleChanges) {
-    console.log("Changes",changes)
+  
   }  
   
   ngOnInit(): void {
-    console.log("Searcher List")
+   
   }
 
 }
