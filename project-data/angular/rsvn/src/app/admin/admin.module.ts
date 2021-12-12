@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StaffComponent } from './staff/staff.component';
-import { HouseComponent } from './house/house.component';
-import { MaintComponent } from './maint/maint.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { AdminComponent } from './admin.component';
 import { AppRoutingModule } from '@app/app-routing.module';
@@ -18,16 +16,20 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ActionComponent } from './action/action.component';
+import { ActionStaffComponent } from './action/action-staff/action-staff.component';
+import { ActionItemsComponent } from './action/action-items/action-items.component';
 
 
 @NgModule({
   declarations: [
     StaffComponent,
-    HouseComponent,
-    MaintComponent,
     AdminComponent,
     StaffListComponent,
     StaffEditComponent,
+    ActionComponent,
+    ActionStaffComponent,
+    ActionItemsComponent,
    
     
   ],
@@ -51,9 +53,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   ],
   exports : [
     StaffComponent,
-    HouseComponent,
-    MaintComponent,
-
+    ActionComponent
   ],
  
 })

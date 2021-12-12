@@ -9,8 +9,6 @@ import { combineLatest } from 'rxjs';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { StaffEditComponent } from '@app/admin/staff/staff-edit/staff-edit.component';
 
-
-
 interface xRec {
   staff: IStaff;
   user : IUser;
@@ -21,6 +19,7 @@ interface xRec {
   templateUrl: './staff-list.component.html',
   styleUrls: ['./staff-list.component.scss']
 })
+
 export class StaffListComponent implements OnInit, OnChanges {
 
   constructor(
@@ -44,7 +43,6 @@ export class StaffListComponent implements OnInit, OnChanges {
     dialogConfig.autoFocus = true;
     dialogConfig.panelClass = [];
     dialogConfig.minWidth = '70%';
-    
     dialogConfig.data = {
       currxRec: currxRec
     }
@@ -62,20 +60,19 @@ export class StaffListComponent implements OnInit, OnChanges {
   make_dispList() {
     this.dispList = []
     let _user:IUser = {} as IUser 
-
-
     this.staffList.forEach(sl => {
-      let u = this.userList.find(rec => rec.email == sl.email)
+      let u = this.userList.find(rec => rec.username == sl.username)
       if(!u) u = _user
       this.dispList.push({ staff: sl, user : u })
     })
-
   }
+
   //--------------------------
   selectStaff(xRec: xRec) {
     this.currxRec = xRec
     this.openDialog(this.currxRec)
   }
+
   //---------------------------------
   blankStaff(staff: any) {
     for (const field in staff) {
@@ -85,12 +82,13 @@ export class StaffListComponent implements OnInit, OnChanges {
     }
     return staff
   }
+
   //--------------------------
   newStaff() {
-
     this.currxRec = {staff:{} as IStaff,user:{} as IUser} as xRec
     this.openDialog(this.currxRec)
   }
+
   //--------------------------
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.currStaff.firstChange) {
@@ -100,16 +98,15 @@ export class StaffListComponent implements OnInit, OnChanges {
 
   //--------------------------
   ngOnInit(): void {
-
     let staff$ = this.genericService.getItemList("staff")
     let users$ = this.genericService.getItemList("user")
     combineLatest([staff$, users$])
       .subscribe(data => {
         this.staffList = data[0];
         this.userList = data[1];
+        
       },
         err => { },
         () => this.make_dispList())
   }
-
 }

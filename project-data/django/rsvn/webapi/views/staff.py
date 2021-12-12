@@ -13,6 +13,17 @@ class StaffViewSet(viewsets.ModelViewSet):
     queryset = Staff.objects.all()
     serializer_class = StaffSerializer
     permission_classes = [permissions.IsAuthenticated]    
+
+    # ----------------------------
+    def get_queryset(self):
+    # ----------------------------
+        queryset = super().get_queryset() 
+        if "department" in self.request.GET:
+            queryset = queryset.filter(department=self.request.GET['department'])
+        if "title" in self.request.GET:
+            queryset = queryset.filter(title=self.request.GET['title'])
+        return queryset    
+
     # ----------------------------
     def create(self,request):
     # ----------------------------

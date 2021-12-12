@@ -19,7 +19,7 @@ interface xRec {
   staff: IStaff;
   user: IUser;
 }
-let staffkey = ["user", "username", "first_name", "last_name", "middle_name", "phone1", "phone2",
+let staffkey = ["id","user", "username", "first_name", "last_name", "middle_name", "phone1", "phone2",
   "address", "city", "state", "zipcode", "country", "title", "email",'department']
 
 
@@ -55,6 +55,7 @@ export class StaffEditComponent implements OnInit {
   numDays = 0
 
   staffEditForm = new FormGroup({
+    id:  new FormControl(''),
     user: new FormControl(''),
     username: new FormControl('', Validators.required),
     first_name: new FormControl('', Validators.required),
@@ -139,6 +140,8 @@ export class StaffEditComponent implements OnInit {
     staff$.subscribe(
       data => {
         this.close()
+        this.staffEditForm.reset()
+        this.currxRec = {} as xRec
       },
       err => console.log("Error", err)
     )
@@ -168,8 +171,6 @@ export class StaffEditComponent implements OnInit {
       this.currxRec.staff.id = 0
       this.currxRec.staff.clerk = this.user.username
       this.currxRec.staff.temppass = ''
-
-
     }
     staffkey.forEach(sk => {
       Object.defineProperty(this.currxRec.staff, sk,
@@ -190,13 +191,15 @@ export class StaffEditComponent implements OnInit {
         })
     })
   }
+
   sendEmail() {
     let sform = this.staffEditForm.value
     let emailBody = {To:sform.email,Username:sform.username,Token:sform.temppass}
     this.postalService.sendEmail('jc@saipantech.com',emailBody)
       .subscribe(
         data => console.log("sending email", data),
-        err => console.log("error",err)
+        err => console.log("error",err),
+        () => this.close
 
       )
   }
@@ -206,7 +209,9 @@ export class StaffEditComponent implements OnInit {
     let emailBody = {Username:sform.username,Reset:1}
     this.postalService.sendEmail('jc@saipantech.com',emailBody)
       .subscribe(
-        data => console.log("reset Return", data)
+        data => console.log("reset Return", data),
+        err => console.log("error",err),
+        () => this.close()
       )
   }
   //--------------------------
@@ -220,16 +225,13 @@ export class StaffEditComponent implements OnInit {
       data => this.titleList = data
     )
 
-
-
-
     this.authService.getSession().subscribe(
       data => { 
         this.user = data;
       
       })
-    this.staffEditForm.patchValue(this.currxRec.staff)
-    this.staffEditForm.patchValue(this.currxRec.user)
+      this.staffEditForm.patchValue(this.currxRec.user)
+      this.staffEditForm.patchValue(this.currxRec.staff)
   }
 
 }

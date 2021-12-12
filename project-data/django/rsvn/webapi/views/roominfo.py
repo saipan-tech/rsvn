@@ -55,6 +55,30 @@ class StatusLogViewSet(viewsets.ModelViewSet):
 
         return queryset    
 
+
+
+
+#------------------------------------------
+class RoomActionViewSet(viewsets.ModelViewSet):
+#------------------------------------------
+    """
+    API endpoint that allows logs to be viewed.
+    """
+    queryset = RoomAction.objects.all().order_by('-created')
+    serializer_class = RoomActionSerializer
+    permission_classes = [permissions.IsAuthenticated]    
+    
+     
+    def get_queryset(self):
+        queryset = super().get_queryset() 
+        if "department" in self.request.GET :
+            queryset = queryset.filter(department=self.request.GET['department'])
+        if "staff" in self.request.GET :
+            queryset = queryset.filter(staff=self.request.GET['staff'])
+        if "dateAssign" in self.request.GET :
+            queryset = queryset.filter(dateAssign=self.request.GET['dateAssign'])
+
+        return queryset    
 #------------------------------------------
 class RoomCalc(APIView):
 #------------------------------------------

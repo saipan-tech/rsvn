@@ -10,8 +10,7 @@ import { CafeComponent } from '@app/cafe/cafe.component';
 import { AdminComponent } from '@app/admin/admin.component';
 import { GuestEditComponent } from '@app/frontdesk/guest-edit/guest-edit.component';
 import { DropdownComponent } from '@app/config/dropdown/dropdown.component';
-import { HouseComponent } from './admin/house/house.component';
-import { MaintComponent } from './admin/maint/maint.component';
+import { ActionComponent } from './admin/action/action.component';
 import { StaffComponent } from './admin/staff/staff.component';
 import { GridComponent } from './frontdesk/grid/grid.component';
 import { CalendarComponent } from './calendar/calendar.component';
@@ -31,8 +30,8 @@ const appRoutes: Routes = [
   { path: 'frontdesk', component: FrontdeskComponent },
   { path: 'guest', component: GuestEditComponent },
   { path: 'dropdown', component: DropdownComponent },
-  { path: 'house', component: HouseComponent },
-  { path: 'maint', component: MaintComponent },
+  { path: 'action', component: ActionComponent },
+
   { path: 'staff', component: StaffComponent },
   { path: 'grid', component: GridComponent },
   { path: 'calendar', component: CalendarComponent },

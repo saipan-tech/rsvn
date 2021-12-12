@@ -47,8 +47,8 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
   view_rsvn = false
   cell = 'cell'
   resultList: any[] = []
-  scanList : any[] = []
-  rsvn$ : any
+  scanList: any[] = []
+  rsvn$: any
   selectHead = ''
   //--------------------------------------
   sortRsvnDateList(rlist: any) {
@@ -76,14 +76,15 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
   runSearch(search: any) {
     // with a partial search Guests and return list
     this.guestService.getGuest(search)
-      .pipe(tap(grec =>
-        grec.forEach(g => {
-          this.genericService.getItemQueryList("rsvn", `guest=${g.id}`)
-            .subscribe(data => {
-              g.rsvn = data;
-              if (data.length) g.marker = 'rsvn'
-            })
-        })
+      .pipe(tap(
+        grec =>
+          grec.forEach(g => {
+            this.genericService.getItemQueryList("rsvn", `guest=${g.id}`)
+              .subscribe(data => {
+                g.rsvn = data;
+                if (data.length) g.marker = 'rsvn'
+              })
+          })
       )
       ).subscribe(d => {
         this.resultList = d
@@ -127,7 +128,6 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
   rsvnConvert(rsvn$: any) {
     rsvn$.subscribe(
       (data: any[]) => {
-        console.log(data)
         this.rsvnList = data
         this.makeNewList(data).forEach(gid => {
           let _rec = this.rsvnList.find(rr => rr.primary.id == gid)
@@ -144,10 +144,10 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
           }
         )
       },
-      
-    
+
+
     )
-    
+
   }
   //--------------------------------------
   activeRes(mode: string) {
@@ -178,10 +178,10 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
         break;
 
       case 'noroom':
-     this.resultList = this.scanList;
-     this.rsvn$.subscribe()
-     this.selectHead = "Room Count Issues"
-     break;
+        this.resultList = this.scanList;
+        this.rsvn$.subscribe()
+        this.selectHead = "Room Count Issues"
+        break;
     }
     if (rsvn$) {
       this.rsvnConvert(rsvn$)
@@ -204,37 +204,35 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
   //--------------------------------------
   ngOnChanges(changes: SimpleChanges) {
 
-
-     if(this.rsvn$) this.rsvn$.subscribe()
+    if (this.rsvn$) this.rsvn$.subscribe()
   }
   //--------------------------------------
   ngOnInit(): void {
     this.searchForm.valueChanges
       .subscribe(val => {
         if (val.query && val.query.length > 1) {
-           this.runSearch(val.query)
-           this.selectHead = "Query Result"
+          this.runSearch(val.query)
+          this.selectHead = "Query Result"
         }
 
       })
-      this.rsvn$ = this.rsvnService.rsvnCheck()
+    this.rsvn$ = this.rsvnService.rsvnCheck()
       .pipe(tap(
         data => {
           this.scanList = []
-          data.forEach( d  => {
-            this.genericService.getItem("rsvn",d.rsvn)
-              .subscribe( rsvn => 
-                {
-                  let g = rsvn.primary;
-                  g.fullname = g.firstname + ' ' + g.lastname
-                  g.marker =  d.error;
-                  g.rsvn =  [ rsvn ]
-                  this.scanList.push(g)
-                } )
+          data.forEach(d => {
+            this.genericService.getItem("rsvn", d.rsvn)
+              .subscribe(rsvn => {
+                let g = rsvn.primary;
+                g.fullname = g.firstname + ' ' + g.lastname
+                g.marker = d.error;
+                g.rsvn = [rsvn]
+                this.scanList.push(g)
+              })
           })
-         })
+        })
       )
     this.rsvn$.subscribe()
-    }
+  }
 
 }

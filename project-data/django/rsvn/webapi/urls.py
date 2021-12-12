@@ -55,6 +55,7 @@ router.register(r'season',SeasonViewSet)
 router.register(r'statuslog',StatusLogViewSet)
 router.register(r'seasoncal',SeasonCalViewSet)
 router.register(r'calendar',CalendarViewSet)
+router.register(r'roomaction',RoomActionViewSet)
 
 # yrp
 # Wire up our API using automatic URL routing.

@@ -75,6 +75,14 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
   }
 
+  checkIn(room:any) {
+    
+  }
+  checkOut(room:any) {
+    
+  }
+
+
   unassignRoom(room: any) {
     let rm = this.currRoomList.find(rec => room.id == rec.room.id)
   

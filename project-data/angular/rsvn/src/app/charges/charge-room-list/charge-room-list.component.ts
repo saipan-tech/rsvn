@@ -102,7 +102,6 @@ export class ChargeRoomListComponent implements OnInit {
     this.roomService.getRsvnCalc(this.currRsvn.id)
       .subscribe(data => {
         this.fullRoomList = data  
-        console.log(this.fullRoomList)
         this.chargeTotal()
         
       })

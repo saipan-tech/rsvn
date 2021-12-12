@@ -1,44 +1,42 @@
-<div class="card" style="height:98%;overflow-y:scroll">
-    <div class="card-header"  >
+<div class="card" style="height:97%;overflow-y:scroll">
+    <div class="card-header">
         <form novalidate [formGroup]="searchForm" class="form-inline">
             <div class="d-flex  mt-3">
                 <input type="search" formControlName='query' placeholder="Search" (focus)="searchForm.reset()"
-                     class="form-control">
+                    class="form-control">
                 <button style="width:60px" class="form-control">
-                    <span class="material-icons">search</span> 
+                    <span class="material-icons">search</span>
                 </button>
             </div>
         </form>
-    <hr>
+        <hr>
         <div style="text-align:left">
             <div>
-                <button  mat-button (click)="activeRes('rsvns')">All Rsvns</button>
-                <button  mat-button (click)="activeRes('active')">Active</button>
-                <button  mat-button (click)="activeRes('future')">Future</button>
+                <button mat-button (click)="activeRes('rsvns')">All Rsvns</button>
+                <button mat-button (click)="activeRes('active')">Active</button>
+                <button mat-button (click)="activeRes('future')">Future</button>
             </div>
             <div>
-                <button  mat-button [ngClass]="{'markit':scanList.length}" (click)="activeRes('noroom')">Room Scanner</button>
+                <button mat-button [ngClass]="{'markit':scanList.length}" (click)="activeRes('noroom')">Room
+                    Scanner</button>
             </div>
             <div>
-                <button  mat-button (click)="activeRes('guests')">Guests</button>
+                <button mat-button (click)="activeRes('guests')">Guests</button>
             </div>
         </div>
-    
-    </div>
 
-    <div class="card-body mt-4 p-0"  >
-        <div style="text-align:center"><h5>{{ selectHead }}</h5></div>
+    </div>
+    <div style=" font-size:14pt; font-weight:bold; text-align:center">
+        {{ selectHead }}
         <hr>
-
-        <app-searcher-list 
-            (currGuestChange)='selectGuest($event)' 
-            (currRsvnChange)='selectRsvn($event)' 
-            [resultList]='resultList' > 
-        </app-searcher-list>
     </div>
+    <div class="card-body p-0" style="overflow-y:scroll">
 
-    <div class="card-footer d-flex">
 
-    </div>
+            <app-searcher-list (currGuestChange)='selectGuest($event)' (currRsvnChange)='selectRsvn($event)'
+                [resultList]='resultList'>
+            </app-searcher-list>
+        </div>
+
+   
 </div>
-

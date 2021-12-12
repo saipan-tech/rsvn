@@ -65,9 +65,11 @@ status,2,Confirmed,confirmed
 status,3,Delayed,delayed
 status,4,No Show,noshow
 status,10,Cancelled,cancel
-title,1,Lead,Lead
-title,2,Senior,Senior
-title,3,Trainee,Trainee
+title,1,Trainee,Trainee
+title,2,Junior,Junior
+title,3,Senior,Senior
+title,4,Lead,Lead
+title,5,Manager,Manager
 vcolor,1,Local,palegreen
 vcolor,2,Tour,pink
 vcolor,3,Atlas Agency,lightyellow

@@ -5,6 +5,7 @@
             <button (click)='newStaff()'>New Staff</button>
 
         </nav>
+
     </div>
     <div class="card-body">
 
@@ -15,6 +16,7 @@
 
             <div class="form-control">Telephone</div>
             <div class="form-control">Email</div>
+            <div class="form-control">Username</div>
 
             <div class="form-control">Temp Passwd</div>
             <div class="form-control d-flex">
@@ -36,6 +38,8 @@
             <div class="form-control">{{x.staff.title}}</div>
             <div class="form-control">{{x.staff.phone1}}</div>
             <div class="form-control">{{x.staff.email}}</div>
+            <div class="form-control">{{x.staff.username}}</div>
+            
             <div class="form-control">{{x.staff.temppass | slice:0:10}}</div>
             <div class="form-control d-flex">
                 <div class="form-control" style="border:0;padding:1px">{{x.user.is_active}}</div>

@@ -30,7 +30,16 @@ text-align:center;
 .rate-hint td{
 border:1px solid silver;
 }
+.rmcell {
+  width:33%;
+  font-size:small;
 
-.rlcell {
-    border-bottom:1px solid green;
 }
+
+.rmcell button {
+    width:100%;
+    border:1px solid silver;
+    padding:3px;
+    
+  }
+  

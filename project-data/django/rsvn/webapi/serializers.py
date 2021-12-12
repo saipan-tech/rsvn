@@ -135,3 +135,8 @@ class CalendarSerializer(serializers.ModelSerializer) :
     class Meta:
         model = Calendar
         fields = '__all__'
+
+class RoomActionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoomAction
+        fields = '__all__'

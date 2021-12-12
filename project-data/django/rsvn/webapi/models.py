@@ -3,6 +3,10 @@ from .lists import *
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
 from decimal import Decimal
+from datetime import datetime
+
+now = datetime.now()
+
 #
 # Create your models here.
 #---------------------------------------------------------
@@ -27,6 +31,8 @@ class Staff (models.Model):
     created     =   models.DateTimeField(auto_now_add=True)
     modified    =   models.DateTimeField(auto_now=True) 
     
+    def __str__(self) :
+        return f"{self.first_name} {self.last_name} ({self.username}) -- {self.email}"
 #---------------------------------------------------------
 class Guest (models.Model):
     firstname	=	models.CharField(max_length=80)
@@ -214,6 +220,23 @@ class RoomCharge (models.Model):
     modified    =   models.DateTimeField(auto_now=True)
     def __str__(self) :
         return f"{self.room.roominfo.bldg.name} {self.room.roominfo.number}   -- {self.date}"
+
+#---------------------------------------------------------
+class RoomAction (models.Model):
+    roominfo        =   models.ForeignKey(Roominfo,models.CASCADE)
+    department      =   models.CharField(max_length=80)
+    staff           =   models.CharField(max_length=80)
+    item            =   models.CharField(max_length=512)
+    result          =   models.CharField(max_length=1024,blank=True)
+    dateAssign      =   models.DateField()
+    assignedBy      =   models.CharField(max_length=80)
+    startTime       =   models.DateTimeField(auto_now_add=True,editable=True)
+    endTime         =   models.DateTimeField(auto_now_add=True,editable=True)
+    created         =   models.DateTimeField(auto_now_add=True,editable=True)
+
+    def __str__(self) :
+        return f"{self.roominfo.bldg.name} {self.roominfo.number}   -- {self.dateAssign}"
+
 #---------------------------------------------------------
 class StatusLog (models.Model): 
     roominfo    =   models.ForeignKey(Roominfo,models.CASCADE)
