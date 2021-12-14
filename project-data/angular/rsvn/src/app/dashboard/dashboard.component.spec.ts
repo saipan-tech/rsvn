@@ -25,7 +25,10 @@ describe('Dashbboard', () => {
 
   describe('when rendered', ()=> {
     it('should display arrivals', ()=> {
-      expect(true).toEqual(false);
+      const actual = !!component.arrivals;
+      const expected = true
+
+      expect(actual).toEqual(expected);
     });
   })
 });
