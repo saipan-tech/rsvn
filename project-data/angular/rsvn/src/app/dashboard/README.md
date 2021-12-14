@@ -15,7 +15,7 @@ The dashboard view is a high level component that is responsible for loading fea
 
 ### Arrivals
 
-Arrivial statistics will display a snap shot of the daily arival numbers.
+Arrivial statistics will display a snap shot of the daily arival numbers that are retrieved from the API.
 
 
 
