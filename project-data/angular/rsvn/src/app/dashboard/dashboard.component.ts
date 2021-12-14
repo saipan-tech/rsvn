@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {ThemePalette} from '@angular/material/core';
  @Component({
@@ -7,6 +7,9 @@ import {ThemePalette} from '@angular/material/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+
+  @ViewChild('arrivals', {static: false})
+  arrivals: any;
 
   constructor(
     private router: Router,
