@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import {ThemePalette} from '@angular/material/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+
  @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -9,17 +9,12 @@ import {ThemePalette} from '@angular/material/core';
 export class DashboardComponent implements OnInit {
 
   @ViewChild('arrivals', {static: false})
-  arrivals: any;
+  arrivals!: ElementRef;
 
-  constructor(
-    private router: Router,
-
-  ) { }
-  
-
+  constructor(private router: Router) { }
   
   ngOnInit(): void {
-    } 
+  } 
 }
 
 
