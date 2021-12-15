@@ -11,5 +11,6 @@ export interface IRoominfo  {
     descr:string;
     status:string;
     rateAlias:string;
+    marker?:string;
 
 }

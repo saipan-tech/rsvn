@@ -55,16 +55,13 @@ class StatusLogViewSet(viewsets.ModelViewSet):
 
         return queryset    
 
-
-
-
 #------------------------------------------
 class RoomActionViewSet(viewsets.ModelViewSet):
 #------------------------------------------
     """
-    API endpoint that allows logs to be viewed.
+    API endpoint works on the RoomAction records.
     """
-    queryset = RoomAction.objects.all().order_by('-created')
+    queryset = RoomAction.objects.all().order_by('-date','department','staff')
     serializer_class = RoomActionSerializer
     permission_classes = [permissions.IsAuthenticated]    
     
@@ -75,10 +72,39 @@ class RoomActionViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(department=self.request.GET['department'])
         if "staff" in self.request.GET :
             queryset = queryset.filter(staff=self.request.GET['staff'])
-        if "dateAssign" in self.request.GET :
-            queryset = queryset.filter(dateAssign=self.request.GET['dateAssign'])
+        if "date" in self.request.GET :
+            queryset = queryset.filter(dateAssign=self.request.GET['date'])
 
         return queryset    
+
+#------------------------------------------
+class RoomActionRoominfo(APIView):
+#------------------------------------------
+    def get_object(self,id):
+        try:
+            return RoomAction.objects.get(id=id)
+        except model.DoesNotExist:
+            raise Http404
+    
+    def get(self,request,id, format=None)  :
+        action = self.get_object(id)
+        serializer = RoominfoSerializer(action.roominfos.all(),many=True)
+        return Response(serializer.data)        
+
+    def post(self,request,id, format=None)  :
+        action = self.get_object(id)
+        roominfo = Roominfo.objects.get(id=request.data['id'])
+        action.roominfos.add(roominfo)
+        return Response(["POST",request.data])        
+
+    def put(self,request,id, format=None)  :
+        action = self.get_object(id)
+        roominfo = Roominfo.objects.get(id=request.data['id'])
+        action.roominfos.remove(roominfo)
+        return Response(["PUT",request.data])        
+
+
+
 #------------------------------------------
 class RoomCalc(APIView):
 #------------------------------------------

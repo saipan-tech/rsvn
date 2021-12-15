@@ -3,7 +3,6 @@
         <h5>Room Control</h5>
     </div>
     <div class="card-body">
-
         <h4>{{currRsvn.primary.firstname}} {{currRsvn.primary.middlename}} {{currRsvn.primary.lastname}}</h4>
         <div class='d-flex'>
             <div class="form-control">Check In<br>{{ currRsvn.dateIn }}</div>
@@ -18,8 +17,10 @@
                 </button>
 
                 <mat-menu #roomMenu="matMenu">
-                    <div mat-menu-item ><h5>{{ r.room.status }}</h5> </div>
-                    
+                    <div mat-menu-item>
+                        <h5>{{ r.room.status }}</h5>
+                    </div>
+
                     <div mat-menu-item (click)="checkIn(r.room)">Check-In </div>
                     <div mat-menu-item (click)="checkOut(r.room)">Check-Out </div>
                     <div mat-menu-item (click)="unassignRoom(r.room)">Delete </div>
@@ -30,5 +31,6 @@
         <app-room-list [currRsvn]='currRsvn' (currRsvnChange)='refreshRsvn()'></app-room-list>
     </div>
     <div class="card-footer">
+
     </div>
 </div>

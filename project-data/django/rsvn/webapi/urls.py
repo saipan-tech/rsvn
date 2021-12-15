@@ -55,7 +55,7 @@ router.register(r'season',SeasonViewSet)
 router.register(r'statuslog',StatusLogViewSet)
 router.register(r'seasoncal',SeasonCalViewSet)
 router.register(r'calendar',CalendarViewSet)
-router.register(r'roomaction',RoomActionViewSet)
+router.register(r'action',RoomActionViewSet)
 
 # yrp
 # Wire up our API using automatic URL routing.
@@ -77,6 +77,8 @@ urlpatterns = [
     path('roomcalc/<roominfo_id>/<dateIn>/<dateOut>/',RoomCalc.as_view()),
     path('rsvncalc/<rsvnid>/',RsvnCalc.as_view()),
     path('email/',PostOfficeView.as_view()),
-    path('rsvncheck/',RsvnCheckView.as_view())
+    path('rsvncheck/',RsvnCheckView.as_view()),
+    path('actionrooms/<id>/',RoomActionRoominfo.as_view())
+
     
 ]

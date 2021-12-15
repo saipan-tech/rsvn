@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter,ViewChild } from '@angular/core';
 import { IBldg } from '@app/_interface/bldg';
 import { IRsvn } from '@app/_interface/rsvn'
 import { IRoom } from '@app/_interface/room'
@@ -11,6 +11,8 @@ import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomService } from '@app/_services/room.service';
 import { MatRadioModule } from '@angular/material/radio';
 import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
+import { MatMenuTrigger } from '@angular/material/menu';
+
 
 @Component({
   selector: 'app-room-ctrl',
@@ -18,13 +20,14 @@ import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog"
   styleUrls: ['./room-ctrl.component.scss']
 })
 export class RoomCtrlComponent implements OnInit, OnChanges {
-
+  
 
   @Input() currRsvn: any
   @Output() currRsvnChange = new EventEmitter<IRsvn>();
 
   @Input() currGuest: any
   @Output() currGuestChange = new EventEmitter<IGuest>();
+
 
 
   currNumRooms = 0
@@ -49,7 +52,6 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
     private dialogManagerService: DialogManagerService,
 
   ) { }
-
 
 
 

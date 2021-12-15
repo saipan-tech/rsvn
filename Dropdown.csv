@@ -80,3 +80,9 @@ years,1,2021,2021
 years,2,2022,2022
 years,3,2023,2023
 years,4,2024,2024
+actionitem,1,Full Clean,cleaning
+actionitem,2,Refresh,refresh
+actionitem,3,Trash Out,trash
+actionitem,4,Inspect,inspect
+actionitem,5,Repair,repair
+actionitem,6,Inspect,inspect

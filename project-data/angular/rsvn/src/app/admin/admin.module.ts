@@ -19,6 +19,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ActionComponent } from './action/action.component';
 import { ActionStaffComponent } from './action/action-staff/action-staff.component';
 import { ActionItemsComponent } from './action/action-items/action-items.component';
+import { ActionEditComponent } from './action/action-edit/action-edit.component';
+import { GridSelectComponent } from './grid-select/grid-select.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -30,6 +33,8 @@ import { ActionItemsComponent } from './action/action-items/action-items.compone
     ActionComponent,
     ActionStaffComponent,
     ActionItemsComponent,
+    ActionEditComponent,
+    GridSelectComponent,
    
     
   ],
@@ -48,7 +53,8 @@ import { ActionItemsComponent } from './action/action-items/action-items.compone
     MatDialogModule,
     MatSliderModule,
     MatRadioModule,
-    FrontdeskModule
+    FrontdeskModule,
+    MatMenuModule,
 
   ],
   exports : [

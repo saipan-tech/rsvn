@@ -1,1 +1,9 @@
 <p>action-items works!</p>
+<button (click)='newAction()'> Edit Action
+
+</button>
+
+
+<div *ngFor="let act of actionList">
+   <button class="active" (click)="openDialog(act)">{{ act.id}}</button> {{act.date }} - {{ act.department }} {{ act.staff }}
+</div>
