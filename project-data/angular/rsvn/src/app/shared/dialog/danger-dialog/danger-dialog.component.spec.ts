@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { DangerDialogComponent } from './danger-dialog.component';
 
@@ -9,13 +8,7 @@ describe('DangerDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DangerDialogComponent ],
-      providers: [
-        {
-          provide: MAT_DIALOG_DATA,
-          useValue: {} 
-        }
-      ]
+      declarations: [ DangerDialogComponent ]
     })
     .compileComponents();
   });
