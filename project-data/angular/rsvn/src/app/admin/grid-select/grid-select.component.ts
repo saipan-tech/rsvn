@@ -14,6 +14,15 @@ import { AppConstants } from '@app/app.constants';
 import { AuthService } from '@app/_services/auth.service';
 import { catchError, tap, map, concatMap, mergeMap } from 'rxjs/operators';
 import { IAction } from '@app/_interface/action';
+
+
+export interface IDStatus  {
+  checkin: IRoom[];
+  checkout: IRoom[];
+  inhouse : IRoom[];
+}
+
+
 @Component({
   selector: 'app-grid-select',
   templateUrl: './grid-select.component.html',
@@ -28,8 +37,11 @@ export class GridSelectComponent implements OnInit {
   roomList: IRoominfo[] = []
   dispList: any = []
   roomstatusList: IDropdown[] = []
-  user: any
 
+  dateStatus : IDStatus = {} as IDStatus; 
+  
+  user: any
+  
   constructor(
     private genericService: GenericService,
     private systemService: SystemService,
@@ -42,15 +54,44 @@ export class GridSelectComponent implements OnInit {
   // -------------------------------------------
   makeList() {
     this.dispList = []
-   
+    let found : IRoominfo | any
     this.roominfos.forEach(
       ri => {
-       let found  = this.roomList.find( rl => ri == rl.id )
+       found  = this.roomList.find( rl => ri == rl.id )
        if(found) {
         found['marker'] = 'marked'
        }
       }
     )
+    this.dateStatus.checkout.forEach(
+      ds => {
+       let found  = this.roomList.find( rl => ds.roominfo == rl.id )
+       if(found) {
+        found['border'] = 'checkout'
+       }
+      }
+    )
+    this.dateStatus.checkin.forEach(
+      ds => {
+       let found  = this.roomList.find( rl => ds.roominfo == rl.id )
+       if(found) {
+         if(found.border == 'checkout') {
+           found.border = 'priority'
+         
+         }
+         else found.border = 'checkin'
+       }
+      }
+    )
+    this.dateStatus.inhouse.forEach(
+      ds => {
+       let found  = this.roomList.find( rl => ds.roominfo == rl.id )
+       if(found) {
+         found.border = 'inhouse'
+       }
+      }
+    )
+
     this.bldgList.forEach(
       bld => {
         let rooms = this.roomList.filter(r => r.bldg == bld.id)
@@ -88,7 +129,10 @@ export class GridSelectComponent implements OnInit {
       .pipe(
         tap( data => this.roomList = data),
         concatMap(() => this.genericService.getItemList("bldg")),
-        tap(bldgs => this.bldgList = bldgs))
+        tap(bldgs => this.bldgList = bldgs),
+        concatMap(()=> this.roomService.getRoomDateScan(this.actionRec.date,'')),
+        tap( d => this.dateStatus = d)
+        )
         .subscribe(d => this.makeList())
   }
 }

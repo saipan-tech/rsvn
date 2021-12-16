@@ -64,7 +64,7 @@ export class ActionEditComponent implements OnInit {
       descr: new FormControl(''),
       result: new FormControl(''),
       date: new FormControl('', Validators.required),
-      assignedBy: new FormControl('', Validators.required),
+      assignedBy: new FormControl(''),
       created: new FormControl('')
     })
 

@@ -71,6 +71,13 @@ class RoomAllSerializer(serializers.ModelSerializer):
         depth = 2
 
 #---------------------------------------------------------
+class RoomOneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Room
+        fields = '__all__'
+        depth = 1
+
+#---------------------------------------------------------
 class RoominfoSerializer(serializers.ModelSerializer):
     class Meta:
         model= Roominfo

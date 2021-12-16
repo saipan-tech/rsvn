@@ -113,3 +113,26 @@ class RoomChargeViewSet(viewsets.ModelViewSet):
                     Q(room__rsvn__dateIn__lte = dateOut) & Q(room__rsvn__dateOut__gte = dateIn) |
                     Q(room__rsvn__dateIn__lte = dateOut) & Q(room__rsvn__dateOut__gte =  dateOut) 
                     )
+
+
+#------------------------------------------
+class RoomDateScan(APIView):
+#------------------------------------------
+    
+    def get(self,request,date, format=None)  :
+        checkin = Room.objects.filter(rsvn__dateIn=date)
+        checkout =Room.objects.filter(rsvn__dateOut=date)
+        inhouse = Room.objects.filter(rsvn__dateIn__lt=date,rsvn__dateOut__gt=date)
+        if "all" in request.GET :
+            s_checkin = RoomAllSerializer(checkin,many=True)
+            s_checkout = RoomAllSerializer(checkout,many=True)
+            s_inhouse = RoomAllSerializer(inhouse,many=True)
+        elif "one" in request.GET:
+            s_checkin = RoomOneSerializer(checkin,many=True)
+            s_checkout = RoomOneSerializer(checkout,many=True)
+            s_inhouse = RoomOneSerializer(inhouse,many=True)
+        else:
+            s_checkin = RoomSerializer(checkin,many=True)
+            s_checkout = RoomSerializer(checkout,many=True)
+            s_inhouse = RoomSerializer(inhouse,many=True)
+        return Response({ 'checkin':s_checkin.data,'checkout':s_checkout.data,'inhouse':s_inhouse.data })        

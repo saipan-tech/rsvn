@@ -8,10 +8,10 @@
 </div>
 
 
-<div class="row">
-    <div class="col">
+<div class="d-flex">
+    <div class="leftcolumn">
         <div class="card">
-             <div class="card-body">
+            <div class="card-body">
                 <form novalidate [formGroup]="actionEditForm">
                     <div class="d-flex">
                         <div class="form-control">
@@ -52,10 +52,13 @@
                                 <label class="uppercell form-control">Result</label>
                                 <input class="lowercell form-control" type="email" formControlName='result'>
                             </div>
-
                             <div class="d-flex">
-                                <label class="uppercell form-control">Assigned By</label>
-                                <input class="lowercell form-control" type="text" formControlName='assignedBy'>
+                                <label class="uppercell form-control">Assigned by</label>
+                                <div class="form-control">{{ actionEditForm.value.assignedBy }} </div>
+                            </div>
+                            <div class="d-flex">
+                                <label class="uppercell form-control">Created</label>
+                                <div class="form-control">{{ actionEditForm.value.created | date:"medium"  }} </div>
                             </div>
 
                         </div>
@@ -68,15 +71,18 @@
 
             <button class="btn" [disabled]="!(actionEditForm.valid)" (click)='updateAction()'>
                 <span class="material-icons">save</span></button>
-                <button class="btn" style="margin-left:2em" [disabled]="false" (click)='deleteAction()'>
-                    <span class="material-icons"> delete </span>
-                </button>
-                <button class="btn" style="margin-left:2em" [disabled]="false" >
-                    <span class="material-icons"> printer </span>
-                </button>
-                </div>
+            <button class="btn" style="margin-left:2em" [disabled]="false" (click)='deleteAction()'>
+                <span class="material-icons"> delete </span>
+            </button>
+            <button class="btn" style="margin-left:2em" [disabled]="false">
+                <span class="material-icons"> printer </span>
+            </button>
+        </div>
+
+
+
     </div>
-    <div class="col">
+    <div class="rightcolumn">
         <div *ngIf="actionRec.id">
             <app-grid-select [(roominfos)]='roominfos' [actionRec]='actionRec'></app-grid-select>
         </div>

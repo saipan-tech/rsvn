@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StaffComponent } from './staff/staff.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { AdminComponent } from './admin.component';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { FrontdeskModule } from '@app/frontdesk/frontdesk.module';
 import { StaffListComponent } from './staff/staff-list/staff-list.component';
@@ -27,7 +26,7 @@ import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
   declarations: [
     StaffComponent,
-    AdminComponent,
+
     StaffListComponent,
     StaffEditComponent,
     ActionComponent,

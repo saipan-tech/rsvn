@@ -2,3 +2,25 @@
     background-color:rgb(206, 235, 218);
     color:black;
 }
+
+.checkin {
+    border:2px solid green;
+
+}
+.checkout {
+    border:2px solid red;
+
+}
+.inhouse {
+    border:2px solid purple;
+
+}
+
+.priority {
+    border:2px solid cyan;
+}
+
+.legend {
+    font-size:small;
+    padding:3px;
+}

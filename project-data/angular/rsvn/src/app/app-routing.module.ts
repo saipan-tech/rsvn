@@ -7,7 +7,6 @@ import { ConfigComponent } from '@app/config/config.component';
 import { FrontdeskComponent } from '@app/frontdesk/frontdesk.component';
 import { ToursComponent } from '@app/tours/tours.component';
 import { CafeComponent } from '@app/cafe/cafe.component';
-import { AdminComponent } from '@app/admin/admin.component';
 import { GuestEditComponent } from '@app/frontdesk/guest-edit/guest-edit.component';
 import { DropdownComponent } from '@app/config/dropdown/dropdown.component';
 import { ActionComponent } from './admin/action/action.component';
@@ -26,7 +25,6 @@ const appRoutes: Routes = [
   { path: 'config', component: ConfigComponent },
   { path: 'tours', component: ToursComponent },
   { path: 'cafe', component: CafeComponent },
-  { path: 'admin', component: AdminComponent },
   { path: 'frontdesk', component: FrontdeskComponent },
   { path: 'guest', component: GuestEditComponent },
   { path: 'dropdown', component: DropdownComponent },

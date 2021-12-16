@@ -25,9 +25,9 @@ class RoominfoViewSet(viewsets.ModelViewSet):
             dateOut = self.request.GET['dateOut']
             if "exclude" in self.request.GET  :
                 queryset = queryset.exclude(
-                    Q(roominfoOf__rsvn__dateIn__lte = dateIn) & Q(roominfoOf__rsvn__dateOut__gte = dateIn) |
-                    Q(roominfoOf__rsvn__dateIn__lte = dateOut) & Q(roominfoOf__rsvn__dateOut__gte = dateIn) |
-                    Q(roominfoOf__rsvn__dateIn__lte = dateOut) & Q(roominfoOf__rsvn__dateOut__gte =  dateOut) 
+                    Q(roominfoOf__rsvn__dateIn__lte = dateIn) & Q(roominfoOf__rsvn__dateOut__gt = dateIn) |
+                    Q(roominfoOf__rsvn__dateIn__lte = dateOut) & Q(roominfoOf__rsvn__dateOut__gt = dateIn) |
+                    Q(roominfoOf__rsvn__dateIn__lte = dateOut) & Q(roominfoOf__rsvn__dateOut__gt =  dateOut) 
                     )
             elif "include" in self.request.GET :
                 queryset = queryset.filter(
@@ -95,13 +95,13 @@ class RoomActionRoominfo(APIView):
         action = self.get_object(id)
         roominfo = Roominfo.objects.get(id=request.data['id'])
         action.roominfos.add(roominfo)
-        return Response(["POST",request.data])        
+        return Response(request.data)        
 
     def put(self,request,id, format=None)  :
         action = self.get_object(id)
         roominfo = Roominfo.objects.get(id=request.data['id'])
         action.roominfos.remove(roominfo)
-        return Response(["PUT",request.data])        
+        return Response(request.data)        
 
 
 

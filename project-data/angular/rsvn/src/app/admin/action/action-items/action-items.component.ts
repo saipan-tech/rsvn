@@ -31,6 +31,7 @@ export class ActionItemsComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.panelClass = [];
+    dialogConfig.width = '90%';
 
   
     dialogConfig.data = {
