@@ -147,3 +147,4 @@ class RoomActionSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoomAction
         fields = '__all__'
+

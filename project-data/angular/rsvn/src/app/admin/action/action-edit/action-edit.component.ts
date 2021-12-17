@@ -91,6 +91,8 @@ export class ActionEditComponent implements OnInit {
   updateAction() {
 
     this.actionRec = this.actionEditForm.value
+
+console.log(this.actionRec)
     this.genericService.updateItem('action', this.actionRec)
       .subscribe(
         data => {
@@ -109,10 +111,9 @@ export class ActionEditComponent implements OnInit {
   makeStaffList(department: string) {
     this.genericService.getItemQueryList("staff", `department=${department}`)
       .subscribe(data => {
-        this.staffList = data
-  
-      }
-      )
+        this.staffList = data;
+    
+      })
   }
   //---------------------------------
   rec2form() {
@@ -125,6 +126,7 @@ export class ActionEditComponent implements OnInit {
     }
 
     this.actionEditForm.patchValue(this.actionRec)
+   
   }
 
   //---------------------------------

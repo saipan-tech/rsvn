@@ -8,6 +8,7 @@ import { ActionEditComponent } from '../action-edit/action-edit.component';
 import { IRoominfo } from '@app/_interface/roominfo';
 import { IDropdown } from '@app/_interface/dropdown';
 import { catchError, tap, map, concatMap } from 'rxjs/operators';
+import { IStaff } from '@app/_interface/staff';
 
 @Component({
   selector: 'app-action-items',
@@ -18,8 +19,11 @@ export class ActionItemsComponent implements OnInit {
 
   actionRec: any
   roominfos: IRoominfo[] = []
-  actionList: IAction[] = []
+  actionList: any[] = []
   itemList: IDropdown[] = []
+  staffList: any[] = []
+
+
   constructor(
     private genericService: GenericService,
     private systemService: SystemService,
@@ -34,8 +38,6 @@ export class ActionItemsComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.panelClass = [];
     dialogConfig.width = '90%';
-
-
     dialogConfig.data = {
       actionRec: actionRec,
 
@@ -50,6 +52,7 @@ export class ActionItemsComponent implements OnInit {
       )
   }
 
+ 
   dropDisplay(ddlist: IDropdown[], key: string) {
     let found: IDropdown | any = ddlist.find(d => d.value == key)
     if (found) return found.display
@@ -66,16 +69,26 @@ export class ActionItemsComponent implements OnInit {
 
 
     this.genericService.getItemList('action')
+      .subscribe(d => {
+        this.actionList = d;
+       
+      
+      })
+  
+  
+      this.genericService.getItemList('action')
       .pipe(
         tap(data => this.actionList = data),
-        concatMap(() => this.systemService.getDropdownList('actionitem')),
+        concatMap(() => this.genericService.getItemList('staff')),
         tap(data => {
-          this.itemList = data
+          this.staffList = data
           this.actionList.forEach(act => {
-            act.item = this.dropDisplay(this.itemList, act.item)
+            let a = this.staffList.find(sl => sl.id == act.staff )
+            act.fullname = `${a.first_name} ${a.last_name}`
           })
         })
       ).subscribe()
-  }
+  
+    }
 
 }

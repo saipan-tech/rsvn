@@ -6,7 +6,7 @@
         </button>
     </nav>
 </div>
-
+<div>{{ staffList | json }}</div>
 
 <div class="d-flex">
     <div class="leftcolumn">
@@ -26,27 +26,27 @@
                                         title="Required">*</abbr></label>
                                 <select formControlName='department' class="lowercell form-control"
                                     (change)="makeStaffList(actionEditForm.value.department)">
-                                    <option *ngFor="let a of deptList" [ngValue]='a.value'>{{a.display}} </option>
+                                    <option *ngFor="let a of deptList" [ngValue]='a.value'>{{a.value}} </option>
                                 </select>
                             </div>
-                            <div class="d-flex" *ngIf="actionEditForm.value.department">
+                            <div class="d-flex" >
                                 <label class="uppercell form-control">Staff<abbr class="req"
                                         title="Required">*</abbr></label>
                                 <select formControlName='staff' class="lowercell form-control">
-                                    <option *ngFor="let a of staffList" [ngValue]='a.username'>{{a.first_name}}
-                                        {{a.last_name}} </option>
+                                    <option *ngFor="let a of staffList" [ngValue]='a.id'>{{a.first_name}}
+                                        {{a.last_name}}</option>
                                 </select>
                             </div>
                             <div class="d-flex">
                                 <label class="uppercell form-control">Item<abbr class="req"
                                         title="Required">*</abbr></label>
                                 <select formControlName='item' class="lowercell form-control">
-                                    <option *ngFor="let a of itemList" [ngValue]='a.value'>{{a.display}} </option>
+                                    <option *ngFor="let a of itemList" [ngValue]='a.value'>{{a.value}} </option>
                                 </select>
                             </div>
                             <div class="d-flex">
                                 <label class="uppercell form-control">Description</label>
-                                <input class="lowercell form-control" type="text" formControlName='item'>
+                                <input class="lowercell form-control" type="text" formControlName='descr'>
                             </div>
                             <div class="d-flex">
                                 <label class="uppercell form-control">Result</label>
