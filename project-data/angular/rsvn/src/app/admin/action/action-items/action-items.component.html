@@ -1,9 +1,32 @@
 <p>action-items works!</p>
-<button (click)='newAction()'> Edit Action
+<button (click)='newAction()'>New Action</button>
 
-</button>
+<div class="card ">
+   <div class="card-header">
+      <h5>Action</h5>
+   </div>
+   <div class="card-body">
+      {{ actionList[3] | json}}
+      <div *ngFor="let act of actionList">
+         <div class="d-flex"> 
+            <div class="form-control" style="width:10%">{{act.date }}</div>
+            <div class="form-control" style="width:10%">
+               <button mat-button class="active" (click)="openDialog(act)">{{ act.department }}</button>
+            </div>
+            <div class="form-control" style="width:15%">{{ act.staff }}</div>
+            <div class="form-control" style="width:20%">{{act.item }}</div>
+            <div class="form-control" style="width:20%">{{act.descr }}</div>
+            <div class="form-control active" style="width:10%"
+               (mouseover)="getRooms(act.id)">{{ act.roominfos.length }} Rooms</div>
+            
+         </div>
+      </div>
+   </div>
+   <div class="card-footer">
 
-
-<div *ngFor="let act of actionList">
-   <button class="active" (click)="openDialog(act)">{{ act.id}}</button> {{act.date }} - {{ act.department }} {{ act.staff }}
+   </div>
 </div>
+
+
+
+

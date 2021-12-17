@@ -6,3 +6,6 @@ admin.site.register(Guest)
 admin.site.register(Staff)
 admin.site.register(Room)
 admin.site.register(Amenity)
+admin.site.register(RoomAction)
+admin.site.register(StatusLog)
+

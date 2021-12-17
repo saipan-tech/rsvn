@@ -155,7 +155,6 @@ class Service (models.Model):
 	from_airport	=	models.BooleanField(default=False)
 	to_airport		=	models.BooleanField(default=False)
 	dailymaid		=	models.BooleanField(default=False)
-	mango			=	models.BooleanField(default=False)
 	extrabed		=	models.BooleanField(default=False)
 	crib			=	models.BooleanField(default=False)
 	connect			=	models.BooleanField(default=False)
@@ -223,19 +222,18 @@ class RoomCharge (models.Model):
 
 #---------------------------------------------------------
 class RoomAction (models.Model):
+    staff           =   models.ForeignKey(Staff,models.CASCADE, related_name='staffOf')
     roominfos       =   models.ManyToManyField(Roominfo,blank=True)
     department      =   models.CharField(max_length=80)
-    staff           =   models.CharField(max_length=80)
     item            =   models.CharField(max_length=512)
     descr           =   models.CharField(max_length=2048, blank=True)
     result          =   models.CharField(max_length=1024, blank=True)
     date             =   models.DateField()
     assignedBy      =   models.CharField(max_length=80)
-  
     created         =   models.DateTimeField(auto_now_add=True)
 
     def __str__(self) :
-        return f"{self.staff} {self.dateAssign}  {self.roominfos} "
+        return f"{self.staff.first_name} {self.staff.last_name} {self.date} {self.item} "
 
 #---------------------------------------------------------
 class StatusLog (models.Model): 
