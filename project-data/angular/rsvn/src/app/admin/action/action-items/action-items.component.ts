@@ -98,6 +98,7 @@ export class ActionItemsComponent implements OnInit {
         tap(data => this.actionList = data),
         concatMap(() => this.genericService.getItemList('staff')),
         tap(data => {
+          // just to put the full names in the list
           this.staffList = data
           this.actionList.forEach(act => {
             let a = this.staffList.find(sl => sl.id == act.staff )

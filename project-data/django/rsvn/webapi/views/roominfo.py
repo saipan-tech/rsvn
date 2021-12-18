@@ -74,6 +74,7 @@ class RoomActionViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(staff=self.request.GET['staff'])
         if "date" in self.request.GET :
             queryset = queryset.filter(dateAssign=self.request.GET['date'])
+    
 
         return queryset    
 
@@ -88,7 +89,7 @@ class RoomActionRoominfo(APIView):
     
     def get(self,request,id, format=None)  :
         action = self.get_object(id)
-        serializer = RoominfoSerializer(action.roominfos.all(),many=True)
+        serializer = RoominfoSerializer(action.roominfos.all().order_by('bldg','number'),many=True)
         return Response(serializer.data)        
 
     def post(self,request,id, format=None)  :
