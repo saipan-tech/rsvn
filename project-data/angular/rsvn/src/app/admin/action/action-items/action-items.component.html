@@ -22,8 +22,7 @@
          <div class="d-flex">
             <div style="width:8%">{{act.date }}</div>
             <div style="width:10%">{{ act.department }}</div>
-            <div style="width:10%" class="active" (click)="openDialog(act)">
-              {{ act.fullname }}</div>
+            <div style="width:10%" class="active" (click)="openDialog(act)">{{ act.fullname }}</div>
             <div style="width:10%">{{act.item }}</div>
             <div style="width:20%">{{act.descr }}</div>
             <div style="width:8%">{{ act.roominfos.length }}
@@ -32,8 +31,9 @@
                </button>
             </div>
             <div class="d-flex" style="width:15%">
-                  <mat-checkbox [ngModel]="act.started" class="form-control" disabled >Started</mat-checkbox>
-                  <mat-checkbox [ngModel]="act.completed"  class="form-control" disabled>Completed</mat-checkbox>
+               <mat-checkbox [ngModel]="act.continuous" class="form-control" disabled >Continuous</mat-checkbox>
+               <mat-checkbox [ngModel]="act.started" class="form-control" disabled >Started</mat-checkbox>
+               <mat-checkbox [ngModel]="act.completed"  class="form-control" disabled>Completed</mat-checkbox>
             </div>
          </div>
 

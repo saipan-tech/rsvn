@@ -60,6 +60,23 @@ services:
      rsvn_net:
        ipv4_address: 172.29.1.5
         
+#-------------------------------------
+  angular2:
+    build:
+      context: angular2
+    volumes:
+      - ./project-data:/usr/src/app/
+
+    ports:
+      - "4400:4200"
+
+    entrypoint: 
+     - /bin/sh
+     - /usr/src/app/angular2/startup.sh
+    networks:
+     rsvn_net:
+       ipv4_address: 172.29.1.6
+        
 
 #-------------------------------------
   nginx:
@@ -74,7 +91,7 @@ services:
       - django
     networks:
       rsvn_net:
-        ipv4_address: 172.29.1.6
+        ipv4_address: 172.29.1.7
 #-------------------------------------
 
 networks:

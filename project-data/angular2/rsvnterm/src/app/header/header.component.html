@@ -1,0 +1,45 @@
+<nav style="height: 60px" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid" style="color:white">
+        <a class="navbar-brand" href="/dashboard"><img src="/assets/img/rsvn.png" style="border:none;width:80px"></a>
+        <app-clock></app-clock>
+        <div *ngIf="user"  class="d-flex">
+            <div class="navbar-text" style="margin-right:3em;font-family:nova;font-weight:bold;font-size:12pt"> Welcome
+                {{ user }} 
+               
+            </div>
+            <div>
+                <button (click)='logOff()'><mat-icon>logout</mat-icon> </button>
+            </div>
+            
+            
+        </div>
+    </div>
+
+</nav>
+
+<nav *ngIf="user" mat-tab-nav-bar [ngStyle]="({'background-color':'silver','height':'45px'})">
+    <a mat-tab-link 
+       (click)="activeLink = 'dashboard'"
+       [active]="activeLink == 'dashboard'" routerLink="/dashboard"> Dashboard </a>
+    <a mat-tab-link 
+       (click)="activeLink = 'frontdesk'"
+       [active]="activeLink == 'frontdesk'" routerLink="/frontdesk"> Guest and Reservations </a>
+    <a mat-tab-link 
+       (click)="activeLink = 'calendar'"
+       [active]="activeLink == 'calendar'" routerLink="/calendar"> Calendar </a>
+    <a mat-tab-link 
+       (click)="activeLink = 'action'"
+       [active]="activeLink == 'action'" routerLink="/action">Action</a>
+    <a mat-tab-link 
+       (click)="activeLink = 'staff'"
+       [active]="activeLink == 'staff'" routerLink="/staff">Staff</a>
+    <a mat-tab-link 
+       (click)="activeLink = 'ratemgr'"
+       [active]="activeLink == 'ratemgr'" routerLink="/ratemgr">Rate Management</a>
+       
+    <a mat-tab-link 
+       (click)="activeLink = 'config'"
+       [active]="activeLink == 'config'" routerLink="/config">Configuration</a>
+  </nav>
+
+  
