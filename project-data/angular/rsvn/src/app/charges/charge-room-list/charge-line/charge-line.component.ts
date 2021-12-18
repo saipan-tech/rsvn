@@ -42,7 +42,7 @@ export class ChargeLineComponent implements OnInit {
 
 
   bldgName(id: number) {
-    const b: any = this.bldgList.find(f => id == id)
+    const b: any = this.bldgList.find(f => f.id == id)
     if (b) return b.name
     else return {}
 

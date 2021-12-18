@@ -1,31 +1,68 @@
-<button (click)='newAction()'>New Action</button>
-
 <div class="card ">
    <div class="card-header">
-      <h5>Action</h5>
+      <nav class="navbar">
+         <h5>Action</h5>
+         <button mat-button (click)='newAction()'>
+            <mat-icon>note_add</mat-icon>
+         </button>
+      </nav>
    </div>
    <div class="card-body">
-      {{ actionList[3] | json}}
-      <div *ngFor="let act of actionList">
-         <div class="d-flex"> 
-            <div class="form-control" style="width:10%">{{act.date }}</div>
-            <div class="form-control" style="width:10%">{{ act.department }}</div>
-            <div class="form-control" style="width:15%"><button mat-button class="active" (click)="openDialog(act)">
+      <div class="d-flex heading">
+         <div style="width:8%">Date</div>
+         <div style="width:10%">Department</div>
+         <div style="width:10%">Name</div>
+         <div style="width:10%">Item</div>
+         <div style="width:20%">Description</div>
+         <div style="width:8%">Room Count</div>
+         <div style="width:20%">Status</div>
+      </div>
 
-            {{ act.fullname }}</button></div>
-            <div class="form-control" style="width:20%">{{act.item }}</div>
-            <div class="form-control" style="width:20%">{{act.descr }}</div>
-            <div class="form-control active" style="width:10%"
-               (mouseover)="getRooms(act.id)">{{ act.roominfos.length }} Rooms</div>
-            
+      <div *ngFor="let act of actionList">
+         <div class="d-flex">
+            <div style="width:8%">{{act.date }}</div>
+            <div style="width:10%">{{ act.department }}</div>
+            <div style="width:10%" class="active" (click)="openDialog(act)">
+              {{ act.fullname }}</div>
+            <div style="width:10%">{{act.item }}</div>
+            <div style="width:20%">{{act.descr }}</div>
+            <div style="width:8%">{{ act.roominfos.length }}
+               <button (click)="getRooms(act.id)" mat-button [matMenuTriggerFor]="menu">
+                  <mat-icon>list</mat-icon>
+               </button>
+            </div>
+            <div class="d-flex" style="width:15%">
+                  <mat-checkbox [ngModel]="act.started" class="form-control" disabled >Started</mat-checkbox>
+                  <mat-checkbox [ngModel]="act.completed"  class="form-control" disabled>Completed</mat-checkbox>
+            </div>
          </div>
+
+
+         <mat-menu #menu="matMenu">
+            <table class="roomTable">
+               <tr>
+                  <th>Bldg</th>
+                  <th>Number</th>
+                  <th>Beds</th>
+                  <th>Floor</th>
+               </tr>
+
+               <tr *ngFor="let cri of currRoominfos">
+                  <td>{{ cri.bldgName}}</td>
+                  <td>{{ cri.number}}</td>
+                  <td>{{ cri.beds}} </td>
+                  <td>{{ cri.floor }} </td>
+               </tr>
+            </table>
+            <div>
+
+            </div>
+         </mat-menu>
+
+
       </div>
    </div>
    <div class="card-footer">
 
    </div>
 </div>
-
-
-
-

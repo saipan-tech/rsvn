@@ -64,6 +64,9 @@ export class ActionEditComponent implements OnInit {
       descr: new FormControl(''),
       result: new FormControl(''),
       date: new FormControl('', Validators.required),
+      started:new FormControl(false),
+      completed:new FormControl(false),
+      
       assignedBy: new FormControl(''),
       created: new FormControl('')
     })
@@ -79,12 +82,11 @@ export class ActionEditComponent implements OnInit {
       }
     }).afterClosed().subscribe(deleteConfirmed => {
       if (deleteConfirmed) {
-
         this.genericService.deleteItem('action', this.actionRec)
           .subscribe(data => {
-
           })
       }
+      this.close()
     })
   }
   //--------------------------
@@ -92,11 +94,11 @@ export class ActionEditComponent implements OnInit {
 
     this.actionRec = this.actionEditForm.value
 
-console.log(this.actionRec)
     this.genericService.updateItem('action', this.actionRec)
       .subscribe(
         data => {
-          this.close()
+          if(this.actionRec.id) this.close()
+          this.actionRec = data
         },
         err => console.log("Error", err)
       )
@@ -106,7 +108,7 @@ console.log(this.actionRec)
   close() {
     this.dialogRef.close(this.actionRec)
   }
-
+  
   //---------------------------------
   makeStaffList(department: string) {
     this.genericService.getItemQueryList("staff", `department=${department}`)

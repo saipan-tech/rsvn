@@ -6,7 +6,7 @@
         </button>
     </nav>
 </div>
-<div>{{ staffList | json }}</div>
+
 
 <div class="d-flex">
     <div class="leftcolumn">
@@ -29,7 +29,7 @@
                                     <option *ngFor="let a of deptList" [ngValue]='a.value'>{{a.value}} </option>
                                 </select>
                             </div>
-                            <div class="d-flex" >
+                            <div class="d-flex">
                                 <label class="uppercell form-control">Staff<abbr class="req"
                                         title="Required">*</abbr></label>
                                 <select formControlName='staff' class="lowercell form-control">
@@ -53,12 +53,29 @@
                                 <input class="lowercell form-control" type="email" formControlName='result'>
                             </div>
                             <div class="d-flex">
+                                <label class="uppercell form-control">Progress</label>
+
+                                <div class="form-control d-flex">
+                                    <label class="uppercell form-control">Started
+                                        <input class="lowercell form-control form-check-input " type="checkbox"
+                                            formControlName='started'>
+                                    </label>
+                                    <label class="uppercell form-control">Completed
+                                        <input class="lowercell form-control form-check-input " type="checkbox"
+                                            formControlName='completed'>
+                                    </label>
+                                </div>
+
+                            </div>
+
+
+                            <div class="d-flex">
                                 <label class="uppercell form-control">Assigned by</label>
-                                <div class="form-control">{{ actionEditForm.value.assignedBy }} </div>
+                                <div class="form-control ">{{ actionEditForm.value.assignedBy }} </div>
                             </div>
                             <div class="d-flex">
                                 <label class="uppercell form-control">Created</label>
-                                <div class="form-control">{{ actionEditForm.value.created | date:"medium"  }} </div>
+                                <div class="form-control">{{ actionEditForm.value.created | date:"medium" }} </div>
                             </div>
 
                         </div>

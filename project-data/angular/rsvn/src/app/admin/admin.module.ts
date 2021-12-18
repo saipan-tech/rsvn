@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ActionComponent } from './action/action.component';
 import { ActionStaffComponent } from './action/action-staff/action-staff.component';
@@ -52,6 +53,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatDialogModule,
     MatSliderModule,
     MatRadioModule,
+    MatCheckboxModule,
     FrontdeskModule,
     MatMenuModule,
 

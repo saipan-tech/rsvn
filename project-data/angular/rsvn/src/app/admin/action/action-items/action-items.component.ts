@@ -9,6 +9,7 @@ import { IRoominfo } from '@app/_interface/roominfo';
 import { IDropdown } from '@app/_interface/dropdown';
 import { catchError, tap, map, concatMap } from 'rxjs/operators';
 import { IStaff } from '@app/_interface/staff';
+import { RoomService } from '@app/_services/room.service';
 
 @Component({
   selector: 'app-action-items',
@@ -22,11 +23,14 @@ export class ActionItemsComponent implements OnInit {
   actionList: any[] = []
   itemList: IDropdown[] = []
   staffList: any[] = []
+  bldgList:any[] = []
+  currRoominfos:any[] = []
 
 
   constructor(
     private genericService: GenericService,
     private systemService: SystemService,
+    private roomService: RoomService,
     private authService: AuthService,
     private dialog: MatDialog
   ) { }
@@ -53,6 +57,13 @@ export class ActionItemsComponent implements OnInit {
   }
 
  
+  bldgName(id: number) {
+    let b = this.bldgList.find(f => f.id == id)
+    if (b) return b.name
+    else return {}
+
+
+  }
   dropDisplay(ddlist: IDropdown[], key: string) {
     let found: IDropdown | any = ddlist.find(d => d.value == key)
     if (found) return found.display
@@ -63,8 +74,14 @@ export class ActionItemsComponent implements OnInit {
     this.openDialog(this.actionRec)
   }
   getRooms(act_id:number ) {
-    console.log("get rooms", act_id)
+    this.roomService.getActionRoominfo(act_id)
+      .subscribe(d=> { 
+        this.currRoominfos = d
+        this.currRoominfos.forEach( cri =>
+          cri.bldgName = this.bldgName(cri.bldg) ) 
+      })
   }
+
   ngOnInit(): void {
 
 
@@ -86,7 +103,10 @@ export class ActionItemsComponent implements OnInit {
             let a = this.staffList.find(sl => sl.id == act.staff )
             act.fullname = `${a.first_name} ${a.last_name}`
           })
-        })
+        }),
+        concatMap(() => this.genericService.getItemList('bldg')),
+        tap(data => this.bldgList =  data)
+
       ).subscribe()
   
     }
