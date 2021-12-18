@@ -11,6 +11,7 @@ export interface IAction {
     assignedBy  : string;
     started     : boolean;
     completed   : boolean;
+    continuous  : boolean;
     created     : string;
     fullname? : string;
 }
