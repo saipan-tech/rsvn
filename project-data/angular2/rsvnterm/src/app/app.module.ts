@@ -18,14 +18,23 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { AppConstants } from '@app/app.constants';
 import { AppEnv } from '@app/_helpers/appenv';
 import { ClockComponent } from '@app/system/clock/clock.component';
-
+import { LoginComponent } from './login/login.component';
+import { GridSelectComponent } from './grid-select/grid-select.component';
+import { ActionItemsComponent } from './action-items/action-items.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { CurrGridComponent } from './curr-grid/curr-grid.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
     AppComponent,
+    CurrGridComponent,
     HeaderComponent,
     DashboardComponent,
     ClockComponent,
+    LoginComponent,
+    GridSelectComponent,
+    ActionItemsComponent 
   ],
   imports: [
     BrowserModule,
@@ -41,6 +50,8 @@ import { ClockComponent } from '@app/system/clock/clock.component';
     MatSelectModule,
     MatRadioModule,
     MatTabsModule,
+    MatDialogModule,
+    MatMenuModule,
     AppRoutingModule,
 
   ],

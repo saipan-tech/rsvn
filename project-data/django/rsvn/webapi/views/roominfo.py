@@ -71,9 +71,13 @@ class RoomActionViewSet(viewsets.ModelViewSet):
         if "department" in self.request.GET :
             queryset = queryset.filter(department=self.request.GET['department'])
         if "staff" in self.request.GET :
-            queryset = queryset.filter(staff=self.request.GET['staff'])
+            queryset = queryset.filter(staff_id=self.request.GET['staff'])
+        if "username" in self.request.GET :
+            queryset = queryset.filter(staff__username=self.request.GET['username'])
         if "date" in self.request.GET :
             queryset = queryset.filter(dateAssign=self.request.GET['date'])
+        if "all" in self.request.GET:
+            self.serializer_class = RoomActionAllSerializer
     
 
         return queryset    

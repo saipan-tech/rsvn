@@ -1,0 +1,27 @@
+<div class='d-flex flex-wrap'>
+    <button mat-button class="checkin legend">Check Ins</button>
+    <button mat-button class="checkout legend">Check Outs</button>
+    <button mat-button class="priority legend">Check Priority Out/In</button>
+    <button mat-button class="inhouse legend">In House</button>
+    <button mat-button class="marked legend">Selected</button>
+</div>
+
+<div class="card" >
+    <div class="card-body">
+        <div *ngFor="let b of dispList">
+            <h6 style="padding:1em">{{b.bldg }}</h6>
+            <div class="d-flex flex-wrap">
+                <div *ngFor="let r of b.rooms">
+                    <button mat-button class="{{r.marker}} {{r.border}}" (click)='checkMark(r.id)'> {{r.number
+                        }}</button>
+                </div>
+
+            </div>
+            <hr>
+        </div>
+
+    </div>
+    <div class="card-footer">
+
+    </div>
+</div>

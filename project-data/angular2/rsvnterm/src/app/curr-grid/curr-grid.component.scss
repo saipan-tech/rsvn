@@ -1,0 +1,49 @@
+.ready {
+ background-color:green;    
+}
+.occupied {
+    background-color:red;    
+    
+}
+.dirty {
+    background-color:grey;    
+    
+}
+.assigned {
+    background-color:orange;    
+    
+}
+
+.cleaning {
+
+    background-color:yellow;    
+    
+}
+.done {
+    background-color :teal;    
+    
+}
+.repair {
+    background-color:maroon;   
+    color:yellow; 
+    
+}
+.ooc {
+    background-color:black;    
+    color:white;
+    
+}
+.unknown {
+    background-color:navajowhite;
+  
+
+}
+
+::ng-deep .customize {
+    background:linen;
+}
+.roomHeading {
+    font-size:small;
+    font-family:Nova;
+    font-weight:bold;
+}

@@ -148,3 +148,8 @@ class RoomActionSerializer(serializers.ModelSerializer):
         model = RoomAction
         fields = '__all__'
 
+class RoomActionAllSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoomAction
+        fields = '__all__'
+        depth = 2

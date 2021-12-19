@@ -1,10 +1,30 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from '@app/login/login.component';
+import { DashboardComponent } from '@app/dashboard/dashboard.component';
 
-const routes: Routes = [];
+const appRoutes: Routes = [
+  { path: '', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent },
+
+];
+
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  declarations: [],
+  imports: [
+    
+    RouterModule.forRoot(appRoutes,
+      { onSameUrlNavigation: 'reload' }),
+
+
+  ],
+  exports: [
+    RouterModule
+  ]
+
 })
 export class AppRoutingModule { }
+
