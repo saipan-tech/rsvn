@@ -50,12 +50,9 @@ export class ActionItemsComponent implements OnInit {
           this.actionList = data
           data.forEach(x => {
             if(x.date == this.today || x.continuous) this.todayAction.push([x])
-            
           })
         }
           ),
-        mergeMap(() => this.genericService.getItemList('bldg')),
-        tap(data => this.bldgList =  data)
 
       ).subscribe( () => console.log(this.todayAction))
     }
