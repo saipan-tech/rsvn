@@ -1,0 +1,47 @@
+<div class="card">
+    <div class="card-header">
+        <h1>Daily Listing</h1>
+
+    </div>
+    <div class="card-body">
+        <div class="d-flex colheader">
+            <div class='col-2'>Room</div>
+            <div class='col-4'>Item</div>
+            <div class='col-4'>Description</div>
+            <div class='col-2'>Status</div>
+        </div>
+        <hr>
+        <div class='itemtable'>
+            <div *ngFor="let dl of dispList">
+                <h2>{{dl.bldg }}</h2>
+                <div class="d-flex"  *ngFor='let it of dl.items'>
+                    <div class="col-2"> {{it.info.number}} </div>
+                    <div class="col-4">{{it.item}}</div>
+                    <div class="col-4"><div matTooltip="{{it.descr}}" >{{it.descr | slice : 0 :30 }}<span *ngIf="it.descr.length>30">...</span></div></div>
+                    <div class="col-2">
+                        <button mat-button [ngClass]="{'active':true}" [matMenuTriggerFor]="roomMenu">
+                            {{ it.info.status }} 
+                        </button>
+                    </div>
+                    <mat-menu #roomMenu="matMenu">
+                        <button mat-menu-item>
+                            <h5>{{ it.info.number }}</h5>
+                        </button>
+                        <button mat-menu-item (click)="statusMark(it.info.id,'cleaning')">Cleaning</button>
+                        <button mat-menu-item  (click)="statusMark(it.info.id,'inspected')">Inspected</button>
+                        <button mat-menu-item  (click)="statusMark(it.info.id,'ready')">Ready to Occupy</button>
+                        <button mat-menu-item  (click)="statusMark(it.info.id,'delay')">Delay</button>
+                        <button mat-menu-item  (click)="statusMark(it.info.id,'maintenance')">Request Maintenance</button>
+                        <button mat-menu-item  (click)="statusMark(it.info.id,'ooc')">OOC</button>
+                    </mat-menu>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+
+
+    </div>
+</div>
+
+

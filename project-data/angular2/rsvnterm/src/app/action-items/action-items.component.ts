@@ -29,32 +29,93 @@ export class ActionItemsComponent implements OnInit {
   actionRec: any
   today = new Date().toISOString().slice(0,10)
   roominfos: IRoominfo[] = []
-  actionList: any[] = []
+  actionList: IAction[] = []
   currRoominfos:any[] = []
   bldgList:any[] = []
-  todayAction :any[] = []
+  todayAction : any[] = []
+  dispList:any[] = []  
+  
+  
+ 
+  //================================================
+ 
+  buildDisplay():void {
+   let _dispList:any[] = []
+   this.dispList = []
+   let _bldg = new Set()
+   this.todayAction.forEach(
+      ta => {
+         ta.roominfos.forEach(
+         (ri:any) => {
+           _bldg.add(ri.bldg.name) 
+           _dispList.push({ item:ta.item, descr:ta.descr, started:ta.started, completed:ta.completed,  
+                              actionid:ta.id, continuous:ta.continuous,assigned:ta.assignedBy,
+                              info:ri,date:ta.date })     
+         })
+      }
 
- 
-  bldgName(id: number) {
-    let b = this.bldgList.find(f => f.id == id)
-    if (b) return b.name
-    else return {}
+   )
+   _dispList = this.sortList(_dispList)
+   _bldg.forEach(
+      bldg => {
+         let rec = { bldg:bldg,items:_dispList.filter(d => d.info.bldg.name == bldg) }
+         this.dispList.push(rec)
+      
+      }   
+   )
+   console.log(this.dispList)
   }
- 
+
+  //================================================
+  sortList(rlist: any) {
+    rlist.sort(function (a: any, b: any) {
+      var A = a.info.number; 
+      var B = b.info.number;
+      if (A < B) { return -1; }
+      if (A > B) { return 1; }
+      return 0;
+    });
+    return rlist
+  }
+
+  //================================================
+statusMark(roominfoid:number,status:string){
+   console.log(roominfoid,status)
+   let _ri:any
+   this.genericService.getItem( 'roominfo',roominfoid ).
+      pipe(
+         tap( ri => {
+         _ri = ri
+         ri.status = status
+    }),
+   concatMap(ri => this.genericService.updateItem('roominfo',ri) ),
+   tap( nri => console.log(nri) )
+   
+   ).subscribe(
+   nri2 => {
+     console.log(nri2)
+     this.ngOnInit()
+   }
+   ) 
+}
+
+  //================================================
   ngOnInit(): void {
     console.log(this.today)
     this.actionList=[]
-      this.genericService.getItemQueryList("action",`username=${this.currUsername}&all`)
+    this.todayAction = []
+    this.genericService.getItemQueryList("action",`username=${this.currUsername}&all`)
       .pipe(
         tap(data => {
           this.actionList = data
           data.forEach(x => {
-            if(x.date == this.today || x.continuous) this.todayAction.push([x])
+            if(x.date == this.today || x.continuous) this.todayAction.push(x)
           })
+          this.buildDisplay()
         }
           ),
 
-      ).subscribe( () => console.log(this.todayAction))
+      ).subscribe()
     }
 }
 

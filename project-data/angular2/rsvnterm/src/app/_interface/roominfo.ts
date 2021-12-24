@@ -1,3 +1,4 @@
+import { IBldg } from '@app/_interface/bldg';
 export interface IRoominfo  {
     info: any;
     id:number;

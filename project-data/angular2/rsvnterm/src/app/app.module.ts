@@ -22,6 +22,7 @@ import { LoginComponent } from './login/login.component';
 import { GridSelectComponent } from './grid-select/grid-select.component';
 import { ActionItemsComponent } from './action-items/action-items.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { CurrGridComponent } from './curr-grid/curr-grid.component';
 import { MatMenuModule } from '@angular/material/menu';
 
@@ -52,6 +53,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatTabsModule,
     MatDialogModule,
     MatMenuModule,
+    MatTooltipModule,
     AppRoutingModule,
 
   ],
