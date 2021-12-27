@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.query_utils import check_rel_lookup_compatibility
 from .lists import * 
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
@@ -120,6 +121,7 @@ class Roominfo (models.Model):
     beds        =   models.CharField(max_length=128, blank=True)
     size        =  	models.CharField(max_length=20, blank=True)
     descr       =   models.TextField(blank=True)
+    check       =   models.BooleanField(default=False)
     status      =   models.CharField(max_length=12, default="unknown")
     def __str__(self) :
         return f"{self.bldg.name} -- {self.number}"

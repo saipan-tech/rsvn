@@ -10,19 +10,23 @@
         </div>
         <div class="section">Assigned Rooms - {{currNumRooms}}/{{currRsvn.numrooms}}</div>
         <div class="flex-con">
-            <div *ngFor="let r of currRoomList" class="rmcell">
-                <button [ngClass]="{'active':true}" [matMenuTriggerFor]="roomMenu">
-                    <div>{{ r.bldg.name }} -- {{ r.roominfo.number }} </div>
-                    <div>{{ r.roominfo.rateAlias }}</div>
+            <div *ngFor="let r of roomList" class="rmcell ">
+                
+                <button  [ngClass]="r.status == 'checkin' ? 'checkin' : 'checkout'" [matMenuTriggerFor]="roomMenu">
+                    <div >
+                        <div class='{{ r.roominfo.bldg.name }}'> {{ r.roominfo.bldg.name }} -- {{ r.roominfo.number }}</div>  
+                        <div class="rateAlias">{{ r.roominfo.rateAlias }}</div>
+                    </div>
+                    <div *ngIf="rsvnDateActive()" [ngClass]="{'rmsubcell':true,'ready':r.roominfo.status=='ready'}">{{ r.roominfo.status}}</div>
                 </button>
 
-                <mat-menu #roomMenu="matMenu">
-                    <div mat-menu-item>
-                        <h5>{{ r.room.status }}</h5>
-                    </div>
 
-                    <div mat-menu-item (click)="checkIn(r.room)">Check-In </div>
-                    <div mat-menu-item (click)="checkOut(r.room)">Check-Out </div>
+
+
+                <mat-menu #roomMenu="matMenu">
+                    <div mat-menu-item><h5>{{ r.status }}</h5></div>
+                    <div *ngIf="rsvnDateActive() && r.roominfo.status=='ready'" mat-menu-item (click)="check(r,'checkin')">Check-In </div>
+                    <div *ngIf='rsvnDateActive()' mat-menu-item (click)="check(r,'checkout')">Check-Out </div>
                     <div mat-menu-item (click)="unassignRoom(r.room)">Delete </div>
                 </mat-menu>
 

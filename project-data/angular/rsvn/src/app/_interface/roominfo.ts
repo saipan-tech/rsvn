@@ -8,6 +8,7 @@ export interface IRoominfo  {
     beds:string;
     name:string;
     size:string;
+    check:boolean;
     descr:string;
     status:string;
     rateAlias:string;

@@ -1,4 +1,19 @@
 
+.checkin {
+    background-color:aquamarine;
+}
+.checkout {
+    background-color:inherit;
+
+}
+
+.ready {
+    color:darkgreen;
+}
+
+.rateAlias {
+    font-size:small;
+}
 
 .roomcell div {
     margin-left:4px;
@@ -32,7 +47,11 @@ border:1px solid silver;
 }
 .rmcell {
   width:33%;
-  font-size:small;
+  font-size:medium;
+
+}
+.rmsubcell {
+    font-size:x-small;
 
 }
 

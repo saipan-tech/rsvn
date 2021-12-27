@@ -10,6 +10,7 @@ export interface IRoominfo  {
     name:string;
     size:string;
     descr:string;
+    check:boolean;
     status:string;
     rateAlias:string;
     marker?:string;
