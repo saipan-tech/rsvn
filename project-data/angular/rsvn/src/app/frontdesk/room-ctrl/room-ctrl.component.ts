@@ -9,7 +9,7 @@ import { IGuest } from '@app/_interface/guest'
 import { GenericService } from '@app/_services/generic.service';
 import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
 import { catchError, tap, map, concatMap } from 'rxjs/operators';
-import { iif, of } from 'rxjs';
+import { iif, of, interval,Observable } from 'rxjs';
 
 
 @Component({
@@ -39,6 +39,10 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   unavailRoominfo: IRoominfo[] = []
   rsvnRoom: IRoom[] = []
   seasonList: ISeason[] = []
+  
+  refreshTimer : any
+  everySecond$:Observable<number> = interval(1000)
+  sub:any
 
   constructor(
     private genericService: GenericService,
@@ -47,58 +51,59 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   ) { }
 
 
-  //=================================
 
-  refreshRsvn() {
-    this.genericService.getItem("rsvn", this.currRsvn.id).subscribe(
-      data => {
-        this.currRsvn = data
-        this.currRsvnChange.emit(data)
-      }
-    )
-  }
   //=================================
-
   assignRoom(roominfo: IRoominfo) {
     if (this.currNumRooms < Number(this.currRsvn.numrooms)) {
       let newroom = { rsvn: this.currRsvn.id, roominfo: roominfo.id, status: 'none' }
       this.genericService.updateItem("room", newroom)
         .subscribe(data => {
 
-          this.ngOnInit()
           this.refreshRsvn();
         })
     }
   }
   //=================================
-
   rsvnDateActive() {
     const today = new Date().getTime()
     const inDate = new Date(this.currRsvn.dateIn).getTime()
     const outDate = new Date(this.currRsvn.dateOut).getTime()
     if (inDate <= today && outDate >= today) return true
     return false
-
   }
-
   //=================================
   check(room: any, mode: string) {
     if (this.rsvnDateActive()) {
-      let room$ = this.genericService.getItem('room',room.roomid)
-        .pipe(map(rm => {
+      this.genericService.getItem('room', room.roomid)
+        .pipe(
+          map(rm => {
             rm.status = mode;
             return rm;
           }),
-          concatMap( rm => this.genericService.updateItem('room',rm))
-          ).subscribe(
-            d => {
-            this.ngOnInit()
-            this.refreshRsvn();
+          concatMap(rm => this.genericService.updateItem('room', rm)),
+          concatMap(() => this.genericService.getItem('roominfo', room.roominfo.id)),
+          map((ri: any) => {
+            if (mode == 'checkin') {
+              ri.check = true
+              ri.status = 'occupied'
             }
-          )
+            else {
+              ri.check = false
+              ri.status = 'dirty'
+            }
+            console.log(ri)
+            return ri
+          }),
+          concatMap((ri: any) => this.genericService.updateItem('roominfo', ri))
+        )
+        .subscribe(
+          d => {
+            // this.ngOnInit()
+            // this.refreshRsvn();
+          }
+        )
     }
   }
-
   //=================================
   unassignRoom(room: any) {
     let rm = this.currRoomList.find(rec => room.id == rec.room.id)
@@ -114,7 +119,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
       if (deleteConfirmed) {
         this.genericService.deleteItem("room", room)
           .subscribe(data => {
-            this.ngOnInit()
+
             this.refreshRsvn();
           })
       }
@@ -125,8 +130,8 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   //=================================
   sortRoomList(rooms: any) {
     rooms.sort(function (a: any, b: any) {
-      var A = a.roominfo.bldg.name + a.roominfo.number ; // ignore upper and lowercase
-      var B = b.roominfo.bldg.name + b.roominfo.number ; // ignore upper and lowercase
+      var A = a.roominfo.bldg.name + a.roominfo.number; // ignore upper and lowercase
+      var B = b.roominfo.bldg.name + b.roominfo.number; // ignore upper and lowercase
       if (A > B) { return 1; }
       if (A < B) { return -1; }
       return 0;
@@ -135,23 +140,49 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
   //=================================
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.ngOnInit()
+  refreshRsvn() {
+    this.genericService.getItem("rsvn", this.currRsvn.id).subscribe(
+      data => {
+        this.currRsvn = data
+        this.currRsvnChange.emit(data)
+      }
+    )
   }
   //=================================
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges) {
+    console.log("Changes", changes)
+  
+    // this.refreshRsvn();
+  }
+  //=================================
+
+  refreshRoomlist(index:number) {
+    console.log("Index",index)
     if (this.currRsvn && this.currRsvn.id) {
       this.genericService.getItemQueryList('room', `rsvn=${this.currRsvn.id}&all=1`)
-        .subscribe( 
-          rooms => 
-            {
-              this.roomList = rooms.map(rms => rms = {roominfo:rms.roominfo, status:rms.status, roomid:rms.id})
-              this.roomList = this.sortRoomList(this.roomList);
-
-            }    
+        .subscribe(
+          rooms => {
+            this.roomList = rooms.map(rms => rms = { roominfo: rms.roominfo, status: rms.status, roomid: rms.id })
+            this.roomList = this.sortRoomList(this.roomList);
+          }
         )
     }
+
+  }
+  //=================================
+  ngOnInit(): void {
+    this.refreshTimer = setInterval(
+      () => { this.refreshRoomlist(1) },3000)
+  
+     this.sub =  this.everySecond$.subscribe(tick => console.log("ticking",tick))
+    }
+  ngOnDestroy() {
+    if (this.refreshTimer) {
+      clearInterval(this.refreshTimer)
+    }
+    this.sub.unsubscribe()
+
   }
 }
 
