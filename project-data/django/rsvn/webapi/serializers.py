@@ -83,6 +83,12 @@ class RoominfoSerializer(serializers.ModelSerializer):
         model= Roominfo
         fields = '__all__'
 
+#---------------------------------------------------------
+class RoominfoAllSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Roominfo
+        fields = '__all__'
+        depth=1
 
 #--------------------------------------------------------------------
 class BldgSerializer(serializers.ModelSerializer):

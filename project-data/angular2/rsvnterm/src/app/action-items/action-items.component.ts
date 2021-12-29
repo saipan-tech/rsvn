@@ -29,13 +29,11 @@ export class ActionItemsComponent implements OnInit {
   actionRec: any
   today = new Date().toISOString().slice(0,10)
   roominfos: IRoominfo[] = []
-  actionList: IAction[] = []
   currRoominfos:any[] = []
   bldgList:any[] = []
   todayAction : any[] = []
   dispList:any[] = []  
-  
-  
+  refreshTimer:any
  
   //================================================
  
@@ -60,7 +58,6 @@ export class ActionItemsComponent implements OnInit {
       bldg => {
          let rec = { bldg:bldg,items:_dispList.filter(d => d.info.bldg.name == bldg) }
          this.dispList.push(rec)
-      
       }   
    )
    console.log(this.dispList)
@@ -98,16 +95,12 @@ statusMark(roominfoid:number,status:string){
    }
    ) 
 }
-
   //================================================
-  ngOnInit(): void {
-    console.log(this.today)
-    this.actionList=[]
+  refreshList(index:number) {
     this.todayAction = []
     this.genericService.getItemQueryList("action",`username=${this.currUsername}&all`)
       .pipe(
         tap(data => {
-          this.actionList = data
           data.forEach(x => {
             if(x.date == this.today || x.continuous) this.todayAction.push(x)
           })
@@ -116,6 +109,38 @@ statusMark(roominfoid:number,status:string){
           ),
 
       ).subscribe()
+  }
+  //================================================
+  ngOnInit(): void {
+
+    this.refreshTimer = setInterval(
+      () => { this.refreshList(1) },15000)
+      this.refreshList(0)
     }
+   //=================================
+   ngOnDestroy() {
+    if (this.refreshTimer) {
+      clearInterval(this.refreshTimer)
+    }
+
+  }
 }
 
+/*
+  ngOnInit(): void {
+
+    this.refreshTimer = setInterval(
+      () => { this.refreshRoomlist(1) },3000)
+  
+     this.sub =  this.everySecond$.subscribe(tick => console.log("ticking",tick))
+    }
+    
+  ngOnDestroy() {
+    if (this.refreshTimer) {
+      clearInterval(this.refreshTimer)
+    }
+    this.sub.unsubscribe()
+
+  }
+
+  */

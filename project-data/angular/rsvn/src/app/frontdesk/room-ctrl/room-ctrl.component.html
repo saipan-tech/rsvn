@@ -20,14 +20,21 @@
                     <div *ngIf="rsvnDateActive()" [ngClass]="{'rmsubcell':true,'ready':r.roominfo.status=='ready'}">{{ r.roominfo.status}}</div>
                 </button>
 
-
-
-
                 <mat-menu #roomMenu="matMenu">
-                    <div mat-menu-item><h5>{{ r.status }}</h5></div>
-                    <div *ngIf="rsvnDateActive() && r.roominfo.status=='ready'" mat-menu-item (click)="check(r,'checkin')">Check-In </div>
-                    <div *ngIf='rsvnDateActive()' mat-menu-item (click)="check(r,'checkout')">Check-Out </div>
-                    <div mat-menu-item (click)="unassignRoom(r.room)">Delete </div>
+                    <div class="menu-head">Action</div>
+                    
+                    <div class="menu-item" 
+                        *ngIf="rsvnDateActive() && r.roominfo.status=='ready' || r.roominfo.status=='checkout' " 
+                        mat-menu-item 
+                        (click)="check(r,'checkin')">Check-In </div>
+                    
+                    <div class="menu-item" 
+                        *ngIf="rsvnDateActive() && r.roominfo.status=='occupied' " 
+                        mat-menu-item (click)="check(r,'checkout')">Check-Out </div>
+                    
+                    <div class="menu-item" 
+                        *ngIf="!rsvnDateActive() && !rsvnArchive()"  
+                        mat-menu-item (click)="unassignRoom(r)">Delete </div>
                 </mat-menu>
 
             </div>

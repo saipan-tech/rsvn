@@ -35,6 +35,11 @@ class RoominfoViewSet(viewsets.ModelViewSet):
                     Q(roominfoOf__rsvn__dateIn__lte = dateOut) & Q(roominfoOf__rsvn__dateOut__gte = dateIn) |
                     Q(roominfoOf__rsvn__dateIn__lte = dateOut) & Q(roominfoOf__rsvn__dateOut__gte =  dateOut) 
                     )
+        if "all" in self.request.GET :
+            self.serializer_class = RoominfoAllSerializer
+
+
+
         return queryset    
 
 #------------------------------------------

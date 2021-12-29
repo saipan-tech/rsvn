@@ -9,7 +9,7 @@ import { IGuest } from '@app/_interface/guest'
 import { GenericService } from '@app/_services/generic.service';
 import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
 import { catchError, tap, map, concatMap } from 'rxjs/operators';
-import { iif, of, interval,Observable } from 'rxjs';
+import { iif, of, interval, Observable } from 'rxjs';
 
 
 @Component({
@@ -39,10 +39,8 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   unavailRoominfo: IRoominfo[] = []
   rsvnRoom: IRoom[] = []
   seasonList: ISeason[] = []
-  
-  refreshTimer : any
-  everySecond$:Observable<number> = interval(1000)
-  sub:any
+
+  refreshTimer: any
 
   constructor(
     private genericService: GenericService,
@@ -60,6 +58,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
         .subscribe(data => {
 
           this.refreshRsvn();
+          this.refreshRoomlist(4)
         })
     }
   }
@@ -69,6 +68,14 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
     const inDate = new Date(this.currRsvn.dateIn).getTime()
     const outDate = new Date(this.currRsvn.dateOut).getTime()
     if (inDate <= today && outDate >= today) return true
+    return false
+  }
+  //=================================
+  rsvnArchive() {
+    const today = new Date().getTime()
+    const inDate = new Date(this.currRsvn.dateIn).getTime()
+    const outDate = new Date(this.currRsvn.dateOut).getTime()
+    if (outDate <= today) return true
     return false
   }
   //=================================
@@ -89,44 +96,42 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
             }
             else {
               ri.check = false
-              ri.status = 'dirty'
+              ri.status = 'checkout'
             }
-            console.log(ri)
             return ri
           }),
           concatMap((ri: any) => this.genericService.updateItem('roominfo', ri))
         )
         .subscribe(
           d => {
-            // this.ngOnInit()
-            // this.refreshRsvn();
+            this.refreshRoomlist(3)
+            this.refreshRsvn();
           }
         )
     }
   }
   //=================================
-  unassignRoom(room: any) {
-    let rm = this.currRoomList.find(rec => room.id == rec.room.id)
+  unassignRoom(r: any) {
+    console.log(r)
 
     this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {
       data: {
-        title: `Delete Room (${rm.bldg.name} - ${rm.roominfo.number}) from the 
+        title: `Delete Room (${r.roominfo.bldg.name} - ${r.roominfo.number}) from the 
              (${this.currRsvn.primary.firstname} ${this.currRsvn.primary.lastname}) Reservation?`,
         content: 'You cannot undue this action',
         confirmAction: 'Delete',
       }
     }).afterClosed().subscribe(deleteConfirmed => {
       if (deleteConfirmed) {
-        this.genericService.deleteItem("room", room)
+        this.genericService.deleteItem("room", { id: r.roomid })
           .subscribe(data => {
 
             this.refreshRsvn();
+            this.refreshRoomlist(2)
           })
       }
     })
   }
-
-
   //=================================
   sortRoomList(rooms: any) {
     rooms.sort(function (a: any, b: any) {
@@ -149,16 +154,16 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
     )
   }
   //=================================
-
   ngOnChanges(changes: SimpleChanges) {
     console.log("Changes", changes)
-  
+    this.refreshRoomlist(0)
+
     // this.refreshRsvn();
   }
   //=================================
 
-  refreshRoomlist(index:number) {
-    console.log("Index",index)
+  refreshRoomlist(index: number) {
+    console.log("Index", index)
     if (this.currRsvn && this.currRsvn.id) {
       this.genericService.getItemQueryList('room', `rsvn=${this.currRsvn.id}&all=1`)
         .subscribe(
@@ -172,16 +177,19 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
   //=================================
   ngOnInit(): void {
+    let index = 0
     this.refreshTimer = setInterval(
-      () => { this.refreshRoomlist(1) },3000)
-  
-     this.sub =  this.everySecond$.subscribe(tick => console.log("ticking",tick))
-    }
+      () => {
+        this.refreshRoomlist(index);
+        ++index
+      }, 15000)
+    this.refreshRoomlist(index);
+  }
+  //=================================
   ngOnDestroy() {
     if (this.refreshTimer) {
       clearInterval(this.refreshTimer)
     }
-    this.sub.unsubscribe()
 
   }
 }

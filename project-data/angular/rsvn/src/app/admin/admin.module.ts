@@ -22,6 +22,7 @@ import { ActionItemsComponent } from './action/action-items/action-items.compone
 import { ActionEditComponent } from './action/action-edit/action-edit.component';
 import { GridSelectComponent } from './grid-select/grid-select.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { ActionMatrixComponent } from './action/action-matrix/action-matrix.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { MatMenuModule } from '@angular/material/menu';
     ActionItemsComponent,
     ActionEditComponent,
     GridSelectComponent,
+    ActionMatrixComponent,
    
     
   ],
