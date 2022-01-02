@@ -81,10 +81,11 @@ class RoomActionViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(staff__username=self.request.GET['username'])
         if "date" in self.request.GET :
             queryset = queryset.filter(dateAssign=self.request.GET['date'])
+        if "today" in self.request.GET :
+            today= date.today()
+            queryset = queryset.filter(Q(date=today)| Q(continuous=True))
         if "all" in self.request.GET:
             self.serializer_class = RoomActionAllSerializer
-    
-
         return queryset    
 
 #------------------------------------------
@@ -140,12 +141,6 @@ class RoomCalc(APIView):
         
 
         return Response( xarray)        
-
-
-
-
-
-
 
 #------------------------------------------
 class RsvnCalc(APIView):

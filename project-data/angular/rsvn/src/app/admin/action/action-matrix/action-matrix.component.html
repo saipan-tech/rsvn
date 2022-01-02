@@ -1,1 +1,15 @@
-<p>action-matrix works!</p>
+<div *ngFor="let item of dispList">
+  <h4>{{item.name}}</h4>
+  <div class="d-flex flex-wrap">
+    <div *ngFor="let rms of item.rooms">
+      <button class="grid_button {{rms.status }}"> 
+        <div>{{ rms.number }}</div>
+        <div>{{ rms.status}}</div>
+        <div style="background-color:white;color:black;height:1.6em">
+          <span  style="font-size:small;margin:0 1em" title="{{ x.name }}"  *ngFor="let x of rms.working">{{ x.actDept | slice:0:5}}</span> 
+        
+        </div>
+      </button>
+    </div>
+  </div>
+</div>

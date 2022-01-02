@@ -2,6 +2,8 @@
    <div class="card-header">
       <nav class="navbar">
          <h5>Action</h5>
+         <button [ngClass]="{'toggle':showall}" (click)="toggleView()">{{  showall  ?  'View Today'  : 'View All'   }} </button>
+         {{showall}}
          <button mat-button (click)='newAction()'>
             <mat-icon>note_add</mat-icon>
          </button>

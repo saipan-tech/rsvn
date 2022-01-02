@@ -25,8 +25,9 @@ export class ActionItemsComponent implements OnInit {
   staffList: any[] = []
   bldgList:any[] = []
   currRoominfos:any[] = []
-
-
+  showall = false;
+  search$ = this.genericService.getItemQueryList('action','today=1')
+  
   constructor(
     private genericService: GenericService,
     private systemService: SystemService,
@@ -46,6 +47,7 @@ export class ActionItemsComponent implements OnInit {
       actionRec: actionRec,
 
     }
+  
     const dialogRef = this.dialog.open(ActionEditComponent, dialogConfig)
     dialogRef.afterClosed()
       .subscribe(
@@ -69,10 +71,14 @@ export class ActionItemsComponent implements OnInit {
     if (found) return found.display
     return ""
   }
+
+
   newAction() {
     this.actionRec = {} as IAction
     this.openDialog(this.actionRec)
   }
+
+
   getRooms(act_id:number ) {
     this.roomService.getActionRoominfo(act_id)
       .subscribe(d=> { 
@@ -82,25 +88,30 @@ export class ActionItemsComponent implements OnInit {
       })
   }
 
+  toggleView() {
+    this.showall = !this.showall
+    if(this.showall) {
+      this.search$ = this.genericService.getItemList('action')
+      this.showall = true
+    }
+    else {
+      this.search$ = this.genericService.getItemQueryList('action','today=1')
+      this.showall = false
+    }
+   
+    this.ngOnInit()
+  }
+
   ngOnInit(): void {
 
 
-    this.genericService.getItemList('action')
-      .subscribe(d => {
-        this.actionList = d;
-       
-      
-      })
-  
-  
-      this.genericService.getItemList('action')
-      .pipe(
+    this.actionList = []
+      // we decide the observable to search on ahead of time
+      this.search$.pipe(
         tap(data => this.actionList = data),
         concatMap(() => this.genericService.getItemList('staff')),
         tap(data => {
-          // just to put the full names in the list
-          console.log(this.actionList)
-          this.staffList = data
+           this.staffList = data
           this.actionList.forEach(act => {
             let a = this.staffList.find(sl => sl.id == act.staff )
             act.fullname = `${a.first_name} ${a.last_name}`

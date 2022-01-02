@@ -1,0 +1,395 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+RSVN System Overview
+\end_layout
+
+\begin_layout Author
+JC Clark
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part*
+Beginnings
+\end_layout
+
+\begin_layout Standard
+I had the pleasure of working at a small island Resort for several years.
+ It was a newly opening Resort so I was lucky to be a part of it's initial
+ evolution.
+ Originally, I was brought on board to install the computer network and
+ create computer applications which would help the staff keep things organized.
+ My job expanded and I eventually became familiar with all facets of resort
+ operations and saw it through periods of great success and several natural
+ disasters which changed the Resort into an emergency shelter with semi-permanen
+t residents.
+ Our General Manager was a Hotel genius with many years of experience.
+ She was my guide and by merging her ideas we created the first iteration
+ of this application.
+ It turned out better than I could have imagined.
+ The paperwork avalanche was tamed and we were able to keep track of reservation
+s and occupancy.
+ We were able to make smart managerial decisions, it was very useful and
+ served us well at the time.
+ 
+\end_layout
+
+\begin_layout Standard
+The current version in development will have some advanced features, while
+ integrating with modular programming tools, it will be a more powerful
+ and easily maintained application for modern stakeholders.
+\end_layout
+
+\begin_layout Standard
+In essence,, the RSVN System is for any entity who operates an accommodation
+ small or large, Hotel, B&B, Inn, Motel, Resort, Dormitory, Apartment Complex
+ etc.
+ 
+\end_layout
+
+\begin_layout Standard
+RSVN is an organizational tool which allows staff and managers to maintain
+ the integrity of their accommodation operation by being able to quickly
+ visualize situations and have confidence in the accuracy of the data.
+ In this overview we will use 'the Hotel' as the property, with the understandin
+g that we can customize the application for just about any accommodation.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Accommodations Overview
+\end_layout
+
+\begin_layout Standard
+The Hotel business, at times, can appear to be controlled chaos.
+ As with any customer driven service industry there are many moving parts
+ that make a successful operation.
+ The RSVN System is a tool to help reduce errors and help in providing good
+ service.
+ The RSVN system focuses in on providing support for the following aspects
+ of accommodations.
+\end_layout
+
+\begin_layout Itemize
+Room Inventory Management
+\end_layout
+
+\begin_layout Itemize
+Guest and Reservation Management
+\end_layout
+
+\begin_layout Itemize
+Revenue Management
+\end_layout
+
+\begin_layout Itemize
+Staff Management
+\end_layout
+
+\begin_layout Section*
+Room Inventory Management
+\end_layout
+
+\begin_layout Standard
+The fundamental unit in the Hotel business is the room.
+ It is a perishable product which expires every day.
+ If at all possible, we try to keep every room filled every day.
+ We must know what rooms we have, and be able to organize them.
+ Most properties have one or more buildings or some way of room organization.
+ The building for some may be a Wing, Section or a Building Name or any
+ other description may be possible.
+ Once the building divisions are established we should have a unique number
+ or letter for each room.
+\end_layout
+
+\begin_layout Subsection*
+Room Type
+\end_layout
+
+\begin_layout Standard
+Similar rooms should be grouped into a room type.
+ Several or all rooms in a building can be of a certain type i.e., Deluxe
+ or Standard.
+ These rooms can have variations with different bed arrangements so sub
+ types like Deluxe01 Deluxe02.
+ Once the type has been established, the room rates can be applied.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Room Rates
+\end_layout
+
+\begin_layout Standard
+Once each room type is assessed a rack rate.
+ The rack rate is the maximum rate for that type of room.
+ All rooms of a particular class will have the same rack rate.
+ This is the basis on which a room daily charge will be developed by the
+ Revenue Manager.
+\end_layout
+
+\begin_layout Section*
+Guest Contact and Reservation Management
+\end_layout
+
+\begin_layout Subsection*
+Guest Contact Information
+\end_layout
+
+\begin_layout Standard
+All guests should have their contact information on file before their stay.
+ This important information should be handled securely and organized for
+ easy search, retrieval and audit.
+ We must be able to easily search and access the records of their stay.
+\end_layout
+
+\begin_layout Subsection*
+Reservations
+\end_layout
+
+\begin_layout Standard
+Room Reservations are the records of the revenue generated, and the guide
+ and scheduler of all activities.
+ In these modern times reservations can come from many places; online websites,
+ tour agencies, booking portal sites, as well as being entered manually
+ at the front-desk.
+ Guests reserve a room or rooms for a specific period.
+ The reservation will be the founding document of the final invoice we present
+ for payment.
+ It should show all charges and payments.
+\end_layout
+
+\begin_layout Standard
+When we make a reservation we need to know what rooms are available during
+ that time period.
+ We need to know the state of the hotel at any point in time or during any
+ span of time.
+ This allows management to make the best decisions on room selection, occupancy
+ and availability.
+ Once again, the critical information is knowing at what state the occupancy
+ of the hotel is at any given time frame.
+ Once the time of the occupancy has passed, the reservation and any information
+ attached, represents a permanent read-only record which should be archived
+ accordingly.
+ The rate infrastructure can be dynamic but the charges assigned to each
+ archived reservations are fixed and they can be used to reconcile the Hotel
+ income for the year.
+\end_layout
+
+\begin_layout Section*
+Revenue Management
+\end_layout
+
+\begin_layout Subsubsection*
+Seasons
+\end_layout
+
+\begin_layout Standard
+The Revenue Management of a property is a science.
+ The Revenue Manager must forecast the value of a room during certain periods
+ of the year.
+ The idea of seasons comes to mind.
+ We vary the price as supply and demand changes the market value throughout
+ the year, so that we can get the most profit and keep the rooms filled.
+ The job of the Revenue Manager is to forecast when to raise or lower the
+ room cost.
+ This is a data science so the better the data, the more accurate a forecast
+ can be made.
+\end_layout
+
+\begin_layout Standard
+Looking at the calendar for a year, we can imagine the Christmas and New
+ Year Holiday Season as well as the summer season for the our locale.
+ The slow tourist seasons and the high seasons are pretty well defined as
+ they follow global vacation trends.
+ Other factors should be taken into account which are specific to a locale.
+ 
+\end_layout
+
+\begin_layout Subsubsection*
+Season Calendar
+\end_layout
+
+\begin_layout Standard
+The season calendar gives the Revenue Manager an overall snapshot of the
+ year where he can carve out as many seasons and special periods to adjust
+ the overall income of the property.
+ The season calendar should be an easy to use tool that gives immediate
+ feedback on the results of the forecast.
+\end_layout
+
+\begin_layout Subsubsection*
+Season Rate
+\end_layout
+
+\begin_layout Standard
+Once we have determined the dates now we determine the amount of discount
+ we apply to the room.
+ Using the room rack rate as our maximum we can adjust the seasonal rate
+ as a discount of the rack rate.
+ For instance High Summer season can be 80% of rack Rate, Christmas season
+ could possibly be less at 75%, the low season could be 50%.
+ There is almost no constraints on the way that a revenue manager sets up
+ their property.
+ It is a function of the location and type of accommodation.
+\end_layout
+
+\begin_layout Subsubsection*
+Yearly Trending
+\end_layout
+
+\begin_layout Standard
+Most of the decisions a Revenue Manager will make will depend on past performanc
+e of the property and/or similar properties in the area or locale.
+ It would also be beneficial to know the total estimated for the year and
+ the actual revenue for that year.
+ This trending helps to make the estimates and forecasting more accurate.
+\end_layout
+
+\begin_layout Section*
+Staff Management
+\end_layout
+
+\begin_layout Standard
+Staff management can be a daily struggle.
+ The bottom line is that the rooms must be fully operational, cleaned and
+ ready for the next guest to occupy them.
+ If a property deals in tour group travel and block reservations, staff
+ management can be even more challenged.
+ Rooms must be dependably cleaned and repaired on time.
+ Staffing is critical for housekeepers and maintenance staff.
+ Information and communication is essential.
+ People are assigned to clean, someone may need to do a final inspection
+ and the information must get back to the front desk or whoever manages
+ the reservation check ins in a timely fashion.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Staff Task Information
+\end_layout
+
+\begin_layout Standard
+Scheduling is important and the feedback from staff doing the work is equally
+ valuable.
+ There has to be a manager keeping an eye on the staffing level as well
+ as the work being assigned.
+ The more visual guidance we can provide for scheduling, the more accurately
+ the manager can assign tasks.
+\end_layout
+
+\begin_layout Subsection*
+Housekeeping
+\end_layout
+
+\begin_layout Standard
+Housekeepers must be assigned their rooms and they must let the front desk
+ know when the room is ready for occupancy.
+ There has to be an adequate workforce to accomplish the daily chores.
+ Here again the more visual the better.
+\end_layout
+
+\begin_layout Subsection*
+Maintenance
+\end_layout
+
+\begin_layout Standard
+The maintenance of rooms must be done before the cleaning can complete.
+ Ideally, a problem is discovered upon checkout and a maintenance staff
+ member is dispatched, once repairs are completed, the cleaning can begin.
+ If the repair cannot be done and the room is marked Out Of Commission,
+ adjustments may have to be made up the reservation chain.
+ Information must move quickly and in real-time.
+ 
+\end_layout
+
+\end_body
+\end_document

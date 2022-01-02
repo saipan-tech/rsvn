@@ -51,6 +51,38 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .Galaxy { color:maroon}
 .Regal   { color: royalblue}
+.checkin {
+  background-color:aquamarine;
+}
+.checkout {
+  background-color:inherit;
+}
+.dirty {
+  background-color:silver;
+}
+.ready-text {
+  color:darkgreen;
+}
+.ready {
+  background-color:seagreen;
+  color:white;
+}
+.inspected {
+  background-color:navajowhite;
+}
+.occupied {
+   background-color:red;
+}
+.OOC {
+  background-color:black;
+  color:yellow;
+}
+.cleaning {
+  background-color:yellow;
+}
+.unknown,.none {
+  background-color:pink;
+}
 
 
 
