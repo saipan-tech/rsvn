@@ -18,6 +18,8 @@ import { SeasonService } from './_services/season.service';
 import { SeasonCtrlComponent } from './ratemgr/season-ctrl/season-ctrl.component';
 import { SeasonCalendarComponent } from './ratemgr/season-calendar/season-calendar.component';
 import { RateListComponent } from './ratemgr/rate-list/rate-list.component';
+import { ActionItemsComponent } from './admin/action/action-items/action-items.component';
+import { ActionMatrixComponent } from './admin/action/action-matrix/action-matrix.component';
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
@@ -28,7 +30,12 @@ const appRoutes: Routes = [
   { path: 'frontdesk', component: FrontdeskComponent },
   { path: 'guest', component: GuestEditComponent },
   { path: 'dropdown', component: DropdownComponent },
-  { path: 'action', component: ActionComponent },
+  { path: 'action', component: ActionComponent,
+  children: [
+    { path: 'actionitems', component: ActionItemsComponent },
+    { path: 'actionmatrix', component: ActionMatrixComponent },
+  ]
+},
 
   { path: 'staff', component: StaffComponent },
   { path: 'grid', component: GridComponent },

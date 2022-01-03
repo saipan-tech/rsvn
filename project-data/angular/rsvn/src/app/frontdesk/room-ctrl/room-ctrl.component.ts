@@ -10,7 +10,7 @@ import { GenericService } from '@app/_services/generic.service';
 import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
 import { catchError, tap, map, concatMap } from 'rxjs/operators';
 import { iif, of, interval, Observable } from 'rxjs';
-
+import { AppConstants } from '@app/app.constants'
 
 @Component({
   selector: 'app-room-ctrl',
@@ -45,6 +45,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   constructor(
     private genericService: GenericService,
     private dialogManagerService: DialogManagerService,
+    private appConstants: AppConstants
 
   ) { }
 
@@ -66,7 +67,10 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   rsvnDateActive() {
     const today = new Date().getTime()
     const inDate = new Date(this.currRsvn.dateIn).getTime()
-    const outDate = new Date(this.currRsvn.dateOut).getTime()
+    
+    // adjust till end of the day for checkouts
+    const outDate = new Date(this.currRsvn.dateOut).getTime()+this.appConstants.DAILYSECONDS
+    console.log("Date Compare",inDate,today,outDate,this.currRsvn.dateOut)
     if (inDate <= today && outDate >= today) return true
     return false
   }
@@ -96,7 +100,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
             }
             else {
               ri.check = false
-              ri.status = 'checkout'
+              ri.status = 'dirty'
             }
             return ri
           }),

@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class ActionComponent implements OnInit {
 
   constructor() { }
+  activeLink = 'actionmatrix'
 
   ngOnInit(): void {
   }

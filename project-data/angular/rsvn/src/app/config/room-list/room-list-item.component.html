@@ -17,7 +17,13 @@
   
                     <div class="col"><input type="text" formControlName='name' class="form-control"> </div>
                     <div class="col"><input type="text" formControlName='size' class="form-control"></div>
-                    <div class="col"><input type="text" formControlName='status' class="form-control"></div>
+                    <div class="col">
+                        <select formControlName='status' class="form-control">
+                            <option value=""></option>
+                            <option *ngFor="let rl of statusList" [ngValue]="rl.value">{{rl.display}} </option>
+                        </select>
+
+                    </div>
 
                     <div class="col"><input type="text" formControlName='descr' class='form-control'></div>
                     <div style="width:26px">

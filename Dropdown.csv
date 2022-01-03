@@ -55,6 +55,10 @@ roomstatus,5,Cleaning,cleaning
 roomstatus,6,Done,done
 roomstatus,7,Repair,repair
 roomstatus,8,OOC,ooc
+roomstatus,9,Maintenance,maintenance
+roomstatus,10,Inspect,inspect
+,,,
+,,,
 source,1,FIT Traveller,fit
 source,2,Tour,tour
 source,3,Expedia,expedia

@@ -1,4 +1,23 @@
+<!--
+
+
 <app-action-matrix></app-action-matrix>
 <hr>
 <app-action-items></app-action-items>
-
+-->
+<div class="card" style="height:85%; overflow-y:scroll">
+    <div class="card-header">
+        <nav mat-tab-nav-bar [ngStyle]="({'background-color':'skyblue'})">
+            <a mat-tab-link 
+               (click)="activeLink = 'actionitems'"
+               [active]="activeLink == 'actionitems'" routerLink="actionitems"> Action Items </a>
+            <a mat-tab-link 
+               (click)="activeLink = 'actionmatrix'"
+               [active]="activeLink == 'actionmatrix'" routerLink="actionmatrix"> Matrix </a>
+          </nav>
+    </div>
+    <div class="card-body">
+        <router-outlet></router-outlet>
+    </div>
+    <div class="card-footer"></div>
+</div>

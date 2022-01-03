@@ -21,6 +21,8 @@ export class RoomListItemComponent implements OnInit {
   @Input() room: IRoominfo = {} as IRoominfo
   @Output() refresh  = new EventEmitter<any>(); 
 
+  statusList:any
+
   roomEditForm = new FormGroup({
     id: new FormControl(''),
     number: new FormControl('', Validators.required),
@@ -77,6 +79,10 @@ export class RoomListItemComponent implements OnInit {
     this.roomEditForm.valueChanges.subscribe(x => {
       this.updateRoom(x)
   })
+  this.systemService.getDropdownList('roomstatus').subscribe(
+    data => this.statusList = data
+  )
+
    
   }
 

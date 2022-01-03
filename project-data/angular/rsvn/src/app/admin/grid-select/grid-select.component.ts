@@ -39,7 +39,7 @@ export class GridSelectComponent implements OnInit {
   roomstatusList: IDropdown[] = []
 
   dateStatus : IDStatus = {} as IDStatus; 
-  
+  today = new Date().toISOString().slice(0,10)
   user: any
   
   constructor(
