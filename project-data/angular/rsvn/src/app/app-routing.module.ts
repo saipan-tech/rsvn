@@ -40,14 +40,7 @@ const appRoutes: Routes = [
   { path: 'staff', component: StaffComponent },
   { path: 'grid', component: GridComponent },
   { path: 'calendar', component: CalendarComponent },
-  { path: 'ratemgr', component: RatemgrCtrlComponent,
-    children: [
-      { path: 'season', component: SeasonCtrlComponent },
-      { path: 'seasoncal', component: SeasonCalendarComponent },
-      { path: 'ratelist', component: RateListComponent },
-
-    ]
-  }
+  { path: 'ratemgr', component: RatemgrCtrlComponent}
 
 ];
 

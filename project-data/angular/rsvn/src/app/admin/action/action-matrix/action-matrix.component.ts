@@ -28,7 +28,7 @@ export class ActionMatrixComponent implements OnInit {
   roomList: any;
   dispList: any[] = []
   actionList: any = []
-
+  loaded = false;
   refreshTimer: any
   today = new Date().toISOString().slice(0, 10)
   roomStatus : any
@@ -94,6 +94,7 @@ export class ActionMatrixComponent implements OnInit {
           })
           this.dispList = dispList
           console.log(this.dispList)
+          this.loaded =true
         }
       )
   }

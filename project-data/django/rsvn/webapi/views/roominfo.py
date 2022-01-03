@@ -6,7 +6,7 @@ class RoominfoViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Roominfo.objects.all().order_by('number')
+    queryset = Roominfo.objects.all().order_by('bldg__name','number')
     serializer_class = RoominfoSerializer
     permission_classes = [permissions.IsAuthenticated]    
     

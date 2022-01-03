@@ -1,35 +1,45 @@
-<div *ngFor="let item of dispList">
-  <h4>{{item.name}}</h4>
-  <div class="d-flex flex-wrap">
-    <div *ngFor="let rms of item.rooms">
-      <div class="grid_button">
-        <div class="d-flex">
-          <div class="form-control" title="{{rms | json}}">{{ rms.number }}</div>
-          <div class="form-control">
-            <div *ngIf="rms.active" class="d-flex">
-              <div *ngFor="let act of rms.active "> 
-                <img *ngIf="act && act.checkoutDue" src="/assets/img/check-red.png" height="20px">
+<div *ngIf="!loaded">
+  <img src="/assets/img/loader.gif">
+  
+</div>
 
-                <img *ngIf="act && act.checkinDue" src="/assets/img/check-green.png" height="20px">
-                <mat-icon *ngIf="act && !act.checkinDue && !act.checkoutDue">home</mat-icon>
-                
+<div *ngIf="loaded">
 
+
+  <div *ngFor="let item of dispList">
+    <h4>{{item.name}}</h4>
+    <div class="d-flex flex-wrap">
+      <div *ngFor="let rms of item.rooms">
+        <div class="grid_button">
+          <div class="d-flex">
+            <div class="form-control" title="{{rms | json}}">{{ rms.number }}</div>
+            <div class="form-control">
+              <div *ngIf="rms.active" class="d-flex">
+                <div *ngFor="let act of rms.active ">
+                  <img *ngIf="act && act.checkoutDue" src="/assets/img/check-red.png" height="20px">
+
+                  <img *ngIf="act && act.checkinDue" src="/assets/img/check-green.png" height="20px">
+                  <mat-icon *ngIf="act && !act.checkinDue && !act.checkoutDue">home</mat-icon>
+
+
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="{{rms.status}}" [matMenuTriggerFor]="roomMenu">{{ rms.status}}</div>
-        <mat-menu #roomMenu="matMenu">
-          <div class="menu-head">Action</div>
-          <div *ngFor="let rs of roomStatus" class="menu-item" mat-menu-item
-            (click)="roomStatusChange(rms.id,rs.value)">{{ rs.display}} </div>
-        </mat-menu>
-        <div style="background-color:white;color:black;height:1.6em">
-          <span style="font-size:small;margin:0 1em" title="{{ x.name }}" *ngFor="let x of rms.working">{{ x.actDept |
-            slice:0:5}}</span>
+          <div class="{{rms.status}}" [matMenuTriggerFor]="roomMenu">{{ rms.status}}</div>
+          <mat-menu #roomMenu="matMenu">
+            <div class="menu-head">Action</div>
+            <div *ngFor="let rs of roomStatus" class="menu-item" mat-menu-item
+              (click)="roomStatusChange(rms.id,rs.value)">{{ rs.display}} </div>
+          </mat-menu>
+          <div style="background-color:white;color:black;height:1.6em">
+            <span style="font-size:small;margin:0 1em" title="{{ x.name }}" *ngFor="let x of rms.working">{{ x.actDept |
+              slice:0:5}}</span>
 
+          </div>
         </div>
       </div>
     </div>
   </div>
+
 </div>

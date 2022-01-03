@@ -1,19 +1,13 @@
 <div class="card" style="height:85%; overflow-y:scroll">
     <div class="card-header">
-        <nav mat-tab-nav-bar [ngStyle]="({'background-color':'skyblue'})">
-            <a mat-tab-link 
-               (click)="activeLink = 'seasoncal'"
-               [active]="activeLink == 'seasoncal'" routerLink="seasoncal"> Season Calendar </a>
-            <a mat-tab-link 
-               (click)="activeLink = 'season'"
-               [active]="activeLink == 'season'" routerLink="season"> Season </a>
-            <a mat-tab-link 
-               (click)="activeLink = 'ratelist'"
-               [active]="activeLink == 'ratelist'" routerLink="ratelist"> Rate List </a>
-          </nav>
+       <h4>Rate Manager</h4> 
     </div>
     <div class="card-body">
-        <router-outlet></router-outlet>
-    </div>
+        <mat-tab-group  mat-align-tabs="start">
+            <mat-tab label="Season Calendar"><app-season-calendar></app-season-calendar></mat-tab>
+            <mat-tab label="Season"><app-season-ctrl></app-season-ctrl></mat-tab>
+             <mat-tab label="Rate List"><app-rate-list></app-rate-list> </mat-tab>
+          </mat-tab-group>
+            </div>
     <div class="card-footer"></div>
 </div>
