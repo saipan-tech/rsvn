@@ -2,14 +2,20 @@
   <h4>{{item.name}}</h4>
   <div class="d-flex flex-wrap">
     <div *ngFor="let rms of item.rooms">
-      <button class="grid_button {{rms.status }}"> 
-        <div>{{ rms.number }}</div>
-        <div>{{ rms.status}}</div>
+      <div class="grid_button"> 
+        <div class="d-flex">
+          <div class="form-control" title="{{rms | json}}">{{ rms.number }}</div>
+          <div class="form-control">
+            <img  *ngIf="rms.active && rms.active.checkinDue" src="/assets/img/check-green.png" height="20px">
+            <img  *ngIf="rms.active && rms.active.checkoutDue" src="/assets/img/check-red.png" height="20px">
+</div>
+        </div>
+        <div class="{{rms.status}}">{{ rms.status}}</div>
         <div style="background-color:white;color:black;height:1.6em">
           <span  style="font-size:small;margin:0 1em" title="{{ x.name }}"  *ngFor="let x of rms.working">{{ x.actDept | slice:0:5}}</span> 
         
         </div>
-      </button>
+      </div>
     </div>
   </div>
 </div>

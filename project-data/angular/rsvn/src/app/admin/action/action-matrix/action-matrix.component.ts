@@ -30,13 +30,18 @@ export class ActionMatrixComponent implements OnInit {
   actionList: any = []
 
   refreshTimer: any
+  today = new Date().toISOString().slice(0,10)
   //====================================================
   refreshGrid() {
     let _dispList: any = {}
     let dispList: any = []
     let actionList: any = []
     let staffRoomList: any = []
+    let activeRoomList:any = []
+    
+    // Grab all of the roominfos
     this.genericService.getItemQueryList('roominfo', `all=1`)
+      // getting all rooms 
       .pipe(map(d => {
         d.forEach(
           rec => {
@@ -48,6 +53,7 @@ export class ActionMatrixComponent implements OnInit {
         }
       }
       ),
+      //getting todays action
         concatMap((d) => this.genericService.getItemQueryList('action', 'today=1&all=1')
           .pipe(tap((action) => {
             staffRoomList = []
@@ -59,16 +65,35 @@ export class ActionMatrixComponent implements OnInit {
                 })
               )
             })
-          }))))
+          }))),
+          // scan rsvn rooms active
+          concatMap((d) => this.genericService.getItemQueryList('room', 'active=1&all=1')
+          .pipe(tap((active) => 
+              {
+                activeRoomList = []
+                active.forEach( v => {
+                  activeRoomList.push({
+                    roomStatus:v.status,
+                    roominfoID:v.roominfo.id,
+                    checkinDue:v.rsvn.dateIn==this.today,
+                    checkoutDue:v.rsvn.dateOut==this.today})
+                })
+              })
+          ))    
+          
+          )
+
       .subscribe( 
         (d) => {
           
           dispList.forEach((drec:any) => {
             drec.rooms.forEach((rec:any) => {
-               rec.working = staffRoomList.filter((srl:any)=>srl.roominfoID == rec.id)
-            })
+              rec.working = staffRoomList.filter((srl:any)=>srl.roominfoID == rec.id)
+              rec.active = activeRoomList.find((arl:any)=>arl.roominfoID == rec.id)
+
+              })
           })
-        this.dispList =dispList
+        this.dispList = dispList
         console.log(this.dispList)
         }
       )
