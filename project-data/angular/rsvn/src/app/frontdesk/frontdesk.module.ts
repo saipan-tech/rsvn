@@ -71,7 +71,7 @@ import { SearcherListComponent } from './searcher-list/searcher-list.component';
   ],
   exports: [
     ClockComponent,
-  
+    GridComponent,
     FrontdeskComponent
   ]
 })

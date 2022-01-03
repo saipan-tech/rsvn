@@ -9,7 +9,10 @@ export class ActionComponent implements OnInit {
 
   constructor() { }
   activeLink = 'actionmatrix'
-
+  currRsvn:any
+  selectedGuest(event:any) {
+    
+  }
   ngOnInit(): void {
   }
 
