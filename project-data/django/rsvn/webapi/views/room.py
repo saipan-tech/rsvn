@@ -18,10 +18,11 @@ class RoomViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        today = date.today()
+        today = TODAY 
+        tomorrow = TODAY - timedelta(days=1)
         queryset = super().get_queryset() 
         if "active" in self.request.GET :
-            queryset = queryset.filter(rsvn__dateIn__lte = today, rsvn__dateOut__gte = today )
+            queryset = queryset.filter(rsvn__dateIn__lte = today, rsvn__dateOut__gte = tomorrow )
 
         if "rsvn" in self.request.GET :
             queryset = queryset.filter(rsvn__id=self.request.GET['rsvn'])

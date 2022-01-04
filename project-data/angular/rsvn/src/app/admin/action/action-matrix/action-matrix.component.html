@@ -15,7 +15,7 @@
             <div class="form-control" title="{{rms | json}}">{{ rms.number }}</div>
             <div class="form-control">
               <div *ngIf="rms.active" class="d-flex">
-                <div *ngFor="let act of rms.active ">
+                <div *ngFor="let act of rms.active " title={{act.rsvn|json}}>
                   <img *ngIf="act && act.checkoutDue" src="/assets/img/check-red.png" height="20px">
 
                   <img *ngIf="act && act.checkinDue" src="/assets/img/check-green.png" height="20px">

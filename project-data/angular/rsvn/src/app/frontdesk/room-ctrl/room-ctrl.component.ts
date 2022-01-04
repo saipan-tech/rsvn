@@ -65,7 +65,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
   //=================================
   rsvnDateActive() {
-    const today = new Date().getTime()
+    const today = new Date(this.appConstants.TODAY).getTime()
     const inDate = new Date(this.currRsvn.dateIn).getTime()
     
     // adjust till end of the day for checkouts
@@ -76,7 +76,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
   //=================================
   rsvnArchive() {
-    const today = new Date().getTime()
+    const today = new Date(this.appConstants.TODAY).getTime()
     const inDate = new Date(this.currRsvn.dateIn).getTime()
     const outDate = new Date(this.currRsvn.dateOut).getTime()
     if (outDate <= today) return true

@@ -30,7 +30,7 @@ export class ActionMatrixComponent implements OnInit {
   actionList: any = []
   loaded = false;
   refreshTimer: any
-  today = new Date().toISOString().slice(0, 10)
+  
   roomStatus : any
   //====================================================
   refreshGrid() {
@@ -73,10 +73,11 @@ export class ActionMatrixComponent implements OnInit {
             activeRoomList = []
             active.forEach(v => {
               activeRoomList.push({
+                rsvn:v.rsvn,
                 roomStatus: v.status,
                 roominfoID: v.roominfo.id,
-                checkinDue: v.rsvn.dateIn == this.today,
-                checkoutDue: v.rsvn.dateOut == this.today
+                checkinDue: v.rsvn.dateIn == this.appCons.TODAY,
+                checkoutDue: v.rsvn.dateOut == this.appCons.TODAY
               })
             })
           })
@@ -84,16 +85,14 @@ export class ActionMatrixComponent implements OnInit {
 
       .subscribe(
         (d) => {
-
           dispList.forEach((drec: any) => {
             drec.rooms.forEach((rec: any) => {
               rec.working = staffRoomList.filter((srl: any) => srl.roominfoID == rec.id)
               rec.active = activeRoomList.filter((arl: any) => arl.roominfoID == rec.id)
-
             })
           })
           this.dispList = dispList
-          console.log(this.dispList)
+
           this.loaded =true
         }
       )
@@ -101,6 +100,7 @@ export class ActionMatrixComponent implements OnInit {
   //====================================================
 
   ngOnInit(): void {
+ 
     this.authService.getSession().subscribe(
       data => this.user = data
     )
@@ -109,14 +109,8 @@ export class ActionMatrixComponent implements OnInit {
       data => this.roomStatus = data
     )
 
-
-
     this.refreshTimer = setInterval(
-      () => {
-        this.refreshGrid();
-      }, 15000)
-
-
+      () => { this.refreshGrid() }, 15000)
     this.refreshGrid()
   }
 
@@ -125,7 +119,6 @@ export class ActionMatrixComponent implements OnInit {
     if (this.refreshTimer) {
       clearInterval(this.refreshTimer)
     }
-
   }
   //=================================
   roomStatusChange(roominfoID: any, mode: string) {

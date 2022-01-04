@@ -40,6 +40,7 @@ export class GridSelectComponent implements OnInit {
 
   dateStatus : IDStatus = {} as IDStatus; 
   today = new Date().toISOString().slice(0,10)
+  
   user: any
   
   constructor(
@@ -122,6 +123,7 @@ export class GridSelectComponent implements OnInit {
 
   // -------------------------------------------
   ngOnInit(): void {
+  
     this.authService.getSession().subscribe(
       data => this.user = data
     )

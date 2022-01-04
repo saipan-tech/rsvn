@@ -17,8 +17,13 @@ from django.http import Http404
 from django.db.models import Q
 from rest_framework.parsers import FileUploadParser
 from rest_framework import status
-from datetime import *
+from datetime import datetime, date, time, timezone,timedelta
 import os, binascii
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from webapi.tools.mailtools import *
+
+
+import pytz
+portland_tz = pytz.timezone("America/Los_Angeles")
+TODAY = datetime.datetime.now().astimezone(portland_tz)
