@@ -22,8 +22,7 @@ class RoomViewSet(viewsets.ModelViewSet):
         tomorrow = TODAY - timedelta(days=1)
         queryset = super().get_queryset() 
         if "active" in self.request.GET :
-            queryset = queryset.filter(rsvn__dateIn__lte = today, rsvn__dateOut__gte = tomorrow )
-
+            queryset = queryset.filter(rsvn__dateIn__lte = today, rsvn__dateOut__gte = today )
         if "rsvn" in self.request.GET :
             queryset = queryset.filter(rsvn__id=self.request.GET['rsvn'])
         
@@ -143,3 +142,17 @@ class RoomDateScan(APIView):
             s_checkout = RoomSerializer(checkout,many=True)
             s_inhouse = RoomSerializer(inhouse,many=True)
         return Response({ 'checkin':s_checkin.data,'checkout':s_checkout.data,'inhouse':s_inhouse.data })        
+
+
+#------------------------------------------
+class BldgRoom(APIView):
+#------------------------------------------
+    
+    def get(self,request, format=None)  :
+        roominfo = Roominfo.objects.all()
+        bldgs = Bldg.objects.all().order_by('name')
+        result = []
+        for b in bldgs :
+            r = roominfo.filter(bldg__id=b.id).order_by('number')
+            result.append({'bldg':BldgSerializer(b).data,'rooms':RoominfoSerializer(r,many=True).data})
+        return Response(result)    

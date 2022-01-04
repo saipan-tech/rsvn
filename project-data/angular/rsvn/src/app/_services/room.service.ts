@@ -74,4 +74,8 @@ export class RoomService {
     return this.http.get<IDStatus>(`${this.urlRoot}/roomdatescan/${date}/?${modifier}`)
   }
 
+  getBldgRoom():Observable<any[]> {
+    return this.http.get<any>(`${this.urlRoot}/bldgroom/`)
+  }
+
 }

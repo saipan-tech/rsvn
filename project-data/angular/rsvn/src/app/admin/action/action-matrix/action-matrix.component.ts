@@ -6,6 +6,7 @@ import { SystemService } from '@app/_services/system.service';
 import { RoomService } from '@app/_services/room.service';
 import { AppConstants } from '@app/app.constants';
 import { catchError, tap, map, mergeMap, concatMap } from 'rxjs/operators';
+
 @Component({
   selector: 'app-action-matrix',
   templateUrl: './action-matrix.component.html',
@@ -68,31 +69,56 @@ export class ActionMatrixComponent implements OnInit {
             })
           }),
         // scan rsvn rooms active
-        concatMap((d) => this.genericService.getItemQueryList('room', 'active=1&all=1')),
+        concatMap((d) => this.roomService.getRoomDateScan(this.appCons.TODAY,'all')) ,
         tap((active:any) => {
-            activeRoomList = []
-            active.forEach((v:any) => {
-              activeRoomList.push({
-                rsvn:v.rsvn,
-                roomStatus: v.status,
-                roominfoID: v.roominfo.id,
-                checkinDue: v.rsvn.dateIn == this.appCons.TODAY,
-                checkoutDue: v.rsvn.dateOut == this.appCons.TODAY
-              })
-            })
+            activeRoomList = active
+          console.log("Active",active)
           })
         )
         .subscribe(
         (d) => {
-          dispList.forEach((drec: any) => {
-            drec.rooms.forEach((rec: any) => {
-              rec.working = staffRoomList.filter((srl: any) => srl.roominfoID == rec.id)
-              rec.active = activeRoomList.filter((arl: any) => arl.roominfoID == rec.id)
-            })
-          })
-          this.dispList = dispList
 
+          this.dispList = dispList
           this.loaded =true
+        }
+      )
+  }
+   //====================================================
+   newRefreshGrid() {
+    let _dispList: any = {}
+    let dispList: any = []
+    let actionList: any = []
+    let staffRoomList: any = []
+    let activeRoomList: any = []
+    let start = new Date().getTime()
+    console.log("Ping0")
+    // Grab all of the roominfos
+    this.roomService.getBldgRoom()
+      // getting all rooms 
+      .pipe(
+        map(d =>  dispList = d),
+      //getting todays action
+        mergeMap((d) => this.genericService.getItemQueryList('action', 'today=1&all=1')),
+        tap((action) => {
+            staffRoomList = []
+            console.log("Ping2")
+          }),
+       
+          // scan rsvn rooms active
+        mergeMap((d) => this.roomService.getRoomDateScan(this.appCons.TODAY,'all')) ,
+        tap((active:any) => {
+            activeRoomList = active
+          console.log("Active",active)
+
+        })
+        
+        )
+        .subscribe(
+        (d) => {
+   
+          this.dispList = dispList
+          this.loaded =true
+          console.log("Ping4",new Date().getTime()-start)
         }
       )
   }
@@ -109,8 +135,8 @@ export class ActionMatrixComponent implements OnInit {
     )
 
     this.refreshTimer = setInterval(
-      () => { this.refreshGrid() }, 15000)
-    this.refreshGrid()
+      () => { this.newRefreshGrid() }, 15000)
+    this.newRefreshGrid()
   }
 
   //=================================

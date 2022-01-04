@@ -79,6 +79,7 @@ urlpatterns = [
     path('email/',PostOfficeView.as_view()),
     path('rsvncheck/',RsvnCheckView.as_view()),
     path('actionrooms/<id>/',RoomActionRoominfo.as_view()),
-    path('roomdatescan/<date>/',RoomDateScan.as_view())
+    path('roomdatescan/<date>/',RoomDateScan.as_view()),
+    path('bldgroom/',BldgRoom.as_view())
     
 ]
