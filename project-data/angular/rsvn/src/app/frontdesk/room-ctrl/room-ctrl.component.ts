@@ -69,8 +69,8 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
     const inDate = new Date(this.currRsvn.dateIn).getTime()
     
     // adjust till end of the day for checkouts
-    const outDate = new Date(this.currRsvn.dateOut).getTime()+this.appConstants.DAILYSECONDS
-    console.log("Date Compare",inDate,today,outDate,this.currRsvn.dateOut)
+    const outDate = new Date(this.currRsvn.dateOut).getTime()
+
     if (inDate <= today && outDate >= today) return true
     return false
   }
@@ -167,7 +167,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   //=================================
 
   refreshRoomlist(index: number) {
-    console.log("Index", index)
+    
     if (this.currRsvn && this.currRsvn.id) {
       this.genericService.getItemQueryList('room', `rsvn=${this.currRsvn.id}&all=1`)
         .subscribe(

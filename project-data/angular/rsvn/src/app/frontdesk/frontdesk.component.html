@@ -11,10 +11,9 @@
             <div class="card">
                 <div class="card-header d-flex">
                     <div class="form-control">Guest Information Dashboard</div>
-                    <button class="form-control" (click)="gridOn=!gridOn">{{ gridOn ? 'Grid Off' : 'Grid On'}}</button>
+                   
                 </div>
                 <div class="card-body" style="padding:0;margin:0">
-                    <app-grid *ngIf="gridOn" [currRsvn]='currRsvn' (gridSelect)="selectedGuest($event)"> </app-grid>
                     <app-rsvn-ctrl *ngIf="!gridOn" [(currRsvn)]='currRsvn' [(currGuest)]='currGuest'></app-rsvn-ctrl>
                 </div>
             </div>
