@@ -22,6 +22,9 @@ export class RsvnCtrlComponent implements OnInit,OnChanges {
   rmore= false
   CICOstring = ""
   guestString = ''
+
+  panelOpenState = false;
+  
   constructor() { }
   ngOnChanges(changes : SimpleChanges) {
     this.currRsvnChange.emit(this.currRsvn)

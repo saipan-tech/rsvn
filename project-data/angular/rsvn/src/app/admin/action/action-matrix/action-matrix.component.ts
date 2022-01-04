@@ -55,8 +55,8 @@ export class ActionMatrixComponent implements OnInit {
       }
       ),
         //getting todays action
-        concatMap((d) => this.genericService.getItemQueryList('action', 'today=1&all=1')
-          .pipe(tap((action) => {
+        concatMap((d) => this.genericService.getItemQueryList('action', 'today=1&all=1')),
+        tap((action) => {
             staffRoomList = []
             action.forEach((act: any) => {
               act.roominfos.forEach(
@@ -66,12 +66,12 @@ export class ActionMatrixComponent implements OnInit {
                 })
               )
             })
-          }))),
+          }),
         // scan rsvn rooms active
         concatMap((d) => this.genericService.getItemQueryList('room', 'active=1&all=1')),
-        tap((active) => {
+        tap((active:any) => {
             activeRoomList = []
-            active.forEach(v => {
+            active.forEach((v:any) => {
               activeRoomList.push({
                 rsvn:v.rsvn,
                 roomStatus: v.status,
@@ -81,9 +81,8 @@ export class ActionMatrixComponent implements OnInit {
               })
             })
           })
-      )
-
-      .subscribe(
+        )
+        .subscribe(
         (d) => {
           dispList.forEach((drec: any) => {
             drec.rooms.forEach((rec: any) => {

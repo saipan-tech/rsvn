@@ -1,4 +1,58 @@
 <div style="height:98%;overflow-y:scroll">
+    
+    <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{ (currGuest && currGuest.id) ? msgString(1) : 'New Guest' }}
+            </mat-panel-title>
+            <mat-panel-description>
+              Guest Information
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-guest-edit [(currRsvn)]='currRsvn' [currGuest]='currGuest'
+          (currGuestChange)="guestAction($event)"> </app-guest-edit>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="currGuest && currGuest.id">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{ (currRsvn &&currRsvn.id) ? msgString(2) :'New Rsvn' }}
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+   
+          </mat-expansion-panel-header>
+          <app-rsvn-edit [currRsvn]='currRsvn' (currRsvnChange)="rsvnAction($event)"
+          [(currGuest)]='currGuest'>
+
+      </app-rsvn-edit>
+     
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="currRsvn && currRsvn.id">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Charges & Payments
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="accordion-body">
+                <app-charge-ctrl [currRsvn]='currRsvn'> </app-charge-ctrl>
+            </div>
+          </mat-expansion-panel>
+  
+      </mat-accordion>
+    
+</div>
+      <!--
+
+      
+    
+    
+    
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
             <div class="accordion-header" id="headingOne">
@@ -59,3 +113,6 @@
         </div>
     </div>
 </div>
+
+-->
+    
