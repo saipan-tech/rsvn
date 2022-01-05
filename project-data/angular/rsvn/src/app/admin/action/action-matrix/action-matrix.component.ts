@@ -31,9 +31,122 @@ export class ActionMatrixComponent implements OnInit {
   actionList: any = []
   loaded = false;
   refreshTimer: any
-  
-  roomStatus : any
+  roomStatus: any
+  startTime: any
+
+  markTime(comment: string) {
+    console.log("Marking Time -->", comment, '  ', new Date().getTime() - this.startTime)
+  }
+  startTimer() {
+    this.startTime = new Date().getTime()
+    console.log("Starting Timer")
+  }
+
   //====================================================
+  newRefreshGrid() {
+    
+    let dispList: any = []
+    let actionList: any = []
+    let activeList:any = []
+    let rsvnList:any = []
+    let roomList:any = []
+    let bldgList:any = []
+    
+    this.startTimer()
+    // Grab all of the roominfos
+    this.genericService.getItemList('bldg')
+      // getting all rooms 
+      .pipe(
+        map(d => bldgList = d),
+        //getting todays action
+        mergeMap((d) => this.genericService.getItemQueryList('action', 'today=1')),
+        tap((action) => actionList=action),
+        // scan rsvn rooms active
+        mergeMap((d) => this.roomService.getRoomDateScan(this.appCons.TODAY, '')),
+        tap((active) => activeList = active),
+        mergeMap(() => this.genericService.getItemQueryList('rsvn', `active=${this.appCons.TODAY}`)),
+        tap((rsvn) => rsvnList = rsvn),
+        mergeMap(() => this.genericService.getItemList('roominfo')),
+        tap((rsvn) => roomList = rsvn)
+      )
+      .subscribe(
+        (d) => {
+          this.dispList = this.mergeDisplist(bldgList,roomList,actionList,activeList,rsvnList)
+          this.loaded = true
+          this.markTime("completed")
+        }
+      )
+  }
+
+
+
+  actionTitle(action:any) {
+    return "Here is the title"
+  }
+  //====================================================
+  mergeDisplist(bldgList:any,roomList:any,action:any,active:any,rsvn:any) {
+    //inject action 
+    action.forEach((act:any) => {
+      act.roominfos.forEach((ari:any) => {
+        let found = roomList.find((rl:any) => rl.id==ari)
+        if(! found.action) found.action = []
+        found.action.push(act)
+      })
+    })
+    // Inject active 
+    for (let key of Object.keys(active)) {
+      active[key].forEach( (act:any) => {
+        let found = roomList.find((rl:any) => rl.id==act.roominfo)
+        if(! found.active) found.active = []
+          found.active.push({act:key,room:act})
+      })
+    }
+    let dispList:any = []
+    bldgList.forEach( (bldg:any) => {
+      dispList.push({ bldg:bldg,rooms:roomList.filter((rl:any) => rl.bldg == bldg.id)})
+
+    })
+    return dispList
+  }
+  //====================================================
+  ngOnInit(): void {
+    this.authService.getSession().subscribe(
+      data => this.user = data
+    )
+    this.systemService.getDropdownList('roomstatus').subscribe(
+      data => this.roomStatus = data
+    )
+    this.refreshTimer = setInterval(
+      () => { this.newRefreshGrid() }, 15000)
+    this.newRefreshGrid()
+  }
+  //=================================
+  ngOnDestroy() {
+    if (this.refreshTimer) {
+      clearInterval(this.refreshTimer)
+    }
+  }
+  //=================================
+  roomStatusChange(roominfoID: any, mode: string) {
+    this.genericService.getItem('roominfo', roominfoID)
+      .pipe(
+        map((ri: any) => {
+          ri.status = mode
+          return ri
+        }),
+        concatMap((ri: any) => this.genericService.updateItem('roominfo', ri))
+      )
+      .subscribe(
+        d => {
+          this.newRefreshGrid()
+        }
+      )
+  }
+  //=================================
+
+}
+
+/*
   refreshGrid() {
     let _dispList: any = {}
     let dispList: any = []
@@ -43,7 +156,7 @@ export class ActionMatrixComponent implements OnInit {
 
     // Grab all of the roominfos
     this.genericService.getItemQueryList('roominfo', `all=1`)
-      // getting all rooms 
+      // getting all rooms
       .pipe(map(d => {
         d.forEach(
           rec => {
@@ -80,87 +193,8 @@ export class ActionMatrixComponent implements OnInit {
 
           this.dispList = dispList
           this.loaded =true
+
         }
       )
   }
-   //====================================================
-   newRefreshGrid() {
-    let _dispList: any = {}
-    let dispList: any = []
-    let actionList: any = []
-    let staffRoomList: any = []
-    let activeRoomList: any = []
-    let start = new Date().getTime()
-    console.log("Ping0")
-    // Grab all of the roominfos
-    this.roomService.getBldgRoom()
-      // getting all rooms 
-      .pipe(
-        map(d =>  dispList = d),
-      //getting todays action
-        mergeMap((d) => this.genericService.getItemQueryList('action', 'today=1&all=1')),
-        tap((action) => {
-            staffRoomList = []
-            console.log("Ping2")
-          }),
-       
-          // scan rsvn rooms active
-        mergeMap((d) => this.roomService.getRoomDateScan(this.appCons.TODAY,'all')) ,
-        tap((active:any) => {
-            activeRoomList = active
-          console.log("Active",active)
-
-        })
-        
-        )
-        .subscribe(
-        (d) => {
-   
-          this.dispList = dispList
-          this.loaded =true
-          console.log("Ping4",new Date().getTime()-start)
-        }
-      )
-  }
-  //====================================================
-
-  ngOnInit(): void {
- 
-    this.authService.getSession().subscribe(
-      data => this.user = data
-    )
-
-    this.systemService.getDropdownList('roomstatus').subscribe(
-      data => this.roomStatus = data
-    )
-
-    this.refreshTimer = setInterval(
-      () => { this.newRefreshGrid() }, 15000)
-    this.newRefreshGrid()
-  }
-
-  //=================================
-  ngOnDestroy() {
-    if (this.refreshTimer) {
-      clearInterval(this.refreshTimer)
-    }
-  }
-  //=================================
-  roomStatusChange(roominfoID: any, mode: string) {
-    this.genericService.getItem('roominfo', roominfoID)
-    .pipe(
-        map((ri: any) => {
-          ri.status = mode
-          return ri
-        }),
-        concatMap((ri: any) => this.genericService.updateItem('roominfo', ri))
-      )
-      .subscribe(
-        d => {
-          this.refreshGrid()
-        }
-      )
-}
-
-}
-
+*/

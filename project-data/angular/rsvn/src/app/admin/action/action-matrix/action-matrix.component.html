@@ -16,12 +16,9 @@
             <div class="form-control">
               <div *ngIf="rms.active" class="d-flex">
                 <div *ngFor="let act of rms.active " title={{act.rsvn|json}}>
-                  <img *ngIf="act && act.checkoutDue" src="/assets/img/check-red.png" height="20px">
-
-                  <img *ngIf="act && act.checkinDue" src="/assets/img/check-green.png" height="20px">
-                  <img *ngIf="act && !act.checkinDue && !act.checkoutDue"  src="/assets/img/house.png"  height='20px'>
-
-
+                  <img *ngIf="act && act.act == 'checkout'" src="/assets/img/check-red.png" height="20px">
+                  <img *ngIf="act && act.act == 'checkin'" src="/assets/img/check-green.png" height="20px">
+                  <img *ngIf="act && act.act == 'inhouse'"  src="/assets/img/house.png"  height='20px'>
                 </div>
               </div>
             </div>
@@ -33,8 +30,7 @@
               (click)="roomStatusChange(rms.id,rs.value)">{{ rs.display}} </div>
           </mat-menu>
           <div style="background-color:white;color:black;height:1.6em">
-            <span style="font-size:small;margin:0 1em" title="{{ x.name }}" *ngFor="let x of rms.working">{{ x.actDept |
-              slice:0:5}}</span>
+            <span style="font-size:small;margin:0 1em"  *ngFor="let x of rms.action"  >{{ x.department | slice :0:6 }}</span>
 
           </div>
         </div>

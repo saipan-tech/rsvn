@@ -124,11 +124,12 @@ class RoomChargeViewSet(viewsets.ModelViewSet):
 #------------------------------------------
 class RoomDateScan(APIView):
 #------------------------------------------
-    
+   
     def get(self,request,date, format=None)  :
-        checkin = Room.objects.filter(rsvn__dateIn=date)
-        checkout =Room.objects.filter(rsvn__dateOut=date)
-        inhouse = Room.objects.filter(rsvn__dateIn__lt=date,rsvn__dateOut__gt=date)
+        room = Room.objects.all()
+        checkin = room.filter(rsvn__dateIn=date)
+        checkout =room.filter(rsvn__dateOut=date)
+        inhouse = room.filter(rsvn__dateIn__lt=date,rsvn__dateOut__gt=date)
         if "all" in request.GET :
             s_checkin = RoomAllSerializer(checkin,many=True)
             s_checkout = RoomAllSerializer(checkout,many=True)
