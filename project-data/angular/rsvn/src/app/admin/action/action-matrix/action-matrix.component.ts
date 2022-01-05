@@ -25,14 +25,19 @@ export class ActionMatrixComponent implements OnInit {
 
   ) { }
 
+
+    sidebar = "test"
+
   user: any
   roomList: any;
-  dispList: any[] = []
-  actionList: any = []
+  dispList: any[] = [];
+  actionList: any = [];
   loaded = false;
-  refreshTimer: any
-  roomStatus: any
-  startTime: any
+  refreshTimer: any;
+  roomStatus: any;
+  startTime: any;
+  sidebarData:any;
+  rsvnList:any;
 
   markTime(comment: string) {
     console.log("Marking Time -->", comment, '  ', new Date().getTime() - this.startTime)
@@ -51,6 +56,7 @@ export class ActionMatrixComponent implements OnInit {
     let rsvnList:any = []
     let roomList:any = []
     let bldgList:any = []
+
     
     this.startTimer()
     // Grab all of the roominfos
@@ -65,13 +71,13 @@ export class ActionMatrixComponent implements OnInit {
         mergeMap((d) => this.roomService.getRoomDateScan(this.appCons.TODAY, '')),
         tap((active) => activeList = active),
         mergeMap(() => this.genericService.getItemQueryList('rsvn', `active=${this.appCons.TODAY}`)),
-        tap((rsvn) => rsvnList = rsvn),
+        tap((rsvn) => this.rsvnList = rsvn),
         mergeMap(() => this.genericService.getItemList('roominfo')),
-        tap((rsvn) => roomList = rsvn)
+        tap((roominfo) => roomList = roominfo)
       )
       .subscribe(
         (d) => {
-          this.dispList = this.mergeDisplist(bldgList,roomList,actionList,activeList,rsvnList)
+          this.dispList = this.mergeDisplist(bldgList,roomList,actionList,activeList)
           this.loaded = true
           this.markTime("completed")
         }
@@ -79,12 +85,15 @@ export class ActionMatrixComponent implements OnInit {
   }
 
 
-
-  actionTitle(action:any) {
-    return "Here is the title"
+  layout(act:any) {
+    act.type = 'active' 
+    act.rsvnData = this.rsvnList.find((rl:any)=> rl.id=act.room.rsvn)
+    this.sidebarData = act
+    console.log(act)
   }
+ 
   //====================================================
-  mergeDisplist(bldgList:any,roomList:any,action:any,active:any,rsvn:any) {
+  mergeDisplist(bldgList:any,roomList:any,action:any,active:any) {
     //inject action 
     action.forEach((act:any) => {
       act.roominfos.forEach((ari:any) => {
