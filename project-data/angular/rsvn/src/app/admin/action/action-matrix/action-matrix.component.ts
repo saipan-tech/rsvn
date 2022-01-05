@@ -87,7 +87,7 @@ export class ActionMatrixComponent implements OnInit {
 
   layout(act:any) {
     act.type = 'active' 
-    act.rsvnData = this.rsvnList.find((rl:any)=> rl.id=act.room.rsvn)
+    act.rsvnData = this.rsvnList.find((rl:any)=> rl.id==act.room.rsvn)
     this.sidebarData = act
     console.log(act)
   }
