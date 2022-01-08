@@ -23,7 +23,7 @@
                 <div class="d-flex">
                     <div [style.width.%]='gridwidth' class="daycell"></div>
                     <div (click)='shiftDate(d)' *ngFor="let d of dayList" [style.width.%]='gridwidth'
-                        [ngStyle]="{'background-color':d === today ? 'yellow' : 'navajowhite' }" class="daycell"> 
+                        [ngStyle]="{'background-color':d === Today ? 'yellow' : 'navajowhite' }" class="daycell"> 
                         {{ d | date:'EE'}}<br>
                         {{ d | date:'M/d'}}
                     </div>

@@ -35,7 +35,9 @@ export class RoomService {
       .get<IRoominfo[]>(`${this.urlRoot}/roominfo?bldgid=${bldgid}`)
   }
 
- 
+  roomClear():Observable<any> {
+    return this.http.get<any>(`${this.urlRoot}/roomclear/`)
+  }
   availableRooms(dateIn:string,dateOut:string):Observable<IRoominfo[]> {
     return this.http.get<IRoominfo[]>(`${this.urlRoot}/roominfo?exclude=1&dateIn=${dateIn}&dateOut=${dateOut}`)
   }

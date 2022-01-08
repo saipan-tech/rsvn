@@ -43,7 +43,7 @@
             
           </mat-expansion-panel>
 
-          <mat-expansion-panel >
+          <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Grid
@@ -51,9 +51,11 @@
               <mat-panel-description>
               </mat-panel-description>
             </mat-expansion-panel-header>
-            <app-grid > </app-grid>
+
+                <app-grid [currRsvn]='currRsvn' (currRsvnChange)='rsvnAction($event)' (currGuestChange)='guestAction($event)'> </app-grid>
+            
           </mat-expansion-panel>
- 
+
       </mat-accordion>
     
 </div>

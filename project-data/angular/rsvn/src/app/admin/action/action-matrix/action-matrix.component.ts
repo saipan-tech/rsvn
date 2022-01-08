@@ -38,10 +38,14 @@ export class ActionMatrixComponent implements OnInit {
   startTime: any;
   sidebarData:any;
   rsvnList:any;
+    staffList:any;
 
+
+  //====================================================
   markTime(comment: string) {
     console.log("Marking Time -->", comment, '  ', new Date().getTime() - this.startTime)
   }
+  //====================================================
   startTimer() {
     this.startTime = new Date().getTime()
     console.log("Starting Timer")
@@ -57,7 +61,7 @@ export class ActionMatrixComponent implements OnInit {
     let roomList:any = []
     let bldgList:any = []
 
-    
+    let Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
     this.startTimer()
     // Grab all of the roominfos
     this.genericService.getItemList('bldg')
@@ -68,38 +72,39 @@ export class ActionMatrixComponent implements OnInit {
         mergeMap((d) => this.genericService.getItemQueryList('action', 'today=1')),
         tap((action) => actionList=action),
         // scan rsvn rooms active
-        mergeMap((d) => this.roomService.getRoomDateScan(this.appCons.TODAY, '')),
+        mergeMap((d) => this.roomService.getRoomDateScan(Today, '')),
         tap((active) => activeList = active),
-        mergeMap(() => this.genericService.getItemQueryList('rsvn', `active=${this.appCons.TODAY}`)),
+        // get active rsvns
+        mergeMap(() => this.genericService.getItemQueryList('rsvn', `active=${Today}`)),
         tap((rsvn) => this.rsvnList = rsvn),
+        // get all roominfo
         mergeMap(() => this.genericService.getItemList('roominfo')),
-        tap((roominfo) => roomList = roominfo)
+        tap((roominfo) => roomList = roominfo),
+        mergeMap(() => this.genericService.getItemList('staff')),
+        tap((staff) => this.staffList = staff),
       )
       .subscribe(
         (d) => {
           this.dispList = this.mergeDisplist(bldgList,roomList,actionList,activeList)
           this.loaded = true
           this.markTime("completed")
+          
         }
       )
   }
-
-
-  layout(act:any) {
-    act.type = 'active' 
-    act.rsvnData = this.rsvnList.find((rl:any)=> rl.id==act.room.rsvn)
-    this.sidebarData = act
-    console.log(act)
-  }
- 
   //====================================================
+  layout(act:any) {
+    this.sidebarData = act
+  }
+   //====================================================
   mergeDisplist(bldgList:any,roomList:any,action:any,active:any) {
     //inject action 
     action.forEach((act:any) => {
+      let srec = this.staffList.find((sl:any)=> sl.id==act.staff)
       act.roominfos.forEach((ari:any) => {
         let found = roomList.find((rl:any) => rl.id==ari)
         if(! found.action) found.action = []
-        found.action.push(act)
+        found.action.push({action:act,staff:srec })
       })
     })
     // Inject active 
@@ -107,7 +112,7 @@ export class ActionMatrixComponent implements OnInit {
       active[key].forEach( (act:any) => {
         let found = roomList.find((rl:any) => rl.id==act.roominfo)
         if(! found.active) found.active = []
-          found.active.push({act:key,room:act})
+          found.active.push({active:key,room:act})
       })
     }
     let dispList:any = []
@@ -154,56 +159,3 @@ export class ActionMatrixComponent implements OnInit {
   //=================================
 
 }
-
-/*
-  refreshGrid() {
-    let _dispList: any = {}
-    let dispList: any = []
-    let actionList: any = []
-    let staffRoomList: any = []
-    let activeRoomList: any = []
-
-    // Grab all of the roominfos
-    this.genericService.getItemQueryList('roominfo', `all=1`)
-      // getting all rooms
-      .pipe(map(d => {
-        d.forEach(
-          rec => {
-            if (!_dispList[rec.bldg.name]) _dispList[rec.bldg.name] = []
-            _dispList[rec.bldg.name].push(rec)
-          })
-        for (let key of Object.keys(_dispList)) {
-          dispList.push({ name: key, rooms: _dispList[key] })
-        }
-      }
-      ),
-        //getting todays action
-        concatMap((d) => this.genericService.getItemQueryList('action', 'today=1&all=1')),
-        tap((action) => {
-            staffRoomList = []
-            action.forEach((act: any) => {
-              act.roominfos.forEach(
-                (ri: any) => staffRoomList.push({
-                  roominfoID: ri.id, actID: act.id,
-                  actDept: act.department, name: `${act.staff.first_name} ${act.staff.last_name}`,
-                })
-              )
-            })
-          }),
-        // scan rsvn rooms active
-        concatMap((d) => this.roomService.getRoomDateScan(this.appCons.TODAY,'all')) ,
-        tap((active:any) => {
-            activeRoomList = active
-          console.log("Active",active)
-          })
-        )
-        .subscribe(
-        (d) => {
-
-          this.dispList = dispList
-          this.loaded =true
-
-        }
-      )
-  }
-*/

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppConstants } from '@app/app.constants';
@@ -34,7 +34,8 @@ import { HeaderComponent } from './header/header.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { RatemgrModule } from './ratemgr/ratemgr.module';
 import { SharedModule } from '@app/shared/shared.module';
-import { RoomListItemComponent } from './config/room-list/room-list-item.component'
+import { RoomListItemComponent } from './config/room-list/room-list-item.component';
+
 
 @NgModule({
   declarations: [
@@ -50,11 +51,12 @@ import { RoomListItemComponent } from './config/room-list/room-list-item.compone
     DropdownComponent,
     GuestListComponent,
     HeaderComponent,
-    RoomListItemComponent,
+    RoomListItemComponent
     
   
 
   ],
+  
   imports: [
     SharedModule,
     BrowserModule,
@@ -76,8 +78,6 @@ import { RoomListItemComponent } from './config/room-list/room-list-item.compone
     CarouselModule.forRoot(),
 
   ],
-  
-
   
   providers: [authInterceptorProviders,AppEnv,AppConstants],
   bootstrap: [AppComponent]

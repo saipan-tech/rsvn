@@ -11,7 +11,7 @@ import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog"
 import { catchError, tap, map, concatMap } from 'rxjs/operators';
 import { iif, of, interval, Observable } from 'rxjs';
 import { AppConstants } from '@app/app.constants'
-
+import { RoomService } from '@app/_services/room.service';
 @Component({
   selector: 'app-room-ctrl',
   templateUrl: './room-ctrl.component.html',
@@ -41,12 +41,13 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   seasonList: ISeason[] = []
 
   refreshTimer: any
+  Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
 
   constructor(
     private genericService: GenericService,
     private dialogManagerService: DialogManagerService,
-    private appConstants: AppConstants
-
+    private appConstants: AppConstants,
+    private roomService: RoomService
   ) { }
 
 
@@ -65,54 +66,54 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
   //=================================
   rsvnDateActive() {
-    const today = new Date(this.appConstants.TODAY).getTime()
+    const today = new Date(this.Today).getTime()
     const inDate = new Date(this.currRsvn.dateIn).getTime()
-    
     // adjust till end of the day for checkouts
     const outDate = new Date(this.currRsvn.dateOut).getTime()
-
     if (inDate <= today && outDate >= today) return true
     return false
   }
   //=================================
   rsvnArchive() {
-    const today = new Date(this.appConstants.TODAY).getTime()
+    const today = new Date(this.Today).getTime()
     const inDate = new Date(this.currRsvn.dateIn).getTime()
     const outDate = new Date(this.currRsvn.dateOut).getTime()
     if (outDate <= today) return true
     return false
   }
+
+
+
+
   //=================================
   check(room: any, mode: string) {
-    if (this.rsvnDateActive()) {
-      this.genericService.getItem('room', room.roomid)
-        .pipe(
-          map(rm => {
-            rm.status = mode;
-            return rm;
-          }),
-          concatMap(rm => this.genericService.updateItem('room', rm)),
-          concatMap(() => this.genericService.getItem('roominfo', room.roominfo.id)),
-          map((ri: any) => {
-            if (mode == 'checkin') {
-              ri.check = true
-              ri.status = 'occupied'
-            }
-            else {
-              ri.check = false
-              ri.status = 'dirty'
-            }
-            return ri
-          }),
-          concatMap((ri: any) => this.genericService.updateItem('roominfo', ri))
-        )
-        .subscribe(
-          d => {
-            this.refreshRoomlist(3)
-            this.refreshRsvn();
+    this.genericService.getItem('room', room.roomid)
+      .pipe(
+        map(rm => {
+          rm.status = mode;
+          return rm;
+        }),
+        concatMap(rm => this.genericService.updateItem('room', rm)),
+        concatMap(() => this.genericService.getItem('roominfo', room.roominfo.id)),
+        map((ri: any) => {
+          if (mode == 'checkin') {
+            ri.check = true
+            ri.status = 'occupied'
           }
-        )
-    }
+          else if (mode == 'checkout') {
+            ri.check = false
+            ri.status = 'dirty'
+          }
+          return ri
+        }),
+        concatMap((ri: any) => this.genericService.updateItem('roominfo', ri))
+      )
+      .subscribe(
+        d => {
+          this.refreshRoomlist(3)
+          this.refreshRsvn();
+        }
+      )
   }
   //=================================
   unassignRoom(r: any) {
@@ -137,18 +138,6 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
     })
   }
   //=================================
-  sortRoomList(rooms: any) {
-    rooms.sort(function (a: any, b: any) {
-      var A = a.roominfo.bldg.name + a.roominfo.number; // ignore upper and lowercase
-      var B = b.roominfo.bldg.name + b.roominfo.number; // ignore upper and lowercase
-      if (A > B) { return 1; }
-      if (A < B) { return -1; }
-      return 0;
-    });
-    return rooms
-  }
-  //=================================
-
   refreshRsvn() {
     this.genericService.getItem("rsvn", this.currRsvn.id).subscribe(
       data => {
@@ -161,24 +150,26 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     console.log("Changes", changes)
     this.refreshRoomlist(0)
-
     // this.refreshRsvn();
   }
   //=================================
-
   refreshRoomlist(index: number) {
-    
+    this.roomService.roomClear().subscribe()
+    console.log("refresh room")
     if (this.currRsvn && this.currRsvn.id) {
       this.genericService.getItemQueryList('room', `rsvn=${this.currRsvn.id}&all=1`)
         .subscribe(
           rooms => {
             this.roomList = rooms.map(rms => rms = { roominfo: rms.roominfo, status: rms.status, roomid: rms.id })
-            this.roomList = this.sortRoomList(this.roomList);
+            this.currNumRooms = this.roomList.length
           }
         )
     }
-
   }
+  //=================================
+
+    // scan to be sure no expired reservation has rooms checked in if so check out
+    // make sure occupied rooms have an associated valid room reservation
   //=================================
   ngOnInit(): void {
     let index = 0
@@ -194,14 +185,13 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
     if (this.refreshTimer) {
       clearInterval(this.refreshTimer)
     }
-
   }
 }
+//=================================
 
 /*
 
 
-  //=================================
   makeList() {
     this.dispList = []
     this.bldgList.forEach(
@@ -231,6 +221,17 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
 
 
+  //=================================
+  sortRoomList(rooms: any) {
+    rooms.sort(function (a: any, b: any) {
+      var A = a.roominfo.bldg.name + a.roominfo.number; // ignore upper and lowercase
+      var B = b.roominfo.bldg.name + b.roominfo.number; // ignore upper and lowercase
+      if (A > B) { return 1; }
+      if (A < B) { return -1; }
+      return 0;
+    });
+    return rooms
+  }
   //=================================
   ngOnInit(): void {
     // Get Rate List

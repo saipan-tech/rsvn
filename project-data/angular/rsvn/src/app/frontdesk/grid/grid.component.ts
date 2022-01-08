@@ -32,11 +32,11 @@ export class GridComponent implements OnInit, OnChanges {
   selected: any
   sliderValue: any
   currRsvnRooms: IRoom[] = []
-
+  Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
   // -------------------------------------------
   @Input() currRsvn = {} as IRsvn
   @Input() currGuest = {} as IGuest
-  @Input() currDateStart = this.addDay(this.today, -4)
+  @Input() currDateStart = this.addDay(this.Today, -4)
   @Input() days = 24
   // -------------------------------------------
   @Output() currRsvnChange = new EventEmitter<IRsvn>()

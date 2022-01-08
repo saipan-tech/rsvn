@@ -231,9 +231,9 @@ class RoomAction (models.Model):
     descr           =   models.CharField(max_length=2048, blank=True)
     result          =   models.CharField(max_length=1024, blank=True)
     date            =   models.DateField()
+    once            =   models.BooleanField(default=False)
     continuous      =   models.BooleanField(default=False)
-    completed       =   models.BooleanField(default=False)
-    started         =   models.BooleanField(default=False)
+    days            =   models.CharField(max_length=128,blank=True)
     assignedBy      =   models.CharField(max_length=80)
     created         =   models.DateTimeField(auto_now_add=True)
 

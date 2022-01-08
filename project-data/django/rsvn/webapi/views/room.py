@@ -13,7 +13,7 @@ class RoomViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Room.objects.all().order_by('roominfo__number')
+    queryset = Room.objects.all().order_by('roominfo__bldg__name','roominfo__number')
     serializer_class = RoomSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -22,13 +22,12 @@ class RoomViewSet(viewsets.ModelViewSet):
         tomorrow = TODAY - timedelta(days=1)
         queryset = super().get_queryset() 
         if "active" in self.request.GET :
-            queryset = queryset.filter(rsvn__dateIn__lte = today, rsvn__dateOut__gte = today )
+            queryset = queryset.filter(rsvn__dateIn__lte = today, rsvn__dateOut__gte = TODAY )
         if "rsvn" in self.request.GET :
             queryset = queryset.filter(rsvn__id=self.request.GET['rsvn'])
         
         if "future" in self.request.GET :
             queryset = queryset.filter( rsvn__dateOut__gt=self.request.GET['future'])
-
 
         if  "dateIn" in self.request.GET and "dateOut" in self.request.GET :
             dateIn = self.request.GET['dateIn']
@@ -157,3 +156,19 @@ class BldgRoom(APIView):
             r = roominfo.filter(bldg__id=b.id).order_by('number')
             result.append({'bldg':BldgSerializer(b).data,'rooms':RoominfoSerializer(r,many=True).data})
         return Response(result)    
+#------------------------------------------
+class RoomClear(APIView) : 
+#------------------------------------------
+    def get(self,request, format=None)  :
+        rooms = Room.objects.filter(status='checkin',rsvn__dateOut__lt=YESTERDAY)
+        for r in rooms:
+            curr_room = Room.objects.filter(roominfo__id=r.roominfo.id,rsvn__dateIn__lte=TODAY,rsvn__dateOut__gte=TODAY) 
+            if not curr_room :
+                ri =  Roominfo.objects.get(id=r.roominfo.id)
+                ri.status = 'dirty'
+                ri.check = False
+                ri.save()
+            r.status = 'checkout'
+            r.save()
+        return Response(RoomSerializer(rooms,many=True).data)    
+    

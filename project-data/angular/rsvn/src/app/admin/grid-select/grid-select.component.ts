@@ -10,18 +10,14 @@ import { GenericService } from '@app/_services/generic.service';
 import { SystemService } from '@app/_services/system.service';
 import { RoomService } from '@app/_services/room.service';
 import { AppConstants } from '@app/app.constants';
-
 import { AuthService } from '@app/_services/auth.service';
 import { catchError, tap, map, concatMap, mergeMap } from 'rxjs/operators';
 import { IAction } from '@app/_interface/action';
-
-
 export interface IDStatus  {
   checkin: IRoom[];
   checkout: IRoom[];
   inhouse : IRoom[];
 }
-
 
 @Component({
   selector: 'app-grid-select',
@@ -37,10 +33,8 @@ export class GridSelectComponent implements OnInit {
   roomList: IRoominfo[] = []
   dispList: any = []
   roomstatusList: IDropdown[] = []
-
   dateStatus : IDStatus = {} as IDStatus; 
   today = new Date().toISOString().slice(0,10)
-  
   user: any
   
   constructor(
@@ -92,7 +86,6 @@ export class GridSelectComponent implements OnInit {
        }
       }
     )
-
     this.bldgList.forEach(
       bld => {
         let rooms = this.roomList.filter(r => r.bldg == bld.id)

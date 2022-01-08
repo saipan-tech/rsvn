@@ -15,15 +15,16 @@ export class ActionMatrixSidebarComponent implements OnInit {
 
   ) { }
   
-  
+  reset() {
+    this.data = {info:"Reset it" }
+  }
   ngOnChanges(changes:SimpleChanges) {
     console.log(this.data)
- 
+   
 
   }
   ngOnInit(): void {
-  this.data.rsvnRec = {}
-
+    this.data = {info:"Here is a default string"}
   }
 
 }

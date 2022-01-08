@@ -39,7 +39,9 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
     archive: new FormControl(''),
   });
 
-  today = new Date().toISOString().slice(0, 10)
+  infoOn = false;
+
+  today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
   guestList: any[] = []
   rsvnList: any[] = []
   resultInfo: any
@@ -49,7 +51,7 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
   resultList: any[] = []
   scanList: any[] = []
   rsvn$: any
-  selectHead = ''
+  selectHead = 'Current Information'
   //--------------------------------------
   sortRsvnDateList(rlist: any) {
     rlist.sort(function (a: any, b: any) {
@@ -154,9 +156,16 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
     this.resultList = []
     this.rsvnList = []
     this.guestList = []
+    this.infoOn = false;
     let rsvn$
     let guest$
     switch (mode) {
+      case 'current':
+        this.selectHead = "Current Information"
+      this.infoOn = true
+   
+        break;
+    
       case 'active':
         rsvn$ = this.genericService.getItemQueryList("rsvn", `active=${this.today}`)
         this.selectHead = "Active Reservations"

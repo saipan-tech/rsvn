@@ -1,3 +1,4 @@
-<div *ngIf="data && data.type && data.type=='active'">
-    {{ data.rsvnData | json }}
+<button (click)="reset()">Clear</button>
+<div *ngIf="data">
+    {{ data | json }}
 </div>

@@ -1,12 +1,30 @@
 .grid_button {
     width:150px;
+    height:120px;
     padding:0;
-    border:1px solid green;
+   // border:1px solid green;
+
+    margin:5px;
 }
 
 .check-button {
 padding:none;
 background-color:inherit;
 border:none;
+height:30px;
 
+}
+.subcell {
+    height:40px;
+}
+.mat-menu-item {
+    margin-left:15px;
+    padding:none !important;
+    font-size:medium;
+  
+}
+.menu-head {
+    font-weight:bold;
+    text-align:center;
+    padding:1em;
 }

@@ -12,6 +12,7 @@
         <hr>
         <div style="text-align:left">
             <div>
+                <button mat-button (click)="activeRes('current')">Current</button>
                 <button mat-button (click)="activeRes('rsvns')">All Rsvns</button>
                 <button mat-button (click)="activeRes('active')">Active</button>
                 <button mat-button (click)="activeRes('future')">Future</button>
@@ -26,17 +27,21 @@
         </div>
 
     </div>
-    <div style=" font-size:14pt; font-weight:bold; text-align:center">
+    <div style=" font-size:14pt; font-weight:bold; text-align:center;padding:1em">
         {{ selectHead }}
-        <hr>
-    </div>
-    <div class="card-body p-0" style="overflow-y:scroll">
 
+    </div>
+<hr>
+    <div class="card-body p-0" style="overflow-y:scroll">
 
             <app-searcher-list (currGuestChange)='selectGuest($event)' (currRsvnChange)='selectRsvn($event)'
                 [resultList]='resultList'>
             </app-searcher-list>
-        </div>
 
-   
+            <div *ngIf="infoOn">
+                <app-info></app-info>
+            </div>
+        
+    </div>
+
 </div>

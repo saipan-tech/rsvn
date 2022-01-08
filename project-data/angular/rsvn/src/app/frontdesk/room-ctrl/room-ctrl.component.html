@@ -22,15 +22,16 @@
 
                 <mat-menu #roomMenu="matMenu">
                     <div class="menu-head">Action</div>
+
                     
                     <div class="menu-item" 
-                        *ngIf="rsvnDateActive() && r.roominfo.status=='ready' || r.roominfo.status=='checkout' " 
-                        mat-menu-item 
-                        (click)="check(r,'checkin')">Check-In </div>
+                        *ngIf="rsvnDateActive() && r.roominfo.status=='ready' || r.roominfo.status=='checkout'  || r.roominfo.status=='dirty'" 
+                        mat-menu-item (click)="check(r,'checkin')">Check-In </div>
                     
                     <div class="menu-item" 
-                        *ngIf="rsvnDateActive() && r.roominfo.status=='occupied' " 
+                        *ngIf="rsvnDateActive() && r.status=='checkin'" 
                         mat-menu-item (click)="check(r,'checkout')">Check-Out </div>
+               
                     
                     <div class="menu-item" 
                         *ngIf="!rsvnDateActive() && !rsvnArchive()"  

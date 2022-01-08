@@ -5,7 +5,6 @@ import { RsvnEditComponent } from './rsvn-edit/rsvn-edit.component';
 import { GuestEditComponent } from './guest-edit/guest-edit.component';
 import { GridComponent } from './grid/grid.component';
 import { RoomCtrlComponent } from './room-ctrl/room-ctrl.component';
-import { SearchCtrlComponent } from './search-ctrl/search-ctrl.component';
 import { GridLineComponent } from './grid-line/grid-line.component';
 import { RsvnCtrlComponent } from './rsvn-ctrl/rsvn-ctrl.component';
 import { ClockComponent } from '@app/system/clock/clock.component';
@@ -27,10 +26,10 @@ import { MatDialogModule } from "@angular/material/dialog";
 import {SharedDialogModule} from "@app/shared/dialog/shared-dialog.module";
 import { RoomListComponent } from './room-list/room-list.component';
 import {MatExpansionModule} from '@angular/material/expansion';
-import { SearchListComponent } from './search-list/search-list.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { SearcherCtrlComponent } from './searcher-ctrl/searcher-ctrl.component';
 import { SearcherListComponent } from './searcher-list/searcher-list.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 
 @NgModule({
@@ -41,11 +40,9 @@ import { SearcherListComponent } from './searcher-list/searcher-list.component';
     GuestEditComponent,
     GridComponent,
     RoomCtrlComponent,
-    SearchCtrlComponent,
     GridLineComponent,
     RsvnCtrlComponent,
     RoomListComponent,
-    SearchListComponent,
     SearcherCtrlComponent,
     SearcherListComponent
   ],
@@ -67,7 +64,8 @@ import { SearcherListComponent } from './searcher-list/searcher-list.component';
     SharedDialogModule,
     ChargesModule,
     AccordionModule.forRoot(),
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    SharedModule
   ],
   exports: [
     ClockComponent,
