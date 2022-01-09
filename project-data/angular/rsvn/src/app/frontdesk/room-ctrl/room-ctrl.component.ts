@@ -148,14 +148,14 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
   //=================================
   ngOnChanges(changes: SimpleChanges) {
-    console.log("Changes", changes)
     this.refreshRoomlist(0)
     // this.refreshRsvn();
   }
   //=================================
   refreshRoomlist(index: number) {
-    this.roomService.roomClear().subscribe()
-    console.log("refresh room")
+    this.roomService.roomClear().subscribe(
+      data => console.log("clear Room",data)
+    )
     if (this.currRsvn && this.currRsvn.id) {
       this.genericService.getItemQueryList('room', `rsvn=${this.currRsvn.id}&all=1`)
         .subscribe(
