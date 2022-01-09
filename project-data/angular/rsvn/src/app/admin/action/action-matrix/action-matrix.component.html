@@ -18,7 +18,7 @@
                 <button class='check-button'>{{ rms.number }}</button></div>
               <div class="form-control">
                 <div *ngIf="rms.active" class="d-flex">
-                  <div *ngFor="let act of rms.active " title={{act.rsvn|json}}>
+                  <div *ngFor="let act of rms.active " >
                     <button class="check-button" *ngIf="act && act.active == 'checkout'" (click)='layout(act)'> 
                       <img src="/assets/img/check-red.png" height="20px"></button>
                     <button class="check-button" *ngIf="act && act.active == 'checkin'" (click)='layout(act)'>
@@ -29,7 +29,11 @@
                 </div>
               </div>
             </div>
-            <div class="form-control {{rms.status}}" [matMenuTriggerFor]="roomMenu">{{ rms.status}}</div>
+            <div class="d-flex">
+              <div class="form-control {{rms.status}}" [matMenuTriggerFor]="roomMenu">{{ rms.status}}</div>
+              <div class="form-control ">    </div>
+            </div>
+
             <mat-menu  #roomMenu="matMenu">
               <div class="menu-head">Room Status Override</div>
               <button *ngFor="let rs of roomStatus"  mat-menu-item

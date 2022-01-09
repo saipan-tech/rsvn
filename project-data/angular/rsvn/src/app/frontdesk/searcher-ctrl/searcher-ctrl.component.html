@@ -39,7 +39,7 @@
             </app-searcher-list>
 
             <div *ngIf="infoOn">
-                <app-info></app-info>
+                <app-info (currRsvnChange)='selectRsvn($event)'></app-info>
             </div>
         
     </div>

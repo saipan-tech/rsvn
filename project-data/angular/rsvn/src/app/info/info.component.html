@@ -1,4 +1,21 @@
-
-<div class="section-head">Check Ins</div>
-<div class="section-head">Check Outs</div>
-<div class="section-head">In House</div>
+<div *ngIf="activeList && activeList.checkin" class="section-head">Check Ins
+    <div class="d-flex flex-wrap">
+        <div class="bgrid" *ngFor="let cout of activeList.checkin">
+            <button class='{{cout.status}}'  (click)="setRsvn(cout.rsvn)" >{{ cout.bldg}}<br>{{cout.roominfo.number}}</button>
+        </div>
+    </div>
+</div>
+<div *ngIf="activeList && activeList.checkout" class="section-head">Check Outs
+    <div class="d-flex flex-wrap">
+        <div class="bgrid" *ngFor="let cout of activeList.checkout">
+            <button class='{{cout.status}}'  (click)="setRsvn(cout.rsvn)" >{{ cout.bldg}}<br>{{cout.roominfo.number}}</button>
+        </div>
+    </div>
+</div>
+<div *ngIf="activeList && activeList.inhouse" class="section-head">In House
+    <div class="d-flex flex-wrap">
+        <div class="bgrid" *ngFor="let cout of activeList.inhouse">
+            <button class='{{cout.status}}' (click)="setRsvn(cout.rsvn)">{{ cout.bldg}}<br>{{cout.roominfo.number}}</button>
+        </div>
+    </div>
+</div>

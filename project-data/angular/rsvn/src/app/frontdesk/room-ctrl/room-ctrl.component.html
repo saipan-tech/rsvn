@@ -12,7 +12,7 @@
         <div class="flex-con">
             <div *ngFor="let r of roomList" class="rmcell ">
                 
-                <button  [ngClass]="r.status == 'checkin' ? 'checkin' : 'checkout'" [matMenuTriggerFor]="roomMenu">
+                <button  class='{{r.status}}'  [matMenuTriggerFor]="roomMenu">
                     <div >
                         <div class='{{ r.roominfo.bldg.name }}'> {{ r.roominfo.bldg.name }} -- {{ r.roominfo.number }}</div>  
                         <div class="rateAlias">{{ r.roominfo.rateAlias }}</div>

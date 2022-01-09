@@ -26,7 +26,7 @@ export class ActionMatrixComponent implements OnInit {
   ) { }
 
 
-    sidebar = "test"
+  sidebar = "test"
 
   user: any
   roomList: any;
@@ -36,9 +36,9 @@ export class ActionMatrixComponent implements OnInit {
   refreshTimer: any;
   roomStatus: any;
   startTime: any;
-  sidebarData:any;
-  rsvnList:any;
-    staffList:any;
+  sidebarData: any;
+  rsvnList: any;
+  staffList: any;
 
 
   //====================================================
@@ -53,13 +53,13 @@ export class ActionMatrixComponent implements OnInit {
 
   //====================================================
   newRefreshGrid() {
-    
+
     let dispList: any = []
     let actionList: any = []
-    let activeList:any = []
-    let rsvnList:any = []
-    let roomList:any = []
-    let bldgList:any = []
+    let activeList: any = []
+    let rsvnList: any = []
+    let roomList: any = []
+    let bldgList: any = []
 
     let Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
     this.startTimer()
@@ -70,7 +70,7 @@ export class ActionMatrixComponent implements OnInit {
         map(d => bldgList = d),
         //getting todays action
         mergeMap((d) => this.genericService.getItemQueryList('action', 'today=1')),
-        tap((action) => actionList=action),
+        tap((action) => actionList = action),
         // scan rsvn rooms active
         mergeMap((d) => this.roomService.getRoomDateScan(Today, '')),
         tap((active) => activeList = active),
@@ -85,39 +85,40 @@ export class ActionMatrixComponent implements OnInit {
       )
       .subscribe(
         (d) => {
-          this.dispList = this.mergeDisplist(bldgList,roomList,actionList,activeList)
+          this.dispList = this.mergeDisplist(bldgList, roomList, actionList, activeList)
           this.loaded = true
           this.markTime("completed")
-          
+
         }
       )
   }
   //====================================================
-  layout(act:any) {
+  layout(act: any) {
     this.sidebarData = act
   }
-   //====================================================
-  mergeDisplist(bldgList:any,roomList:any,action:any,active:any) {
+  //====================================================
+  mergeDisplist(bldgList: any, roomList: any, action: any, active: any) {
     //inject action 
-    action.forEach((act:any) => {
-      let srec = this.staffList.find((sl:any)=> sl.id==act.staff)
-      act.roominfos.forEach((ari:any) => {
-        let found = roomList.find((rl:any) => rl.id==ari)
-        if(! found.action) found.action = []
-        found.action.push({action:act,staff:srec })
+    action.forEach((act: any) => {
+      let srec = this.staffList.find((sl: any) => sl.id == act.staff)
+      act.roominfos.forEach((ari: any) => {
+        let found = roomList.find((rl: any) => rl.id == ari)
+        if (!found.action) found.action = []
+        found.action.push({ action: act, staff: srec })
       })
     })
     // Inject active 
     for (let key of Object.keys(active)) {
-      active[key].forEach( (act:any) => {
-        let found = roomList.find((rl:any) => rl.id==act.roominfo)
-        if(! found.active) found.active = []
-          found.active.push({active:key,room:act})
+      active[key].forEach((act: any) => {
+          let found = roomList.find((rl: any) => rl.id == act.roominfo)
+          if (!found.active) found.active = []
+          found.active.push({ active: key, room: act })
       })
     }
-    let dispList:any = []
-    bldgList.forEach( (bldg:any) => {
-      dispList.push({ bldg:bldg,rooms:roomList.filter((rl:any) => rl.bldg == bldg.id)})
+
+    let dispList: any = []
+    bldgList.forEach((bldg: any) => {
+      dispList.push({ bldg: bldg, rooms: roomList.filter((rl: any) => rl.bldg == bldg.id) })
 
     })
     return dispList

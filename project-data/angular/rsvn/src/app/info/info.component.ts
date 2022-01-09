@@ -1,24 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { GenericService } from '@app/_services/generic.service';
-import { IRoominfo } from '@app/_interface/roominfo';
 import { AuthService } from '@app/_services/auth.service';
-import { SystemService } from '@app/_services/system.service';
 import { RoomService } from '@app/_services/room.service';
 import { AppConstants } from '@app/app.constants';
 import { catchError, tap, map, mergeMap, concatMap } from 'rxjs/operators';
-
+import { IRsvn } from '@app/_interface/rsvn';
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.scss']
 })
 export class InfoComponent implements OnInit {
-  
+
 
 
   constructor(
     private genericService: GenericService,
-    private systemService: SystemService,
     private roomService: RoomService,
     private authService: AuthService,
 
@@ -28,18 +25,13 @@ export class InfoComponent implements OnInit {
 
 
   @Input() mode: any
+  @Output() currRsvnChange = new EventEmitter<IRsvn>();
+
   user: any
-  roomList: any;
-  dispList: any[] = [];
-  actionList: any = [];
-  loaded = false;
   refreshTimer: any;
-  roomStatus: any;
   startTime: any;
   sidebarData: any;
-  rsvnList: any;
-  staffList: any;
-  activeList:any;
+  activeList: any;
 
   //====================================================
   markTime(comment: string) {
@@ -51,60 +43,57 @@ export class InfoComponent implements OnInit {
     console.log("Starting Timer")
   }
   //====================================================
-  newRefreshGrid() {
-
-    let dispList: any = []
-    let actionList: any = []
+  refreshInfo() {
     let activeList: any = []
-    let rsvnList: any = []
-    let roomList: any = []
-    let bldgList: any = []
-
+    let bldgList:any = []
     let Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
     this.startTimer()
     // Grab all of the roominfos
-    this.genericService.getItemList('bldg')
-      // getting all rooms 
+    this.roomService.getRoomDateScan(Today, '')
+      // getting all rooms that are active today 
       .pipe(
-        map(d => bldgList = d),
-        //getting todays action
-        mergeMap((d) => this.genericService.getItemQueryList('action', 'today=1')),
-        tap((action) => actionList = action),
-        // scan rsvn rooms active
-        mergeMap((d) => this.roomService.getRoomDateScan(Today, '')),
-        tap((active) => this.activeList = active),
-        // get active rsvns
-        mergeMap(() => this.genericService.getItemQueryList('rsvn', `active=${Today}`)),
-        tap((rsvn) => this.rsvnList = rsvn),
+        tap((active) => activeList = active),
+        concatMap(() => this.genericService.getItemList('bldg')),
+        tap((bld)=> bldgList = bld),
         // get all roominfo
-        mergeMap(() => this.genericService.getItemList('roominfo')),
-        tap((roominfo) => roomList = roominfo),
-        mergeMap(() => this.genericService.getItemList('staff')),
-        tap((staff) => this.staffList = staff),
+        concatMap(() => this.genericService.getItemList('roominfo')),
+        tap((roominfo: any[]) => {
+          for (let key of Object.keys(activeList)) {
+            activeList[key].forEach((act: any) => {
+                let found = roominfo.find((rl: any) => rl.id == act.roominfo)
+                let bf    = bldgList.find((bl:any) => bl.id == found.bldg)
+                act.roominfo  = found
+                act.bldg      = bf.name
+             })}
+          this.activeList = activeList
+          console.log(this.activeList)
+        })
       )
       .subscribe(
         (d) => {
           this.markTime("completed")
-
         }
       )
   }
- //====================================================
- ngOnInit(): void {
-  this.authService.getSession().subscribe(
-    data => this.user = data
-  )
-  this.systemService.getDropdownList('roomstatus').subscribe(
-    data => this.roomStatus = data
-  )
-  this.refreshTimer = setInterval(
-    () => { this.newRefreshGrid() }, 15000)
-  this.newRefreshGrid()
-}
-//=================================
-ngOnDestroy() {
-  if (this.refreshTimer) {
-    clearInterval(this.refreshTimer)
+  //====================================================
+  setRsvn(rsvnid:number) {
+    this.genericService.getItem("rsvn",rsvnid)
+      .subscribe(data => this.currRsvnChange.emit(data))
+
   }
-}
+  //====================================================
+  ngOnInit(): void {
+    this.authService.getSession().subscribe(
+      data => this.user = data
+    )
+    this.refreshTimer = setInterval(
+      () => { this.refreshInfo() }, 15000)
+    this.refreshInfo()
+  }
+  //=================================
+  ngOnDestroy() {
+    if (this.refreshTimer) {
+      clearInterval(this.refreshTimer)
+    }
+  }
 }

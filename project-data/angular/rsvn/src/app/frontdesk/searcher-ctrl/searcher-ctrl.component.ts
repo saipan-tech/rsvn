@@ -39,7 +39,7 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
     archive: new FormControl(''),
   });
 
-  infoOn = false;
+  infoOn = true;
 
   today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
   guestList: any[] = []

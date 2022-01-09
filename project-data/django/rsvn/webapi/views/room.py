@@ -125,7 +125,8 @@ class RoomDateScan(APIView):
 #------------------------------------------
    
     def get(self,request,date, format=None)  :
-        room = Room.objects.all()
+        listing = []
+        room = Room.objects.all().order_by('roominfo__bldg__name','roominfo__number')
         checkin = room.filter(rsvn__dateIn=date)
         checkout =room.filter(rsvn__dateOut=date)
         inhouse = room.filter(rsvn__dateIn__lt=date,rsvn__dateOut__gt=date)
@@ -141,7 +142,8 @@ class RoomDateScan(APIView):
             s_checkin = RoomSerializer(checkin,many=True)
             s_checkout = RoomSerializer(checkout,many=True)
             s_inhouse = RoomSerializer(inhouse,many=True)
-        return Response({ 'checkin':s_checkin.data,'checkout':s_checkout.data,'inhouse':s_inhouse.data })        
+
+        return Response({ 'checkin':s_checkin.data,'checkout':s_checkout.data,'inhouse':s_inhouse.data})        
 
 
 #------------------------------------------
@@ -162,12 +164,10 @@ class RoomClear(APIView) :
     def get(self,request, format=None)  :
         rooms = Room.objects.filter(status='checkin',rsvn__dateOut__lt=YESTERDAY)
         for r in rooms:
-            curr_room = Room.objects.filter(roominfo__id=r.roominfo.id,rsvn__dateIn__lte=TODAY,rsvn__dateOut__gte=TODAY) 
-            if not curr_room :
-                ri =  Roominfo.objects.get(id=r.roominfo.id)
-                ri.status = 'dirty'
-                ri.check = False
-                ri.save()
+            ri =  Roominfo.objects.get(id=r.roominfo.id)
+            ri.status = 'dirty'
+            ri.check = False
+            ri.save()
             r.status = 'checkout'
             r.save()
         return Response(RoomSerializer(rooms,many=True).data)    
