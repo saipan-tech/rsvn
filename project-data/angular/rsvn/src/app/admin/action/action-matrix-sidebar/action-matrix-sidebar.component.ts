@@ -15,16 +15,23 @@ export class ActionMatrixSidebarComponent implements OnInit {
 
   ) { }
   
+loadData() {
+  if(this.data && this.data.active) {
+    console.log(this.data)
+  }
+
+}
+
+
+
   reset() {
     this.data = {info:"Reset it" }
   }
   ngOnChanges(changes:SimpleChanges) {
-    console.log(this.data)
-   
-
+    this.loadData()
   }
   ngOnInit(): void {
-    this.data = {info:"Here is a default string"}
+    this.loadData()
   }
 
 }

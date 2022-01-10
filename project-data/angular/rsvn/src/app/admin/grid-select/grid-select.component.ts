@@ -34,7 +34,7 @@ export class GridSelectComponent implements OnInit {
   dispList: any = []
   roomstatusList: IDropdown[] = []
   dateStatus : IDStatus = {} as IDStatus; 
-  today = new Date().toISOString().slice(0,10)
+  Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
   user: any
   
   constructor(
@@ -46,18 +46,9 @@ export class GridSelectComponent implements OnInit {
     private appCons: AppConstants,
   ) { }
 
-  // -------------------------------------------
-  makeList() {
-    this.dispList = []
-    let found : IRoominfo | any
-    this.roominfos.forEach(
-      ri => {
-       found  = this.roomList.find( rl => ri == rl.id )
-       if(found) {
-        found['marker'] = 'marked'
-       }
-      }
-    )
+
+
+  overlayMask() {
     this.dateStatus.checkout.forEach(
       ds => {
        let found  = this.roomList.find( rl => ds.roominfo == rl.id )
@@ -86,6 +77,22 @@ export class GridSelectComponent implements OnInit {
        }
       }
     )
+
+  }
+  // -------------------------------------------
+  makeList() {
+    this.dispList = []
+    let found : IRoominfo | any
+
+    this.roominfos.forEach(
+      ri => {
+       found  = this.roomList.find( rl => ri == rl.id )
+       if(found) {
+        found['marker'] = 'marked'
+       }
+      }
+    )
+
     this.bldgList.forEach(
       bld => {
         let rooms = this.roomList.filter(r => r.bldg == bld.id)
@@ -93,6 +100,7 @@ export class GridSelectComponent implements OnInit {
         this.dispList.push({ bldg, rooms })
       }
     )
+
   }
   
   //---------------------------------
@@ -110,7 +118,8 @@ export class GridSelectComponent implements OnInit {
   }
 
   // -------------------------------------------
-  ngOnChanges(changs: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges) {
+    console.log("Changes",changes)
     this.ngOnInit()
   }
 
@@ -120,13 +129,20 @@ export class GridSelectComponent implements OnInit {
     this.authService.getSession().subscribe(
       data => this.user = data
     )
+    let obs$:any
+    if(this.actionRec.continuous) {
+      obs$ = this.roomService.getRoomDateScan(this.Today,'')
+    } else {
+      obs$ = this.roomService.getRoomDateScan(this.actionRec.date,'')
+    }
+    
     this.genericService.getItemList('roominfo')
       .pipe(
         tap( data => this.roomList = data),
         concatMap(() => this.genericService.getItemList("bldg")),
         tap(bldgs => this.bldgList = bldgs),
-        concatMap(()=> this.roomService.getRoomDateScan(this.actionRec.date,'')),
-        tap( d => this.dateStatus = d)
+        concatMap(()=> obs$),
+        tap( (d:any) => this.dateStatus = d)
         )
         .subscribe(d => this.makeList())
   }

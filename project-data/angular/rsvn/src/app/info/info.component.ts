@@ -11,9 +11,6 @@ import { IRsvn } from '@app/_interface/rsvn';
   styleUrls: ['./info.component.scss']
 })
 export class InfoComponent implements OnInit {
-
-
-
   constructor(
     private genericService: GenericService,
     private roomService: RoomService,
@@ -22,7 +19,6 @@ export class InfoComponent implements OnInit {
     private appCons: AppConstants,
 
   ) { }
-
 
   @Input() mode: any
   @Output() currRsvnChange = new EventEmitter<IRsvn>();

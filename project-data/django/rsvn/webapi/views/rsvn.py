@@ -69,7 +69,7 @@ class RsvnViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(primary__id=self.request.GET['guest'])
 
         if "rsvn" in self.request.GET:
-            queryset = queryset.filter(dateOut__gte=self.request.GET['rsvn']).order_by('primary__lastname','primary__firstname')
+            queryset = queryset.filter(dateOut__gte=self.request.GET['rsvn'])
     
         if "checkin" in self.request.GET :
             queryset = queryset.filter( dateIn=self.request.GET['checkin'])
@@ -78,7 +78,7 @@ class RsvnViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter( dateOut=self.request.GET['checkout'])
 
         if "future" in self.request.GET :
-            queryset = queryset.filter( dateIn__gte=self.request.GET['future'])
+            queryset = queryset.filter( dateIn__gt=self.request.GET['future'])
 
         if "active" in self.request.GET :
             queryset = queryset.filter( dateIn__lte=self.request.GET['active'],dateOut__gte=self.request.GET['active'])
@@ -102,7 +102,7 @@ class RsvnViewSet(viewsets.ModelViewSet):
                     )
     
             
-        return queryset    
+        return queryset.order_by('primary__lastname','primary__firstname')    
 
     def create(self,request):
         guest = Guest.objects.get(id=int(request.data['primary']))

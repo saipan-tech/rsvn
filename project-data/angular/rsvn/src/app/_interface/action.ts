@@ -9,9 +9,10 @@ export interface IAction {
     result      : string;
     date        : string;
     assignedBy  : string;
-    started     : boolean;
-    completed   : boolean;
+    days        : string;
     continuous  : boolean;
+    once        : boolean;
     created     : string;
     fullname? : string;
 }
+

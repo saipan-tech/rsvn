@@ -16,11 +16,18 @@ import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog"
 import { PostalService } from '@app/_services/postal.service';
 import { IAction } from '@app/_interface/action';
 import { RoomService } from '@app/_services/room.service';
+
+
+let days = [ 'mon','tue','wed','thr','fri','sat','sun']
+
+
 @Component({
   selector: 'app-action-edit',
   templateUrl: './action-edit.component.html',
   styleUrls: ['./action-edit.component.scss']
 })
+
+
 export class ActionEditComponent implements OnInit {
 
   deptList: any[] = []
@@ -100,6 +107,13 @@ export class ActionEditComponent implements OnInit {
   updateAction() {
 
     this.actionRec = this.actionEditForm.value
+    this.actionRec.days = ""
+    for( let d of days) {
+      if(this.actionEditForm.value[d] == true) {
+        this.actionRec.days = this.actionRec.days + d + ',' 
+       
+      }
+    }
 
     this.genericService.updateItem('action', this.actionRec)
       .subscribe(
@@ -133,8 +147,18 @@ export class ActionEditComponent implements OnInit {
     if (this.actionRec && this.actionRec.id) {
       this.makeStaffList(this.actionRec.department)
     }
-
+    
     this.actionEditForm.patchValue(this.actionRec)
+    // split out the days and load the checkboxes
+    let dayList = this.actionRec.days.split(',')
+  
+    for( let d of days) {
+      if(dayList.find(dl => dl == d)) {
+        this.actionEditForm.controls[d].patchValue(true)
+      } else {
+        this.actionEditForm.controls[d].patchValue(false)
+      }
+    }
    
   }
 
