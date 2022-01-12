@@ -22,6 +22,8 @@ class StaffViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(department=self.request.GET['department'])
         if "title" in self.request.GET:
             queryset = queryset.filter(title=self.request.GET['title'])
+        if "username" in self.request.GET:
+            queryset = queryset.filter(username=self.request.GET['username'])
         return queryset    
 
     # ----------------------------

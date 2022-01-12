@@ -6,9 +6,10 @@ cd rsvn
 ./manage.py startapp webapi
 cd ..
 fi
+
 cd rsvn
-./manage.py makemigrations --noinput
-./manage.py  migrate
+#./manage.py makemigrations --noinput
+#./manage.py  migrate
 ./manage.py runserver 0.0.0.0:9000
 
 

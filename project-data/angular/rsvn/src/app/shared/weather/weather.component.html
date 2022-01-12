@@ -1,0 +1,83 @@
+<div class="pane card">
+    <div class="card-header" style="background-color:skyblue">
+        <h5 style="display:inline;margin-right:2em">Weather</h5>
+        <mat-radio-group style="height:10px" aria-labelledby="example-radio-group-label" class="example-radio-group"
+            [(ngModel)]="weatherUnits">
+            <mat-radio-button style="margin-right:1em" (change)='refreshWeather(unit)' class="example-radio-button"
+                *ngFor="let unit of units" [value]="unit">
+                {{unit}}
+            </mat-radio-button>
+        </mat-radio-group>
+        <img *ngIf="weather" height='50px' src='{{weather.icon}}'>
+    </div>
+    <div class="card-header">
+<div class="row">
+    <div class="col-md-6">
+        <form>
+            <mat-form-field  appearance="fill">
+                <mat-label>City Name</mat-label>
+                <input type="text"  matInput  [formControl]="myControl" [matAutocomplete]="auto">
+                <mat-autocomplete (optionSelected)="cityChange($event)" #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of locationResults" [value]="option">
+                        {{option.name}} {{option.state}} {{option.country}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+
+    </div>
+    <div class="col-md-6">
+        <h3 *ngIf="currCity && currCity.iid">{{currCity.name}},{{currCity.state}} {{currCity.country}}</h3>
+    </div>
+</div>
+    </div>
+
+    <div *ngIf="weather" class="card-body" style="overflow-y:scroll">
+        
+        
+        <div *ngFor="let w of weather.weather">
+            <h4>{{ w.main }} - {{ w.description}}</h4>
+
+        </div>
+        <table class="wtable" style="width:100%">
+            <tr>
+                <td style="width:40%">Sunrise</td>
+                <td>{{weather.sunrise | date:'shortTime' }}</td>
+            </tr>
+            <tr>
+                <td>Sunset</td>
+                <td>{{weather.sunset | date:'shortTime'}}</td>
+            </tr>
+            <tr>
+                <td>Temperature</td>
+                <td>{{weather.main.temp}}&deg;{{ weatherUnits =='Imperial'? 'F' : 'C'}}</td>
+            </tr>
+            <tr>
+                <td>Feels Like</td>
+                <td>{{weather.main.feels_like}}&deg;{{ weatherUnits =='Imperial'? 'F' : 'C'}}</td>
+            </tr>
+            <tr>
+                <td>High Temperature</td>
+                <td>{{weather.main.temp_max}}&deg;{{ weatherUnits =='Imperial'? 'F' : 'C'}}</td>
+            </tr>
+            <tr>
+                <td>Low Temperature</td>
+                <td>{{weather.main.temp_min}}&deg;{{ weatherUnits =='Imperial'? 'F' : 'C'}}</td>
+            </tr>
+
+            <tr>
+                <td>Humidity</td>
+                <td>{{weather.main.humidity}}% </td>
+            </tr>
+            <tr>
+                <td>Wind Speed</td>
+                <td>{{ weather.wind.speed }} {{ weatherUnits =='Imperial'? 'mph' : 'm/sec'}}</td>
+            </tr>
+            <tr>
+                <td>Gusting</td>
+                <td>{{ weather.wind.gust }} {{ weatherUnits =='Imperial'? 'mph' : 'm/sec'}}</td>
+            </tr>
+        </table>
+
+    </div>
+</div>

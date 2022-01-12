@@ -20,7 +20,7 @@ interface xRec {
   user: IUser;
 }
 let staffkey = ["id","user", "username", "first_name", "last_name", "middle_name", "phone1", "phone2",
-  "address", "city", "state", "zipcode", "country", "title", "email",'department']
+  "address", "city", "state", "zipcode", "country", "title", "level", "email",'department']
 
 
 let userkey = ["first_name", "last_name", "username", "email", "is_staff", "is_active", "is_superuser"]
@@ -69,7 +69,9 @@ export class StaffEditComponent implements OnInit {
     zipcode: new FormControl('', Validators.required),
     country: new FormControl(''),
     title: new FormControl(''),
+    level: new FormControl(0),
     department: new FormControl(''),
+
     email: new FormControl('', Validators.required),
     is_staff: new FormControl(''),
     is_active: new FormControl(''),

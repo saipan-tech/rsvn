@@ -1,97 +1,58 @@
-<div class="flex-con">
+<div style="margin:auto;background-color:snow;width:90%">
 
-    <div class="pane card">
-        <div class="card-header">
+
+<div class="row">
+    <div class="col-md-4">
+        <div>
             <h5>Arrivals</h5>
         </div>
-        <div class="card-body"  style="overflow-y:scroll">
-            <div *ngFor="let out of rsvnList.checkin">
-                <div class="d-flex">
-                    <div class="col">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
-                </div>
-                <div class="d-flex flex-wrap">
-                    <div *ngFor="let x of out.rooms"   class="gbutt" >
-                        <div class='{{ x.roominfo.bldg.name}}'>{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}</div>
+        <div *ngFor="let out of rsvnList.checkin">
+            <div class="d-flex flex-wrap">
+                <div class="namecell">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
+                <div *ngFor="let x of out.rooms" class="gbutt">
+                    <div class='{{ x.roominfo.bldg.name}}'>{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}
                     </div>
-                    
                 </div>
-                <hr>
+
             </div>
+
         </div>
-        <div class="card-footer"></div>
-    </div>
 
-
-
-    <div class="pane card">
-        <div class="card-header">
+        <div>
             <h5>Departures</h5>
         </div>
-        <div class="card-body"  style="overflow-y:scroll">
-            <div *ngFor="let out of rsvnList.checkout">
-                <div class="d-flex">
-                    <div class="col">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
-                </div>
-                <div class="d-flex flex-wrap">
-                    <div *ngFor="let x of out.rooms" class="gbutt" > 
-                        <div  class='{{ x.roominfo.bldg.name}}' >{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}</div>
+        <div *ngFor="let out of rsvnList.checkout">
+            <div class="d-flex flex-wrap">
+                <div class="namecell">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
+                <div *ngFor="let x of out.rooms" class="gbutt">
+                    <div class='{{ x.roominfo.bldg.name}}'>{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}
                     </div>
                 </div>
-                <hr>
+
             </div>
+
         </div>
-        <div class="card-footer"></div>
-    </div>
-
-
-
-    <div class="pane card">
-        <div class="card-header">
+        <div>
             <h5>In House</h5>
         </div>
-        <div class="card-body"  style="overflow-y:scroll">
-            <div *ngFor="let out of rsvnList.inhouse">
-                <div class="d-flex">
-                    <div class="col">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
-                </div>
-                <div class="d-flex flex-wrap">
-                    <div *ngFor="let x of out.rooms"   class="gbutt" >
-                        <div class='{{ x.roominfo.bldg.name}}'>{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}</div>
+
+        <div *ngFor="let out of rsvnList.inhouse">
+            <div class="d-flex flex-wrap">
+                <div class="namecell">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
+                <div *ngFor="let x of out.rooms" class="gbutt">
+                    <div class='{{ x.roominfo.bldg.name}}'>{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}
                     </div>
                 </div>
-                <hr>
+
             </div>
         </div>
-        <div class="card-footer"></div>
+    </div>
+    <div class="col-md-4">
+ <!-- <app-info></app-info> -->       
+    </div>
+    <div class="col-md-4">
+<app-weather></app-weather>
     </div>
 </div>
-<div class="flex-con">
-
-    <div class="pane card">
-        <div class="card-header">
-            <h5>House Keeping Status</h5>
-        </div>
-        <div class="card-body"></div>
-        <div class="card-footer"></div>
-    </div>
-
-    <div class="pane card">
-        <div class="card-header">
-            <h5>Room View</h5>
-
-        </div>
-        <div class="card-body" style="overflow-y:scroll">
-            <app-info></app-info>
-        </div>
-        <div class="card-footer"></div>
-    </div>
-
-    <div class="pane card">
-        <div class="card-header">
-            <h5>Weather</h5>
-        </div>
-        <div class="card-body"></div>
-        <div class="card-footer"></div>
-    </div>
 
 </div>

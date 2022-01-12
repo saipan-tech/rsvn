@@ -37,6 +37,17 @@ export class SystemService {
     getHoliday(year: number): Observable<any> {
         return this.http.get<any>(`${this.urlRoot}/holiday/${year}/`)
     }
+    //==================================================
+    getWeather(city: string,units:string): Observable<any> {
+        return this.http.get<any>(`${this.urlRoot}/weather/${city}/${units}/`)
+    }
+    //==================================================
+    getCities(city: string): Observable<any> {
+        return this.http.get<any>(`${this.urlRoot}/cities/${city}/`)
+    }
+
+
+
 
     //==================================================
     daylister(start: string, days: number): any[] {

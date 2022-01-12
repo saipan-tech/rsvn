@@ -25,16 +25,13 @@
 
                     
                     <div class="menu-item" 
-                        *ngIf="rsvnDateActive() && r.roominfo.status=='ready' || r.roominfo.status=='checkout'  || r.roominfo.status=='dirty'" 
                         mat-menu-item (click)="check(r,'checkin')">Check-In </div>
                     
                     <div class="menu-item" 
-                        *ngIf="rsvnDateActive() && r.status=='checkin'" 
                         mat-menu-item (click)="check(r,'checkout')">Check-Out </div>
                
                     
                     <div class="menu-item" 
-   
                         mat-menu-item (click)="unassignRoom(r)">Delete </div>
                 </mat-menu>
 

@@ -110,6 +110,35 @@ class HolidayAPI(APIView):
         response = requests.request("GET", url, headers=headers)
 
         return Response(json.loads(response.text))
+
+#
+#api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=e1444f66c34120ecb5fccac5645c0a50
+#-----------------------------------------------------
+class WeatherAPI(APIView):
+#-----------------------------------------------------
+    
+    def get (self, request,city,units,format=None) :
+
+        url = f"http://api.openweathermap.org/data/2.5/weather?id={city}&APPID=e1444f66c34120ecb5fccac5645c0a50&units={units}"
+
+        response = requests.request("GET", url)
+
+        return Response(json.loads(response.text))
+
+#-----------------------------------------------------
+class CitiesAPI(APIView):
+#-----------------------------------------------------
+    
+    def get (self, request,city,format=None) :
+
+        cities = Cities.objects.filter(name__icontains=city).order_by('name','state')
+        serializer = CitiesSerializer(cities,many=True)
+        return Response(serializer.data)
+
+
+
+
+
 #-----------------------------------------------------
 def password_check(get) :
 #-----------------------------------------------------

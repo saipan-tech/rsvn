@@ -1,5 +1,7 @@
+from os import name, stat_result
+from django.contrib.auth.decorators import login_required
 from django.db import models
-from django.db.models.query_utils import check_rel_lookup_compatibility
+
 from .lists import * 
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
@@ -28,6 +30,7 @@ class Staff (models.Model):
     email 		= 	models.EmailField()
     title    	=	models.CharField(max_length=128,blank=True)
     department =	models.CharField(max_length=128,blank=True)
+    level       =   models.IntegerField(default=0)
     clerk		=   models.CharField(max_length=50, blank=True)
     created     =   models.DateTimeField(auto_now_add=True)
     modified    =   models.DateTimeField(auto_now=True) 
@@ -255,3 +258,11 @@ class Calendar(models.Model):
     date        =   models.DateField()
     descr       =   models.CharField(max_length=2048, blank=True)
     notes       =   models.CharField(max_length=4096, blank=True)
+
+class Cities (models.Model):
+    iid         =   models.CharField(max_length=255,unique=True)
+    name        =   models.CharField(max_length=1024)
+    state       =   models.CharField(max_length=40)
+    country     =   models.CharField(max_length=1024)
+    lon         =   models.DecimalField(max_digits=12, decimal_places=6,default=Decimal('000.000000'))
+    lat         =   models.DecimalField(max_digits=12, decimal_places=6,default=Decimal('000.000000'))

@@ -15,6 +15,7 @@ export interface IStaff {
     zipcode:string;
     email:string;
     title:string
+    level:number;
     department:string;
     clerk :string;
     modified:string;

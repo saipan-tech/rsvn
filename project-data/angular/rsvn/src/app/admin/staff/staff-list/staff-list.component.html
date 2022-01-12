@@ -13,6 +13,8 @@
             <div class="form-control">Name</div>
             <div class="form-control">Department</div>
             <div class="form-control">Title</div>
+            <div class="form-control">Security Level</div>
+            
 
             <div class="form-control">Telephone</div>
             <div class="form-control">Email</div>
@@ -36,8 +38,10 @@
             
             <div class="form-control">{{x.staff.department}}</div>
             <div class="form-control">{{x.staff.title}}</div>
+            <div class="form-control">{{x.staff.level}}</div>
+            
             <div class="form-control">{{x.staff.phone1}}</div>
-            <div class="form-control">{{x.staff.email}}</div>
+            <div class="form-control">{{x.staff.email | slice:0:20}}</div>
             <div class="form-control">{{x.staff.username}}</div>
             
             <div class="form-control">{{x.staff.temppass | slice:0:10}}</div>

@@ -33,6 +33,8 @@ from webapi.views.charges import *
 from webapi.views.calendar import *
 from webapi.views.staff import *
 
+from webapi.tools.weather import *
+
 router = routers.DefaultRouter()
 router.register(r'user', UserViewSet)
 router.register(r'staff', StaffViewSet)
@@ -81,5 +83,8 @@ urlpatterns = [
     path('actionrooms/<id>/',RoomActionRoominfo.as_view()),
     path('roomdatescan/<date>/',RoomDateScan.as_view()),
     path('bldgroom/',BldgRoom.as_view()),
-    path('roomclear/',RoomClear.as_view())
+    path('roomclear/',RoomClear.as_view()),
+    path('weather/<city>/<units>/',WeatherAPI.as_view()),
+    path('weatheradmin/',weather_admin,name='weather_admin'),
+    path('cities/<city>/',CitiesAPI.as_view())
 ]

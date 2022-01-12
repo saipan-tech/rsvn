@@ -167,8 +167,8 @@ class RoomClear(APIView) :
             ri =  Roominfo.objects.get(id=r.roominfo.id)
             ri.status = 'dirty'
             ri.check = False
-            ri.save()
+         #   ri.save()
             r.status = 'checkout'
-            r.save()
-        return Response(RoomSerializer(rooms,many=True).data)    
+         #   r.save()
+        return Response([TODAY.isoformat()[0:10],rooms[0].rsvn.dateOut.isoformat(),RoomSerializer(rooms,many=True).data])    
     

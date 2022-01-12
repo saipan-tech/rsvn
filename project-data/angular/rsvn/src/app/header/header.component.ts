@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
     private router: Router,
   ) { }
   user: any
+  security:any
   activeLink = 'dashboard'
   currRsvn : any;
   
@@ -35,6 +36,12 @@ export class HeaderComponent implements OnInit {
         this.user = username
       }
     )
+    this.authService.isSecurity.subscribe(
+      security => {
+        this.security = security
+      }
+    )
+    
 
   }
 

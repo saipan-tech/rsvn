@@ -159,3 +159,7 @@ class RoomActionAllSerializer(serializers.ModelSerializer):
         model = RoomAction
         fields = '__all__'
         depth = 2
+class CitiesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cities
+        fields = '__all__'
