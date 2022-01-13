@@ -5,6 +5,8 @@ import { SeasonService } from '@app/_services/season.service';
 import { ISeasonCal } from '@app/_interface/seasoncal';
 import { GenericService } from '@app/_services/generic.service';
 import { ISeason } from '@app/_interface/season'; 
+import { catchError, tap, map, mergeMap, concatMap } from 'rxjs/operators';
+
 @Component({
   selector: 'app-season-calendar',
   templateUrl: './season-calendar.component.html',
@@ -23,13 +25,17 @@ export class SeasonCalendarComponent implements OnInit {
   yearList:IDropdown[] = []
   currYear = new Date().getUTCFullYear()
   currYearS = String(this.currYear)
+  
   currCal:ISeasonCal[]= []
+  
   seasonList:ISeason[] = []
   clipboard : any[] = []
   dateList:any[] = []
   seasonColor:any  = {}
   holidayList:any[] = []
   seasonCount:any = {}
+
+  rackAccum:any = {}
   //===========================================================
   newDisplayList(currCal:any[]) {
     var dateObject: any = {}
@@ -120,26 +126,15 @@ export class SeasonCalendarComponent implements OnInit {
       
     }
     this.newDisplayList(this.currCal)
-      
  
   }
-  //===========================================================
-  seasonTally() {
-    this.seasonCount = {}
-    this.currCal.forEach( cc => {
-      if( !this.seasonCount[cc.season]) this.seasonCount[cc.season] = 0
-      this.seasonCount[cc.season] += 1
-    })
   
-  }
   //===========================================================
   refreshTable() {
     this.seasonService.getSeasonCalendar(`year=${this.currYear}`)
     .subscribe( data => {
-
       this.currCal = data
       this.newDisplayList(this.currCal)
-      this.seasonTally()
     })
 
   }
@@ -147,6 +142,7 @@ export class SeasonCalendarComponent implements OnInit {
   ngOnInit(): void {
     this.clipboard = []
     this.dateList = []
+  
     this.genericService.getItemList("season")
       .subscribe( data =>  {
         this.seasonList = data

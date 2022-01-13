@@ -1,82 +1,75 @@
-<div class="card">
-    <div class="card-header" style="text-align:center">
-        <div class="d-flex">
-            <div style="width:15%">
-                <p>Season Calendar {{ currYear }}</p>
-            </div>
-            <div style="width:15%">
-                <h5></h5>
-            </div>
-            <div style="width:45%">
-        
-                <mat-form-field >
-                    <mat-label>Calendar View Year</mat-label>
-                    <mat-select [(value)]="currYearS" (selectionChange)='setTable(currYearS)' >
-                        
-                      <mat-option *ngFor="let y of yearList" [value]="y.value">{{y.display}} </mat-option>
-                      
-                    </mat-select>
-                  </mat-form-field>
-          
+<div style="height:700px">
+
+    <div class="card">
+        <div class="card-header" style="text-align:center">
+            <div class="d-flex">
+                <div style="width:15%">
+                    <p>Season Calendar {{ currYear }}</p>
+                </div>
+                <div style="width:15%">
+                    <h5></h5>
+                </div>
+                <div style="width:45%">
+
+                    <mat-form-field>
+                        <mat-label>Calendar View Year</mat-label>
+                        <mat-select [(value)]="currYearS" (selectionChange)='setTable(currYearS)'>
+
+                            <mat-option *ngFor="let y of yearList" [value]="y.value">{{y.display}} </mat-option>
+
+                        </mat-select>
+                    </mat-form-field>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="card-body">
-    <div>
-        <div class="d-flex">
-            <div [ngStyle]="({'background-color':seas.color})" class="legend" *ngFor="let seas of seasonList">
-                <button class="gridbtn" (click)='saveDates(seas)'>{{ seas.name }}</button>
+    <div class="card-body">
+        <div>
+            <div class="d-flex">
+                <div [ngStyle]="({'background-color':seas.color})" class="legend" *ngFor="let seas of seasonList">
+                    <button class="gridbtn" (click)='saveDates(seas)'>{{ seas.name }}</button>
+                </div>
+                <div>
+                    <span style="margin-left:2em" *ngFor="let c of clipboard">{{ c.date }}</span>
+                </div>
             </div>
-            <div>
-                <span style="margin-left:2em" *ngFor="let c of clipboard">{{ c.date }}</span>
-            </div>
-        </div>
-        <table  *ngIf="monthList && monthList.year" class="datatable">
-            <tr>
-                <th>
-                    <h4  style="color:black">{{ monthList.year }}</h4>
-                </th>
-                <th *ngFor='let m of monthList.mCounter;let i = index'>{{weekdays[i % 7]}}</th>
-            </tr>
-            <tr *ngFor="let ml of monthList.monthList ">
-                <td class="head">{{ml.head.month }}</td>
-                <td *ngFor='let d of ml.days'>
-                    <button *ngIf="d" class="zbutton" [ngStyle]="({'background-color':seasonColor[d.season],
+            <table *ngIf="monthList && monthList.year" class="datatable">
+                <tr>
+                    <th>
+                        <h4 style="color:black">{{ monthList.year }}</h4>
+                    </th>
+                    <th *ngFor='let m of monthList.mCounter;let i = index'>{{weekdays[i % 7]}}</th>
+                </tr>
+                <tr *ngFor="let ml of monthList.monthList ">
+                    <td class="head">{{ml.head.month }}</td>
+                    <td *ngFor='let d of ml.days'>
+                        <button *ngIf="d" class="zbutton" [ngStyle]="({'background-color':seasonColor[d.season],
                             'border':d.mark ? '3px solid cyan' : 'none',
                             'color':d.holiday ? 'red': 'black'})" (click)="selectDay($event,d)">{{d.date |
-                        slice:-2}}</button>
-                </td>
-            </tr>
-        </table>
+                            slice:-2}}</button>
+                    </td>
+                </tr>
+            </table>
+
+
+        </div>
 
 
     </div>
 
+    <div class="card-footer">
 
-</div>
+        <div class="d-flex">
+            <div class="form-control">
+                <app-calendar [currYear]='currYear'></app-calendar>
 
-<div class="card-footer">
-
-    <div class="d-flex">
-        <div class="form-control">
-      <app-calendar [currYear]='currYear'></app-calendar>  
-
-        </div>
-        <div class="form-control">
-            <div class="card" style="width:700px">
-                <div class="card-header">
-                    <h5 style="text-align:center">Season Days Count</h5>
-                </div>
-                <div class="card-body">
-                    <div *ngFor="let item of seasonCount | keyvalue" class="d-flex">
-                        <div class="form-control">{{ item.key }}</div>
-                        <div class="form-control">{{ item.value }}</div>
-                    </div>
-
-                </div>
+            </div>
+            <div class="form-control">
+                <app-season-calendar-calc [currCal]='currCal'></app-season-calendar-calc>
             </div>
         </div>
+
     </div>
 
 </div>

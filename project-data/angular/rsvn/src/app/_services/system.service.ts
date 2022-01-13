@@ -45,8 +45,11 @@ export class SystemService {
     getCities(city: string): Observable<any> {
         return this.http.get<any>(`${this.urlRoot}/cities/${city}/`)
     }
-
-
+    //==================================================
+    getCity(iid: string): Observable<any> {
+        return this.http.get<any>(`${this.urlRoot}/city/${iid}/`)
+    }
+ 
 
 
     //==================================================

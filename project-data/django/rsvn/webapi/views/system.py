@@ -135,8 +135,18 @@ class CitiesAPI(APIView):
         serializer = CitiesSerializer(cities,many=True)
         return Response(serializer.data)
 
-
-
+#===========================
+class CityView(APIView) :
+    def get_object(self,iid): 
+        try:
+            return Cities.objects.get(iid=iid)
+        except:
+            raise Http404
+    
+    def get(self, request,iid,format=None):
+        city = self.get_object(iid)
+        serializer = CitiesSerializer(city)
+        return Response(serializer.data)    
 
 
 #-----------------------------------------------------

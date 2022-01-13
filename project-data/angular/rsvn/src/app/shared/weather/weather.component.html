@@ -12,22 +12,25 @@
     </div>
     <div class="card-header">
 <div class="row">
-    <div class="col-md-6">
-        <form>
-            <mat-form-field  appearance="fill">
+    <div class="col-md-5">
+        <form [formGroup]="searchEditForm">
+           
+
+            <mat-form-field >
                 <mat-label>City Name</mat-label>
-                <input type="text"  matInput  [formControl]="myControl" [matAutocomplete]="auto">
-                <mat-autocomplete (optionSelected)="cityChange($event)" #auto="matAutocomplete" [displayWith]="displayFn">
+                <input type="text"  matInput  formControlName="myControl"  [matAutocomplete]="auto">        
+         
+                <mat-autocomplete (optionSelected)="cityChange($event)" #auto="matAutocomplete" (blur)="marker('tes')"  [displayWith]="displayFn">
                     <mat-option *ngFor="let option of locationResults" [value]="option">
                         {{option.name}} {{option.state}} {{option.country}}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
+               
         </form>
-
     </div>
-    <div class="col-md-6">
-        <h3 *ngIf="currCity && currCity.iid">{{currCity.name}},{{currCity.state}} {{currCity.country}}</h3>
+    <div class="col-md-7">
+        <h4 *ngIf="currCity && currCity.iid">{{currCity.name}},{{currCity.state}} {{currCity.country}}</h4>
     </div>
 </div>
     </div>

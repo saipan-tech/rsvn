@@ -20,25 +20,24 @@ export class WeatherComponent implements OnInit {
   ) { }
 
   units = ['Metric', 'Imperial']
-  myControl = new FormControl();
-  currCity : ICity = {} as ICity
+  
+
+    
+  searchEditForm = new FormGroup({
+    myControl : new FormControl()
+  })
+  currCity: ICity = {} as ICity
+
   weatherUnits = 'Metric'
-
-    PortlandIID = "5746545"
-
+  PortlandIID = "5746545"
 
   Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
-
   weatherStats: any;
-
-
   weather: any;
 
   locationResults: any = [];
-
   //==============================
   makeWeather(data: any) {
-    console.log("MAKING WEATHER",data)
     let d: any = {}
     this.weatherStats = data;
     d['sunrise'] = new Date(data.sys.sunrise * 1000)
@@ -49,53 +48,60 @@ export class WeatherComponent implements OnInit {
     d['weather'] = data.weather
     this.weather = d
   }
-
-
   //==============================
   refreshWeather(weatherUnits: string) {
-    if(this.currCity) {
-      console.log(this.currCity)
-    this.systemService.getWeather(this.currCity.iid, weatherUnits)
-      .subscribe(data => this.makeWeather(data))
+    if (this.currCity) {
+      this.systemService.getWeather(this.currCity.iid, weatherUnits)
+        .subscribe(data => this.makeWeather(data))
     }
   }
+  //==============================
+  initWeather() {
+    this.systemService.getCity(this.PortlandIID)
+    .subscribe(data => {
+      this.currCity = data;
+      this.searchEditForm.controls.myControl.patchValue(data)
+      this.refreshWeather(this.weatherUnits)
 
+    })
+  }
   //==============================
   locationSearch(query: string) {
     this.systemService.getCities(query)
       .subscribe(data => {
         this.locationResults = data
-        console.log(data)
       })
   }
-clearForm(){
-this.myControl.reset()
+
+marker(t:string) {
+  console.log(t)
 }
+
+  //==============================
+  clearForm() {
+    this.searchEditForm.reset()
+  }
   //==============================
   displayFn(obj: any): string {
     return obj && obj.name ? `${obj.name}, ${obj.state} ${obj.country}` : '';
   }
-
   //==============================
-  cityChange(event:any) {
-    console.log("Changed Event",event)
+  cityChange(event: any) {
     this.currCity = event.option.value
     this.refreshWeather(this.weatherUnits)
-
   }
- 
   //==============================
   ngOnInit(): void {
-    //==============================
-    this.refreshWeather(this.weatherUnits)
+  //==============================
 
-    this.myControl.valueChanges
+    this.initWeather()
+
+    this.searchEditForm.valueChanges
       .subscribe(val => {
-        if (val.length > 2) {
-          return this.locationSearch(val)
+        console.log("Changes",val)
+        if (val.myControl.length > 2) {
+          return this.locationSearch(val.myControl)
         }
-
       })
-
   }
 }

@@ -86,5 +86,6 @@ urlpatterns = [
     path('roomclear/',RoomClear.as_view()),
     path('weather/<city>/<units>/',WeatherAPI.as_view()),
     path('weatheradmin/',weather_admin,name='weather_admin'),
-    path('cities/<city>/',CitiesAPI.as_view())
+    path('cities/<city>/',CitiesAPI.as_view()),
+    path('city/<iid>/',CityView.as_view())
 ]

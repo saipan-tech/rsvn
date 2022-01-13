@@ -1,0 +1,14 @@
+
+<div class="card" style="width:700px">
+    <div class="card-header">
+        <h5 style="text-align:center">Season Count</h5>
+    </div>
+    <div class="card-body">
+        <div *ngFor="let item of tallySheet" class="d-flex" >
+            <div class="form-control">{{ item.name }}</div>
+            <div class="form-control" style="text-align:right">{{ item.count }}</div>
+            <div class="form-control" style="text-align:right">{{ item.accum|currency}}</div>
+        </div>
+
+    </div>
+</div>

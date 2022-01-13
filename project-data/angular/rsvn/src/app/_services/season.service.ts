@@ -94,7 +94,8 @@ export class SeasonService {
       return concat(...obsArray)
     }
 
-
+  //==================================================
+  // total rack rates 
 
 
 
