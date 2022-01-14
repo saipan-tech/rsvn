@@ -1,58 +1,67 @@
-<div style="margin:auto;background-color:snow;width:90%">
+<div style="margin:auto;padding:1em;background-color:snow;width:90%">
+    <div class="row">
+        <div class="col-md-4">
+            <div *ngIf="rsvnList && rsvnList.checkin.length">
+                <h5>Check Ins</h5>
 
-
-<div class="row">
-    <div class="col-md-4">
-        <div>
-            <h5>Arrivals</h5>
-        </div>
-        <div *ngFor="let out of rsvnList.checkin">
-            <div class="d-flex flex-wrap">
-                <div class="namecell">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
-                <div *ngFor="let x of out.rooms" class="gbutt">
-                    <div class='{{ x.roominfo.bldg.name}}'>{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}
+                <div *ngFor="let out of rsvnList.checkin">
+                    <div class="row">
+                        <div class="col-4">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
+                        <div class="col d-flex flex-wrap">
+                            <div *ngFor="let x of out.rooms" class="gbutt">
+                                <div class='{{ x.roominfo.bldg.name}}'>{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}</div>
+                            </div>
+                        </div>
+                        <hr>
                     </div>
-                </div>
 
+                </div>
             </div>
 
-        </div>
+            <div *ngIf="rsvnList && rsvnList.checkout.length">
+                <h5>Check Outs</h5>
 
-        <div>
-            <h5>Departures</h5>
-        </div>
-        <div *ngFor="let out of rsvnList.checkout">
-            <div class="d-flex flex-wrap">
-                <div class="namecell">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
-                <div *ngFor="let x of out.rooms" class="gbutt">
-                    <div class='{{ x.roominfo.bldg.name}}'>{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}
+                <div *ngFor="let out of rsvnList.checkout">
+                    <div class="row">
+                        <div class="col-4">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
+                        <div class="col  d-flex flex-wrap">
+                            <div *ngFor="let x of out.rooms" class="gbutt">
+                                <div class='{{ x.roominfo.bldg.name}}'>{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr>
                     </div>
-                </div>
 
+                </div>
             </div>
 
-        </div>
-        <div>
-            <h5>In House</h5>
-        </div>
+            <div *ngIf="rsvnList && rsvnList.inhouse.length">
+                <h5>In House</h5>
 
-        <div *ngFor="let out of rsvnList.inhouse">
-            <div class="d-flex flex-wrap">
-                <div class="namecell">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
-                <div *ngFor="let x of out.rooms" class="gbutt">
-                    <div class='{{ x.roominfo.bldg.name}}'>{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}
+                <div *ngFor="let out of rsvnList.inhouse">
+                    <div class="row">
+                        <div class="col-4">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
+
+                        <div class="col  d-flex  flex-wrap">
+                            <div *ngFor="let x of out.rooms" class="gbutt">
+                                <div class='{{ x.roominfo.bldg.name}}'>{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+                    <hr>
                 </div>
-
             </div>
         </div>
+        <div class="col-md-4">
+            <app-info></app-info>
+        </div>
+        <div class="col-md-4">
+            <app-weather></app-weather>
+        </div>
     </div>
-    <div class="col-md-4">
- <app-info></app-info> 
-    </div>
-    <div class="col-md-4">
-<app-weather></app-weather>
-    </div>
-</div>
 
 </div>

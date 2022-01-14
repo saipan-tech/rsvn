@@ -162,13 +162,13 @@ class BldgRoom(APIView):
 class RoomClear(APIView) : 
 #------------------------------------------
     def get(self,request, format=None)  :
-        rooms = Room.objects.filter(status='checkin',rsvn__dateOut__lt=YESTERDAY)
+        rooms = Room.objects.filter(status='checkin',rsvn__dateOut__lt=TODAY)
         for r in rooms:
             ri =  Roominfo.objects.get(id=r.roominfo.id)
             ri.status = 'dirty'
             ri.check = False
-         #   ri.save()
+        #    ri.save()
             r.status = 'checkout'
-         #   r.save()
+        #    r.save()
         return Response(RoomSerializer(rooms,many=True).data)    
     

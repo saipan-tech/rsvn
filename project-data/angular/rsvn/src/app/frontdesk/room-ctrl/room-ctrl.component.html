@@ -20,8 +20,11 @@
                     <div  *ngIf="rsvnDateActive()" [ngClass]="{'rmsubcell':true,'ready':r.roominfo.status=='ready'}">{{ r.roominfo.status}}</div>
                 </button>
                 <div style="border:none" class="d-flex" *ngIf="rsvnDateActive()">
-                    <button style="color:green;border:none" *ngIf="r.status != 'checkin'"  class="check_butts" (click)="check(r,'checkin')">Check In </button>
-                    <button style="color:red;border:none" *ngIf="r.status != 'checkout'" class="check_butts" (click)="check(r,'checkout')">Check Out </button>
+                    <button style="color:grey;border:none" *ngIf="r.status != 'checkin'  && r.roominfo.status !='ready'"  
+                    class="check_butts" >Stand By </button>
+
+                    <button style="color:green;border:none" *ngIf="r.status != 'checkin' && r.roominfo.status =='ready'"  class="check_butts" (click)="check(r,'checkin')">Check In </button>
+                    <button style="color:red;border:none" *ngIf="r.status == 'checkin'" class="check_butts" (click)="check(r,'checkout')">Check Out </button>
                 </div>
            <!-- 
                  <div>{{r | json}}</div>

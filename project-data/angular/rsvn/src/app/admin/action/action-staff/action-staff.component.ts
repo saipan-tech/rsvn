@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-
+import { GenericService } from '@app/_services/generic.service';
+import { IRoominfo } from '@app/_interface/roominfo';
+import { AuthService } from '@app/_services/auth.service';
+import { SystemService } from '@app/_services/system.service';
+import { RoomService } from '@app/_services/room.service';
+import { AppConstants } from '@app/app.constants';
+import { catchError, tap, map, mergeMap, concatMap } from 'rxjs/operators';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-action-staff',
   templateUrl: './action-staff.component.html',
@@ -7,9 +14,115 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ActionStaffComponent implements OnInit {
 
-  constructor() { }
+  constructor(
 
-  ngOnInit(): void {
+    private genericService: GenericService,
+    private systemService: SystemService,
+    private roomService: RoomService,
+    private authService: AuthService,
+    private appCons: AppConstants,
+
+  ) { }
+
+
+
+
+  roomList: any;
+  dispList: any[] = [];
+
+  loaded = false;
+  roomStatus: any;
+  sidebarData: any;
+  dow = this.appCons.DOW
+
+
+  user: any
+
+  staffList: any;
+  startTime: any;
+  bldgList: any[] = []
+  actionList: any = [];
+  hkList: any = []
+
+  //====================================================
+  markTime(comment: string) {
+    console.log("Marking Time -->", comment, '  ', new Date().getTime() - this.startTime)
+  }
+  //====================================================
+  startTimer() {
+    this.startTime = new Date().getTime()
+    console.log("Starting Timer action staff")
   }
 
+
+  hkroom(t: string, room: number) {
+
+
+  }
+
+  //====================================================
+  refreshGrid() {
+    this.startTimer()
+    let roomList: any[] = []
+    let bldgList: any[] = []
+    let Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
+
+    // Grab all of the roominfos
+
+    this.genericService.getItemList('bldg')
+      .pipe(
+        tap(d => bldgList = d),
+        concatMap(() => this.genericService.getItemList('roominfo')),
+        tap(d => {
+          d.forEach(q => {
+            q.week = { mon: [], tue: [], wed: [], thr: [], fri: [], sat: [], sun: [] }
+          })
+          roomList = d
+        }),
+        concatMap(() => this.genericService.getItemList('staff')),
+        tap((staff) => this.staffList = staff),
+        concatMap(() => this.genericService.getItemQueryList('action', 'today=1')),
+        tap(action => {
+          action.forEach(act => {
+            act.staff = this.staffList.find((f: any) => f.id == act.staff)
+            act.roominfos.forEach((ri: any) => {
+              let ff = roomList.findIndex((f) => ri == f.id)
+              act.days.split(',')
+                .forEach((dy: any) => {
+                  if (dy) {
+                    roomList[ff].week[dy].push({ name: act.staff.last_name })
+                  }
+                })
+            })
+          })
+          bldgList.forEach(bldg => {
+            bldg.rooms = roomList.filter(rl => rl.bldg == bldg.id)
+          })
+          this.bldgList=bldgList
+          console.log(bldgList)
+        
+        })
+      )
+      .subscribe(() => {
+        this.markTime('end of the road')
+      })
+  }
+
+
+  //====================================================
+  ngOnInit(): void {
+    this.refreshGrid()
+    this.authService.getSession().subscribe(
+      data => this.user = data
+    )
+
+  }
+
+
+
+
+
 }
+
+
+

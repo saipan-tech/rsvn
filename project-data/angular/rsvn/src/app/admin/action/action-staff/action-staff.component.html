@@ -1,1 +1,39 @@
+<div class="row" >
+    <div class="col-3" style="height:700px;background-color:skyblue;overflow-y:scroll">
+    </div>
+    <div class="col" style="height:700px;overflow-y:scroll;background-color:rgb(173, 173, 173)">
+    
+ 
 
+    
+    <div *ngFor="let bld of bldgList">
+       <h4> {{ bld.name }}</h4>
+       <table class="hktable">
+        <tr>
+            <th>Days</th>
+            <th *ngFor="let d of dow">{{d}}</th>
+        </tr>
+       <tr *ngFor="let room of bld.rooms">
+           <td>{{ room.number }}</td>
+           <td><div *ngFor="let x of room.week.mon ">{{x.name}}</div></td>
+           <td><div *ngFor="let x of room.week.tue ">{{x.name}}</div></td>
+           <td><div *ngFor="let x of room.week.wed ">{{x.name}}</div></td>
+           <td><div *ngFor="let x of room.week.thr ">{{x.name}}</div></td>
+           <td><div *ngFor="let x of room.week.fri ">{{x.name}}</div></td>
+           <td><div *ngFor="let x of room.week.sat ">{{x.name}}</div></td>
+           <td><div *ngFor="let x of room.week.sun ">{{x.name}}</div></td>
+           
+       </tr>
+    </table>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    </div>
+
+
+</div>
