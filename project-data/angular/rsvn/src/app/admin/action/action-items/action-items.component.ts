@@ -27,6 +27,8 @@ export class ActionItemsComponent implements OnInit {
   currRoominfos:any[] = []
   showall = false;
   search$ = this.genericService.getItemQueryList('action','today=1')
+  @Output() changeItems:any  = new EventEmitter<any>()
+  
   
   constructor(
     private genericService: GenericService,
@@ -42,7 +44,7 @@ export class ActionItemsComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.panelClass = [];
-    dialogConfig.width = '90%';
+    dialogConfig.width = '50%';
     dialogConfig.data = {
       actionRec: actionRec,
 
@@ -53,6 +55,7 @@ export class ActionItemsComponent implements OnInit {
       .subscribe(
         data => {
           this.actionRec = data;
+          this.changeItems.emit(true)
           this.ngOnInit()
         }
       )

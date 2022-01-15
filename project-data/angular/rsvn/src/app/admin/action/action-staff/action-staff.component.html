@@ -1,38 +1,62 @@
-<div class="row" >
-    <div class="col-3" style="height:700px;background-color:skyblue;overflow-y:scroll">
+<div class="row">
+    <div class="col-4" style="height:700px;overflow-y:scroll">
+        <app-action-items (changeItems)='refreshGrid()'></app-action-items>
+            <app-grid-select [(roominfos)]='roominfos' [actionRec]='actionRec' ></app-grid-select>
     </div>
-    <div class="col" style="height:700px;overflow-y:scroll;background-color:rgb(173, 173, 173)">
-    
- 
 
-    
-    <div *ngFor="let bld of bldgList">
-       <h4> {{ bld.name }}</h4>
-       <table class="hktable">
-        <tr>
-            <th>Days</th>
-            <th *ngFor="let d of dow">{{d}}</th>
-        </tr>
-       <tr *ngFor="let room of bld.rooms">
-           <td>{{ room.number }}</td>
-           <td><div *ngFor="let x of room.week.mon ">{{x.name}}</div></td>
-           <td><div *ngFor="let x of room.week.tue ">{{x.name}}</div></td>
-           <td><div *ngFor="let x of room.week.wed ">{{x.name}}</div></td>
-           <td><div *ngFor="let x of room.week.thr ">{{x.name}}</div></td>
-           <td><div *ngFor="let x of room.week.fri ">{{x.name}}</div></td>
-           <td><div *ngFor="let x of room.week.sat ">{{x.name}}</div></td>
-           <td><div *ngFor="let x of room.week.sun ">{{x.name}}</div></td>
-           
-       </tr>
-    </table>
+    <div class="col" style="height:700px;overflow-y:scroll;;background-color:rgb(177, 177, 177)">
 
-    </div>
-    
-    
-    
-    
-    
-    
+
+
+
+        <div *ngFor="let bld of bldgList">
+            <h4> {{ bld.name }}</h4>
+            <table class="table hktable">
+                <tr>
+                    <th>Rooms/DOW</th>
+                    <th *ngFor="let d of dow">{{d}}</th>
+                </tr>
+                <tr *ngFor="let room of bld.rooms">
+                    <th style="width:5%">{{ room.number }}</th>
+                    <td>
+                        <div *ngFor="let x of room.week.mon " > <button mat-button (click)="actionSelect(x.id)">{{x.name}}: <span style="font-size:x-small">{{x.item
+                            |slice:0:10}}</span></button></div>
+                    </td>
+                    <td>
+                        <div *ngFor="let x of room.week.tue ">{{x.name}}: <span style="font-size:x-small"> {{x.item
+                                |slice:0:10}}</span></div>
+                    </td>
+                    <td>
+                        <div *ngFor="let x of room.week.wed ">{{x.name}}: <span style="font-size:x-small">{{x.item
+                                |slice:0:10}}</span></div>
+                    </td>
+                    <td>
+                        <div *ngFor="let x of room.week.thr ">{{x.name}}: <span style="font-size:x-small">{{x.item
+                                |slice:0:10}}</span></div>
+                    </td>
+                    <td>
+                        <div *ngFor="let x of room.week.fri ">{{x.name}}: <span style="font-size:x-small">{{x.item
+                                |slice:0:10}}</span></div>
+                    </td>
+                    <td>
+                        <div *ngFor="let x of room.week.sat ">{{x.name}}: <span style="font-size:x-small">{{x.item
+                                |slice:0:10}}</span></div>
+                    </td>
+                    <td>
+                        <div *ngFor="let x of room.week.sun ">{{x.name}}: <span style="font-size:x-small">{{x.item
+                                |slice:0:10}}</span></div>
+                    </td>
+
+                </tr>
+            </table>
+
+        </div>
+
+
+
+
+
+
     </div>
 
 

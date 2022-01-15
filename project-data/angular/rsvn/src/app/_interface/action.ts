@@ -11,7 +11,7 @@ export interface IAction {
     assignedBy  : string;
     days        : string;
     continuous  : boolean;
-    once        : boolean;
+
     created     : string;
     fullname? : string;
 }

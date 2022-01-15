@@ -1,15 +1,13 @@
-
 <div class="card" style="height:85%; overflow-y:scroll">
-
     <div class="card-body">
-        <mat-tab-group  mat-align-tabs="start">
-            <mat-tab label="Current Status"><app-action-matrix></app-action-matrix></mat-tab>
-            <mat-tab label="Work Assignments"><app-action-items></app-action-items>
-            <mat-tab label="HouseKeeping Calendar"><app-action-staff></app-action-staff></mat-tab>  
-
+        <mat-tab-group mat-align-tabs="start">
+            <mat-tab label="Current Status">
+                <app-action-matrix></app-action-matrix>
             </mat-tab>
-          </mat-tab-group>
-   
+            <mat-tab label="Action Calendar">
+                <app-action-staff></app-action-staff>
+            </mat-tab>
+        </mat-tab-group>
     </div>
     <div class="card-footer"></div>
 </div>

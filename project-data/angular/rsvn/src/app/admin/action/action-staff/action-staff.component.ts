@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, OnChanges, OnInit, SimpleChanges, EventEmitter } from '@angular/core';
 import { GenericService } from '@app/_services/generic.service';
 import { IRoominfo } from '@app/_interface/roominfo';
 import { AuthService } from '@app/_services/auth.service';
@@ -12,7 +12,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   templateUrl: './action-staff.component.html',
   styleUrls: ['./action-staff.component.scss']
 })
-export class ActionStaffComponent implements OnInit {
+export class ActionStaffComponent implements OnInit,OnChanges {
 
   constructor(
 
@@ -26,6 +26,8 @@ export class ActionStaffComponent implements OnInit {
 
 
 
+actionRec:any
+roominfos:any
 
   roomList: any;
   dispList: any[] = [];
@@ -60,6 +62,10 @@ export class ActionStaffComponent implements OnInit {
 
   }
 
+openDialog(rec:any) {
+console.log("Click",rec)
+}
+
   //====================================================
   refreshGrid() {
     this.startTimer()
@@ -83,6 +89,7 @@ export class ActionStaffComponent implements OnInit {
         tap((staff) => this.staffList = staff),
         concatMap(() => this.genericService.getItemQueryList('action', 'today=1')),
         tap(action => {
+          this.actionList = action
           action.forEach(act => {
             act.staff = this.staffList.find((f: any) => f.id == act.staff)
             act.roominfos.forEach((ri: any) => {
@@ -90,7 +97,7 @@ export class ActionStaffComponent implements OnInit {
               act.days.split(',')
                 .forEach((dy: any) => {
                   if (dy) {
-                    roomList[ff].week[dy].push({ name: act.staff.last_name })
+                    roomList[ff].week[dy].push({ name: act.staff.last_name, item: act.item ,id:act.id})
                   }
                 })
             })
@@ -109,13 +116,28 @@ export class ActionStaffComponent implements OnInit {
   }
 
 
+
+actionSelect(actionid:number) {
+  this.genericService.getItem('action',actionid)
+  .pipe(
+    tap( action => this.actionRec = action),
+    concatMap((action) => this.roomService.getActionRoominfo(action.id)),
+    map( (ri:any) => {
+      this.roominfos =  ri.map((q:any) => q = q.id) 
+      return ri
+    }))
+    .subscribe(data=> console.log(data,this.roominfos,this.actionRec))
+}
+
+ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes)
+}
   //====================================================
   ngOnInit(): void {
     this.refreshGrid()
     this.authService.getSession().subscribe(
       data => this.user = data
     )
-
   }
 
 

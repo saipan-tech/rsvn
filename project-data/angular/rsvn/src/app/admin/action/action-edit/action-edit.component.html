@@ -8,8 +8,8 @@
 </div>
 
 
-<div class="d-flex">
-    <div class="leftcolumn">
+<div class="row">
+    <div class="col">
         <div class="card">
             <div class="card-body">
                 <form novalidate [formGroup]="actionEditForm">
@@ -56,10 +56,6 @@
                                 <label class="uppercell form-control">Continuous
                                     <input class="lowercell form-control form-check-input " type="checkbox"
                                         formControlName='continuous'>
-                                </label>
-                                <label class="uppercell form-control">Once
-                                    <input class="lowercell form-control form-check-input " type="checkbox"
-                                        formControlName='once'>
                                 </label>
                                 <label class="uppercell form-control">Mon
                                     <input class="lowercell form-control form-check-input " type="checkbox"
@@ -123,7 +119,7 @@
 
 
     </div>
-    <div class="rightcolumn">
+    <div class="col">
         <div *ngIf="actionRec.id">
             <app-grid-select [(roominfos)]='roominfos' [actionRec]='actionRec'></app-grid-select>
         </div>

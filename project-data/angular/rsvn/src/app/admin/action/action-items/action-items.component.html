@@ -2,7 +2,8 @@
    <div class="card-header">
       <nav class="navbar">
          <h5>Action</h5>
-         <button [ngClass]="{'toggle':showall}" (click)="toggleView()">{{  showall  ?  'View Today'  : 'View All'   }} </button>
+         <button [ngClass]="{'toggle':showall}" (click)="toggleView()">{{ showall ? 'View Today' : 'View All' }}
+         </button>
          {{showall}}
          <button mat-button (click)='newAction()'>
             <mat-icon>note_add</mat-icon>
@@ -10,58 +11,25 @@
       </nav>
    </div>
    <div class="card-body">
-      <div class="d-flex heading">
-         <div style="width:7%">Date</div>
-         <div style="width:8%">Department</div>
-         <div style="width:10%">Name</div>
-         <div style="width:10%">Item</div>
-         <div style="width:15%">Description</div>
-         <div style="width:8%">Room Count</div>
-         <div style="width:20%">Status</div>
-      </div>
+      <div class="row heading">
+         <div class="col">Date</div>
+         <div class="col">Department</div>
+         <div class="col">Name</div>
+
+         <div class="col">Item</div>
+         <div class="col">Status</div>
+       </div>
 
       <div *ngFor="let act of actionList">
-         <div class="d-flex">
-            <div style="width:7%">{{act.date }}</div>
-            <div style="width:8%">{{ act.department }}</div>
-            <div style="width:10%" class="active" (click)="openDialog(act)">{{ act.fullname }}</div>
-            <div style="width:10%">{{act.item }}</div>
-            <div style="width:15%" title='{{act.descr}}'>{{act.descr | slice :0:30}}...</div>
-            <div style="width:8%">{{ act.roominfos.length }}
-               <button (click)="getRooms(act.id)" mat-button [matMenuTriggerFor]="menu">
-                  <mat-icon>list</mat-icon>
-               </button>
-            </div>
-            <div class="d-flex" style="width:15%">
-               <mat-checkbox [ngModel]="act.continuous" class="form-control" disabled >Continuous</mat-checkbox>
-               <mat-checkbox [ngModel]="act.once" class="form-control" disabled >Once</mat-checkbox>
-            </div>
+         <div class="row drows">
+            <div class="col">{{act.date }}</div>
+            <div class="col">{{ act.department }}</div>
+            <div class="col active" (click)="openDialog(act)">{{ act.fullname }}</div>
+
+            <div class="col">{{act.item }}</div>
+            <div class="col"><div *ngIf="act.continuous">Continuous</div></div>
          </div>
-
-
-         <mat-menu #menu="matMenu">
-            <table class="roomTable">
-               <tr>
-                  <th>Bldg</th>
-                  <th>Number</th>
-                  <th>Beds</th>
-                  <th>Floor</th>
-               </tr>
-
-               <tr *ngFor="let cri of currRoominfos">
-                  <td>{{ cri.bldgName}}</td>
-                  <td>{{ cri.number}}</td>
-                  <td>{{ cri.beds}} </td>
-                  <td>{{ cri.floor }} </td>
-               </tr>
-            </table>
-            <div>
-
-            </div>
-         </mat-menu>
-
-
-      </div>
+       </div>
    </div>
    <div class="card-footer">
 

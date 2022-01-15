@@ -1,52 +1,91 @@
-<button mat-button  (click)="reset()">Clear</button>
+<button mat-button (click)="reset()">Clear</button>
 <div *ngIf="data">
 
     <div *ngIf='data.info'>
         <h1>{{data.info}}</h1>
     </div>
     <div *ngIf='data.active'>
-        <div><h3>Reservation Information</h3></div>
-        <div>
-            <div class="topcell">Name</div>
-            <div  class="botcell">{{ data | json }}</div>
-        </div>
-    </div>
-    <div *ngIf='data.action'>
-        <div><h3>Worker and Task Information</h3></div>
-        <div>
-            <div class="topcell">Department</div>
-            <div  class="botcell">{{ data.action.department }}</div>
-        </div>
-        <div>
-            <div class="topcell">Title</div>
-            <div  class="botcell">{{ data.staff.title }}</div>
-        </div>
-        <div>
-            <div class="topcell">Name</div>
-            <div  class="botcell">{{ data.staff.first_name}} {{ data.staff.middle_name}} {{ data.staff.last_name}}</div>
-        </div>
-        <div>
-            <div class="topcell">Contact Number</div>
-            <div  class="botcell">{{ data.staff.phone1 }}</div>
-        </div>
-        <div>
-            <div class="topcell">Task</div>
-            <div  class="botcell">{{ data.action.item }}</div>
-        </div>
-        <div>
-            <div class="topcell">Description</div>
-            <div  class="botcell">{{ data.action.descr }}</div>
-        </div>
-        <div>
-            <div class="topcell">Days Schedule</div>
-            <div  class="botcell">{{ data.action.days }}</div>
-        </div>
-        <div>
-            <div class="topcell">Assigned by</div>
-            <div  class="botcell">{{ data.action.assignedBy }}</div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>Reservation Information</h3>
+            </div>
+            <div>
+                <div class="topcell">Name</div>
+                <div class="botcell">{{ data.rsvn.primary.firstname }} {{ data.rsvn.primary.lastname }}</div>
+            </div>
+            <div>
+                <div class="topcell">Check In Date</div>
+                <div class="botcell">{{ data.rsvn.dateIn }}</div>
+            </div>
+            <div>
+                <div class="topcell">Check Out Date</div>
+                <div class="botcell">{{ data.rsvn.dateOut }}</div>
+            </div>
+            <div>
+                <div class="topcell">Reservation Status</div>
+                <div class="botcell">{{ data.rsvn.status }}</div>
+            </div>
+            <div>
+                <div class="topcell">Confirmation Number</div>
+                <div class="botcell">{{ data.rsvn.confirm }}</div>
+            </div>
+            <div>
+                <div class="topcell">NUmber of Rooms</div>
+                <div class="botcell">{{ data.rsvn.numrooms }}</div>
+            </div>
         </div>
     </div>
 
+
+    <div *ngIf='data.action'>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>Worker and Task Information</h3>
+            </div>
+            <div class="card-body">
+                <div>
+                    <div class="topcell">Department</div>
+                    <div class="botcell">{{ data.action.department }}</div>
+                </div>
+                <div>
+                    <div class="topcell">Title</div>
+                    <div class="botcell">{{ data.staff.title }}</div>
+                </div>
+                <div>
+                    <div class="topcell">Name</div>
+                    <div class="botcell">{{ data.staff.first_name}} {{ data.staff.middle_name}} {{
+                        data.staff.last_name}}</div>
+                </div>
+                <div>
+                    <div class="topcell">Contact Number</div>
+                    <div class="botcell">{{ data.staff.phone1 }}</div>
+                </div>
+                <div>
+                    <div class="topcell">Task</div>
+                    <div class="botcell">{{ data.action.item }}</div>
+                </div>
+                <div>
+                    <div class="topcell">Description</div>
+                    <div class="botcell">{{ data.action.descr }}</div>
+                </div>
+                <div>
+                    <div class="topcell">Days Schedule</div>
+                    <div class="botcell">{{ data.action.days }}</div>
+                </div>
+                <div>
+                    <div class="topcell">Assigned by</div>
+                    <div class="botcell">{{ data.action.assignedBy }}</div>
+                </div>
+
+
+
+            </div>
+            <div class="card-footer"></div>
+
+        </div>
+    </div>
 </div>
 <!--
 

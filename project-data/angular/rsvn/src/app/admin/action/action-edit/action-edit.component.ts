@@ -79,8 +79,6 @@ export class ActionEditComponent implements OnInit {
       sat:new FormControl(false),
       sun:new FormControl(false),
       continuous:new FormControl(false),
-      once:new FormControl(false),
-      
       assignedBy: new FormControl(''),
       created: new FormControl('')
     })

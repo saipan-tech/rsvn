@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, OnChanges, OnInit, SimpleChanges, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-action',
@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./action.component.scss']
 })
 export class ActionComponent implements OnInit {
-
+  
+  
   constructor() { }
   activeLink = 'actionmatrix'
   currRsvn:any
+
+  
   selectedGuest(event:any) {
     
   }
