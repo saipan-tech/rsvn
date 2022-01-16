@@ -45,7 +45,7 @@ roominfos:any
   bldgList: any[] = []
   actionList: any = [];
   hkList: any = []
-
+  staff : any 
   //====================================================
   markTime(comment: string) {
     console.log("Marking Time -->", comment, '  ', new Date().getTime() - this.startTime)
@@ -121,7 +121,9 @@ actionSelect(actionid:number) {
   this.genericService.getItem('action',actionid)
   .pipe(
     tap( action => this.actionRec = action),
-    concatMap((action) => this.roomService.getActionRoominfo(action.id)),
+    concatMap((action) => this.genericService.getItem('staff',action.staff)),
+    tap(s => this.staff = s),
+    concatMap(() => this.roomService.getActionRoominfo(this.actionRec.id)),
     map( (ri:any) => {
       this.roominfos =  ri.map((q:any) => q = q.id) 
       return ri

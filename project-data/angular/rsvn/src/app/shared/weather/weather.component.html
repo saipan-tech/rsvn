@@ -31,17 +31,22 @@
     </div>
     <div class="col-md-7">
         <h4 *ngIf="currCity && currCity.iid">{{currCity.name}},{{currCity.state}} {{currCity.country}}</h4>
+        <div style="font-size:small;text-align:center"> lat:{{ currCity.lat | number: '1.2-2'}}  -  long:{{ currCity.lon | number: '1.2-2' }} </div>
     </div>
 </div>
     </div>
 
     <div *ngIf="weather" class="card-body" style="overflow-y:scroll">
         
+
+      
+
         
         <div *ngFor="let w of weather.weather">
             <h4>{{ w.main }} - {{ w.description}}</h4>
 
         </div>
+
         <table class="wtable" style="width:100%">
             <tr>
                 <td style="width:40%">Sunrise</td>

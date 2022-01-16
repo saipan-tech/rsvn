@@ -12,6 +12,8 @@
 -->
 
 <div class="card" >
+
+    <div class="card-header" *ngIf="staff"><h3>{{staff.first_name}}{{staff.last_name}}</h3> Action # {{actionRec.id}}</div>
     <div class="card-body">
         <div *ngFor="let b of dispList">
             <h6 style="padding:1em">{{b.bldg }}</h6>

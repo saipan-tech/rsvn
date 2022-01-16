@@ -25,6 +25,7 @@ export interface IDStatus  {
   styleUrls: ['./grid-select.component.scss']
 })
 export class GridSelectComponent implements OnInit {
+  @Input() staff : any
   @Input() roominfos:Number[] = []
   @Input() actionRec:IAction = {} as IAction
   @Output() roominfosChange = new EventEmitter<Number[]>()
@@ -109,11 +110,11 @@ export class GridSelectComponent implements OnInit {
     if(found  && found.marker) {
       found.marker = ''
       this.roomService.putActionRoominfo(this.actionRec.id,found)
-        .subscribe(data => console.log(data))  
+        .subscribe(data => this.roominfosChange.emit())  
     } else {
       found.marker = "marked"
       this.roomService.postActionRoominfo(this.actionRec.id,found)
-        .subscribe(data => console.log(data))  
+        .subscribe(data => this.roominfosChange.emit())  
     }
   }
 

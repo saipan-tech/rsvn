@@ -117,14 +117,20 @@ class HolidayAPI(APIView):
 class WeatherAPI(APIView):
 #-----------------------------------------------------
     
-    def get (self, request,city,units,format=None) :
+    def get (self, request,format=None) :
+        units = 'metric'
+#        newurl = f"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid=e1444f66c34120ecb5fccac5645c0a50&exclude=minutely,hourly&units={units}"
 
-        url = f"http://api.openweathermap.org/data/2.5/weather?id={city}&APPID=e1444f66c34120ecb5fccac5645c0a50&units={units}"
-
-        response = requests.request("GET", url)
-
-        return Response(json.loads(response.text))
-
+        if 'units' in request.GET :
+            units = request.GET['units']
+        if 'id' in request.GET:
+            id = request.GET['id']
+            url = f"http://api.openweathermap.org/data/2.5/weather?id={id}&APPID=e1444f66c34120ecb5fccac5645c0a50&units={units}"
+            response = requests.request("GET", url)
+            return Response(json.loads(response.text))
+        
+        return Response(request)
+ 
 #-----------------------------------------------------
 class CitiesAPI(APIView):
 #-----------------------------------------------------

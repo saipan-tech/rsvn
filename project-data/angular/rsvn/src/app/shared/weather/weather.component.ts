@@ -38,6 +38,8 @@ export class WeatherComponent implements OnInit {
   locationResults: any = [];
   //==============================
   makeWeather(data: any) {
+    
+   
     let d: any = {}
     this.weatherStats = data;
     d['sunrise'] = new Date(data.sys.sunrise * 1000)
@@ -46,12 +48,13 @@ export class WeatherComponent implements OnInit {
     d['main'] = data.main
     d['wind'] = data.wind
     d['weather'] = data.weather
+ 
     this.weather = d
   }
   //==============================
   refreshWeather(weatherUnits: string) {
     if (this.currCity) {
-      this.systemService.getWeather(this.currCity.iid, weatherUnits)
+      this.systemService.getWeather(`id=${this.currCity.iid}&units=${weatherUnits}`)
         .subscribe(data => this.makeWeather(data))
     }
   }
