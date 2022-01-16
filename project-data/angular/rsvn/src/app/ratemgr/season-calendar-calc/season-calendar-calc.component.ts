@@ -26,6 +26,7 @@ export class SeasonCalendarCalcComponent implements OnInit, OnChanges {
   seasonList: any[] = []
   rateList: any[] = []
   tallySheet: any[] = []
+  tallyTotal:number =  0
   @Input() currCal:any
 
 
@@ -34,6 +35,7 @@ export class SeasonCalendarCalcComponent implements OnInit, OnChanges {
   seasonTally(accum:any) {
     let tallySheet:any = []
     let seasonCount:any = {}
+
     this.currCal.forEach((cc:any) => {
       if (!seasonCount[cc.season]) seasonCount[cc.season] = 0
       seasonCount[cc.season] += 1
@@ -42,19 +44,17 @@ export class SeasonCalendarCalcComponent implements OnInit, OnChanges {
     this.seasonList.forEach(
       (sl:any) => {
          
-        let total = 0
+        let total = accum.total*seasonCount[sl.name]*sl.discount
         //      let total = Number(accum[sl.name]) * Number(seasonCount[sl.name])
-        tallySheet.push({name:sl.name, count:seasonCount[sl.name], accum:accum.total*seasonCount[sl.name]*sl.discount  }) 
-
+       tallySheet.push({name:sl.name, count:seasonCount[sl.name], accum:total  }) 
+       if(total) {
+        this.tallyTotal += Number(total)
+       } 
       }
     )
       this.tallySheet =tallySheet
-
   }
-
-
-
-  
+ 
   //===========================================================
   ngOnChanges(changes: SimpleChanges) {
     this.ngOnInit()
@@ -82,8 +82,9 @@ export class SeasonCalendarCalcComponent implements OnInit, OnChanges {
           return rackAccum
         }))
       .subscribe(d => {
-         this.seasonTally(d)
-      
+// This gives us one day rack rate  split among rate types
+        this.seasonTally(d)
+        
 
       }
       )

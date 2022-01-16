@@ -13,10 +13,10 @@ import { AppConstants } from '@app/app.constants';
 import { AuthService } from '@app/_services/auth.service';
 import { catchError, tap, map, concatMap, mergeMap } from 'rxjs/operators';
 import { IAction } from '@app/_interface/action';
-export interface IDStatus  {
+export interface IDStatus {
   checkin: IRoom[];
   checkout: IRoom[];
-  inhouse : IRoom[];
+  inhouse: IRoom[];
 }
 
 @Component({
@@ -25,19 +25,19 @@ export interface IDStatus  {
   styleUrls: ['./grid-select.component.scss']
 })
 export class GridSelectComponent implements OnInit {
-  @Input() staff : any
-  @Input() roominfos:Number[] = []
-  @Input() actionRec:IAction = {} as IAction
+  @Input() staff: any
+  @Input() roominfos: Number[] = []
+  @Input() actionRec: IAction = {} as IAction
   @Output() roominfosChange = new EventEmitter<Number[]>()
 
   bldgList: IBldg[] = []
   roomList: IRoominfo[] = []
   dispList: any = []
   roomstatusList: IDropdown[] = []
-  dateStatus : IDStatus = {} as IDStatus; 
+  dateStatus: IDStatus = {} as IDStatus;
   Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
   user: any
-  
+
   constructor(
     private genericService: GenericService,
     private systemService: SystemService,
@@ -48,52 +48,19 @@ export class GridSelectComponent implements OnInit {
   ) { }
 
 
-
-  overlayMask() {
-    this.dateStatus.checkout.forEach(
-      ds => {
-       let found  = this.roomList.find( rl => ds.roominfo == rl.id )
-       if(found) {
-        found['border'] = 'checkout'
-       }
-      }
-    )
-    this.dateStatus.checkin.forEach(
-      ds => {
-       let found  = this.roomList.find( rl => ds.roominfo == rl.id )
-       if(found) {
-         if(found.border == 'checkout') {
-           found.border = 'priority'
-         
-         }
-         else found.border = 'checkin'
-       }
-      }
-    )
-    this.dateStatus.inhouse.forEach(
-      ds => {
-       let found  = this.roomList.find( rl => ds.roominfo == rl.id )
-       if(found) {
-         found.border = 'inhouse'
-       }
-      }
-    )
-
-  }
   // -------------------------------------------
   makeList() {
     this.dispList = []
-    let found : IRoominfo | any
+    let found: IRoominfo | any
 
     this.roominfos.forEach(
       ri => {
-       found  = this.roomList.find( rl => ri == rl.id )
-       if(found) {
-        found['marker'] = 'marked'
-       }
+        found = this.roomList.find(rl => ri == rl.id)
+        if (found) {
+          found['marker'] = 'marked'
+        }
       }
     )
-
     this.bldgList.forEach(
       bld => {
         let rooms = this.roomList.filter(r => r.bldg == bld.id)
@@ -103,48 +70,51 @@ export class GridSelectComponent implements OnInit {
     )
 
   }
-  
+
   //---------------------------------
-  checkMark(roominfo_id:number) {
-    let found:any  = this.roomList.find(d=> d.id == roominfo_id)
-    if(found  && found.marker) {
+  checkMark(roominfo_id: number) {
+    let found: any = this.roomList.find(d => d.id == roominfo_id)
+    if (found && found.marker) {
       found.marker = ''
-      this.roomService.putActionRoominfo(this.actionRec.id,found)
-        .subscribe(data => this.roominfosChange.emit())  
+      this.roomService.putActionRoominfo(this.actionRec.id, found)
+        .subscribe(data => this.roominfosChange.emit())
     } else {
       found.marker = "marked"
-      this.roomService.postActionRoominfo(this.actionRec.id,found)
-        .subscribe(data => this.roominfosChange.emit())  
+      this.roomService.postActionRoominfo(this.actionRec.id, found)
+        .subscribe(data => this.roominfosChange.emit())
     }
   }
 
   // -------------------------------------------
   ngOnChanges(changes: SimpleChanges) {
-    console.log("Changes",changes)
+    console.log("Changes", changes)
     this.ngOnInit()
   }
 
   // -------------------------------------------
   ngOnInit(): void {
+    console.log(this.roomList, this.actionRec)
+    
+    
+    this.roomService.getActionRoominfo(this.actionRec.id)
+      .subscribe(data=> {
+        this.roominfos = []
+        data.forEach(d => this.roominfos.push(d.id))
+      })
   
     this.authService.getSession().subscribe(
       data => this.user = data
     )
-    let obs$:any
-    if(this.actionRec.continuous) {
-      obs$ = this.roomService.getRoomDateScan(this.Today,'')
-    } else {
-      obs$ = this.roomService.getRoomDateScan(this.actionRec.date,'')
-    }
-    
+
     this.genericService.getItemList('roominfo')
       .pipe(
-        tap( data => this.roomList = data),
+        tap(data => this.roomList = data),
         concatMap(() => this.genericService.getItemList("bldg")),
-        tap(bldgs => this.bldgList = bldgs),
-        concatMap(()=> obs$),
-        tap( (d:any) => this.dateStatus = d)
-        )
-        .subscribe(d => this.makeList())
+        tap(bldgs => this.bldgList = bldgs)
+      )
+      .subscribe(d => {
+        this.makeList()
+        console.log(this.roomList)
+      })
   }
 }
