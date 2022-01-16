@@ -35,7 +35,7 @@ export class SeasonCalendarCalcComponent implements OnInit, OnChanges {
   seasonTally(accum:any) {
     let tallySheet:any = []
     let seasonCount:any = {}
-
+    this.tallyTotal =  0
     this.currCal.forEach((cc:any) => {
       if (!seasonCount[cc.season]) seasonCount[cc.season] = 0
       seasonCount[cc.season] += 1
