@@ -1,16 +1,11 @@
+
+
 <div class="row">
     <div class="col-4" style="height:700px;overflow-y:scroll">
         <app-action-items (changeItems)='refreshGrid()'></app-action-items>
-
-            
-            <app-grid-select [roominfos]='roominfos' (roominfosChange)='refreshGrid()' [actionRec]='actionRec' [staff]='staff' ></app-grid-select>
+        <app-grid-select [roominfos]='roominfos' (roominfosChange)='refreshGrid()' [actionRec]='actionRec' [staff]='staff' ></app-grid-select>
     </div>
-
     <div class="col" style="height:700px;overflow-y:scroll;;background-color:rgb(177, 177, 177)">
-
-
-
-
         <div *ngFor="let bld of bldgList">
             <h4> {{ bld.name }}</h4>
             <table class="table hktable">
@@ -51,7 +46,6 @@
 
                 </tr>
             </table>
-
         </div>
 
 

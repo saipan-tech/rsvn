@@ -90,7 +90,7 @@ export class GridSelectComponent implements OnInit {
     console.log("Changes", changes)
     this.ngOnInit()
   }
-
+  
   // -------------------------------------------
   ngOnInit(): void {
     console.log(this.roomList, this.actionRec)
