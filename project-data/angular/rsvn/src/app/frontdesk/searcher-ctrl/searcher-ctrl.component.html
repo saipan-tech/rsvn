@@ -20,6 +20,8 @@
             <div>
                 <button mat-button [ngClass]="{'markit':scanList.length}" (click)="activeRes('noroom')">Room
                     Scanner</button>
+       
+                <button mat-button [ngClass]="{'markit':delayList.length}" (click)="activeRes('delay')">Delayed Checkout</button>
             </div>
             <div>
                 <button mat-button (click)="activeRes('guests')">Guests</button>

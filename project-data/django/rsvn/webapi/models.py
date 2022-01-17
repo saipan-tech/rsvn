@@ -123,6 +123,8 @@ class Roominfo (models.Model):
     name        =   models.CharField(max_length=512, blank=True)
     beds        =   models.CharField(max_length=128, blank=True)
     size        =  	models.CharField(max_length=20, blank=True)
+    phone       =  	models.CharField(max_length=20, blank=True)
+    ipaddr      =  	models.CharField(max_length=256, blank=True)
     descr       =   models.TextField(blank=True)
     check       =   models.BooleanField(default=False)
     status      =   models.CharField(max_length=12, default="unknown")

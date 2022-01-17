@@ -35,9 +35,6 @@ export class RoomService {
       .get<IRoominfo[]>(`${this.urlRoot}/roominfo?bldgid=${bldgid}`)
   }
 
-  roomClear():Observable<any> {
-    return this.http.get<any>(`${this.urlRoot}/roomclear/`)
-  }
   availableRooms(dateIn:string,dateOut:string):Observable<IRoominfo[]> {
     return this.http.get<IRoominfo[]>(`${this.urlRoot}/roominfo?exclude=1&dateIn=${dateIn}&dateOut=${dateOut}`)
   }
@@ -53,7 +50,9 @@ export class RoomService {
 
   }
   
-  
+  getRoomCheck():Observable<any[]> {
+    return this.http.get<any[]>(`${this.urlRoot}/roomcheck/`)
+  }
   
   getRoomCalc(roominfo_id:number,date1:string,date2:string):Observable<any[]> {
     return this.http.get<any[]>(`${this.urlRoot}/roomcalc/${roominfo_id}/${date1}/${date2}/`)

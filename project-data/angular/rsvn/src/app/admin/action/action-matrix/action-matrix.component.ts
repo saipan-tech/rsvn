@@ -87,7 +87,6 @@ export class ActionMatrixComponent implements OnInit {
         (d) => {
           this.dispList = this.mergeDisplist(bldgList, roomList, actionList, activeList)
           this.loaded = true
-          console.log(this.dispList)
           this.markTime("completed")
 
         }

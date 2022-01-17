@@ -92,16 +92,9 @@ class BldgRoom(APIView):
             result.append({'bldg':BldgSerializer(b).data,'rooms':RoominfoSerializer(r,many=True).data})
         return Response(result)    
 #------------------------------------------
-class RoomClear(APIView) : 
+class RoomCheck(APIView) : 
 #------------------------------------------
     def get(self,request, format=None)  :
         rooms = Room.objects.filter(status='checkin',rsvn__dateOut__lt=TODAY)
-        for r in rooms:
-            ri =  Roominfo.objects.get(id=r.roominfo.id)
-            ri.status = 'dirty'
-            ri.check = False
-            ri.save()
-            r.status = 'checkout'
-            r.save()
         return Response(RoomSerializer(rooms,many=True).data)    
     

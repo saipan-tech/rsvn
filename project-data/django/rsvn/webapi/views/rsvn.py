@@ -2,7 +2,6 @@ from .common import *
 
 #===========================
 class RsvnCheckView(APIView) :
-
     def get(self, request,format=None):
         result = []
         rsvn_dict = Rsvn.objects.all()
@@ -13,6 +12,10 @@ class RsvnCheckView(APIView) :
             elif not x.numrooms == len(rms) :
                 result.append({"rsvn":x.id,"error":"roomCount"})
         return Response( result )
+
+
+
+
 #===========================
 def checkRsvn(rsvn,dI,dO) :
     res = []

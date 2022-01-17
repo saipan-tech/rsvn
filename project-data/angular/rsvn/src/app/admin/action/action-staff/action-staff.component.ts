@@ -46,6 +46,8 @@ roominfos:any
   actionList: any = [];
   hkList: any = []
   staff : any 
+  dow_now = new Date().getDay()
+  
   //====================================================
   markTime(comment: string) {
     console.log("Marking Time -->", comment, '  ', new Date().getTime() - this.startTime)
@@ -136,6 +138,7 @@ ngOnChanges(changes: SimpleChanges): void {
 }
   //====================================================
   ngOnInit(): void {
+
     this.refreshGrid()
     this.authService.getSession().subscribe(
       data => this.user = data

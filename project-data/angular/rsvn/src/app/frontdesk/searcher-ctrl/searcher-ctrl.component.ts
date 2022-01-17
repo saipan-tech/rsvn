@@ -50,7 +50,11 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
   cell = 'cell'
   resultList: any[] = []
   scanList: any[] = []
+
+  delayList: any[] = []
+
   rsvn$: any
+  room$: any
   selectHead = 'Current Information'
   //--------------------------------------
   sortRsvnDateList(rlist: any) {
@@ -159,16 +163,23 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
     this.infoOn = false;
     let rsvn$
     let guest$
+
     switch (mode) {
       case 'current':
         this.selectHead = "Current Information"
-      this.infoOn = true
-   
+        this.infoOn = true
+
         break;
-    
+
       case 'active':
         rsvn$ = this.genericService.getItemQueryList("rsvn", `active=${this.today}`)
         this.selectHead = "Active Reservations"
+        break;
+
+      case 'delay':
+        this.resultList = this.delayList
+        this.selectHead = "Delayed Checkout"
+        this.room$.subscribe()
         break;
 
       case 'guests':
@@ -242,6 +253,25 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
         })
       )
     this.rsvn$.subscribe()
+
+    this.room$ = this.roomService.getRoomCheck()
+      .pipe(tap(
+        data => {
+          this.delayList = []
+          data.forEach(d => {
+            this.genericService.getItem("rsvn", d.rsvn)
+              .subscribe(rsvn => {
+                let g = rsvn.primary;
+                g.fullname = g.firstname + ' ' + g.lastname
+                g.marker = d.error;
+                g.rsvn = [rsvn]
+                this.delayList.push(g)
+              })
+            }
+        )}))
+    this.room$.subscribe()
+
   }
+
 
 }
