@@ -54,3 +54,39 @@ class PaymentViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(rsvn__id=self.request.GET['rsvn'])
 
         return queryset    
+
+
+#------------------------------------------
+class RoomChargeViewSet(viewsets.ModelViewSet):
+#------------------------------------------
+    """
+    API endpoint for viewing RoomCharges
+    """
+    queryset = RoomCharge.objects.all().order_by('date')
+    serializer_class = RoomChargeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = super().get_queryset() 
+
+        if "rsvn" in self.request.GET :
+            queryset = queryset.filter(room__rsvn__id=self.request.GET['rsvn'])
+        
+        if "future" in self.request.GET :
+            queryset = queryset.filter( room__rsvn__dateOut__gt=self.request.GET['future'])
+
+        if  "dateIn" in self.request.GET and "dateOut" in self.request.GET :
+            dateIn = self.request.GET['dateIn']
+            dateOut = self.request.GET['dateOut']
+            if "exclude" in self.request.GET  :
+                queryset = queryset.exclude(
+                    Q(room__rsvn__dateIn__lte = dateIn)  & Q(room__rsvn__dateOut__gte = dateIn) |
+                    Q(room__rsvn__dateIn__lte = dateOut) & Q(room__rsvn__dateOut__gte = dateIn) |
+                    Q(room__rsvn__dateIn__lte = dateOut) & Q(room__rsvn__dateOut__gte =  dateOut) 
+                    )
+            elif "include" in self.request.GET :
+                queryset = queryset.filter(
+                    Q(room__rsvn__dateIn__lte = dateIn) & Q(room__rsvn__dateOut__gte = dateIn) |
+                    Q(room__rsvn__dateIn__lte = dateOut) & Q(room__rsvn__dateOut__gte = dateIn) |
+                    Q(room__rsvn__dateIn__lte = dateOut) & Q(room__rsvn__dateOut__gte =  dateOut) 
+                    )

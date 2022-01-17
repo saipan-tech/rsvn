@@ -23,6 +23,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from webapi.tools.mailtools import *
 
+from django.db.models import Avg,Sum
 
 import pytz
 portland_tz = pytz.timezone("America/Los_Angeles")

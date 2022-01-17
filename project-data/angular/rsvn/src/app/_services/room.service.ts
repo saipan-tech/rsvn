@@ -45,7 +45,7 @@ export class RoomService {
     return this.http.get<IRoominfo[]>(`${this.urlRoot}/roominfo?include=1&dateIn=${dateIn}&dateOut=${dateOut}`)
   }
   roomScan(dateIn:string,dateOut:string):Observable<any> {
-    return this.http.get<any[]>(`${this.urlRoot}/roomall?dateIn=${dateIn}&dateOut=${dateOut}`)
+    return this.http.get<any[]>(`${this.urlRoot}/room?dateIn=${dateIn}&dateOut=${dateOut}&all=1`)
   }
 
   getStatusLog(roominfo:number):Observable<IStatuslog[]> {

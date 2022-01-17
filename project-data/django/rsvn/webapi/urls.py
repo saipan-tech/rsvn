@@ -32,6 +32,8 @@ from webapi.views.rates import *
 from webapi.views.charges import *
 from webapi.views.calendar import *
 from webapi.views.staff import *
+from webapi.views.calc import *
+from webapi.views.roomaction import *
 
 from webapi.tools.weather import *
 
@@ -42,7 +44,6 @@ router.register(r'group', GroupViewSet)
 router.register(r'bldg', BldgViewSet)
 router.register(r'room', RoomViewSet)
 router.register(r'roomcharge', RoomChargeViewSet)
-router.register(r'roomall', RoomAllViewSet)
 router.register(r'roominfo', RoominfoViewSet)
 router.register(r'amenity',AmenityViewSet)
 router.register(r'rsvn',RsvnViewSet)
@@ -87,5 +88,6 @@ urlpatterns = [
     path('weather/',WeatherAPI.as_view()),
     path('weatheradmin/',weather_admin,name='weather_admin'),
     path('cities/<city>/',CitiesAPI.as_view()),
-    path('city/<iid>/',CityView.as_view())
+    path('city/<iid>/',CityView.as_view()),
+    path('chargecalc/',ChargeCalc.as_view())
 ]

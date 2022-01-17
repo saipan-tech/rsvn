@@ -7,6 +7,7 @@ import { GenericService } from '@app/_services/generic.service';
 import { ISeason } from '@app/_interface/season';
 import { catchError, tap, map, mergeMap, concatMap } from 'rxjs/operators';
 import { ICalendar } from '@app/_interface/calendar';
+import { ChargeService } from '@app/_services/charge.service';
 
 @Component({
   selector: 'app-season-calendar-calc',
@@ -18,7 +19,8 @@ export class SeasonCalendarCalcComponent implements OnInit, OnChanges {
   constructor(
     private systemService: SystemService,
     private seasonService: SeasonService,
-    private genericService: GenericService
+    private genericService: GenericService,
+    private chargeService : ChargeService
 
   ) { }
   rackAccum: any = {}
@@ -27,9 +29,20 @@ export class SeasonCalendarCalcComponent implements OnInit, OnChanges {
   rateList: any[] = []
   tallySheet: any[] = []
   tallyTotal:number =  0
+  chargeCalc:any
   @Input() currCal:any
+  @Input() currYear:any
+  
 
 
+  //===========================================================
+  chargeTally() {
+      this.chargeService.getChargeCalc(`year=${this.currYear}`)
+    .subscribe(d => { 
+      this.chargeCalc = d
+      console.log(this.chargeCalc)
+    })
+  }
 
   //===========================================================
   seasonTally(accum:any) {
@@ -63,7 +76,9 @@ export class SeasonCalendarCalcComponent implements OnInit, OnChanges {
   ngOnInit(): void {
    
     let rackAccum: any = { total: 0 }
-
+    
+    this.chargeTally() 
+    
     this.genericService.getItemList("season")
       .pipe(
         tap(r => this.seasonList = r),

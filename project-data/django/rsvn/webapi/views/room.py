@@ -1,15 +1,17 @@
 from .common import *
 
+#------------------------------------------
 class BldgViewSet(viewsets.ModelViewSet):
+#------------------------------------------
     """
     API endpoint that allows users to be viewed or edited.
     """
     queryset = Bldg.objects.all().order_by('name')
     serializer_class = BldgSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-
+#------------------------------------------
 class RoomViewSet(viewsets.ModelViewSet):
+#------------------------------------------
     """
     API endpoint that allows users to be viewed or edited.
     """
@@ -50,80 +52,12 @@ class RoomViewSet(viewsets.ModelViewSet):
             
         return queryset    
 
-
-class RoomAllViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = Room.objects.all().order_by('roominfo__number')
-    serializer_class = RoomAllSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        queryset = super().get_queryset() 
-
-        if "rsvn" in self.request.GET :
-            queryset = queryset.filter(rsvn__id=self.request.GET['rsvn'])
-
-
-        if  "dateIn" in self.request.GET and "dateOut" in self.request.GET :
-            dateIn = self.request.GET['dateIn']
-            dateOut = self.request.GET['dateOut']
-            if "exclude" in self.request.GET  :
-                queryset = queryset.exclude(
-                    Q(rsvn__dateIn__lte = dateIn)  & Q(rsvn__dateOut__gte = dateIn) |
-                    Q(rsvn__dateIn__lte = dateOut) & Q(rsvn__dateOut__gte = dateIn) |
-                    Q(rsvn__dateIn__lte = dateOut) & Q(rsvn__dateOut__gte =  dateOut) 
-                    )
-            elif "include" in self.request.GET :
-                queryset = queryset.filter(
-                    Q(rsvn__dateIn__lte = dateIn) & Q(rsvn__dateOut__gte = dateIn) |
-                    Q(rsvn__dateIn__lte = dateOut) & Q(rsvn__dateOut__gte = dateIn) |
-                    Q(rsvn__dateIn__lte = dateOut) & Q(rsvn__dateOut__gte =  dateOut) 
-                    )
-
-        return queryset    
-
-
-class RoomChargeViewSet(viewsets.ModelViewSet):
-    
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = RoomCharge.objects.all().order_by('date')
-    serializer_class = RoomChargeSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        queryset = super().get_queryset() 
-
-        if "rsvn" in self.request.GET :
-            queryset = queryset.filter(room__rsvn__id=self.request.GET['rsvn'])
-        
-        if "future" in self.request.GET :
-            queryset = queryset.filter( room__rsvn__dateOut__gt=self.request.GET['future'])
-
-        if  "dateIn" in self.request.GET and "dateOut" in self.request.GET :
-            dateIn = self.request.GET['dateIn']
-            dateOut = self.request.GET['dateOut']
-            if "exclude" in self.request.GET  :
-                queryset = queryset.exclude(
-                    Q(room__rsvn__dateIn__lte = dateIn)  & Q(room__rsvn__dateOut__gte = dateIn) |
-                    Q(room__rsvn__dateIn__lte = dateOut) & Q(room__rsvn__dateOut__gte = dateIn) |
-                    Q(room__rsvn__dateIn__lte = dateOut) & Q(room__rsvn__dateOut__gte =  dateOut) 
-                    )
-            elif "include" in self.request.GET :
-                queryset = queryset.filter(
-                    Q(room__rsvn__dateIn__lte = dateIn) & Q(room__rsvn__dateOut__gte = dateIn) |
-                    Q(room__rsvn__dateIn__lte = dateOut) & Q(room__rsvn__dateOut__gte = dateIn) |
-                    Q(room__rsvn__dateIn__lte = dateOut) & Q(room__rsvn__dateOut__gte =  dateOut) 
-                    )
-
-
 #------------------------------------------
 class RoomDateScan(APIView):
 #------------------------------------------
-   
+    '''
+        For viewing rooms from checkin checkout and inhouse 
+    '''  
     def get(self,request,date, format=None)  :
         listing = []
         room = Room.objects.all().order_by('roominfo__bldg__name','roominfo__number')
@@ -149,7 +83,6 @@ class RoomDateScan(APIView):
 #------------------------------------------
 class BldgRoom(APIView):
 #------------------------------------------
-    
     def get(self,request, format=None)  :
         roominfo = Roominfo.objects.all()
         bldgs = Bldg.objects.all().order_by('name')

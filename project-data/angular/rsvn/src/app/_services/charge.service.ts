@@ -29,4 +29,12 @@ export class ChargeService {
     return this.http
       .get<IPayment[]>(`${this.urlRoot}/payment?rsvn=${rsvnid}`)
   }
+  //==================================================
+  getChargeCalc(query:string): Observable<any> {
+    return this.http
+      .get<any>(`${this.urlRoot}/chargecalc?${query}`)
+  }
+
+
+
 }
