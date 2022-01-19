@@ -8,7 +8,7 @@ import { ISeason } from '@app/_interface/season'
 import { IGuest } from '@app/_interface/guest'
 import { GenericService } from '@app/_services/generic.service';
 import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
-import { catchError, tap, map, concatMap } from 'rxjs/operators';
+import { catchError, filter, tap, map, mergeMap, concatMap } from 'rxjs/operators';
 import { iif, of, interval, Observable } from 'rxjs';
 import { AppConstants } from '@app/app.constants'
 import { RoomService } from '@app/_services/room.service';
@@ -60,7 +60,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
         .subscribe(data => {
 
           this.refreshRsvn();
-          this.refreshRoomlist(4)
+          this.refreshRoomlist()
         })
     }
   }
@@ -84,40 +84,75 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
 
 
-
   //=================================
-  check(room: any, mode: string) {
-    this.genericService.getItem('room', room.roomid)
-      .pipe(
-        map(rm => {
-          rm.status = mode;
-          return rm;
-        }),
-        concatMap(rm => this.genericService.updateItem('room', rm)),
-        concatMap(() => this.genericService.getItem('roominfo', room.roominfo.id)),
-        map((ri: any) => {
-          if (mode == 'checkin') {
-            ri.check = true
-            ri.status = 'occupied'
-          }
-          else if (mode == 'checkout') {
-            ri.check = false
-            ri.status = 'dirty'
-          }
-          return ri
-        }),
+  checkin(room: any) {
+
+    let roominfoToggle$ = this.genericService.getItem('roominfo', room.roominfo.id)
+      .pipe(map((ri: any) => {
+        ri.check = true
+        ri.status = 'occupied'
+        return ri
+      }),
         concatMap((ri: any) => this.genericService.updateItem('roominfo', ri))
       )
-      .subscribe(
+
+
+    let roomToggle$ = this.genericService.getItem('room', room.roomid)
+      .pipe(map(rm => {
+        rm.status = 'checkin';
+        return rm;
+      }),
+        concatMap(rm => this.genericService.updateItem('room', rm)),
+      )
+
+
+    this.genericService.getItemQueryList('room', 'active=1')
+      .pipe(
+        filter((active) => active.find((al: any) => al.id == room.roomid)),
+        mergeMap(() => roomToggle$),
+        mergeMap(() => roominfoToggle$),
+      ).subscribe(
         d => {
-          this.refreshRoomlist(3)
+          this.refreshRoomlist()
           this.refreshRsvn();
         }
       )
   }
   //=================================
+  checkout(room: any) {
+    let roominfoToggle$ = this.genericService.getItem('roominfo', room.roominfo.id)
+      .pipe(map((ri: any) => {
+        ri.check = false
+        ri.status = 'dirty'
+        return ri
+      }),
+        concatMap((ri: any) => this.genericService.updateItem('roominfo', ri))
+      )
+
+    let roomToggle$ = this.genericService.getItem('room', room.roomid)
+      .pipe(map(rm => {
+        rm.status = 'checkout';
+        return rm;
+      }),
+        concatMap(rm => this.genericService.updateItem('room', rm)),
+      )
+
+
+    roomToggle$.pipe(
+      mergeMap(() => this.genericService.getItemQueryList('room', 'active=1')),
+      filter((active) => active.find((al: any) => al.id != room.roomid)),
+      mergeMap(() => roominfoToggle$),
+      ).subscribe(
+        d => {
+          this.refreshRoomlist()
+          this.refreshRsvn();
+        }
+      )
+
+  }
+  
+  //=================================
   unassignRoom(r: any) {
-    console.log(r)
 
     this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {
       data: {
@@ -132,7 +167,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
           .subscribe(data => {
 
             this.refreshRsvn();
-            this.refreshRoomlist(2)
+            this.refreshRoomlist()
           })
       }
     })
@@ -148,15 +183,15 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
   //=================================
   ngOnChanges(changes: SimpleChanges) {
-    this.refreshRoomlist(0)
+    this.refreshRoomlist()
     // this.refreshRsvn();
   }
   //=================================
-  refreshRoomlist(index: number) {
-/*    this.roomService.roomClear().subscribe(
-      data => console.log("clear Room",data)
-    )
-*/
+  refreshRoomlist() {
+    /*    this.roomService.roomClear().subscribe(
+          data => console.log("clear Room",data)
+        )
+    */
     if (this.currRsvn && this.currRsvn.id) {
       this.genericService.getItemQueryList('room', `rsvn=${this.currRsvn.id}&all=1`)
         .subscribe(
@@ -169,23 +204,14 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
   //=================================
 
-    // scan to be sure no expired reservation has rooms checked in if so check out
-    // make sure occupied rooms have an associated valid room reservation
+  // scan to be sure no expired reservation has rooms checked in if so check out
+  // make sure occupied rooms have an associated valid room reservation
   //=================================
   ngOnInit(): void {
-    let index = 0
-    this.refreshTimer = setInterval(
-      () => {
-        this.refreshRoomlist(index);
-        ++index
-      }, 15000)
-    this.refreshRoomlist(index);
+    this.refreshRoomlist();
   }
   //=================================
   ngOnDestroy() {
-    if (this.refreshTimer) {
-      clearInterval(this.refreshTimer)
-    }
   }
 }
 //=================================

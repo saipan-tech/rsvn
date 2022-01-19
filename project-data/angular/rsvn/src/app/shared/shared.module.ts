@@ -5,7 +5,7 @@ import { CalendarComponent } from '@app/calendar/calendar.component';
 import { InfoComponent } from '@app/info/info.component';
 import { WeatherComponent } from './weather/weather.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AccordionModule } from 'ngx-bootstrap/accordion';
+//import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule} from '@angular/material/autocomplete'
@@ -28,7 +28,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     BrowserAnimationsModule,
-    AccordionModule,
+  //  AccordionModule,
     FormsModule,
     ReactiveFormsModule,
 

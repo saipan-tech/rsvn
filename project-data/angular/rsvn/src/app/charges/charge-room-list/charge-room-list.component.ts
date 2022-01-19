@@ -47,7 +47,7 @@ export class ChargeRoomListComponent implements OnInit {
   chgtypeList: IDropdown[] = []
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!changes.currRsvn.firstChange) {
+    if (!changes['currRsvn'].firstChange) {
       this.ngOnInit()
     }
 

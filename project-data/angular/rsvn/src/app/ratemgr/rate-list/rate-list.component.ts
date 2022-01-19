@@ -6,7 +6,6 @@ import { FormArray, FormGroup, FormBuilder, Validators, FormControl, EmailValida
 import { IRate } from '@app/_interface/rate';
 import { ISeason } from '@app/_interface/season';
 import { concatMap, tap } from 'rxjs/operators';
-import { RaceOperator } from 'rxjs/internal/observable/race';
 import { Observable, concat, throwError } from 'rxjs';
 
 @Component({

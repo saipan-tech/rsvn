@@ -8,7 +8,6 @@ import { AppEnv } from '@app/_helpers/appenv';
 import { IDropdown } from '@app/_interface/dropdown';
 import { GenericService } from './generic.service';
 import { AppConstants } from '@app/app.constants'
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
     providedIn: 'root'

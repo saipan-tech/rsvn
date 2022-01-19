@@ -57,7 +57,7 @@ class RsvnTestView(APIView) :
 #-------------------------------------------------------
 def confirm_gen (id) :
 #-------------------------------------------------------
-	today = date.today()
+	today = Today()
 	return 'R{:04}{:02}{:02}-{:04}'.format(today.year,today.month,today.day,id)
 
 #===========================

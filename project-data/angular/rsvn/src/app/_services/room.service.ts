@@ -54,6 +54,12 @@ export class RoomService {
     return this.http.get<any[]>(`${this.urlRoot}/roomcheck/`)
   }
   
+
+
+
+
+
+  
   getRoomCalc(roominfo_id:number,date1:string,date2:string):Observable<any[]> {
     return this.http.get<any[]>(`${this.urlRoot}/roomcalc/${roominfo_id}/${date1}/${date2}/`)
 

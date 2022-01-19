@@ -82,14 +82,9 @@ export class InfoComponent implements OnInit {
     this.authService.getSession().subscribe(
       data => this.user = data
     )
-    this.refreshTimer = setInterval(
-      () => { this.refreshInfo() }, 15000)
     this.refreshInfo()
   }
   //=================================
   ngOnDestroy() {
-    if (this.refreshTimer) {
-      clearInterval(this.refreshTimer)
-    }
   }
 }

@@ -13,18 +13,17 @@ class BldgViewSet(viewsets.ModelViewSet):
 class RoomViewSet(viewsets.ModelViewSet):
 #------------------------------------------
     """
-    API endpoint that allows users to be viewed or edited.
+    API endpoint that allows rooms to be viewed or edited.
     """
     queryset = Room.objects.all().order_by('roominfo__bldg__name','roominfo__number')
     serializer_class = RoomSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        today = TODAY 
-        tomorrow = TODAY - timedelta(days=1)
+
         queryset = super().get_queryset() 
         if "active" in self.request.GET :
-            queryset = queryset.filter(rsvn__dateIn__lte = today, rsvn__dateOut__gte = TODAY )
+            queryset = queryset.filter(rsvn__dateIn__lte = Today(), rsvn__dateOut__gte = Today() )
         if "rsvn" in self.request.GET :
             queryset = queryset.filter(rsvn__id=self.request.GET['rsvn'])
         
@@ -95,6 +94,6 @@ class BldgRoom(APIView):
 class RoomCheck(APIView) : 
 #------------------------------------------
     def get(self,request, format=None)  :
-        rooms = Room.objects.filter(status='checkin',rsvn__dateOut__lt=TODAY)
+        rooms = Room.objects.filter(status='checkin',rsvn__dateOut__lt=Today())
         return Response(RoomSerializer(rooms,many=True).data)    
     

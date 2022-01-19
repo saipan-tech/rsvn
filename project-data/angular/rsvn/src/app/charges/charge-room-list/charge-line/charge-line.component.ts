@@ -17,7 +17,6 @@ import { SeasonService } from '@app/_services/season.service';
 import { ChargeService } from '@app/_services/charge.service';
 import { AppConstants } from '@app/app.constants';
 import { subscribeOn } from 'rxjs/operators';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-charge-line',
   templateUrl: './charge-line.component.html',

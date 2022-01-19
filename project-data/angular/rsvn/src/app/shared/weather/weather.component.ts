@@ -63,7 +63,7 @@ export class WeatherComponent implements OnInit {
     this.systemService.getCity(this.PortlandIID)
     .subscribe(data => {
       this.currCity = data;
-      this.searchEditForm.controls.myControl.patchValue(data)
+      this.searchEditForm.controls['myControl'].patchValue(data)
       this.refreshWeather(this.weatherUnits)
 
     })

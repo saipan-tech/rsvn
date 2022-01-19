@@ -220,11 +220,12 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
     )
     return glist
   }
-
   //--------------------------------------
   ngOnChanges(changes: SimpleChanges) {
-
-    if (this.rsvn$) this.rsvn$.subscribe()
+    if (this.rsvn$)  {
+      this.rsvn$.subscribe()
+      this.room$.subscribe()
+    }
   }
   //--------------------------------------
   ngOnInit(): void {
@@ -267,8 +268,9 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
                 g.rsvn = [rsvn]
                 this.delayList.push(g)
               })
-            }
-        )}))
+            })
+            console.log(this.delayList)
+          }))
     this.room$.subscribe()
 
   }

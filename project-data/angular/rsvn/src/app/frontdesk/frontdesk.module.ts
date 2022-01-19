@@ -20,8 +20,8 @@ import { MatRadioModule} from '@angular/material/radio';
 import { MatMenuModule} from '@angular/material/menu';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { ChargesModule } from '@app/charges/charges.module';
-import { AccordionModule } from 'ngx-bootstrap/accordion';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+//import { AccordionModule } from 'ngx-bootstrap/accordion';
+//import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MatDialogModule } from "@angular/material/dialog";
 import {SharedDialogModule} from "@app/shared/dialog/shared-dialog.module";
 import { RoomListComponent } from './room-list/room-list.component';
@@ -63,8 +63,8 @@ import { SharedModule } from '@app/shared/shared.module';
     MatTabsModule,
     SharedDialogModule,
     ChargesModule,
-    AccordionModule.forRoot(),
-    TabsModule.forRoot(),
+  //  AccordionModule.forRoot(),
+  //  TabsModule.forRoot(),
     SharedModule
   ],
   exports: [

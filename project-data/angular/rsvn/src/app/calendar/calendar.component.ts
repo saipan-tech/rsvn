@@ -67,6 +67,7 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
   //====================================================
   getHolidays2(year: number) {
+ /*  This needs fixing!!!
     // get the holiday array from the API
     this.systemService.getHoliday(year)
       .pipe(
@@ -80,13 +81,14 @@ export class CalendarComponent implements OnInit, OnChanges {
                   this.noDuplicate(hol)
                     .pipe(
                       // if not a duplicate save to db
-                      concatMap(dd => iif(() => dd, this.saveHoliday(hol))),
+                      concatMap(dd => iif(() => dd, this.saveHoliday(hol),)),
                     )
               )
             )
         )
       ).subscribe(data => { }, err => { }, () => this.refreshList())
-  }
+  */
+    }
   //====================================================
   ngOnChanges(changes: SimpleChanges) {
     this.refreshList()

@@ -131,15 +131,11 @@ export class ActionMatrixComponent implements OnInit {
     this.systemService.getDropdownList('roomstatus').subscribe(
       data => this.roomStatus = data
     )
-    this.refreshTimer = setInterval(
-      () => { this.newRefreshGrid() }, 15000)
+
     this.newRefreshGrid()
   }
   //=================================
   ngOnDestroy() {
-    if (this.refreshTimer) {
-      clearInterval(this.refreshTimer)
-    }
   }
   //=================================
   roomStatusChange(roominfoID: any, mode: string) {

@@ -112,7 +112,7 @@ export class RoomListComponent implements OnInit, OnChanges {
   */
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!changes.currRsvn.firstChange) {
+    if (!changes['currRsvn'].firstChange) {
       this.ngOnInit()
     }
 

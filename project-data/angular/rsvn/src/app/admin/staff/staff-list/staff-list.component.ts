@@ -91,7 +91,7 @@ export class StaffListComponent implements OnInit, OnChanges {
 
   //--------------------------
   ngOnChanges(changes: SimpleChanges) {
-    if (!changes.currStaff.firstChange) {
+    if (!changes['currStaff'].firstChange) {
       this.ngOnInit()
     }
   }
