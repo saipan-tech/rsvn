@@ -36,6 +36,13 @@ import { MatRadioModule} from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
  
+import { room2sReducer } from '@app/_state/room2.reducer';
+import { collectionReducer } from '@app/_state/collection.reducer';
+import { StoreModule } from '@ngrx/store';
+import { Room2ListComponent } from './room2-list/room2-list.component';
+import { Room2CollectionComponent } from './room2-collection/room2-collection.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,13 +57,16 @@ import { MatSelectModule } from '@angular/material/select';
     DropdownComponent,
     GuestListComponent,
     HeaderComponent,
-    RoomListItemComponent
+    RoomListItemComponent,
+    Room2ListComponent,
+    Room2CollectionComponent
     
   
 
   ],
   
   imports: [
+    StoreModule.forRoot({ room2s: room2sReducer, collection: collectionReducer}),
     SharedModule,
     BrowserModule,
     ReactiveFormsModule,

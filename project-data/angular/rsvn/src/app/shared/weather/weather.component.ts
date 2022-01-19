@@ -20,11 +20,11 @@ export class WeatherComponent implements OnInit {
   ) { }
 
   units = ['Metric', 'Imperial']
-  
 
-    
+
+
   searchEditForm = new FormGroup({
-    myControl : new FormControl()
+    myControl: new FormControl()
   })
   currCity: ICity = {} as ICity
 
@@ -38,8 +38,8 @@ export class WeatherComponent implements OnInit {
   locationResults: any = [];
   //==============================
   makeWeather(data: any) {
-    
-   
+
+
     let d: any = {}
     this.weatherStats = data;
     d['sunrise'] = new Date(data.sys.sunrise * 1000)
@@ -48,7 +48,7 @@ export class WeatherComponent implements OnInit {
     d['main'] = data.main
     d['wind'] = data.wind
     d['weather'] = data.weather
- 
+
     this.weather = d
   }
   //==============================
@@ -61,12 +61,12 @@ export class WeatherComponent implements OnInit {
   //==============================
   initWeather() {
     this.systemService.getCity(this.PortlandIID)
-    .subscribe(data => {
-      this.currCity = data;
-      this.searchEditForm.controls['myControl'].patchValue(data)
-      this.refreshWeather(this.weatherUnits)
+      .subscribe(data => {
+        this.currCity = data;
+        this.searchEditForm.controls['myControl'].patchValue(data)
+        this.refreshWeather(this.weatherUnits)
 
-    })
+      })
   }
   //==============================
   locationSearch(query: string) {
@@ -76,9 +76,9 @@ export class WeatherComponent implements OnInit {
       })
   }
 
-marker(t:string) {
-  console.log(t)
-}
+  marker(t: string) {
+    console.log(t)
+  }
 
   //==============================
   clearForm() {
@@ -95,13 +95,13 @@ marker(t:string) {
   }
   //==============================
   ngOnInit(): void {
-  //==============================
+    //==============================
 
     this.initWeather()
 
     this.searchEditForm.valueChanges
       .subscribe(val => {
-        console.log("Changes",val)
+        console.log("Changes", val)
         if (val.myControl.length > 2) {
           return this.locationSearch(val.myControl)
         }

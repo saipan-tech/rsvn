@@ -269,7 +269,7 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
                 this.delayList.push(g)
               })
             })
-            console.log(this.delayList)
+
           }))
     this.room$.subscribe()
 

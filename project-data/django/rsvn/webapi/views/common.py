@@ -32,4 +32,6 @@ TOMORROW = datetime.datetime.now().astimezone(portland_tz)+timedelta(days=1)
 YESTERDAY = datetime.datetime.now().astimezone(portland_tz)-timedelta(days=1)
 
 def Today() :
-    return datetime.datetime.now().astimezone(portland_tz)
+    return date.fromisoformat(datetime.datetime.now().astimezone(portland_tz).isoformat()[0:10])
+
+    

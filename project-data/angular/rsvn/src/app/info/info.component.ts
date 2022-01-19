@@ -15,7 +15,6 @@ export class InfoComponent implements OnInit {
     private genericService: GenericService,
     private roomService: RoomService,
     private authService: AuthService,
-
     private appCons: AppConstants,
 
   ) { }
@@ -62,7 +61,7 @@ export class InfoComponent implements OnInit {
                 act.bldg      = bf.name
              })}
           this.activeList = activeList
-          console.log(this.activeList)
+
         })
       )
       .subscribe(

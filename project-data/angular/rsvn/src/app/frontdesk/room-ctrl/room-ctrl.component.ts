@@ -108,7 +108,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
     this.genericService.getItemQueryList('room', 'active=1')
       .pipe(
-        filter((active) => active.find((al: any) => al.id == room.roomid)),
+//        filter((active) => active.find((al: any) => al.id == room.roomid)),
         mergeMap(() => roomToggle$),
         mergeMap(() => roominfoToggle$),
       ).subscribe(
@@ -121,6 +121,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   //=================================
   checkout(room: any) {
     let roominfoToggle$ = this.genericService.getItem('roominfo', room.roominfo.id)
+    
       .pipe(map((ri: any) => {
         ri.check = false
         ri.status = 'dirty'
@@ -139,9 +140,9 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
 
     roomToggle$.pipe(
-      mergeMap(() => this.genericService.getItemQueryList('room', 'active=1')),
-      filter((active) => active.find((al: any) => al.id != room.roomid)),
-      mergeMap(() => roominfoToggle$),
+      concatMap(() => this.genericService.getItemQueryList('room', 'active=1')),
+      mergeMap((active) => iif(()=> active.find((al: any) => al.id == room.roomid),roominfoToggle$,of('No Roominfo Change'))),
+      tap(d=> console.log("hey baby",d)),
       ).subscribe(
         d => {
           this.refreshRoomlist()

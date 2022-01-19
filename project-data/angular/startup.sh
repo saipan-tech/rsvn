@@ -9,6 +9,7 @@ npm install @ng-bootstrap/ng-bootstrap
 npm install bootstrap
 npm install @ngrx/store --save
 npm install @ngrx/effects --save
+npm install @ngrx/store-devtools --save
 
 ng add @angular/localize --skip-confirmation
 #ng build --prod --output-path /usr/src/app/django/survey/static/ang/main  --watch --output-hashing none

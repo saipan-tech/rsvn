@@ -3,7 +3,7 @@ import { SystemService } from '@app/_services/system.service';
 import { ICalendar } from '@app/_interface/calendar';
 import { GenericService } from '@app/_services/generic.service';
 import { catchError, tap, map, concatMap, mergeMap } from 'rxjs/operators';
-import { from, iif, Observable } from 'rxjs';
+import { of,from, iif, Observable } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 
@@ -67,7 +67,9 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
   //====================================================
   getHolidays2(year: number) {
- /*  This needs fixing!!!
+
+
+    /*  This is busted!!!
     // get the holiday array from the API
     this.systemService.getHoliday(year)
       .pipe(
@@ -81,14 +83,17 @@ export class CalendarComponent implements OnInit, OnChanges {
                   this.noDuplicate(hol)
                     .pipe(
                       // if not a duplicate save to db
-                      concatMap(dd => iif(() => dd, this.saveHoliday(hol),)),
-                    )
+                      concatMap(dd => iif(() => dd, this.saveHoliday(hol),of('nope'))),                    
+                      )
               )
             )
         )
-      ).subscribe(data => { }, err => { }, () => this.refreshList())
+      ).subscribe(
+        data => { }, 
+        err => { }, 
+        () => this.refreshList())
   */
-    }
+      }
   //====================================================
   ngOnChanges(changes: SimpleChanges) {
     this.refreshList()
