@@ -77,7 +77,7 @@ export class AuthService {
         }
     }
    //==================================
-    public Login(usr: any): Observable<any> {
+    public login(usr: any): Observable<any> {
         return this.http.post<any>(`${this.AUTH_API}/api/token/auth/`, usr, this.makeAuthHeader(usr))
             .pipe(
                 tap(res => {

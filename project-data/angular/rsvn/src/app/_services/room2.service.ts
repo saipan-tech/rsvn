@@ -29,8 +29,10 @@ export class Room2Service {
 
  
   getRoom2s(): Observable<Array<IRoom2>> {
-    return this.http.get<{ items:IRoom2[]} >(`${this.urlRoot}/room/`)
-      .pipe(map ((room2s )=> room2s.items || []));
+    return this.http.get<IRoom2[]>(`${this.urlRoot}/room/`)
+      .pipe(
+        tap( d=> console.log(d)),
+        map ((room2s )=> room2s || []));
   }
 
 

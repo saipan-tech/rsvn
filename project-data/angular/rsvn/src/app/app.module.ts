@@ -12,7 +12,7 @@ import { BldgListComponent } from '@app/config/bldg-list/bldg-list.component';
 import { RoomListComponent } from '@app/config/room-list/room-list.component';
 import { AmenityListComponent } from '@app/config/amenity-list/amenity-list.component';
 import { ConfigComponent } from '@app/config/config.component';
-import { CafeComponent } from './cafe/cafe.component';
+
 import { ToursComponent } from './tours/tours.component';
 import { DropdownComponent } from './config/dropdown/dropdown.component';
 import { FrontdeskModule } from '@app/frontdesk/frontdesk.module';
@@ -35,12 +35,14 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule} from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
- 
-import { room2sReducer } from '@app/_state/room2.reducer';
-import { collectionReducer } from '@app/_state/collection.reducer';
+import { environment } from '../environments/environment';
+
+
+import { AuthModule } from '@app/auth/auth.module'
 import { StoreModule } from '@ngrx/store';
-import { Room2ListComponent } from './room2-list/room2-list.component';
-import { Room2CollectionComponent } from './room2-collection/room2-collection.component';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 
 @NgModule({
@@ -52,21 +54,19 @@ import { Room2CollectionComponent } from './room2-collection/room2-collection.co
     RoomListComponent,
     AmenityListComponent,
     ConfigComponent,
-    CafeComponent,
     ToursComponent,
     DropdownComponent,
     GuestListComponent,
     HeaderComponent,
     RoomListItemComponent,
-    Room2ListComponent,
-    Room2CollectionComponent
+    
+    
     
   
 
   ],
   
   imports: [
-    StoreModule.forRoot({ room2s: room2sReducer, collection: collectionReducer}),
     SharedModule,
     BrowserModule,
     ReactiveFormsModule,
@@ -74,9 +74,12 @@ import { Room2CollectionComponent } from './room2-collection/room2-collection.co
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    AuthModule.forRoot(),
+    
     FrontdeskModule,
     AdminModule,
     RatemgrModule,
+    AuthModule,
     
     MatAutocompleteModule,
     MatInputModule,
@@ -87,6 +90,10 @@ import { Room2CollectionComponent } from './room2-collection/room2-collection.co
     MatRadioModule,
     MatTabsModule,
     MatFormFieldModule,
+    StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    StoreRouterConnectingModule.forRoot(),
   
   ],
   

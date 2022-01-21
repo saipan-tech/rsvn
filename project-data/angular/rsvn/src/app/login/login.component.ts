@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(formdata:any) {
-    this.authService.Login(formdata)
+    this.authService.login(formdata)
       .subscribe(
         data => {
           this.router.navigate(['dashboard']);

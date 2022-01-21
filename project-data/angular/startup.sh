@@ -7,9 +7,11 @@ ng add @angular/material --skip-confirmation
 ng add @angular/cdk  --skip-confirmation
 npm install @ng-bootstrap/ng-bootstrap
 npm install bootstrap
-npm install @ngrx/store --save
-npm install @ngrx/effects --save
-npm install @ngrx/store-devtools --save
+
+ng add @ngrx/store --skip-confirmation
+ng add @ngrx/effects --skip-confirmation
+ng add @ngrx/store-devtools --skip-confirmation
+ng add @ngrx/router-store --skip-confirmation
 
 ng add @angular/localize --skip-confirmation
 #ng build --prod --output-path /usr/src/app/django/survey/static/ang/main  --watch --output-hashing none

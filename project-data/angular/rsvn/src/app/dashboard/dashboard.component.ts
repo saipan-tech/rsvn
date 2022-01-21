@@ -6,6 +6,7 @@ import { SystemService } from '@app/_services/system.service';
 import { catchError, tap, map, mergeMap, concatMap, startWith } from 'rxjs/operators';
 
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -14,12 +15,12 @@ import { catchError, tap, map, mergeMap, concatMap, startWith } from 'rxjs/opera
 export class DashboardComponent implements OnInit {
   constructor(
     private genericService: GenericService,
-
   ) { }
   rsvnList: any;
   Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
-  
+
   ngOnInit(): void {
+
     let roominfoList: any;
     let roomList: any;
     let bldgList: any;
@@ -27,7 +28,6 @@ export class DashboardComponent implements OnInit {
     let checkin: any;
     let checkout: any;
     let inhouse: any;
-    
     this.genericService.getItemQueryList('rsvn', `active=${this.Today}`)
       .pipe(
         tap((data: any) => rsvnList = data),

@@ -6,7 +6,6 @@ import { DashboardComponent } from '@app/dashboard/dashboard.component';
 import { ConfigComponent } from '@app/config/config.component';
 import { FrontdeskComponent } from '@app/frontdesk/frontdesk.component';
 import { ToursComponent } from '@app/tours/tours.component';
-import { CafeComponent } from '@app/cafe/cafe.component';
 import { GuestEditComponent } from '@app/frontdesk/guest-edit/guest-edit.component';
 import { DropdownComponent } from '@app/config/dropdown/dropdown.component';
 import { ActionComponent } from './admin/action/action.component';
@@ -26,7 +25,6 @@ const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'config', component: ConfigComponent },
   { path: 'tours', component: ToursComponent },
-  { path: 'cafe', component: CafeComponent },
   { path: 'frontdesk', component: FrontdeskComponent },
   { path: 'guest', component: GuestEditComponent },
   { path: 'dropdown', component: DropdownComponent },
