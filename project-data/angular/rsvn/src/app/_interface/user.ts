@@ -10,5 +10,5 @@ export interface IUser {
     is_superuser:boolean;
     date_joined: Date;
     last_login: Date;
-    refresh: string;
+    
 }

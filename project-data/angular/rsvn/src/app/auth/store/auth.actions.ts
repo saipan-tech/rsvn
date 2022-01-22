@@ -1,10 +1,10 @@
 import {createAction, props} from '@ngrx/store';
-import {User} from '../model/user.model';
+import {IStaff} from '@app/_interface/staff';
 
 
 export const login = createAction(
     "[Login Page] User Login",
-    props<{user: User}>()
+    props<{user: IStaff}>()
 );
 
 

@@ -7,7 +7,7 @@ import {MatCardModule} from "@angular/material/card";
 
 
 
-import { NewLoginComponent } from './login/login.component';
+import { LoginComponent } from './login/login.component';
 import {RouterModule} from "@angular/router";
 import { StoreModule } from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
@@ -19,19 +19,19 @@ import {AuthEffects} from './store//auth.effects';
 
 
 @NgModule({
-  declarations: [NewLoginComponent],
+  declarations: [LoginComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
-    RouterModule.forChild([{path: 'newlogin', component: NewLoginComponent}]),
+    RouterModule.forChild([{path: 'login', component: LoginComponent}]),
     StoreModule.forFeature('auth', authReducer),
     EffectsModule.forFeature([AuthEffects])
 
   ],
-  exports: [NewLoginComponent]
+  exports: [LoginComponent]
 
 })
 export class AuthModule { 

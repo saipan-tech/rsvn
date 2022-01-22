@@ -6,17 +6,17 @@ import {
     MetaReducer, on
 } from '@ngrx/store';
 
-import {User} from '../model/user.model';
+import {IStaff} from '@app/_interface/staff';
 import {AuthActions} from '../store/action-types';
 
 
 
 export interface AuthState {
-    user: User
+    user: IStaff
 }
 
 export const initialAuthState: AuthState = {
-    user: {} as User
+    user: {} as IStaff
 };
 
 export const authReducer = createReducer(
@@ -31,7 +31,7 @@ export const authReducer = createReducer(
 
     on(AuthActions.logout, (state, action) => {
         return {
-            user: {} as User
+            user: {} as IStaff
         }
     })
 

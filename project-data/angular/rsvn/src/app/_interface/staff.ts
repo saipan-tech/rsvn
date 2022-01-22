@@ -20,4 +20,5 @@ export interface IStaff {
     clerk :string;
     modified:string;
     created:string;
+    token:string;
 }

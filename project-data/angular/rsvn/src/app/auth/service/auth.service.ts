@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { AppEnv } from '@app/_helpers/appenv';
 import { GenericService } from '@app/_services/generic.service';
-import { User } from "../model/user.model";
+import { IStaff } from "@app/_interface/staff";
 import { IUser } from "@app/_interface/user";
 import { catchError, tap, map, concatMap } from 'rxjs/operators';
 
@@ -45,20 +45,16 @@ export class AuthService {
 
     public Login(username: string, password: string): Observable<any> {
         let usr: U = { username, password }
-        let user : User = {} as User
-
+        let token = ""
         return this.http.post<any>(`${this.AUTH_API}/api/token/auth/`, usr, this.makeAuthHeader(usr))
             .pipe(
                 tap(res => {
                     localStorage.setItem('token', res.token);
-                    user.token = res.token
+                    token = res.token
                 }),
-                concatMap(res => this.http.get<IUser>(`${this.WEB_API}/session/`, httpOptions)),
-                concatMap(res => this.genericService.getItemQueryList('staff', `username=${res.username}`)),
-                map( d => {return d[0]}),
-                map(staff => {
-                   return Object.assign(user,staff)
-                })
+                concatMap(res => this.genericService.getItemQueryList('staff', `username=${username}`)),
+                map( d => d[0]),
+                map(staff =>   staff.token = token)
             )
     }
 }

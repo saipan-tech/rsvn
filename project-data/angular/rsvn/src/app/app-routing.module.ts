@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from '@app/login/login.component';
+import { LoginComponent } from '@app/auth/login/login.component';
 import { DashboardComponent } from '@app/dashboard/dashboard.component';
 import { ConfigComponent } from '@app/config/config.component';
 import { FrontdeskComponent } from '@app/frontdesk/frontdesk.component';

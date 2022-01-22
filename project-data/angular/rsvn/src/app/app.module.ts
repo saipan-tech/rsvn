@@ -5,7 +5,6 @@ import { AppConstants } from '@app/app.constants';
 import { AppEnv } from '@app/_helpers/appenv';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { BldgListComponent } from '@app/config/bldg-list/bldg-list.component';
@@ -20,7 +19,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GuestListComponent } from './config/guest-list/guest-list.component';
 import { AdminModule } from '@app/admin/admin.module';
 import { HeaderComponent } from './header/header.component';
-//import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { RatemgrModule } from './ratemgr/ratemgr.module';
 import { SharedModule } from '@app/shared/shared.module';
 import { RoomListItemComponent } from './config/room-list/room-list-item.component';
@@ -48,7 +46,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+
     DashboardComponent,
     BldgListComponent,
     RoomListComponent,

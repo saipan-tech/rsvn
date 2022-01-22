@@ -16,7 +16,7 @@ import {AuthActions} from '../store/action-types';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class NewLoginComponent implements OnInit {
+export class LoginComponent implements OnInit {
 
   form: FormGroup;
 
@@ -43,11 +43,13 @@ export class NewLoginComponent implements OnInit {
 
       this.auth.Login(val.username, val.password)
           .subscribe(
-            user =>{
+            { next: user =>{
+              console.log(user,"From Service")
               this.store.dispatch(login({user}));                  
                   this.router.navigateByUrl('/dashboard');
-                  console.log(user)
-                } 
+                },
+               error: err => {} 
+              }
           );
 
 
