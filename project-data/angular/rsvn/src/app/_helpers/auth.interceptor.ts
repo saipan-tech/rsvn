@@ -2,7 +2,7 @@ import { HTTP_INTERCEPTORS, HttpEvent, HttpErrorResponse } from '@angular/common
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 
-import { AuthService } from '../_services/auth.service';
+import { AuthService } from '@app/auth/service/auth.service';
 import { Observable, of } from 'rxjs';
 import { tap,map, catchError } from 'rxjs/operators';
 

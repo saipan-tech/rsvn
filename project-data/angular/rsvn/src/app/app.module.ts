@@ -41,7 +41,10 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
-
+//import {metaReducers, reducers} from './reducers';
+import { reducers} from './reducers';
+import { RoomsModule } from './rooms/rooms.module';
+import { RoomsResolver } from './rooms/rooms.resolver';
 
 @NgModule({
   declarations: [
@@ -57,9 +60,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
     GuestListComponent,
     HeaderComponent,
     RoomListItemComponent,
-    
-    
-    
+      
   
 
   ],
@@ -78,6 +79,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
     AdminModule,
     RatemgrModule,
     AuthModule,
+    RoomsModule,
     
     MatAutocompleteModule,
     MatInputModule,
@@ -88,14 +90,24 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
     MatRadioModule,
     MatTabsModule,
     MatFormFieldModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot(reducers, {
+ //     metaReducers,
+      runtimeChecks : {
+          strictStateImmutability: true,
+          strictActionImmutability: true,
+          strictActionSerializability: true,
+          strictStateSerializability:true
+      }
+  }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     StoreRouterConnectingModule.forRoot(),
+  //  StoreRouterConnectingModule.forRoot(),
+  
   
   ],
   
-  providers: [authInterceptorProviders,AppEnv,AppConstants],
+  providers: [authInterceptorProviders,AppEnv,AppConstants,RoomsResolver],
   bootstrap: [AppComponent]
 
 })

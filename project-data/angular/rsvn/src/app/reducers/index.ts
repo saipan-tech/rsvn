@@ -12,10 +12,14 @@ import {
   
   }
   
+
+  
   export const reducers: ActionReducerMap<AppState> = {
       router: routerReducer
   };
   
+/*
+
   export function logger(reducer:ActionReducer<any>)
       : ActionReducer<any> {
       return (state, action) => {
@@ -31,4 +35,4 @@ import {
       !environment.production ? [logger] : [];
   
   
-  
+  */

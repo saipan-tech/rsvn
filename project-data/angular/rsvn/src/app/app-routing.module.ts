@@ -19,6 +19,9 @@ import { SeasonCalendarComponent } from './ratemgr/season-calendar/season-calend
 import { RateListComponent } from './ratemgr/rate-list/rate-list.component';
 import { ActionItemsComponent } from './admin/action/action-items/action-items.component';
 import { ActionMatrixComponent } from './admin/action/action-matrix/action-matrix.component';
+
+import { RoomsComponent } from './rooms/rooms/rooms.component';
+import { RoomsResolver } from './rooms/rooms.resolver';
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
@@ -29,16 +32,18 @@ const appRoutes: Routes = [
   { path: 'guest', component: GuestEditComponent },
   { path: 'dropdown', component: DropdownComponent },
   { path: 'action', component: ActionComponent,
-  children: [
-    { path: 'actionitems', component: ActionItemsComponent },
-    { path: 'actionmatrix', component: ActionMatrixComponent },
-  ]
-},
-
-  { path: 'staff', component: StaffComponent },
+    children: [
+      { path: 'actionitems', component: ActionItemsComponent },
+      { path: 'actionmatrix', component: ActionMatrixComponent },
+    ]
+  },
+   { path: 'staff', component: StaffComponent },
   { path: 'grid', component: GridComponent },
   { path: 'calendar', component: CalendarComponent },
-  { path: 'ratemgr', component: RatemgrCtrlComponent}
+  { path: 'ratemgr', component: RatemgrCtrlComponent },
+  { path: 'rooms',component: RoomsComponent,resolve: {
+      roominfo: RoomsResolver
+  }}
 
 ];
 
