@@ -12,3 +12,8 @@ export const selectRoomsState =
         selectRoomsState,
         fromRooms.selectAll
     );
+
+    export const areRoomsLoaded = createSelector(
+        selectRoomsState,
+        state => state.allRoomsLoaded
+    )

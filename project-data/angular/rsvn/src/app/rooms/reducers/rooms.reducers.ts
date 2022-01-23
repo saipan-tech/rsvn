@@ -10,7 +10,10 @@ export interface RoomsState extends EntityState<IRoominfo> {
 
 export const adapter = createEntityAdapter<IRoominfo>();
 
-export const initialRoomsState = adapter.getInitialState();
+export const initialRoomsState = adapter.getInitialState({
+    allRoomsLoaded:false
+}
+);
 
 
 
@@ -19,7 +22,9 @@ export const roomsReducer = createReducer(
     initialRoomsState,
 
     on(RoomsActions.allRoomsLoaded,
-        (state, action) => adapter.setAll(action.roominfos,state))
+        (state, action) => adapter.setAll(
+            action.roominfos,
+            {...state,allRoomsLoaded:true}))
 
 );
 
