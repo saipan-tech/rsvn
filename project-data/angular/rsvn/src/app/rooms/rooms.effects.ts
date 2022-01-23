@@ -18,7 +18,6 @@ export class RoomsEffects {
                 ofType(RoomsActions.loadRoominfo),
                 concatMap(action =>
                     this.genericService.getItemList('roominfo')),
-                    tap(r => console.log('checking roominfos',r)),
                     map(roominfos => allRoomsLoaded({roominfos}))
             )
         );

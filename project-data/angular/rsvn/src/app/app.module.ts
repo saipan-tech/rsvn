@@ -101,7 +101,7 @@ import { RoomsResolver } from './rooms/rooms.resolver';
   }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot()
   //  StoreRouterConnectingModule.forRoot(),
   
   

@@ -4,3 +4,7 @@
 <button (click)="loadRooms()">
     Initiate Load
 </button>
+
+<div *ngFor="let x of allRoominfo$ | async">
+{{ x | json}}
+</div>

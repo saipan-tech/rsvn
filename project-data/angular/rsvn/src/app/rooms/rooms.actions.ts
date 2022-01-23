@@ -3,7 +3,7 @@ import {IRoominfo} from '@app/_interface/roominfo';
 
 
 export const loadRoominfo = createAction(
-    "[Load Roominfo] Manual Click"
+    "[Load Roominfo] When opening Rooms"
   );
 
 
