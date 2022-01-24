@@ -19,26 +19,32 @@ import { SeasonCalendarComponent } from './ratemgr/season-calendar/season-calend
 import { RateListComponent } from './ratemgr/rate-list/rate-list.component';
 import { ActionItemsComponent } from './admin/action/action-items/action-items.component';
 import { ActionMatrixComponent } from './admin/action/action-matrix/action-matrix.component';
+import { AuthGuard } from './auth/auth.guard';
+import { RoominfoResolver } from './rooms/services/roominfo-resolver';
+import { RoomsComponent } from './rooms/rooms/rooms.component';
+import { RoomResolver } from './rooms/services/room-resolver';
+import { RsvnResolver } from './rooms/services/rsvn-resolver';
+
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'config', component: ConfigComponent },
-  { path: 'tours', component: ToursComponent },
-  { path: 'frontdesk', component: FrontdeskComponent },
-  { path: 'guest', component: GuestEditComponent },
-  { path: 'dropdown', component: DropdownComponent },
+  { path: 'dashboard',  component: DashboardComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver}  },
+  { path: 'frontdesk', component: FrontdeskComponent, canActivate:[AuthGuard] },
+  { path: 'config', component: ConfigComponent, canActivate:[AuthGuard] },
+  { path: 'guest', component: GuestEditComponent , canActivate:[AuthGuard]},
+  { path: 'dropdown', component: DropdownComponent , canActivate:[AuthGuard]},
   { path: 'action', component: ActionComponent,
   children: [
-    { path: 'actionitems', component: ActionItemsComponent },
-    { path: 'actionmatrix', component: ActionMatrixComponent },
-  ]
+    { path: 'actionitems', component: ActionItemsComponent, canActivate:[AuthGuard] },
+    { path: 'actionmatrix', component: ActionMatrixComponent, canActivate:[AuthGuard] },
+  ], canActivate:[AuthGuard]
 },
 
-  { path: 'staff', component: StaffComponent },
-  { path: 'grid', component: GridComponent },
-  { path: 'calendar', component: CalendarComponent },
-  { path: 'ratemgr', component: RatemgrCtrlComponent}
+  { path: 'staff', component: StaffComponent , canActivate:[AuthGuard]},
+  { path: 'grid', component: GridComponent , canActivate:[AuthGuard]},
+  { path: 'calendar', component: CalendarComponent , canActivate:[AuthGuard]},
+  { path: 'ratemgr', component: RatemgrCtrlComponent , canActivate:[AuthGuard]},
+
 
 ];
 

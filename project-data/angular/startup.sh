@@ -9,9 +9,11 @@ npm install @ng-bootstrap/ng-bootstrap
 npm install bootstrap
 
 ng add @ngrx/store --skip-confirmation
-ng add @ngrx/effects --skip-confirmation
 ng add @ngrx/store-devtools --skip-confirmation
+ng add @ngrx/data  --skip-confirmation
+ng add @ngrx/effects --skip-confirmation
 ng add @ngrx/router-store --skip-confirmation
+ng add @ngrx/entity  --skip-confirmation
 
 ng add @angular/localize --skip-confirmation
 #ng build --prod --output-path /usr/src/app/django/survey/static/ang/main  --watch --output-hashing none

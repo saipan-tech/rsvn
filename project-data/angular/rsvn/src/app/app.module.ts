@@ -40,7 +40,13 @@ import { AuthModule } from '@app/auth/auth.module'
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { EntityDataModule } from '@ngrx/data';
+import { RouterStateSnapshot } from '@angular/router';
+import { metaReducers,reducers } from './reducers';
+import { AuthGuard } from './auth/auth.guard';
+import { RoomsModule } from './rooms/rooms.module';
+
 
 
 @NgModule({
@@ -78,6 +84,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
     AdminModule,
     RatemgrModule,
     AuthModule,
+    RoomsModule,
     
     MatAutocompleteModule,
     MatInputModule,
@@ -88,14 +95,30 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
     MatRadioModule,
     MatTabsModule,
     MatFormFieldModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot(reducers,{
+      metaReducers,
+
+      runtimeChecks : {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+        strictActionSerializability: true,
+        strictStateSerializability:true
+    }
+
+    } ),
     EffectsModule.forRoot([]),
+
+    EntityDataModule.forRoot({}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({
+      stateKey: 'router',
+      routerState: RouterState.Minimal
+    }),
+
   
   ],
   
-  providers: [authInterceptorProviders,AppEnv,AppConstants],
+  providers: [authInterceptorProviders,AppEnv,AppConstants,AuthGuard],
   bootstrap: [AppComponent]
 
 })

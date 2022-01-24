@@ -21,8 +21,11 @@ export class RoomService {
   constructor(
     private env: AppEnv ,
     private http: HttpClient
-  ) { }
+  ) { 
 
+    
+  }
+  
   private urlRoot = `${this.env.WEB_API}` 
   
   getFullBldgList(): Observable<any[]> {

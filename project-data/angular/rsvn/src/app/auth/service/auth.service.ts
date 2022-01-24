@@ -22,14 +22,8 @@ export class AuthService {
         private http: HttpClient,
         private env: AppEnv,
         private genericService: GenericService
-
-
-    ) {
-
-
-    }
-
-
+    ) {}
+    
     private AUTH_API = this.env.API_URL
     private WEB_API = this.env.WEB_API
 
@@ -42,7 +36,6 @@ export class AuthService {
         }
     }
 
-
     public Login(username: string, password: string): Observable<any> {
         let usr: U = { username, password }
         let token = ""
@@ -54,7 +47,9 @@ export class AuthService {
                 }),
                 concatMap(res => this.genericService.getItemQueryList('staff', `username=${username}`)),
                 map( d => d[0]),
-                map(staff =>   staff.token = token)
+                map(staff =>   { staff.token = token
+                    return staff
+                })
             )
     }
 }
