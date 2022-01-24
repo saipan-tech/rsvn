@@ -13,6 +13,8 @@
          <button class="list-group-item list-group-item-action bg-light" (click)="mode='dropdown'">Dropdown</button>
          <button class="list-group-item list-group-item-action bg-light" (click)="mode='lists'">Lists</button>
          <button class="list-group-item list-group-item-action bg-light" (click)="mode='guest'">Guest</button>
+         <button class="list-group-item list-group-item-action bg-light" (click)="mode='rooms'">Rooms</button>
+      
       </div>
    </div>
    <!-- /#sidebar-wrapper -->
@@ -43,7 +45,10 @@
          <div *ngIf="mode=='guest'" style="margin:0 auto;">
             <app-guest-list></app-guest-list>
          </div>
-
+         <div *ngIf="mode=='rooms'" style="margin:0 auto;">
+            <app-rooms></app-rooms>
+         </div>
+ 
       </div>
    </div>
    <!-- /#page-content-wrapper -->

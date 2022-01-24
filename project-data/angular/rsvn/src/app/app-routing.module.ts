@@ -19,12 +19,18 @@ import { SeasonCalendarComponent } from './ratemgr/season-calendar/season-calend
 import { RateListComponent } from './ratemgr/rate-list/rate-list.component';
 import { ActionItemsComponent } from './admin/action/action-items/action-items.component';
 import { ActionMatrixComponent } from './admin/action/action-matrix/action-matrix.component';
+<<<<<<< HEAD
 import { AuthGuard } from './auth/auth.guard';
 import { RoominfoResolver } from './rooms/services/roominfo-resolver';
 import { RoomsComponent } from './rooms/rooms/rooms.component';
 import { RoomResolver } from './rooms/services/room-resolver';
 import { RsvnResolver } from './rooms/services/rsvn-resolver';
 
+=======
+
+import { RoomsComponent } from './rooms/rooms/rooms.component';
+import { RoomsResolver } from './rooms/rooms.resolver';
+>>>>>>> dee79de4cc55a42032f59f56edd1857d6f529cfc
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
@@ -34,6 +40,7 @@ const appRoutes: Routes = [
   { path: 'guest', component: GuestEditComponent , canActivate:[AuthGuard]},
   { path: 'dropdown', component: DropdownComponent , canActivate:[AuthGuard]},
   { path: 'action', component: ActionComponent,
+<<<<<<< HEAD
   children: [
     { path: 'actionitems', component: ActionItemsComponent, canActivate:[AuthGuard] },
     { path: 'actionmatrix', component: ActionMatrixComponent, canActivate:[AuthGuard] },
@@ -45,6 +52,20 @@ const appRoutes: Routes = [
   { path: 'calendar', component: CalendarComponent , canActivate:[AuthGuard]},
   { path: 'ratemgr', component: RatemgrCtrlComponent , canActivate:[AuthGuard]},
 
+=======
+    children: [
+      { path: 'actionitems', component: ActionItemsComponent },
+      { path: 'actionmatrix', component: ActionMatrixComponent },
+    ]
+  },
+   { path: 'staff', component: StaffComponent },
+  { path: 'grid', component: GridComponent },
+  { path: 'calendar', component: CalendarComponent },
+  { path: 'ratemgr', component: RatemgrCtrlComponent },
+  { path: 'rooms',component: RoomsComponent,resolve: {
+      roominfo: RoomsResolver
+  }}
+>>>>>>> dee79de4cc55a42032f59f56edd1857d6f529cfc
 
 ];
 

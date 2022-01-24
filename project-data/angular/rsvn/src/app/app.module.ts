@@ -40,6 +40,7 @@ import { AuthModule } from '@app/auth/auth.module'
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+<<<<<<< HEAD
 import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EntityDataModule } from '@ngrx/data';
 import { RouterStateSnapshot } from '@angular/router';
@@ -48,6 +49,13 @@ import { AuthGuard } from './auth/auth.guard';
 import { RoomsModule } from './rooms/rooms.module';
 
 
+=======
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+//import {metaReducers, reducers} from './reducers';
+import { reducers} from './reducers';
+import { RoomsModule } from './rooms/rooms.module';
+import { RoomsResolver } from './rooms/rooms.resolver';
+>>>>>>> dee79de4cc55a42032f59f56edd1857d6f529cfc
 
 @NgModule({
   declarations: [
@@ -63,9 +71,7 @@ import { RoomsModule } from './rooms/rooms.module';
     GuestListComponent,
     HeaderComponent,
     RoomListItemComponent,
-    
-    
-    
+      
   
 
   ],
@@ -95,6 +101,7 @@ import { RoomsModule } from './rooms/rooms.module';
     MatRadioModule,
     MatTabsModule,
     MatFormFieldModule,
+<<<<<<< HEAD
     StoreModule.forRoot(reducers,{
       metaReducers,
 
@@ -106,10 +113,22 @@ import { RoomsModule } from './rooms/rooms.module';
     }
 
     } ),
+=======
+    StoreModule.forRoot(reducers, {
+ //     metaReducers,
+      runtimeChecks : {
+          strictStateImmutability: true,
+          strictActionImmutability: true,
+          strictActionSerializability: true,
+          strictStateSerializability:true
+      }
+  }),
+>>>>>>> dee79de4cc55a42032f59f56edd1857d6f529cfc
     EffectsModule.forRoot([]),
 
     EntityDataModule.forRoot({}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+<<<<<<< HEAD
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router',
       routerState: RouterState.Minimal
@@ -119,6 +138,15 @@ import { RoomsModule } from './rooms/rooms.module';
   ],
   
   providers: [authInterceptorProviders,AppEnv,AppConstants,AuthGuard],
+=======
+    StoreRouterConnectingModule.forRoot()
+  //  StoreRouterConnectingModule.forRoot(),
+  
+  
+  ],
+  
+  providers: [authInterceptorProviders,AppEnv,AppConstants,RoomsResolver],
+>>>>>>> dee79de4cc55a42032f59f56edd1857d6f529cfc
   bootstrap: [AppComponent]
 
 })

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+<<<<<<< HEAD
 import { EntityDataService, EntityDefinitionService, EntityMetadataMap } from '@ngrx/data';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -22,6 +23,14 @@ const entityMetadata: EntityMetadataMap = {
   Room : {},
   Rsvn : {}
 };
+=======
+import { RoomsComponent } from './rooms/rooms.component';
+import { RoomsEffects } from './rooms.effects';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreModule } from '@ngrx/store';
+import { roomsReducer } from './reducers/rooms.reducers';
+>>>>>>> dee79de4cc55a42032f59f56edd1857d6f529cfc
 
 
 
@@ -31,6 +40,7 @@ const entityMetadata: EntityMetadataMap = {
   ],
   imports: [
     CommonModule,
+<<<<<<< HEAD
     
   ],
   providers: [
@@ -48,11 +58,16 @@ const entityMetadata: EntityMetadataMap = {
   
     
   
+=======
+    EffectsModule.forFeature([RoomsEffects]),
+    StoreModule.forFeature("roominfo",roomsReducer)
+>>>>>>> dee79de4cc55a42032f59f56edd1857d6f529cfc
   ],
   exports: [
     RoomsComponent
   ]
 })
+<<<<<<< HEAD
 export class RoomsModule {
    constructor(
     private eds: EntityDefinitionService,
@@ -75,3 +90,6 @@ export class RoomsModule {
 
 
  
+=======
+export class RoomsModule { }
+>>>>>>> dee79de4cc55a42032f59f56edd1857d6f529cfc
