@@ -3,6 +3,7 @@ djangorestframework
 djangorestframework-simplejwt
 django-filter
 whitenoise
+uwsgi
 markdown
 django-cors-headers
 mysqlclient
@@ -11,5 +12,7 @@ ipython
 pymongo
 requests
 pytz
+cffi
+
 
 

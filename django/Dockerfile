@@ -5,8 +5,8 @@ COPY  requirements.txt /usr/src/app/django
 
 RUN apk update  && \
 	apk add --no-cache tzdata &&\
-	apk add mc gcc make libc-dev musl-dev linux-headers pcre-dev python-dev mariadb-dev build-base
-
+	apk add mc gcc make libc-dev musl-dev linux-headers pcre-dev python-dev mariadb-dev build-base libffi-dev rust
+RUN pip install --upgrade pip
 RUN	pip install -r requirements.txt 
 
 

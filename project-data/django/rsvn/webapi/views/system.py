@@ -233,3 +233,12 @@ class PostOfficeView(APIView):
             po = PostOffice(request.data)
             po.multimail()
             return Response('message Sent',status=status.HTTP_201_CREATED)
+#------------------------------------------
+class ConfigViewSet(viewsets.ModelViewSet):
+#------------------------------------------
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Config.objects.all().order_by('section','key')
+    serializer_class = ConfigSerializer
+    permission_classes = [permissions.IsAuthenticated]

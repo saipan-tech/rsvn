@@ -261,6 +261,7 @@ class Calendar(models.Model):
     descr       =   models.CharField(max_length=2048, blank=True)
     notes       =   models.CharField(max_length=4096, blank=True)
 
+#---------------------------------------------------------
 class Cities (models.Model):
     iid         =   models.CharField(max_length=255,unique=True)
     name        =   models.CharField(max_length=1024)
@@ -268,3 +269,10 @@ class Cities (models.Model):
     country     =   models.CharField(max_length=1024)
     lon         =   models.DecimalField(max_digits=12, decimal_places=6,default=Decimal('000.000000'))
     lat         =   models.DecimalField(max_digits=12, decimal_places=6,default=Decimal('000.000000'))
+
+#---------------------------------------------------------
+class   Config (models.Model):
+    section     =   models.CharField(max_length=1024)
+    key         =   models.CharField(max_length=1024)
+    value       =   models.CharField(max_length=1024)
+    created     =   models.DateTimeField(auto_now_add=True)

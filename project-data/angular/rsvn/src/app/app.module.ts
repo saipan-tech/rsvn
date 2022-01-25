@@ -46,6 +46,7 @@ import { RouterStateSnapshot } from '@angular/router';
 import { metaReducers,reducers } from './reducers';
 import { AuthGuard } from './auth/auth.guard';
 import { RoomsModule } from './rooms/rooms.module';
+import { entityConfig } from './entity-metadata';
 
 
 
@@ -95,6 +96,10 @@ import { RoomsModule } from './rooms/rooms.module';
     MatRadioModule,
     MatTabsModule,
     MatFormFieldModule,
+    
+    
+    
+    
     StoreModule.forRoot(reducers,{
       metaReducers,
 
@@ -108,12 +113,16 @@ import { RoomsModule } from './rooms/rooms.module';
     } ),
     EffectsModule.forRoot([]),
 
-    EntityDataModule.forRoot({}),
+    //EntityDataModule.forRoot({}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router',
       routerState: RouterState.Minimal
     }),
+    EntityDataModule.forRoot(entityConfig),
+  //  StoreModule.forRoot({}, {}),
+  //  StoreRouterConnectingModule.forRoot(),
+  //  StoreRouterConnectingModule.forRoot(),
 
   
   ],
