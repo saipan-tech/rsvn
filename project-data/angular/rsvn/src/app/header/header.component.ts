@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { currUser, isLoggedIn, isLoggedOut } from '@app/auth/store/auth.selectors';
 import { ThemePalette } from '@angular/material/core';
-import { Observable, of, map } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators'
 import { AppState } from "@app/reducers"
 import { logout, login } from '@app/auth/store/auth.actions';
 import { IStaff } from '@app/_interface/staff';

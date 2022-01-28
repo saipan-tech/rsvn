@@ -20,9 +20,9 @@ export class RoominfoDataService extends DefaultDataService<IRoominfo> {
             super('Roominfo', http, httpUrlGenerator);
         }
             override getAll(): Observable<IRoominfo[]> {
-                return this.http.get<IRoominfo[]>(`${this.env.WEB_API}/roominfo`)
+                return this.http.get<IRoominfo[]>(`${this.env.WEB_API}/roominfo/`)
                 }
-
+            
 
 }
 

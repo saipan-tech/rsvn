@@ -39,6 +39,7 @@ export class AuthService {
     public Login(username: string, password: string): Observable<any> {
         let usr: U = { username, password }
         let token = ""
+        console.log(usr)
         return this.http.post<any>(`${this.AUTH_API}/api/token/auth/`, usr, this.makeAuthHeader(usr))
             .pipe(
                 tap(res => {

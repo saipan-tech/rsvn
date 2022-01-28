@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { IRoom } from "@app/_interface/room";
+import { IRsvn } from "@app/_interface/rsvn";
 import { DefaultDataService, HttpUrlGenerator } from "@ngrx/data";
 import { Observable } from "rxjs";
 import {map} from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { AppEnv } from '@app/_helpers/appenv';
 
 
 @Injectable()
-export class RoomDataService extends DefaultDataService<IRoom> {
+export class RsvnDataService extends DefaultDataService<IRsvn> {
 
 
     constructor(
@@ -17,10 +17,10 @@ export class RoomDataService extends DefaultDataService<IRoom> {
         httpUrlGenerator: HttpUrlGenerator,
         private env: AppEnv   ) 
         {
-            super('Room', http, httpUrlGenerator);
+            super('Rsvn', http, httpUrlGenerator);
         }
-            override getAll(): Observable<IRoom[]> {
-                return this.http.get<IRoom[]>(`${this.env.WEB_API}/room`)
+            override getAll(): Observable<IRsvn[]> {
+                return this.http.get<IRsvn[]>(`${this.env.WEB_API}/rsvn/?current=1`)
                 }
 
 

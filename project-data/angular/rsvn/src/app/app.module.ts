@@ -24,13 +24,13 @@ import { SharedModule } from '@app/shared/shared.module';
 import { RoomListItemComponent } from './config/room-list/room-list-item.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { MatAutocompleteModule} from '@angular/material/autocomplete'
-import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatAutocompleteModule } from '@angular/material/autocomplete'
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatIconModule} from '@angular/material/icon';
-import { MatButtonModule} from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { environment } from '../environments/environment';
@@ -41,14 +41,34 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
-import { EntityDataModule } from '@ngrx/data';
+import { DefaultDataServiceConfig, EntityDataModule } from '@ngrx/data';
 import { RouterStateSnapshot } from '@angular/router';
-import { metaReducers,reducers } from './reducers';
+import { metaReducers, reducers } from './reducers';
 import { AuthGuard } from './auth/auth.guard';
-import { RoomsModule } from './rooms/rooms.module';
 import { entityConfig } from './entity-metadata';
 
+import { EntityDataService, EntityDefinitionService, EntityMetadataMap } from '@ngrx/data';
+import { RouterModule, Routes } from '@angular/router';
 
+import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
+import { RoominfoDataService } from '@app/_ngrxServices/roominfo-data.service';
+import { RoominfoResolver } from '@app/_ngrxServices/roominfo-resolver';
+
+import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
+import { RoomResolver } from '@app/_ngrxServices/room-resolver';
+import { RoomDataService } from '@app/_ngrxServices/room-data.service.';
+
+import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
+import { RsvnResolver } from '@app/_ngrxServices/rsvn-resolver';
+import { RsvnDataService } from '@app/_ngrxServices/rsvn-data.service';
+
+
+
+const entityMetadata: EntityMetadataMap = {
+  Roominfo: {},
+  Room : {},
+  Rsvn : {}
+};
 
 @NgModule({
   declarations: [
@@ -64,13 +84,13 @@ import { entityConfig } from './entity-metadata';
     GuestListComponent,
     HeaderComponent,
     RoomListItemComponent,
-    
-    
-    
-  
+
+
+
+
 
   ],
-  
+
   imports: [
     SharedModule,
     BrowserModule,
@@ -80,13 +100,11 @@ import { entityConfig } from './entity-metadata';
     BrowserAnimationsModule,
     AppRoutingModule,
     AuthModule.forRoot(),
-    
+
     FrontdeskModule,
     AdminModule,
     RatemgrModule,
     AuthModule,
-    RoomsModule,
-    
     MatAutocompleteModule,
     MatInputModule,
     MatIconModule,
@@ -96,39 +114,67 @@ import { entityConfig } from './entity-metadata';
     MatRadioModule,
     MatTabsModule,
     MatFormFieldModule,
-    
-    
-    
-    
-    StoreModule.forRoot(reducers,{
-      metaReducers,
 
-      runtimeChecks : {
+
+
+
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,
         strictActionSerializability: true,
-        strictStateSerializability:true
-    }
-
-    } ),
-    EffectsModule.forRoot([]),
-
-    //EntityDataModule.forRoot({}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    StoreRouterConnectingModule.forRoot({
-      stateKey: 'router',
-      routerState: RouterState.Minimal
+        strictStateSerializability: true
+      }
     }),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    //    StoreRouterConnectingModule.forRoot({
+    //      stateKey: 'router',
+    //      routerState: RouterState.Minimal
+    //    }),
     EntityDataModule.forRoot(entityConfig),
-  //  StoreModule.forRoot({}, {}),
-  //  StoreRouterConnectingModule.forRoot(),
-  //  StoreRouterConnectingModule.forRoot(),
-
-  
   ],
-  
-  providers: [authInterceptorProviders,AppEnv,AppConstants,AuthGuard],
+
+  providers: [
+    authInterceptorProviders, 
+    AppEnv, 
+    AppConstants, 
+    AuthGuard,
+    RoominfoEntityService,
+    RoominfoResolver,
+    RoominfoDataService,
+
+    RoomEntityService,
+    RoomResolver,
+    RoomDataService,
+    
+    RsvnEntityService,
+    RsvnResolver,
+    RsvnDataService
+  ],
   bootstrap: [AppComponent]
 
 })
-export class AppModule { }
+export class AppModule { 
+
+  constructor(
+    private eds: EntityDefinitionService,
+
+    private entityDataService: EntityDataService,
+    
+    private roomDataService: RoomDataService,
+    private roominfoDataService: RoominfoDataService,
+    private rsvnDataService: RsvnDataService,
+    private appEnv: AppEnv ) {
+    
+    eds.registerMetadataMap(entityMetadata);
+    entityDataService.registerService('Roominfo', roominfoDataService);
+    entityDataService.registerService('Rsvn', rsvnDataService);
+    entityDataService.registerService('Room', roomDataService);
+
+}
+
+
+
+}

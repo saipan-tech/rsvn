@@ -20,10 +20,10 @@ import { RateListComponent } from './ratemgr/rate-list/rate-list.component';
 import { ActionItemsComponent } from './admin/action/action-items/action-items.component';
 import { ActionMatrixComponent } from './admin/action/action-matrix/action-matrix.component';
 import { AuthGuard } from './auth/auth.guard';
-import { RoominfoResolver } from './rooms/services/roominfo-resolver';
-import { RoomsComponent } from './rooms/rooms/rooms.component';
-import { RoomResolver } from './rooms/services/room-resolver';
-import { RsvnResolver } from './rooms/services/rsvn-resolver';
+
+import { RoominfoResolver } from '@app/_ngrxServices/roominfo-resolver';
+import { RoomResolver } from '@app/_ngrxServices/room-resolver';
+import { RsvnResolver } from '@app/_ngrxServices/rsvn-resolver';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },

@@ -14,10 +14,18 @@ export class RsvnResolver implements Resolve<boolean> {
 
     resolve(route: ActivatedRouteSnapshot,
             state: RouterStateSnapshot): Observable<boolean> {
-
-        return this.rsvnService.getAll()
-            .pipe(map( ri => !!ri),
-            );
+                return this.rsvnService.loaded$
+                .pipe(
+                    tap(
+                        loaded => {
+                            if (!loaded) {
+                                this.rsvnService.getAll();
+                            }
+                        }),
+                    filter(loaded => !!loaded),
+                    first()
+                );
+    
 
     }
 

@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+#    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,8 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
-    'webapi',
-
+    'webapi'
 ]
 
 MIDDLEWARE = [
@@ -76,8 +76,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'rsvn.wsgi.application'
 
+WSGI_APPLICATION = 'rsvn.wsgi.application'
+#ASGI_APPLICATION = "rsvn.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -92,6 +93,8 @@ DATABASES = {
 	    'PORT':'3306',
         },
     }
+
+
 
 REST_FRAMEWORK = {
 #    'DEFAULT_PERMISSION_CLASSES': (
@@ -166,7 +169,6 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 LOGGING = {
     'version': 1,

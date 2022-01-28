@@ -14,10 +14,18 @@ export class RoominfoResolver implements Resolve<boolean> {
 
     resolve(route: ActivatedRouteSnapshot,
             state: RouterStateSnapshot): Observable<boolean> {
-
-        return this.roominfoService.getAll()
-            .pipe(map( ri => !!ri),
-            );
+                return this.roominfoService.loaded$
+                .pipe(
+                    tap(
+                        loaded => {
+                            if (!loaded) {
+                                this.roominfoService.getAll();
+                            }
+                        }),
+                    filter(loaded => !!loaded),
+                    first()
+                );
+    
 
     }
 
