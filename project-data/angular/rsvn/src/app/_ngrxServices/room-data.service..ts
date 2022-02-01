@@ -6,24 +6,24 @@ import { Observable } from "rxjs";
 import {map} from 'rxjs/operators';
 
 import { AppEnv } from '@app/_helpers/appenv';
+import { ObserveOnSubscriber } from "rxjs/internal/operators/observeOn";
+import { Update } from "@ngrx/entity";
 
 
 @Injectable()
 export class RoomDataService extends DefaultDataService<IRoom> {
-
-
-      
+    
+    
     constructor(
         http:HttpClient, 
         httpUrlGenerator: HttpUrlGenerator,
-        private env: AppEnv   ) 
-        {
+        env: AppEnv
+        ) { 
+            httpUrlGenerator.entityResource('Room',`${env.WEB_API}` ); 
             super('Room', http, httpUrlGenerator);
         }
-            override getAll(): Observable<IRoom[]> {
-                return this.http.get<IRoom[]>(`${this.env.WEB_API}/room/?current=1`)
-                }
-
-
+    
+        override update(update: Update<IRoom>): Observable<IRoom> {
+            return this.http.put<IRoom>(`${this.entityUrl}${update.id}/`,update)
+        }
 }
-

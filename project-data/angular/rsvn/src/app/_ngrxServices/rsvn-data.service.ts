@@ -6,22 +6,22 @@ import { Observable } from "rxjs";
 import {map} from 'rxjs/operators';
 
 import { AppEnv } from '@app/_helpers/appenv';
+import { Update } from "@ngrx/entity";
 
 
 @Injectable()
 export class RsvnDataService extends DefaultDataService<IRsvn> {
 
-
     constructor(
         http:HttpClient, 
         httpUrlGenerator: HttpUrlGenerator,
-        private env: AppEnv   ) 
-        {
+        env: AppEnv ) { 
+            httpUrlGenerator.entityResource('Rsvn',env.WEB_API );
             super('Rsvn', http, httpUrlGenerator);
         }
-            override getAll(): Observable<IRsvn[]> {
-                return this.http.get<IRsvn[]>(`${this.env.WEB_API}/rsvn/?current=1`)
-                }
+        override update(update:Update<IRsvn>): Observable<IRsvn> {
+            return this.http.put<IRsvn>(`${this.entityUrl}${update.id}/`,update)
+        }
 
 
 }

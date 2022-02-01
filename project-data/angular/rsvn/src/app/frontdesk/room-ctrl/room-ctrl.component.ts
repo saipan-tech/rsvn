@@ -12,6 +12,9 @@ import { catchError, filter, tap, map, mergeMap, concatMap } from 'rxjs/operator
 import { iif, of, interval, Observable } from 'rxjs';
 import { AppConstants } from '@app/app.constants'
 import { RoomService } from '@app/_services/room.service';
+import { RoomDataService } from '@app/_ngrxServices/room-data.service.';
+import { RoominfoDataService } from '@app/_ngrxServices/roominfo-data.service';
+
 @Component({
   selector: 'app-room-ctrl',
   templateUrl: './room-ctrl.component.html',
@@ -47,23 +50,13 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
     private genericService: GenericService,
     private dialogManagerService: DialogManagerService,
     private appConstants: AppConstants,
-    private roomService: RoomService
+    private roomService: RoomService,
+    private roomDataService:RoomDataService,
+    private roominfoDataService:RoominfoDataService
   ) { }
 
 
 
-  //=================================
-  assignRoom(roominfo: IRoominfo) {
-    if (this.currNumRooms < Number(this.currRsvn.numrooms)) {
-      let newroom = { rsvn: this.currRsvn.id, roominfo: roominfo.id, status: 'none' }
-      this.genericService.updateItem("room", newroom)
-        .subscribe(data => {
-
-          this.refreshRsvn();
-          this.refreshRoomlist()
-        })
-    }
-  }
   //=================================
   rsvnDateActive() {
     const today = new Date(this.Today).getTime()
@@ -86,29 +79,31 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
   //=================================
   checkin(room: any) {
+    console.log("ROOM INCOMING",room)
 
-    let roominfoToggle$ = this.genericService.getItem('roominfo', room.roominfo.id)
+    let roominfoToggle$ = this.roominfoDataService.getById(room.roominfo.id)
       .pipe(map((ri: any) => {
         ri.check = true
         ri.status = 'occupied'
         return ri
       }),
-        concatMap((ri: any) => this.genericService.updateItem('roominfo', ri))
+        concatMap((ri: any) => this.roominfoDataService.update(ri))
       )
 
 
-    let roomToggle$ = this.genericService.getItem('room', room.roomid)
+    let roomToggle$ = this.roomDataService.getById(room.roomid)
       .pipe(map(rm => {
         rm.status = 'checkin';
+        console.log(rm,"RM")
         return rm;
       }),
-        concatMap(rm => this.genericService.updateItem('room', rm)),
+        concatMap((rm: any) => this.roomDataService.update(rm)),
       )
 
 
-    this.genericService.getItemQueryList('room', 'active=1')
+    this.roomDataService.getWithQuery('active=1')
       .pipe(
-//        filter((active) => active.find((al: any) => al.id == room.roomid)),
+        //        filter((active) => active.find((al: any) => al.id == room.roomid)),
         mergeMap(() => roomToggle$),
         mergeMap(() => roominfoToggle$),
       ).subscribe(
@@ -121,7 +116,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   //=================================
   checkout(room: any) {
     let roominfoToggle$ = this.genericService.getItem('roominfo', room.roominfo.id)
-    
+
       .pipe(map((ri: any) => {
         ri.check = false
         ri.status = 'dirty'
@@ -141,17 +136,17 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 
     roomToggle$.pipe(
       concatMap(() => this.genericService.getItemQueryList('room', 'active=1')),
-      mergeMap((active) => iif(()=> active.find((al: any) => al.id == room.roomid),roominfoToggle$,of('No Roominfo Change'))),
-      tap(d=> console.log("hey baby",d)),
-      ).subscribe(
-        d => {
-          this.refreshRoomlist()
-          this.refreshRsvn();
-        }
-      )
+      mergeMap((active) => iif(() => active.find((al: any) => al.id == room.roomid), roominfoToggle$, of('No Roominfo Change'))),
+      tap(d => console.log("hey baby", d)),
+    ).subscribe(
+      d => {
+        this.refreshRoomlist()
+        this.refreshRsvn();
+      }
+    )
 
   }
-  
+
   //=================================
   unassignRoom(r: any) {
 
@@ -164,13 +159,22 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
       }
     }).afterClosed().subscribe(deleteConfirmed => {
       if (deleteConfirmed) {
+        this.roomDataService.delete(r.roomid)
+        .subscribe(data => {
+
+          this.refreshRsvn();
+          this.refreshRoomlist()
+        })
+      
+        /*       
         this.genericService.deleteItem("room", { id: r.roomid })
           .subscribe(data => {
 
             this.refreshRsvn();
             this.refreshRoomlist()
           })
-      }
+*/
+        }
     })
   }
   //=================================

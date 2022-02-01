@@ -29,7 +29,7 @@ const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard',  component: DashboardComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver}  },
-  { path: 'frontdesk', component: FrontdeskComponent, canActivate:[AuthGuard] },
+  { path: 'frontdesk', component: FrontdeskComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver} , canActivate:[AuthGuard] },
   { path: 'config', component: ConfigComponent, canActivate:[AuthGuard] },
   { path: 'guest', component: GuestEditComponent , canActivate:[AuthGuard]},
   { path: 'dropdown', component: DropdownComponent , canActivate:[AuthGuard]},

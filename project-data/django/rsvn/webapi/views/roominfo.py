@@ -38,8 +38,6 @@ class RoominfoViewSet(viewsets.ModelViewSet):
         if "all" in self.request.GET :
             self.serializer_class = RoominfoAllSerializer
 
-
-
         return queryset    
 
 #------------------------------------------

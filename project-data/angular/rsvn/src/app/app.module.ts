@@ -70,6 +70,10 @@ const entityMetadata: EntityMetadataMap = {
   Rsvn : {}
 };
 
+
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -151,7 +155,7 @@ const entityMetadata: EntityMetadataMap = {
     
     RsvnEntityService,
     RsvnResolver,
-    RsvnDataService
+    RsvnDataService,
   ],
   bootstrap: [AppComponent]
 
