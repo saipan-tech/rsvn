@@ -215,8 +215,8 @@ class Room (models.Model):
     rsvn        =   models.ForeignKey(Rsvn,models.CASCADE, related_name='rsvnOf')
     roominfo 	=   models.ForeignKey(Roominfo,models.CASCADE, related_name='roominfoOf')
     status      =   models.CharField(max_length=12, default="none")
-    dateIn		=	 models.DateField()
-    dateOut		=	 models.DateField()
+    dateIn		=	models.DateField()
+    dateOut		=	models.DateField()
 
     def __str__(self) :
         return f"{self.rsvn.primary.firstname} {self.rsvn.primary.lastname}  -- {self.roominfo.number}"

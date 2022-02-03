@@ -24,6 +24,8 @@ export class RoomDataService extends DefaultDataService<IRoom> {
         }
     
         override update(update: Update<IRoom>): Observable<IRoom> {
-            return this.http.put<IRoom>(`${this.entityUrl}${update.id}/`,update)
+            console.log(update,"Update Payload")
+            return this.http.put<IRoom>(`${this.entityUrl}${update.id}/`,update.changes)
         }
 }
+

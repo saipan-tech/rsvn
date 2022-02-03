@@ -1,3 +1,5 @@
+import { IRoominfo } from "./roominfo";
+
 export interface IRoom  {
     id?: number;
     rate?:number;
@@ -6,4 +8,5 @@ export interface IRoom  {
     dateIn:string;
     dateOut:string;
     status:string;
+ 
 }

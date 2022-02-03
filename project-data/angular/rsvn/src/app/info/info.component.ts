@@ -3,13 +3,14 @@ import { GenericService } from '@app/_services/generic.service';
 import { AuthService } from '@app/_services/auth.service';
 import { RoomService } from '@app/_services/room.service';
 import { AppConstants } from '@app/app.constants';
-import { catchError, tap, map, mergeMap, concatMap } from 'rxjs/operators';
+import { catchError, tap, map, mergeMap, concatMap, filter, first, switchMap } from 'rxjs/operators';
 import { IRsvn } from '@app/_interface/rsvn';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { IRoom } from '@app/_interface/room'
+
 let Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
 
 @Component({
@@ -23,10 +24,10 @@ export class InfoComponent implements OnInit {
     private roomService: RoomService,
     private authService: AuthService,
     private appCons: AppConstants,
-    private roominfoService: RoominfoEntityService,
+    private roominfoEntityService: RoominfoEntityService,
     private roomEntityService: RoomEntityService,
 
-    private rsvnService: RsvnEntityService
+
 
   ) { }
 
@@ -41,6 +42,11 @@ export class InfoComponent implements OnInit {
   dispList: any[] = []
   rsvnList$: Observable<IRsvn[]> = of()
   roomList:IRoom[] = []
+
+  checkinRooms$ : Observable<IRoom[]> = of()
+  checkoutRooms$ : Observable<IRoom[]> = of()
+  inhouseRooms$ : Observable<any> = of()
+  result :any = []
 
   //====================================================
   
@@ -60,7 +66,6 @@ export class InfoComponent implements OnInit {
     let activeList: any = []
     let bldgList: any = []
     let Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
-    //  this.startTimer()
     // Grab all of the roominfos
     this.roomService.getRoomDateScan(Today, '')
       // getting all rooms that are active today 
@@ -85,10 +90,35 @@ export class InfoComponent implements OnInit {
       )
       .subscribe(
         (d) => {
-          //      this.markTime("completed")
         }
       )
   }
+    //====================================================
+    refreshInfo2() {
+      let Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
+   
+      this.startTimer()
+
+      this.checkinRooms$ = this.roomEntityService.entities$
+        .pipe(
+          map (rooms => rooms.filter(rooms => rooms.dateIn == Today)),
+
+        )
+        
+        this.checkoutRooms$ = this.roomEntityService.entities$
+        .pipe(
+          map (rooms => rooms.filter(rooms => rooms.dateOut == Today))
+        )
+
+        this.inhouseRooms$ = this.roomEntityService.entities$
+        .pipe(
+          map (rooms => rooms.filter(rooms => rooms.dateIn < Today && rooms.dateOut > Today)),
+       )
+        
+
+
+         this.markTime("completed")
+      }
   //====================================================
   setRsvn(rsvnid: number) {
     this.genericService.getItem("rsvn", rsvnid)
@@ -102,17 +132,9 @@ export class InfoComponent implements OnInit {
       data => this.user = data
     )
     this.refreshInfo()
+    this.refreshInfo2()
 
 
-
-    this.genericService.getItemList("bldg")
-    .subscribe(
-      bldg => bldg.forEach(
-        b => this.dispList.push(
-          { name:b.name, rooms$: this.roominfoService.entities$.pipe(map(ri=>ri.filter(r => r.bldg == b.id))) }
-        )
-      )
-    )
 
     }
   //=================================

@@ -127,7 +127,7 @@ const entityMetadata: EntityMetadataMap = {
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,
-        strictActionSerializability: true,
+        strictActionSerializability: false,
         strictStateSerializability: true
       }
     }),

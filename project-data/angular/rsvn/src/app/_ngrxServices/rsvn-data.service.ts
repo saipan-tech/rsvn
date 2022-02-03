@@ -20,7 +20,7 @@ export class RsvnDataService extends DefaultDataService<IRsvn> {
             super('Rsvn', http, httpUrlGenerator);
         }
         override update(update:Update<IRsvn>): Observable<IRsvn> {
-            return this.http.put<IRsvn>(`${this.entityUrl}${update.id}/`,update)
+            return this.http.put<IRsvn>(`${this.entityUrl}${update.id}/`,update.changes)
         }
 
 

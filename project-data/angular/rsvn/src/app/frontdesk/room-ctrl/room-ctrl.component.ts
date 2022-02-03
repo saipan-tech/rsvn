@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { IBldg } from '@app/_interface/bldg';
 import { IRsvn } from '@app/_interface/rsvn'
 import { IRoom } from '@app/_interface/room'
@@ -8,17 +8,17 @@ import { ISeason } from '@app/_interface/season'
 import { IGuest } from '@app/_interface/guest'
 import { GenericService } from '@app/_services/generic.service';
 import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
-import { catchError, filter, tap, map, mergeMap, concatMap } from 'rxjs/operators';
-import { iif, of, interval, Observable } from 'rxjs';
-import { AppConstants } from '@app/app.constants'
-import { RoomService } from '@app/_services/room.service';
-import { RoomDataService } from '@app/_ngrxServices/room-data.service.';
-import { RoominfoDataService } from '@app/_ngrxServices/roominfo-data.service';
+import { map, concatMap, tap, mergeMap } from 'rxjs/operators';
+import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
+import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
+import { combineLatest, iif, Observable, of } from 'rxjs';
+
 
 @Component({
   selector: 'app-room-ctrl',
   templateUrl: './room-ctrl.component.html',
-  styleUrls: ['./room-ctrl.component.scss']
+  styleUrls: ['./room-ctrl.component.scss'],
+ // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoomCtrlComponent implements OnInit, OnChanges {
 
@@ -43,107 +43,97 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   rsvnRoom: IRoom[] = []
   seasonList: ISeason[] = []
 
+  roomQuery$: Observable<any> = of()
+  roomQuery:any[] = []
+
   refreshTimer: any
   Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
 
   constructor(
     private genericService: GenericService,
     private dialogManagerService: DialogManagerService,
-    private appConstants: AppConstants,
-    private roomService: RoomService,
-    private roomDataService:RoomDataService,
-    private roominfoDataService:RoominfoDataService
+    private roomEntityService: RoomEntityService,
+    private roominfoEntityService: RoominfoEntityService
   ) { }
 
 
 
   //=================================
   rsvnDateActive() {
-    const today = new Date(this.Today).getTime()
-    const inDate = new Date(this.currRsvn.dateIn).getTime()
-    // adjust till end of the day for checkouts
-    const outDate = new Date(this.currRsvn.dateOut).getTime()
-    if (inDate <= today && outDate >= today) return true
+    if (this.currRsvn.inDate <= this.Today && this.currRsvn.outDate >= this.Today) return true
     return false
   }
   //=================================
   rsvnArchive() {
-    const today = new Date(this.Today).getTime()
-    const inDate = new Date(this.currRsvn.dateIn).getTime()
-    const outDate = new Date(this.currRsvn.dateOut).getTime()
-    if (outDate <= today) return true
+    if (this.currRsvn.outDate <= this.Today) return true
     return false
   }
+  //=================================
+  roomActive$(room: IRoom):Observable<boolean> {
 
-
+    return this.genericService.getItemQueryList('room', 'active=1')
+      .pipe(
+        map(r => { return !!r.filter(r => r.roominfo == room.roominfo && r.rsvn != room.rsvn).length })
+      )
+  }
 
   //=================================
   checkin(room: any) {
-    console.log("ROOM INCOMING",room)
 
-    let roominfoToggle$ = this.roominfoDataService.getById(room.roominfo.id)
-      .pipe(map((ri: any) => {
-        ri.check = true
-        ri.status = 'occupied'
-        return ri
-      }),
-        concatMap((ri: any) => this.roominfoDataService.update(ri))
-      )
-
-
-    let roomToggle$ = this.roomDataService.getById(room.roomid)
-      .pipe(map(rm => {
-        rm.status = 'checkin';
-        console.log(rm,"RM")
-        return rm;
-      }),
-        concatMap((rm: any) => this.roomDataService.update(rm)),
-      )
-
-
-    this.roomDataService.getWithQuery('active=1')
+    let roominfoToggle$ = this.roominfoEntityService.getByKey(room.roominfo.id)
       .pipe(
-        //        filter((active) => active.find((al: any) => al.id == room.roomid)),
-        mergeMap(() => roomToggle$),
-        mergeMap(() => roominfoToggle$),
-      ).subscribe(
-        d => {
-          this.refreshRoomlist()
-          this.refreshRsvn();
-        }
+        map((ri) => { return { ...ri } }),
+        map((ri: any) => {
+          ri.check = true
+          ri.status = 'occupied'
+          return ri
+        }),
+        concatMap((ri: any) => this.roominfoEntityService.update(ri))
       )
+
+
+    let roomToggle$ = this.roomEntityService.getByKey(room.id)
+      .pipe(
+        map((rm) => { return { ...rm } }),
+        map((rm: any) => {
+          rm.status = 'checkin';
+          return rm;
+        }),
+        concatMap(rm => this.roomEntityService.update(rm)),
+      )
+
+      this.roomActive$(room)
+      .pipe(
+        concatMap(v =>iif(() => v,of(),roominfoToggle$ )),
+        mergeMap(() => roomToggle$)
+      ).subscribe()
+
   }
   //=================================
   checkout(room: any) {
-    let roominfoToggle$ = this.genericService.getItem('roominfo', room.roominfo.id)
+    // still needs to subscribe -- conditional to prevent damaging current listing
 
-      .pipe(map((ri: any) => {
-        ri.check = false
-        ri.status = 'dirty'
-        return ri
-      }),
-        concatMap((ri: any) => this.genericService.updateItem('roominfo', ri))
+    let roominfoToggle$ = this.roominfoEntityService.getByKey(room.roominfo.id)
+      .pipe(
+        map((ri) => { return { ...ri } }),
+        map((ri: any) => {
+          ri.check = false
+          ri.status = 'dirty'
+          return ri
+        }),
+        concatMap((ri: IRoominfo) => this.roominfoEntityService.update(ri))
       )
 
-    let roomToggle$ = this.genericService.getItem('room', room.roomid)
-      .pipe(map(rm => {
-        rm.status = 'checkout';
-        return rm;
-      }),
-        concatMap(rm => this.genericService.updateItem('room', rm)),
+    let roomToggle$ = this.roomEntityService.getByKey(room.id)
+      .pipe(
+        map((rm) => { return { ...rm } }),
+        map(rm => {
+          rm.status = 'checkout';
+          return rm;
+        }),
+        concatMap(rm => this.roomEntityService.update(rm)),
       )
 
-
-    roomToggle$.pipe(
-      concatMap(() => this.genericService.getItemQueryList('room', 'active=1')),
-      mergeMap((active) => iif(() => active.find((al: any) => al.id == room.roomid), roominfoToggle$, of('No Roominfo Change'))),
-      tap(d => console.log("hey baby", d)),
-    ).subscribe(
-      d => {
-        this.refreshRoomlist()
-        this.refreshRsvn();
-      }
-    )
 
   }
 
@@ -159,13 +149,12 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
       }
     }).afterClosed().subscribe(deleteConfirmed => {
       if (deleteConfirmed) {
-        this.roomDataService.delete(r.roomid)
-        .subscribe(data => {
+        this.roomEntityService.delete(r.id)
+          .subscribe(data => {
 
-          this.refreshRsvn();
-          this.refreshRoomlist()
-        })
-      
+            this.refreshRoomlist()
+          })
+
         /*       
         this.genericService.deleteItem("room", { id: r.roomid })
           .subscribe(data => {
@@ -174,7 +163,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
             this.refreshRoomlist()
           })
 */
-        }
+      }
     })
   }
   //=================================
@@ -189,15 +178,38 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   //=================================
   ngOnChanges(changes: SimpleChanges) {
     this.refreshRoomlist()
+
     // this.refreshRsvn();
   }
+
+
+
   //=================================
   refreshRoomlist() {
     /*    this.roomService.roomClear().subscribe(
           data => console.log("clear Room",data)
         )
     */
-    if (this.currRsvn && this.currRsvn.id) {
+
+        if (this.currRsvn && this.currRsvn.id) {
+      let bldg$ = this.genericService.getItemList("bldg")
+      let rQuery$ = this.roomEntityService.getWithQuery({ rsvn: this.currRsvn.id })
+      this.roomQuery$ = combineLatest([rQuery$, this.roominfoEntityService.entities$, bldg$])
+        .pipe(
+          map(([rquery, roominfo, bldg]) => {
+            let found: any = []
+            rquery.forEach((rq: any) => {
+              let newrq = { ...rq }
+              newrq.roominfo = roominfo.find(r => r.id == rq.roominfo)
+              newrq.bldg = bldg.find(b => b.id == newrq.roominfo.bldg)
+              found.push(newrq)
+            })
+            return found
+          }))
+
+       
+
+/*
       this.genericService.getItemQueryList('room', `rsvn=${this.currRsvn.id}&all=1`)
         .subscribe(
           rooms => {
@@ -205,7 +217,8 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
             this.currNumRooms = this.roomList.length
           }
         )
-    }
+  */
+      }
   }
   //=================================
 
@@ -213,7 +226,8 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   // make sure occupied rooms have an associated valid room reservation
   //=================================
   ngOnInit(): void {
-    this.refreshRoomlist();
+    this.refreshRoomlist()
+    
   }
   //=================================
   ngOnDestroy() {

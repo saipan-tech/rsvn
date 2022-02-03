@@ -1,14 +1,9 @@
-Here
 
-{{ dispList }}
-
-<div *ngFor="let d of dispList">
-{{d.name}}
-<div *ngFor=" let r of d.rooms$ | async ">
-    {{r.number}}
+<div *ngFor="let r of inhouseRooms$ | async">
+    {{ r | json}}
 </div>
 
-</div>
+
 <div *ngIf="activeList && activeList.checkin.length" class="section-head">Check Ins
     <div class="d-flex flex-wrap">
         <div class="bgrid" *ngFor="let cout of activeList.checkin">

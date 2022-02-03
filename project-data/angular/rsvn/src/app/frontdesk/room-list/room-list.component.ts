@@ -13,6 +13,7 @@ import { SeasonService } from '@app/_services/season.service';
 import { MatRadioModule } from '@angular/material/radio';
 import { filter } from 'rxjs/operators';
 import { RoomDataService } from '@app/_ngrxServices/room-data.service.';
+import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 @Component({
   selector: 'app-room-list',
   templateUrl: './room-list.component.html',
@@ -48,6 +49,7 @@ export class RoomListComponent implements OnInit, OnChanges {
     private genericService: GenericService,
     private rsvnService: RsvnService,
     private roomService: RoomService,
+    private roomEntityService: RoomEntityService,
     private roomDataService: RoomDataService,
     private seasonService: SeasonService
   ) { }
@@ -76,7 +78,7 @@ export class RoomListComponent implements OnInit, OnChanges {
               dateOut:this.currRsvn.dateOut
              }
  
-             this.roomDataService.add(newroom)
+             this.roomEntityService.add(newroom)
               .subscribe(
                 data => {
                   this.ngOnInit()
