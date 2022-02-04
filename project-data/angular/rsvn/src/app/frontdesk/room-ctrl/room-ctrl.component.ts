@@ -18,7 +18,7 @@ import { combineLatest, iif, Observable, of } from 'rxjs';
   selector: 'app-room-ctrl',
   templateUrl: './room-ctrl.component.html',
   styleUrls: ['./room-ctrl.component.scss'],
- // changeDetection: ChangeDetectionStrategy.OnPush
+ changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoomCtrlComponent implements OnInit, OnChanges {
 
@@ -106,8 +106,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
       .pipe(
         concatMap(v =>iif(() => v,of(),roominfoToggle$ )),
         mergeMap(() => roomToggle$)
-      ).subscribe()
-
+      )
   }
   //=================================
   checkout(room: any) {
@@ -235,126 +234,3 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
 }
 //=================================
 
-/*
-
-
-  makeList() {
-    this.dispList = []
-    this.bldgList.forEach(
-      bdg => {
-
-        let rates: any = []
-        let bldg: IBldg = bdg
-        let rms = this.availRoominfo.filter(r => r.bldg == bldg.id)
-        this.rateList.forEach(rate => {
-          rates.push({ rate, rooms: rms.filter(x => x.rateAlias == rate.alias) })
-        })
-        this.dispList.push({ rates, bldg })
-      }
-    )
-  }
-
-  //=================================
-  sortRateList(rooms: any) {
-    rooms.sort(function (a: any, b: any) {
-      var A = a.alias; // ignore upper and lowercase
-      var B = b.alias; // ignore upper and lowercase
-      if (A > B) { return 1; }
-      if (A < B) { return -1; }
-      return 0;
-    });
-    return rooms
-  }
-
-
-  //=================================
-  sortRoomList(rooms: any) {
-    rooms.sort(function (a: any, b: any) {
-      var A = a.roominfo.bldg.name + a.roominfo.number; // ignore upper and lowercase
-      var B = b.roominfo.bldg.name + b.roominfo.number; // ignore upper and lowercase
-      if (A > B) { return 1; }
-      if (A < B) { return -1; }
-      return 0;
-    });
-    return rooms
-  }
-  //=================================
-  ngOnInit(): void {
-    // Get Rate List
-    this.newOnInit();
-    if (this.currRsvn && this.currRsvn.id) {
-      this.genericService.getItemList("rate")
-        .subscribe(
-          data => {
-            this.rateList = this.sortRateList(data)
-          })
-
-      // Get rooms for this RSVN
-      this.genericService.getItemQueryList('room', `rsvn=${this.currRsvn.id}`)
-        .subscribe(
-          rooms => {
-            this.currNumRooms = rooms.length
-            this.currRooms = rooms
-          }
-        )
-    }
-    this.genericService.getItemList("season")
-      .subscribe(data => {
-        this.seasonList = data
-
-      })
-    // Looking at this rsvn date frame  - what is the state of rooms
-    if (this.currRsvn && this.currRsvn.dateIn && this.currRsvn.dateOut) {
-      // we are creating our UnAssigned Rooms here
-      this.roomService.availableRooms(this.currRsvn.dateIn, this.currRsvn.dateOut)
-        .pipe(
-          tap(avail => this.availRoominfo = avail),
-          concatMap(() => this.genericService.getItemList("bldg")),
-          tap(bldgs => {
-            this.bldgList = bldgs
-            this.makeList()
-          })
-        ).subscribe()
-      // we are creating our Assigned Rooms here
-
-
-      // we are creating our Assigned Rooms here
-      this.roomService.unavailableRooms(this.currRsvn.dateIn, this.currRsvn.dateOut)
-        .subscribe(unavail => {
-          this.unavailRoominfo = unavail
-          this.genericService.getItemQueryList('room', `rsvn=${this.currRsvn.id}`)
-            .subscribe(rroom => {
-              this.rsvnRoom = rroom
-              this.currRoomList = []
-              this.rsvnRoom.forEach(rsvrm => {
-                let roominfo: any = unavail.find(rrf => rrf.id == rsvrm.roominfo)
-                let room = rsvrm
-                let bldg = this.bldgList.find(bl => bl.id == roominfo.bldg)
-                this.currRoomList.push({ bldg, room, roominfo })
-              })
-            })
-        })
-
-    }
-
-  }
-}
-
-      // we are creating our Assigned Rooms here
-      this.roomService.unavailableRooms(this.currRsvn.dateIn, this.currRsvn.dateOut)
-        .subscribe(unavail => {
-          this.unavailRoominfo = unavail
-          this.genericService.getItemQueryList('room', `rsvn=${this.currRsvn.id}&all=1`)
-            .subscribe(rroom => {
-              this.rsvnRoom = rroom
-              this.currRoomList = []
-              this.rsvnRoom.forEach(rsvrm => {
-                let roominfo: any = unavail.find(rrf => rrf.id == rsvrm.roominfo)
-                let room = rsvrm
-                let bldg = this.bldgList.find(bl => bl.id == roominfo.bldg)
-                this.currRoomList.push({ bldg, room, roominfo })
-              })
-            })
-        })
-
-*/

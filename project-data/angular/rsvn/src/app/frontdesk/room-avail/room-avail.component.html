@@ -1,0 +1,23 @@
+<mat-card>
+    <mat-card-title>Available Rooms</mat-card-title>
+    <hr>
+    <mat-card-content>
+        <div *ngFor="let x of availRooms$ | async">
+            {{ x.bldg.name}}
+    
+<div *ngFor="let y of x.rates">
+    <div class='row'>
+        <div class="col-3">{{ y.rate.alias }}</div>
+        <div class="col">
+            <button mat-button *ngFor="let z of y.roominfo"> {{ z.number }}</button>
+        </div>
+    </div>
+    
+</div>
+        </div>
+        
+    </mat-card-content>
+
+
+    <mat-card-footer></mat-card-footer>
+</mat-card>

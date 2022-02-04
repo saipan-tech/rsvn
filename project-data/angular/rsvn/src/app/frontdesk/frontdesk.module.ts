@@ -13,11 +13,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatCard, MatCardModule } from '@angular/material/card';
 import { MatIconModule} from '@angular/material/icon';
 import { MatButtonModule} from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule} from '@angular/material/radio';
 import { MatMenuModule} from '@angular/material/menu';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { MatTabsModule } from '@angular/material/tabs';
+
+
 import { AppRoutingModule } from '@app/app-routing.module';
 import { ChargesModule } from '@app/charges/charges.module';
 //import { AccordionModule } from 'ngx-bootstrap/accordion';
@@ -25,11 +31,12 @@ import { ChargesModule } from '@app/charges/charges.module';
 import { MatDialogModule } from "@angular/material/dialog";
 import {SharedDialogModule} from "@app/shared/dialog/shared-dialog.module";
 import { RoomListComponent } from './room-list/room-list.component';
-import {MatExpansionModule} from '@angular/material/expansion';
-import { MatTabsModule } from '@angular/material/tabs';
+
 import { SearcherCtrlComponent } from './searcher-ctrl/searcher-ctrl.component';
 import { SearcherListComponent } from './searcher-list/searcher-list.component';
 import { SharedModule } from '@app/shared/shared.module';
+import { RoomAvailComponent } from './room-avail/room-avail.component';
+import { RoomChecksComponent } from './room-checks/room-checks.component';
 
 
 @NgModule({
@@ -44,7 +51,9 @@ import { SharedModule } from '@app/shared/shared.module';
     RsvnCtrlComponent,
     RoomListComponent,
     SearcherCtrlComponent,
-    SearcherListComponent
+    SearcherListComponent,
+    RoomAvailComponent,
+    RoomChecksComponent
   ],
   imports: [
     CommonModule,
@@ -54,6 +63,7 @@ import { SharedModule } from '@app/shared/shared.module';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+
     MatIconModule,
     MatButtonModule,
     MatSliderModule,
@@ -61,6 +71,8 @@ import { SharedModule } from '@app/shared/shared.module';
     MatMenuModule,
     MatExpansionModule,
     MatTabsModule,
+    MatCardModule,
+
     SharedDialogModule,
     ChargesModule,
   //  AccordionModule.forRoot(),
