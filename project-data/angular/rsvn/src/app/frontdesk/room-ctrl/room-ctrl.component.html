@@ -1,8 +1,9 @@
 
-<app-room-avail></app-room-avail>
+
 
 
 <div class="card" style="height:98%;overflow-y:scroll" *ngIf="currRsvn && currRsvn.id">
+    <app-room-avail [currRsvn]='currRsvn'></app-room-avail>
     <div class="card-header">
         <h5>Room Control</h5>
 <!--

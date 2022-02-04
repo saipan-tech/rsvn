@@ -1,23 +1,30 @@
-<mat-card>
-    <mat-card-title>Available Rooms</mat-card-title>
-    <hr>
-    <mat-card-content>
-        <div *ngFor="let x of availRooms$ | async">
-            {{ x.bldg.name}}
+ <div class="main-container"> 
+
+    <mat-card>
+        <mat-card-header style="background-color:limegreen;text-align:center">
     
-<div *ngFor="let y of x.rates">
-    <div class='row'>
-        <div class="col-3">{{ y.rate.alias }}</div>
-        <div class="col">
-            <button mat-button *ngFor="let z of y.roominfo"> {{ z.number }}</button>
-        </div>
-    </div>
+        <mat-card-title>Available Rooms</mat-card-title>
+        <hr>
+    </mat-card-header>
     
+        <mat-card-content style="height:500px; overflow-y:scroll; background-color:lightgreen;padding:1em">
+            <div *ngFor="let x of availRooms$ | async">
+                <h4 style="background-color:white">{{ x.bldg.name}}</h4>
+                <div *ngFor="let y of x.rates">
+                    <div class='row ratecell' *ngIf="y.roominfo.length">
+                        <div class="col-3">{{ y.rate.alias }}</div>
+                        <div class="col">
+                            <ng-container *ngFor="let z of y.roominfo" >
+                                <button mat-button  > {{ z.number }}</button>
+
+                            </ng-container>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-footer></mat-card-footer>
+    </mat-card>
+
 </div>
-        </div>
-        
-    </mat-card-content>
-
-
-    <mat-card-footer></mat-card-footer>
-</mat-card>
