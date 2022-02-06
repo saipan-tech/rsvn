@@ -1,0 +1,11 @@
+
+<button (click)='onSubmit()'  [matMenuTriggerFor]="roomMenu">     
+    {{ currRoom | json}} {{ currRoominfo |json}}
+</button>
+
+<mat-menu #roomMenu="matMenu">
+    <div class="menu-head">Action</div>
+    <div class="menu-item" mat-menu-item (click)="check(true)">Check-In </div>
+    <div class="menu-item" mat-menu-item (click)="check(false)">Check-Out </div>
+    <div class="menu-item" mat-menu-item (click)="unassign()">Delete </div>
+</mat-menu>

@@ -1,1 +1,22 @@
-<p>room-checks works!</p>
+<mat-card style="background-color:limegreen;text-align:center">
+    <div>
+        <h4>{{currRsvn.primary.firstname}} {{currRsvn.primary.middlename}} {{currRsvn.primary.lastname}}</h4>
+
+        <div class="d-flex">
+            <div class="form-control">Check In<br>{{ currRsvn.dateIn }}</div>
+            <div class="form-control">Check Out<br>{{ currRsvn.dateOut }}</div>
+        </div>
+        <h5>Assigned Rooms - {{currNumRooms}}/{{currRsvn.numrooms}}</h5>
+    </div>
+    <mat-card-content style=" background-color:lightgreen;padding:1em">
+        <div class="d-flex flex-wrap">
+            <div *ngFor="let r of roomQuery$ | async" class="rmcell ">
+                <app-room-checks-widget [currRoom]='r' (currRoomChange)='reload()' ></app-room-checks-widget>
+            </div>
+
+        </div>
+
+    </mat-card-content>
+
+</mat-card>
+

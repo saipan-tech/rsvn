@@ -176,7 +176,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   }
   //=================================
   ngOnChanges(changes: SimpleChanges) {
-    this.refreshRoomlist()
+   // this.refreshRoomlist()
 
     // this.refreshRsvn();
   }
@@ -225,7 +225,7 @@ export class RoomCtrlComponent implements OnInit, OnChanges {
   // make sure occupied rooms have an associated valid room reservation
   //=================================
   ngOnInit(): void {
-    this.refreshRoomlist()
+  //  this.refreshRoomlist()
     
   }
   //=================================

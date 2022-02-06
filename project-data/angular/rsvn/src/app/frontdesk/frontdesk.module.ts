@@ -37,6 +37,9 @@ import { SearcherListComponent } from './searcher-list/searcher-list.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { RoomAvailComponent } from './room-avail/room-avail.component';
 import { RoomChecksComponent } from './room-checks/room-checks.component';
+import { RoomChecksWidgetComponent } from './room-checks/room-checks-widget.component';
+
+
 
 
 @NgModule({
@@ -53,7 +56,8 @@ import { RoomChecksComponent } from './room-checks/room-checks.component';
     SearcherCtrlComponent,
     SearcherListComponent,
     RoomAvailComponent,
-    RoomChecksComponent
+    RoomChecksComponent,
+    RoomChecksWidgetComponent
   ],
   imports: [
     CommonModule,
