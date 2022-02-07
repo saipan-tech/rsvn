@@ -1,7 +1,9 @@
 
-<button (click)='onSubmit()'  [matMenuTriggerFor]="roomMenu">     
-    {{ currRoom | json}} {{ currRoominfo |json}}
-</button>
+
+    <button   [matMenuTriggerFor]="roomMenu">     
+            {{ roominfo$ | async | json }}
+    </button>
+    
 
 <mat-menu #roomMenu="matMenu">
     <div class="menu-head">Action</div>

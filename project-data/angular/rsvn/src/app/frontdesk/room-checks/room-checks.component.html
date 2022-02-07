@@ -10,8 +10,8 @@
     </div>
     <mat-card-content style=" background-color:lightgreen;padding:1em">
         <div class="d-flex flex-wrap">
-            <div *ngFor="let r of roomQuery$ | async" class="rmcell ">
-                <app-room-checks-widget [currRoom]='r' (currRoomChange)='reload()' ></app-room-checks-widget>
+            <div *ngFor="let r of currRooms$ | async" class="rmcell ">
+                <app-room-checks-widget [currRoom]='r' ></app-room-checks-widget>
             </div>
 
         </div>

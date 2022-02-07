@@ -4,7 +4,7 @@ from .common import *
 #===========================
 class RateViewSet(viewsets.ModelViewSet):
     serializer_class = RateSerializer
-    queryset = Rate.objects.all()
+    queryset = Rate.objects.all().order_by('alias')
     permission_classes = [permissions.IsAuthenticated]
 
 

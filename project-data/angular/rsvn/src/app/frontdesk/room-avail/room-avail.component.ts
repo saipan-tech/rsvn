@@ -8,7 +8,7 @@ import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
 import { GenericService } from '@app/_services/generic.service';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, subscribeOn } from 'rxjs/operators';
 
 @Component({
   selector: 'app-room-avail',
@@ -22,7 +22,7 @@ export class RoomAvailComponent implements OnInit, OnChanges {
 
   availRooms$: Observable<any[]> = of()
   currNumRooms = 0
-  currRooms$ :any
+  currRooms$: any
 
   @Input() currRsvn: IRsvn = {} as IRsvn
   @Output() currRsvnChange = new EventEmitter<IRsvn>();
@@ -35,15 +35,22 @@ export class RoomAvailComponent implements OnInit, OnChanges {
   ) { }
 
 
-
+  //=========================================
   reload() {
     let dateIn = this.currRsvn.dateIn
     let dateOut = this.currRsvn.dateOut
 
-
     let bldg$ = this.genericService.getItemList("bldg")
     let rate$ = this.genericService.getItemList("rate")
     let ris$ = this.roominfoService.entities$
+
+    this.roomService.entities$.pipe(
+      map(rooms => {
+        let r = rooms.filter(room => room.rsvn == this.currRsvn.id)
+        this.currNumRooms = r.length
+        return r
+      })
+    ).subscribe()
 
     let exclude$ = this.roomService.entities$
       .pipe(
@@ -86,40 +93,37 @@ export class RoomAvailComponent implements OnInit, OnChanges {
         })
       )
   }
+  //=========================================
+  assignRoom(ri: IRoominfo) {
 
-  _assignRoom(ri:IRoominfo) {
-    let newroom = { 
-      rsvn: this.currRsvn.id, 
-      roominfo: ri.id, 
-      status: 'new',
-      dateIn:this.currRsvn.dateIn,
-      dateOut:this.currRsvn.dateOut
-     }
 
-     this.roomService.add(newroom)
-      .subscribe(
-        data => {
-           this.reload();
+    if (this.currNumRooms < this.currRsvn.numrooms) {
+      let newroom = {
+        rsvn: this.currRsvn.id,
+        roominfo: ri.id,
+        status: 'new',
+        dateIn: this.currRsvn.dateIn,
+        dateOut: this.currRsvn.dateOut
+      }
+      this.roomService.add(newroom)
+        .subscribe(
+          data => {
+            this.reload();
 
-        }
-      )
+          }
+        )
+    }
 
   }
+  //=========================================
 
-  assignRoom(ri:IRoominfo) {
-    this.currRooms$.subscribe((d:any) => { if(d.length < this.currRsvn.numrooms) this._assignRoom(ri)})
-  }
-  
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.currRsvn.firstChange) this.reload()
-    
+
   }
+  //=========================================
   ngOnInit(): void {
-    this.currRooms$ = this.roomService.entities$.pipe(
-      map(rooms => {
-       return rooms.filter(room=> room.rsvn == this.currRsvn.id)
-      })
-    )
+
     this.reload()
   }
 

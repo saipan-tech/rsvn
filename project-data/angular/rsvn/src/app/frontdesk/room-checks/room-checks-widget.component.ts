@@ -1,10 +1,14 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { IRoominfo } from '@app/_interface/roominfo';
 import { IRoom } from '@app/_interface/room';
+import { IBldg } from '@app/_interface/bldg';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
 import { DialogManagerService, DangerDialogComponent } from '@app/shared/dialog';
-
+import { combineLatest, Observable, of, scheduled } from 'rxjs';
+import { GenericService } from '@app/_services/generic.service';
+import { concatMap, map } from 'rxjs/operators';
+import { BldgListComponent } from '@app/config/bldg-list/bldg-list.component';
 @Component({
   selector: 'app-room-checks-widget',
   templateUrl: './room-checks-widget.component.html',
@@ -18,17 +22,18 @@ export class RoomChecksWidgetComponent implements OnInit {
 
   currRoominfo:IRoominfo = {} as IRoominfo
   Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
+  roominfo$:Observable<IRoominfo> = of();
+  building$:Observable<IBldg[]> = of();
+  widgetInfo$:Observable<any> = of();
 
   constructor(
     private roomService: RoomEntityService,
     private roominfoService: RoominfoEntityService,
+    private genericService: GenericService,
     private dialogManagerService: DialogManagerService
   ) { }
 
-  //=================================
-  onSubmit() {
-    this.currRoomChange.emit()
-  }
+
   //=================================
   isCurrent() {
     return (this.currRoom.dateIn <= this.Today && this.currRoom.dateOut >= this.Today)
@@ -52,7 +57,7 @@ export class RoomChecksWidgetComponent implements OnInit {
   }
   //=================================
   check(mode:boolean) {
-    // still needs to subscribe -- conditional to prevent damaging current listing
+   
     var currRoominfo  = { ...this.currRoominfo }
     var currRoom      = { ...this.currRoom }
     currRoom.status = mode ? 'checkin' : 'checkout';
@@ -67,10 +72,22 @@ export class RoomChecksWidgetComponent implements OnInit {
     }
     this.currRoomChange.emit()
   }
-  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+  //=================================
   ngOnInit(): void {
-    this.roominfoService.getByKey(this.currRoom.roominfo).subscribe(d=>this.currRoominfo = d)
+    let roominfo$ = this.roominfoService.getByKey(this.currRoom.roominfo)
+    this.building$ = this.genericService.getItemList("bldg")
+    
+    this.roominfo$ = combineLatest([roominfo$,this.building$]).pipe(
+      map(([roominfo,bldg]) => {
+        let b = bldg.find(bldg=>bldg.id == roominfo.bldg)
+        let ri:any = {...roominfo}
+        ri.bldgname = b?.name
+        return ri
+      
+      }
+    )
+    )
   }
 }
 

@@ -5,7 +5,7 @@
             <ng-container *ngFor="let y of x.rates">
                 <div class='row ratecell' *ngIf="y.roominfo.length">
                     <div class="col-3">{{ y.rate.alias }}</div>
-                    <div class="col">
+                    <div class="col" style="text-align:left">
                         <ng-container *ngFor="let z of y.roominfo">
                             <button mat-button (click)="assignRoom(z)">{{ z.number }}</button>
                         </ng-container>

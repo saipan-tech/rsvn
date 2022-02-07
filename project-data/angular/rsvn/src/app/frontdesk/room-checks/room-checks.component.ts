@@ -26,10 +26,13 @@ export class RoomChecksComponent implements OnInit,OnChanges {
 
   @Input() currRsvn: any
   @Output() currRsvnChange = new EventEmitter<IRsvn>();
-  roomQuery$ :any
+  
+  currRooms$: Observable<IRoom[]>  = of() 
 
   constructor(
-    private roomService: RoomEntityService
+    private roomService: RoomEntityService,
+    private genericService: GenericService
+
 
 
   ) { }
@@ -41,20 +44,17 @@ export class RoomChecksComponent implements OnInit,OnChanges {
   }
 
   reload() {
-    this.roomQuery$ = this.roomService.entities$
-    .pipe(
-      map(room => { 
-        return room.filter(room => room.rsvn == this.currRsvn.id)
+
+    this.currRooms$ = this.roomService.entities$.pipe(
+      map(rooms => { 
+        let r =  rooms.filter(r => r.rsvn == this.currRsvn.id)
+        this.currNumRooms = r.length
+        return r
       })
     )
   }
 
   ngOnInit(): void {
-
-    this.roomService.entities$.pipe(
-      map(rooms => rooms.filter(r => r.rsvn == this.currRsvn.id))
-    ).subscribe(d=>this.currNumRooms = d.length)
-
     this.reload()
   }
 

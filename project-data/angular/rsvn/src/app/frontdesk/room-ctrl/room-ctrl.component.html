@@ -1,5 +1,4 @@
 <div class="card" style="height:98%;overflow-y:scroll" *ngIf="currRsvn && currRsvn.id">
-    <app-room-checks [currRsvn]='currRsvn'></app-room-checks>
-    <app-room-avail [currRsvn]='currRsvn' (currRsvnChange)='refreshRsvn()'></app-room-avail>
-    <!--  <app-room-list [currRsvn]='currRsvn' (currRsvnChange)='refreshRsvn()'></app-room-list> -->
+    <app-room-checks [currRsvn]='currRsvn'  ></app-room-checks>
+    <app-room-avail [currRsvn]='currRsvn' ></app-room-avail>
 </div>
