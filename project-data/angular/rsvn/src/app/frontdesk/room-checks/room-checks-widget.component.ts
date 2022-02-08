@@ -13,16 +13,16 @@ import { BldgListComponent } from '@app/config/bldg-list/bldg-list.component';
   selector: 'app-room-checks-widget',
   templateUrl: './room-checks-widget.component.html',
   //  styleUrls: ['./room-checks-widget.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class RoomChecksWidgetComponent implements OnInit {
   @Input() currRoom: any
   @Output() currRoomChange = new EventEmitter<IRoom>();
 
-  currRoominfo:IRoominfo = {} as IRoominfo
+  
   Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
-  roominfo$:Observable<IRoominfo> = of();
+  roominfo:any;
   building$:Observable<IBldg[]> = of();
   widgetInfo$:Observable<any> = of();
 
@@ -36,7 +36,7 @@ export class RoomChecksWidgetComponent implements OnInit {
 
   //=================================
   isCurrent() {
-    return (this.currRoom.dateIn <= this.Today && this.currRoom.dateOut >= this.Today)
+    return (this.currRoom.room.dateIn <= this.Today && this.currRoom.room.dateOut >= this.Today)
   }
   //=================================
   unassign() {
@@ -48,7 +48,7 @@ export class RoomChecksWidgetComponent implements OnInit {
       }
     }).afterClosed().subscribe(deleteConfirmed => {
       if (deleteConfirmed) {
-        this.roomService.delete(this.currRoom.id)
+        this.roomService.delete(this.currRoom.room.id)
           .subscribe(data => {
             this.currRoomChange.emit()
           })
@@ -58,36 +58,34 @@ export class RoomChecksWidgetComponent implements OnInit {
   //=================================
   check(mode:boolean) {
    
-    var currRoominfo  = { ...this.currRoominfo }
-    var currRoom      = { ...this.currRoom }
-    currRoom.status = mode ? 'checkin' : 'checkout';
-    this.roomService.update(currRoom).subscribe()
+    var currRoominfo  = { ...this.currRoom.roominfo }
+    var currRoom      = { ...this.currRoom.room }
+    var check =  false
 
-    if (this.isCurrent()) {
+    if(mode && currRoom.status == 'ready') {
+      check = true
+      currRoom.status = 'checkin';
+      this.roomService.update(currRoom).subscribe()
+    }
+
+    if(! mode) {
+      check = true
+      currRoom.status = 'checkout';
+      this.roomService.update(currRoom).subscribe()
+    } 
+    
+    if (this.isCurrent() && check) {
       currRoominfo.check =mode
       currRoominfo.status = mode ? 'occupied' : 'dirty'
       this.roominfoService.update(currRoominfo).subscribe()
-    } else {
-      alert("this is not a current reservation no changes to Roominfo")
-    }
+    } 
+        
     this.currRoomChange.emit()
   }
 
   //=================================
   ngOnInit(): void {
-    let roominfo$ = this.roominfoService.getByKey(this.currRoom.roominfo)
-    this.building$ = this.genericService.getItemList("bldg")
-    
-    this.roominfo$ = combineLatest([roominfo$,this.building$]).pipe(
-      map(([roominfo,bldg]) => {
-        let b = bldg.find(bldg=>bldg.id == roominfo.bldg)
-        let ri:any = {...roominfo}
-        ri.bldgname = b?.name
-        return ri
-      
-      }
-    )
-    )
+
   }
 }
 

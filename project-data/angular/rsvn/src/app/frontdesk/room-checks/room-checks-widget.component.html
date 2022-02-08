@@ -1,7 +1,15 @@
-
-
-    <button   [matMenuTriggerFor]="roomMenu">     
-            {{ roominfo$ | async | json }}
+<style>
+.checkin {
+    background-color:green;
+}
+.checkout {
+    background-color:pink;
+}
+</style>
+<button  class='{{currRoom.room.status}}' [matMenuTriggerFor]="roomMenu">     
+    {{ currRoom.bldg.name }} <br>
+    {{ currRoom.roominfo.number }}<br>
+    {{ currRoom.roominfo.rateAlias }}
     </button>
     
 

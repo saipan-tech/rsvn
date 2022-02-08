@@ -27,10 +27,11 @@ export class RoomChecksComponent implements OnInit,OnChanges {
   @Input() currRsvn: any
   @Output() currRsvnChange = new EventEmitter<IRsvn>();
   
-  currRooms$: Observable<IRoom[]>  = of() 
+  currRooms$: Observable<any[]>  = of() 
 
   constructor(
     private roomService: RoomEntityService,
+    private roominfoService: RoominfoEntityService,
     private genericService: GenericService
 
 
@@ -45,14 +46,27 @@ export class RoomChecksComponent implements OnInit,OnChanges {
 
   reload() {
 
-    this.currRooms$ = this.roomService.entities$.pipe(
-      map(rooms => { 
-        let r =  rooms.filter(r => r.rsvn == this.currRsvn.id)
-        this.currNumRooms = r.length
-        return r
+    let currRooms$ = this.roomService.entities$.pipe(
+      map(roomList => { 
+        return roomList.filter(room => room.rsvn == this.currRsvn.id)
       })
     )
-  }
+    this.currRooms$ = combineLatest([currRooms$,this.roominfoService.entities$,this.genericService.getItemList('bldg')])
+    .pipe(
+      map(([r,rinfo,bldg]) => {
+        let roomList:any = []
+        this.currNumRooms = r.length;
+        r.forEach(r => {
+          let ri  = rinfo.find(ri=> r.roominfo == ri.id)
+          roomList.push(
+            {  room : r,
+               roominfo : ri,
+               bldg : bldg.find(b => b.id == ri?.bldg )
+              })  
+        })
+        return roomList
+     }))
+    }
 
   ngOnInit(): void {
     this.reload()
