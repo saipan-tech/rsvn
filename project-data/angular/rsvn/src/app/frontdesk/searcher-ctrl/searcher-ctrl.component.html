@@ -2,8 +2,14 @@
     <div class="card-header">
         <form novalidate [formGroup]="searchForm" class="form-inline">
             <div class="d-flex  mt-3">
-                <input type="search" formControlName='query' placeholder="Search" (focus)="searchForm.reset()"
+                <input matInput type="search" formControlName='query' placeholder="Search" (focus)="searchForm.reset()"
                     class="form-control">
+                <button style="width:60px" class="form-control">
+                    <span class="material-icons">search</span>
+                </button>
+            </div>
+            <div class="d-flex  mt-3">
+                <input matInput type="date" formControlName='dquery' placeholder="DateSearch"  class="form-control">
                 <button style="width:60px" class="form-control">
                     <span class="material-icons">search</span>
                 </button>
@@ -13,7 +19,6 @@
         <ng-container style="text-align:left">
             <div>
                 <button mat-button (click)="activeRes('current')">Current</button>
-                <button mat-button (click)="activeRes('rsvns')">All Rsvns</button>
                 <button mat-button (click)="activeRes('active')">Active</button>
                 <button mat-button (click)="activeRes('future')">Future</button>
             </div>

@@ -68,6 +68,14 @@ class RsvnViewSet(viewsets.ModelViewSet):
    
     def get_queryset(self):
         queryset = super().get_queryset() 
+
+        if "query" in self.request.GET:
+            queryset = queryset.filter(
+                Q(primary__lastname__icontains=self.request.GET['query']) |
+                Q(primary__middlename__icontains=self.request.GET['query']) |
+                Q(primary__firstname__icontains=self.request.GET['query']))
+
+
         if "guest" in self.request.GET:
             queryset = queryset.filter(primary__id=self.request.GET['guest'])
 

@@ -12,7 +12,7 @@ import { RoomService } from '@app/_services/room.service';
 import { SeasonService } from '@app/_services/season.service';
 import { MatRadioModule } from '@angular/material/radio';
 import { filter } from 'rxjs/operators';
-import { RoomDataService } from '@app/_ngrxServices/room-data.service.';
+import { RoomDataService } from '@app/_ngrxServices/room-data.service';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 @Component({
   selector: 'app-room-list',

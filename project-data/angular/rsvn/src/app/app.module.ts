@@ -56,18 +56,22 @@ import { RoominfoResolver } from '@app/_ngrxServices/roominfo-resolver';
 
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RoomResolver } from '@app/_ngrxServices/room-resolver';
-import { RoomDataService } from '@app/_ngrxServices/room-data.service.';
-
+import { RoomDataService } from '@app/_ngrxServices/room-data.service';
 import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
 import { RsvnResolver } from '@app/_ngrxServices/rsvn-resolver';
 import { RsvnDataService } from '@app/_ngrxServices/rsvn-data.service';
 
 
+import { GuestEntityService } from '@app/_ngrxServices/guest-entity.service';
+import { GuestResolver } from '@app/_ngrxServices/guest-resolver';
+import { GuestDataService } from '@app/_ngrxServices/guest-data.service';
+
 
 const entityMetadata: EntityMetadataMap = {
   Roominfo: {},
   Room : {},
-  Rsvn : {}
+  Rsvn : {},
+  Guest : {}
 };
 
 
@@ -156,6 +160,12 @@ const entityMetadata: EntityMetadataMap = {
     RsvnEntityService,
     RsvnResolver,
     RsvnDataService,
+
+  
+    GuestEntityService,
+    GuestResolver,
+    GuestDataService,
+
   ],
   bootstrap: [AppComponent]
 
@@ -170,12 +180,15 @@ export class AppModule {
     private roomDataService: RoomDataService,
     private roominfoDataService: RoominfoDataService,
     private rsvnDataService: RsvnDataService,
-    private appEnv: AppEnv ) {
+    private guestDataService: GuestDataService,
+    private appEnv: AppEnv 
+    ) {
     
     eds.registerMetadataMap(entityMetadata);
     entityDataService.registerService('Roominfo', roominfoDataService);
     entityDataService.registerService('Rsvn', rsvnDataService);
     entityDataService.registerService('Room', roomDataService);
+    entityDataService.registerService('Guest', guestDataService);
 
 }
 

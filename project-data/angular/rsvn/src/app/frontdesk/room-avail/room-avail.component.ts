@@ -105,13 +105,7 @@ export class RoomAvailComponent implements OnInit, OnChanges {
         dateIn: this.currRsvn.dateIn,
         dateOut: this.currRsvn.dateOut
       }
-      this.roomService.add(newroom)
-        .subscribe(
-          data => {
-            this.reload();
-
-          }
-        )
+      this.roomService.add(newroom).subscribe()
     }
 
   }

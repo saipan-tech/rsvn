@@ -1,0 +1,35 @@
+<div class="card" style="height:97%;overflow-y:scroll">
+    <div class="card-header">
+        <form novalidate [formGroup]="searchForm" class="form-inline">
+            <div class="d-flex  mt-3">
+                <input type="search" formControlName='query' placeholder="Search" (focus)="searchForm.reset()"
+                    class="form-control">
+                <button style="width:60px" class="form-control">
+                    <span class="material-icons">search</span>
+                </button>
+            </div>
+            <div class="d-flex  mt-3">
+                <input  type="date" formControlName='dquery' class="form-control" (focus)="searchForm.reset()">
+                <button style="width:60px" class="form-control">
+                    <span class="material-icons">search</span>
+                </button>
+            </div>
+        </form>
+
+        <div class="d-flex flex-wrap">
+            <button mat-button> -- spare -- </button>
+            <button mat-button> -- spare -- </button>
+            <button mat-button> -- spare -- </button>
+            <button mat-button> -- spare -- </button>
+            <button mat-button> -- spare -- </button>
+            <button mat-button> -- spare -- </button>
+        </div>
+
+
+    </div>
+
+    <div class="section">Search Results</div>
+    <app-search-list></app-search-list>
+    <app-info (currRsvnChange)='selectRsvn($event)'></app-info>
+
+</div>

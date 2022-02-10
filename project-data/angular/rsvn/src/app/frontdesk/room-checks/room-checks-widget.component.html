@@ -1,21 +1,12 @@
-<style>
-.checkin {
-    background-color:green;
-}
-.checkout {
-    background-color:pink;
-}
-</style>
-<button  class='{{currRoom.room.status}}' [matMenuTriggerFor]="roomMenu">     
-    {{ currRoom.bldg.name }} <br>
-    {{ currRoom.roominfo.number }}<br>
-    {{ currRoom.roominfo.rateAlias }}
-    </button>
-    
+<button class='widbutton {{currRoom.room.status}}' [matMenuTriggerFor]="roomMenu">
+    {{ currRoom.bldg.name }}  {{ currRoom.roominfo.number }}
+    {{ currRoom.roominfo.rateAlias }}<br>
+    {{ currRoom.room.status}} / {{ currRoom.roominfo.status}}
+</button>
+
 
 <mat-menu #roomMenu="matMenu">
-    <div class="menu-head">Action</div>
-    <div class="menu-item" mat-menu-item (click)="check(true)">Check-In </div>
-    <div class="menu-item" mat-menu-item (click)="check(false)">Check-Out </div>
+    <div class="menu-item" mat-menu-item  (click)="check(true)">Check-In </div>
+    <div class="menu-item" mat-menu-item  (click)="check(false)">Check-Out </div>
     <div class="menu-item" mat-menu-item (click)="unassign()">Delete </div>
 </mat-menu>

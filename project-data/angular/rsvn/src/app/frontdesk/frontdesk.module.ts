@@ -38,6 +38,9 @@ import { SharedModule } from '@app/shared/shared.module';
 import { RoomAvailComponent } from './room-avail/room-avail.component';
 import { RoomChecksComponent } from './room-checks/room-checks.component';
 import { RoomChecksWidgetComponent } from './room-checks/room-checks-widget.component';
+import { MatInputModule } from '@angular/material/input';
+import { SearchCtrlComponent } from './search-ctrl/search-ctrl.component';
+import { SearchListComponent } from './search-list/search-list.component';
 
 
 
@@ -57,7 +60,9 @@ import { RoomChecksWidgetComponent } from './room-checks/room-checks-widget.comp
     SearcherListComponent,
     RoomAvailComponent,
     RoomChecksComponent,
-    RoomChecksWidgetComponent
+    RoomChecksWidgetComponent,
+    SearchCtrlComponent,
+    SearchListComponent
   ],
   imports: [
     CommonModule,
@@ -76,6 +81,7 @@ import { RoomChecksWidgetComponent } from './room-checks/room-checks-widget.comp
     MatExpansionModule,
     MatTabsModule,
     MatCardModule,
+    MatInputModule,
 
     SharedDialogModule,
     ChargesModule,

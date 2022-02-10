@@ -11,7 +11,7 @@
     <mat-card-content style=" background-color:lightgreen;padding:1em">
         <div class="d-flex flex-wrap">
             <div *ngFor="let r of currRooms$ | async" class="rmcell ">
-                <app-room-checks-widget [currRoom]='r' ></app-room-checks-widget>
+                <app-room-checks-widget [currRoom]='r'  ></app-room-checks-widget>
             </div>
 
         </div>

@@ -33,9 +33,6 @@ export class RoomChecksComponent implements OnInit,OnChanges {
     private roomService: RoomEntityService,
     private roominfoService: RoominfoEntityService,
     private genericService: GenericService
-
-
-
   ) { }
 
   currNumRooms: number = 0
