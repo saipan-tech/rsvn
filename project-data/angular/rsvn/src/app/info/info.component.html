@@ -1,18 +1,18 @@
 <div class="section">Check Ins</div>
 <ng-container *ngFor="let i of infoArray$ | async">
     <ng-container *ngIf="i.room.dateIn==Today">
-        <button (click)=selectRsvn(i.room.rsvn)> {{ i.bldg.name}} {{i.roominfo.number }}</button></ng-container>
+        <button class="{{ i.room.status }}" (click)=selectRsvn(i.room.rsvn)> {{ i.bldg.name}} {{i.roominfo.number }}</button></ng-container>
 </ng-container>
 
 <div class="section">Check Outs</div>
 <ng-container *ngFor="let i of infoArray$ | async">
     <ng-container *ngIf="i.room.dateOut==Today"> 
-        <button (click)=selectRsvn(i.room.rsvn)>{{ i.bldg.name}} {{i.roominfo.number }}</button></ng-container>
+        <button class="{{ i.room.status }}" (click)=selectRsvn(i.room.rsvn)>{{ i.bldg.name}} {{i.roominfo.number }}</button></ng-container>
 </ng-container>
 
 <div class="section">In House</div>
 <ng-container *ngFor="let i of infoArray$ | async">
     <ng-container *ngIf="i.room.dateIn < Today && i.room.dateOut > Today" >
-        <button  (click)=selectRsvn(i.room.rsvn)>{{ i.bldg.name}} {{i.roominfo.number }} </button>
+        <button class="{{ i.room.status }}" (click)=selectRsvn(i.room.rsvn)>{{ i.bldg.name}} {{i.roominfo.number }} </button>
     </ng-container>
 </ng-container>

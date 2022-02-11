@@ -1,1 +1,6 @@
-<p>search-list works!</p>
+<ng-container *ngFor='let x of workList$ | async'>
+    <div class="row">
+        <div class="col-5 namecol active" (click)="rsvnSelect(x.rsvn.id)">{{x.guest.firstname}} {{x.guest.lastname}}</div>
+        <div class="col datecol">{{x.rsvn.dateIn}} >> {{x.rsvn.dateOut}} </div>
+    </div>
+</ng-container>

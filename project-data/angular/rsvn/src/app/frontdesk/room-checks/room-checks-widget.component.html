@@ -1,12 +1,14 @@
 <button class='widbutton {{currRoom.room.status}}' [matMenuTriggerFor]="roomMenu">
-    {{ currRoom.bldg.name }}  {{ currRoom.roominfo.number }}
-    {{ currRoom.roominfo.rateAlias }}<br>
-    {{ currRoom.room.status}} / {{ currRoom.roominfo.status}}
+    <div class="row">
+        <div class="col-4">{{ currRoom.bldg.name }} {{ currRoom.roominfo.number }}</div>
+        <div class="col-3" style="font-size:small">{{ currRoom.roominfo.rateAlias }}</div>
+        <div class="col-4" style="font-size:small">{{ currRoom.roominfo.status}}</div>
+    </div>
 </button>
 
 
 <mat-menu #roomMenu="matMenu">
-    <div class="menu-item" mat-menu-item  (click)="check(true)">Check-In </div>
-    <div class="menu-item" mat-menu-item  (click)="check(false)">Check-Out </div>
+    <div class="menu-item" mat-menu-item (click)="check(true)">Check-In </div>
+    <div class="menu-item" mat-menu-item (click)="check(false)">Check-Out </div>
     <div class="menu-item" mat-menu-item (click)="unassign()">Delete </div>
 </mat-menu>

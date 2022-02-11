@@ -255,6 +255,7 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
       )
     this.rsvn$.subscribe()
 
+    
     this.room$ = this.roomService.getRoomCheck()
       .pipe(tap(
         data => {
@@ -271,6 +272,8 @@ export class SearcherCtrlComponent implements OnInit, OnChanges {
             })
 
           }))
+
+
     this.room$.subscribe()
 
   }

@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="d-flex  mt-3">
-                <input  type="date" formControlName='dquery' class="form-control" (focus)="searchForm.reset()">
+                <input type="date" formControlName='dquery' class="form-control" (focus)="searchForm.reset()">
                 <button style="width:60px" class="form-control">
                     <span class="material-icons">search</span>
                 </button>
@@ -17,11 +17,7 @@
         </form>
 
         <div class="d-flex flex-wrap">
-            <button mat-button> -- spare -- </button>
-            <button mat-button> -- spare -- </button>
-            <button mat-button> -- spare -- </button>
-            <button mat-button> -- spare -- </button>
-            <button mat-button> -- spare -- </button>
+            <button mat-button>Guests with no Rsvn</button>
             <button mat-button> -- spare -- </button>
         </div>
 
@@ -29,7 +25,20 @@
     </div>
 
     <div class="section">Search Results</div>
-    <app-search-list></app-search-list>
+    <app-search-list [multiList]='multiList' (currRsvnChange)='selectRsvn($event)'></app-search-list>
+    
     <app-info (currRsvnChange)='selectRsvn($event)'></app-info>
+
+    <ng-container *ngIf="lateCheckout$ | async as checkouts">
+        <div class="section" *ngIf="checkouts.length">Overdue Check Outs</div>
+        <div class="row" *ngFor="let c of checkouts">
+            <div class="col-4 namecol active"(click)='rsvnSelect(c.room.rsvn)'>{{c.bldg.name}} - {{c.roominfo.number}}</div>
+
+            <div class="col datecol">{{c.room.dateIn}} >> {{c.room.dateOut}}</div>
+
+        </div>
+    </ng-container>
+    <div class="section">Rooms Not Assigned</div>
+    <div class="section">Search Results</div>
 
 </div>
