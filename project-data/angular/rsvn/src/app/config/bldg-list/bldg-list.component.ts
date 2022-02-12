@@ -25,6 +25,7 @@ export class BldgListComponent implements OnInit {
   bldgEditForm = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', Validators.required),
+    abbrev: new FormControl(''),
     location: new FormControl(''),
     descr: new FormControl(''),
   })

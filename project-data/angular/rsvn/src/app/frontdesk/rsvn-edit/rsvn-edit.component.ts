@@ -7,8 +7,9 @@ import { IRsvn } from '@app/_interface/rsvn';
 import { IGuest } from '@app/_interface/guest';
 import { IRoom } from '@app/_interface/room';
 import { RsvnService } from '@app/_services/rsvn.service';
-import { RoomService } from '@app/_services/room.service';
-import {DangerDialogComponent, DialogManagerService} from "@app/shared/dialog";
+import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
+import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
+import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
 
 @Component({
   selector: 'app-rsvn-edit',
@@ -22,8 +23,9 @@ export class RsvnEditComponent implements OnInit, OnChanges {
     private genericService: GenericService,
     private systemService: SystemService,
     private authService: AuthService,
-    private rsvnService: RsvnService,
-    private roomService: RoomService,
+    private oldRsvnService : RsvnService,
+    private rsvnService: RsvnEntityService,
+    private roomService: RoomEntityService,
     private dialogManagerService: DialogManagerService,
   ) { }
 
@@ -103,11 +105,11 @@ export class RsvnEditComponent implements OnInit, OnChanges {
   //---------------------------------
   loadRsvn(rsvn: any) {
     if (rsvn && rsvn.id) {
-      this.genericService.getItem('rsvn', rsvn.id).subscribe(
+      this.rsvnService.getByKey(rsvn.id).subscribe(
         data => {
           this.rsvnEditForm.patchValue(data)
           this.currRsvn = data
-          this.genericService.getItemQueryList('room',`rsvn=${data.id}`).subscribe(
+          this.genericService.getItemQueryList('room', `rsvn=${data.id}`).subscribe(
             rooms => {
               this.currNumRooms = rooms.length
               this.currRooms = rooms
@@ -120,6 +122,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
       )
     }
   }
+
   //---------------------------------
   createRsvn(rsvn: any) {
     if (this.currGuest.id) {
@@ -130,7 +133,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
       if (rsvn && !rsvn.clerk) {
         rsvn.clerk = this.user.username
       }
-      this.genericService.updateItem('rsvn', rsvn).subscribe(
+      this.rsvnService.add(rsvn).subscribe(
         data => {
           this.currRsvn = data
           this.loadRsvn(data)
@@ -144,7 +147,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
     if (!rsvn.id) {
       this.createRsvn(rsvn)
     } else {
-      // Before updating - let's run a validitry check on the dates and the rooms
+      // Before updating - let's run a validity check on the dates and the rooms
       if (this.currGuest.id) {
         this.form_error = {}
         rsvn.primary = Number(this.currGuest.id)
@@ -154,12 +157,14 @@ export class RsvnEditComponent implements OnInit, OnChanges {
           rsvn.clerk = this.user.username
         }
         // Here we test if there would be a room collision with this save
-        this.rsvnService.rsvnTest(rsvn.id, rsvn.dateIn, rsvn.dateOut).subscribe(
+        
+        
+        this.oldRsvnService.rsvnTest(rsvn.id, rsvn.dateIn, rsvn.dateOut).subscribe(
           dd => {
             if (!dd.result.length) {
-              this.genericService.updateItem('rsvn', rsvn).subscribe(
+              this.rsvnService.update(rsvn).subscribe(
                 data => {
-                  this.currRsvn =  data
+                  this.currRsvn = data
                   this.loadRsvn(data)
                   this.currRsvnChange.emit(data)
                 }
@@ -192,7 +197,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
       }
     }).afterClosed().subscribe(deleteConfirmed => {
       if (deleteConfirmed && !this.rsvnLocked()) {
-        this.genericService.deleteItem('rsvn', rsvn).subscribe(
+        this.rsvnService.delete(rsvn.id).subscribe(
           data => {
             this.currRsvn = null
             this.currRsvnChange.emit(this.currRsvn)
@@ -208,10 +213,10 @@ export class RsvnEditComponent implements OnInit, OnChanges {
   //---------------------------------
   ngOnChanges(changes: SimpleChanges) {
     this.rsvnEditForm.reset()
-//    if (this.currRsvn && this.currRsvn.id == 0) {
+    //    if (this.currRsvn && this.currRsvn.id == 0) {
 
-      this.rsvnEditFormInit()
-//    }
+    this.rsvnEditFormInit()
+    //    }
     this.loadRsvn(this.currRsvn)
   }
   //---------------------------------

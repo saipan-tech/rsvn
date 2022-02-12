@@ -16,16 +16,12 @@
             </div>
         </form>
 
-        <div class="d-flex flex-wrap">
-            <button mat-button>Guests with no Rsvn</button>
-            <button mat-button> -- spare -- </button>
-        </div>
 
 
     </div>
 
     <div class="section">Search Results</div>
-    <app-search-list [multiList]='multiList' (currRsvnChange)='selectRsvn($event)'></app-search-list>
+    <app-search-list [multiList]='multiList' (currRsvnChange)='selectRsvn($event)' (currGuestChange)='selectGuest($event)'></app-search-list>
     
     <app-info (currRsvnChange)='selectRsvn($event)'></app-info>
 
@@ -38,7 +34,14 @@
 
         </div>
     </ng-container>
-    <div class="section">Rooms Not Assigned</div>
-    <div class="section">Search Results</div>
+    
+    <ng-container *ngIf="roomCount$ | async as rcounts">
+        <div class="section" *ngIf="rcounts.length">Rooms Not Assigned</div>
+        <div class="row" *ngFor="let r of rcounts">
+            <div  class='active namecol' (click)='rsvnSelect(r.id)'>{{r.confirm}} - {{r.dateIn}} - {{r.dateOut}}</div>
+        </div>
+    </ng-container>
+ 
+    
 
 </div>

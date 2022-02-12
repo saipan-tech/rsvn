@@ -53,21 +53,42 @@ export class SearchCtrlComponent implements OnInit {
   activeRsvn$: Observable<IRsvn[]> = of()
   lateCheckout$: Observable<any> = of()
   multiList :any
+  roomCount$:Observable<IRsvn[]> = of()
+
+
+noRsvn() {
+
+}
 
   //--------------------------------------
   selectRsvn(rsvn: any) {
     this.currRsvnChange.emit(rsvn)
-//    this.currGuestChange.emit(rsvn.primary)
+    this.guestService.getByKey(rsvn.primary).subscribe(d=>this.currGuestChange.emit(d))
   }
+
+  selectGuest(guest: any) {
+    this.currGuestChange.emit(guest)
+  }
+
+ //--------------------------------------
+ guestSelect(guestid:any) {
+  this.guestService.getByKey(guestid).subscribe(d=>this.currGuestChange.emit(d))
+} 
+
   //--------------------------------------
   rsvnSelect(rsvnid:any) {
-    this.rsvnService.getByKey(rsvnid).subscribe(d=>this.currRsvnChange.emit(d))
+    this.rsvnService.getByKey(rsvnid).subscribe(d=>{
+      this.currRsvnChange.emit(d);
+      this.guestSelect(d.primary)
+    })
   } 
   
   
   reload() {
     this.activeRsvn$ = this.rsvnService.entities$.pipe(
       map(rsvn => rsvn.filter(r => r.dateIn <= this.Today && r.dateOut >= this.Today)))
+
+
 
     let checkouts$ = this.roomService.entities$.pipe(
       map(rooms => rooms.filter(room => room.status == 'checkin' && room.dateOut < this.Today)))
@@ -88,6 +109,21 @@ export class SearchCtrlComponent implements OnInit {
       })
     )
 
+
+
+    
+      let rsvns$ = this.rsvnService.entities$
+      let rooms$ = this.roomService.entities$
+      this.roomCount$ = combineLatest([rsvns$,rooms$]).pipe(
+        map(([rsvns,rooms])=> {
+        let rres:any  = []
+        rsvns.forEach(rvn => {
+          if(rvn.numrooms != rooms.filter(rms => rms.rsvn == rvn.id).length) {
+            rres.push(rvn)
+          }
+        })
+        return rres  
+      }))
 
   }
 //--------------------------------------

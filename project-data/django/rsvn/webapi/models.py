@@ -66,6 +66,7 @@ class Guest (models.Model):
 #--------------------------------------------------------------------
 class Bldg (models.Model):
     name		=	models.CharField(max_length=80,unique=True)
+    abbrev		=	models.CharField(max_length=20, blank=True)
     location	=	models.CharField(max_length=256, blank=True)
     descr		=	models.CharField(max_length=1024, blank=True)
     def __str__(self) :

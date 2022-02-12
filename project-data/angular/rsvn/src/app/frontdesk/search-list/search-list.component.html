@@ -1,6 +1,18 @@
-<ng-container *ngFor='let x of workList$ | async'>
+<ng-container *ngFor='let x of rsvnList$ | async'>
     <div class="row">
         <div class="col-5 namecol active" (click)="rsvnSelect(x.rsvn.id)">{{x.guest.firstname}} {{x.guest.lastname}}</div>
         <div class="col datecol">{{x.rsvn.dateIn}} >> {{x.rsvn.dateOut}} </div>
     </div>
 </ng-container>
+
+<ng-container *ngIf='guestList$ | async as guests'>
+    <div class="section">No Rsvn Guests</div>
+    <div *ngFor='let r of guests'>
+       <div class="namecol" (click)='guestSelect(r)' class="active">
+        {{ r.fullname}}       
+    </div>
+    </div>
+
+</ng-container>
+
+

@@ -22,8 +22,9 @@ export class SearchListComponent implements OnInit,OnChanges {
   @Output() currGuestChange = new EventEmitter<IGuest>();
   @Input() multiList: any
 
-  workList$:Observable<any> = of()
-
+  rsvnList$:Observable<any> = of()
+  guestList$:Observable<any> = of()
+   blankRsvn : IRsvn = {} as IRsvn
   constructor(
     private roominfoService: RoominfoEntityService,
     private roomService: RoomEntityService,
@@ -35,7 +36,20 @@ export class SearchListComponent implements OnInit,OnChanges {
 
 reload() {
   let rsvn$:Observable<IRsvn[]> = this.multiList.rsvn
-  this.workList$ =  combineLatest([rsvn$,this.guestService.entities$]).pipe(
+  let guest$:Observable<IGuest[]> = this.multiList.guest
+  
+  this.guestList$ = combineLatest([rsvn$,guest$]).pipe(
+    map(([rsvn,guest]) => {
+      let result:any = []
+      guest.forEach(gst => {
+        if(! rsvn.find(v => v.primary == gst.id)) result.push(gst)
+      })
+      return result
+    })
+  )
+
+
+  this.rsvnList$ =  combineLatest([rsvn$,this.guestService.entities$]).pipe(
     map(([rsvns,guest]) =>  {
       let result:any[]  = []
       rsvns.forEach((rsvn:IRsvn) => {
@@ -51,6 +65,13 @@ rsvnSelect(rsvnid:any) {
   this.rsvnService.getByKey(rsvnid).subscribe(r=>this.currRsvnChange.emit(r))
 
 }
+guestSelect(guest:any) {
+  this.currGuestChange.emit(guest)
+  this.currRsvnChange.emit(this.blankRsvn)
+  
+
+}
+
   ngOnChanges(changes:SimpleChanges) {
   this.reload()
 }
