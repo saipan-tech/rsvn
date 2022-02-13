@@ -6,6 +6,7 @@ import { IRoominfo } from '@app/_interface/roominfo';
 import { IRsvn } from '@app/_interface/rsvn';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
+import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
 import { GenericService } from '@app/_services/generic.service';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, subscribeOn } from 'rxjs/operators';
@@ -31,6 +32,7 @@ export class RoomAvailComponent implements OnInit, OnChanges {
   constructor(
     private roomService: RoomEntityService,
     private roominfoService: RoominfoEntityService,
+    private bldgService: BldgEntityService,
     private genericService: GenericService
   ) { }
 
@@ -40,7 +42,7 @@ export class RoomAvailComponent implements OnInit, OnChanges {
     let dateIn = this.currRsvn.dateIn
     let dateOut = this.currRsvn.dateOut
 
-    let bldg$ = this.genericService.getItemList("bldg")
+    let bldg$ = this.bldgService.getAll()
     let rate$ = this.genericService.getItemList("rate")
     let ris$ = this.roominfoService.entities$
 

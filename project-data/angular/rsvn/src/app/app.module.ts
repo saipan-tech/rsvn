@@ -66,12 +66,16 @@ import { GuestEntityService } from '@app/_ngrxServices/guest-entity.service';
 import { GuestResolver } from '@app/_ngrxServices/guest-resolver';
 import { GuestDataService } from '@app/_ngrxServices/guest-data.service';
 
+import { BldgEntityService } from './_ngrxServices/bldg-entity.service';
+import { BldgResolver } from './_ngrxServices/bldg-resolver';
+import { BldgDataService } from './_ngrxServices/bldg-data.service';
 
 const entityMetadata: EntityMetadataMap = {
   Roominfo: {},
   Room : {},
   Rsvn : {},
-  Guest : {}
+  Guest : {},
+  Bldg : {}
 };
 
 
@@ -166,6 +170,10 @@ const entityMetadata: EntityMetadataMap = {
     GuestResolver,
     GuestDataService,
 
+    BldgEntityService,
+    BldgResolver,
+    BldgDataService
+
   ],
   bootstrap: [AppComponent]
 
@@ -181,6 +189,8 @@ export class AppModule {
     private roominfoDataService: RoominfoDataService,
     private rsvnDataService: RsvnDataService,
     private guestDataService: GuestDataService,
+    private bldgDataService: BldgDataService,
+    
     private appEnv: AppEnv 
     ) {
     
@@ -189,6 +199,7 @@ export class AppModule {
     entityDataService.registerService('Rsvn', rsvnDataService);
     entityDataService.registerService('Room', roomDataService);
     entityDataService.registerService('Guest', guestDataService);
+    entityDataService.registerService('Bldg', bldgDataService);
 
 }
 

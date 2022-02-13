@@ -1,14 +1,12 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { IRoominfo } from '@app/_interface/roominfo';
-import { IRoom } from '@app/_interface/room';
 import { IBldg } from '@app/_interface/bldg';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
 import { DialogManagerService, DangerDialogComponent } from '@app/shared/dialog';
 import { combineLatest, Observable, of, scheduled } from 'rxjs';
-import { GenericService } from '@app/_services/generic.service';
 import { concatMap, map } from 'rxjs/operators';
 import { BldgListComponent } from '@app/config/bldg-list/bldg-list.component';
+
 @Component({
   selector: 'app-room-checks-widget',
   templateUrl: './room-checks-widget.component.html',
@@ -29,7 +27,6 @@ export class RoomChecksWidgetComponent implements OnInit {
   constructor(
     private roomService: RoomEntityService,
     private roominfoService: RoominfoEntityService,
-    private genericService: GenericService,
     private dialogManagerService: DialogManagerService
   ) { }
 

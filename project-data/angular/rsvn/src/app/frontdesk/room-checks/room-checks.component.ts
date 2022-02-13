@@ -8,6 +8,7 @@ import { IRsvn } from '@app/_interface/rsvn';
 import { IRoom } from '@app/_interface/room';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
+import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
 import { GenericService } from '@app/_services/generic.service';
 import { RoomService } from '@app/_services/room.service';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -32,6 +33,7 @@ export class RoomChecksComponent implements OnInit,OnChanges {
   constructor(
     private roomService: RoomEntityService,
     private roominfoService: RoominfoEntityService,
+    private bldgService:BldgEntityService,
     private genericService: GenericService
   ) { }
 
@@ -48,7 +50,7 @@ export class RoomChecksComponent implements OnInit,OnChanges {
         return roomList.filter(room => room.rsvn == this.currRsvn.id)
       })
     )
-    this.currRooms$ = combineLatest([currRooms$,this.roominfoService.entities$,this.genericService.getItemList('bldg')])
+    this.currRooms$ = combineLatest([currRooms$,this.roominfoService.entities$,this.bldgService.entities$])
     .pipe(
       map(([r,rinfo,bldg]) => {
         let roomList:any = []

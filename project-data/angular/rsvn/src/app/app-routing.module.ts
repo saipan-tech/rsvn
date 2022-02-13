@@ -25,12 +25,13 @@ import { RoominfoResolver } from '@app/_ngrxServices/roominfo-resolver';
 import { RoomResolver } from '@app/_ngrxServices/room-resolver';
 import { RsvnResolver } from '@app/_ngrxServices/rsvn-resolver';
 import { GuestResolver } from './_ngrxServices/guest-resolver';
+import { BldgResolver } from './_ngrxServices/bldg-resolver';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard',  component: DashboardComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver}  },
-  { path: 'frontdesk', component: FrontdeskComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver,guest:GuestResolver} , canActivate:[AuthGuard] },
+  { path: 'dashboard',  component: DashboardComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver, bldg:BldgResolver}  },
+  { path: 'frontdesk', component: FrontdeskComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver,bldg:BldgResolver, guest:GuestResolver} , canActivate:[AuthGuard] },
   { path: 'config', component: ConfigComponent, canActivate:[AuthGuard] },
   { path: 'guest', component: GuestEditComponent , canActivate:[AuthGuard]},
   { path: 'dropdown', component: DropdownComponent , canActivate:[AuthGuard]},
