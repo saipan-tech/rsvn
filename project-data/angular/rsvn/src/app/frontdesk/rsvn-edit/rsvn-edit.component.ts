@@ -1,6 +1,5 @@
 import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
-import { GenericService } from '@app/_services/generic.service';
 import { SystemService } from '@app/_services/system.service';
 import { AuthService } from '@app/_services/auth.service';
 import { IRsvn } from '@app/_interface/rsvn';
@@ -20,7 +19,6 @@ export class RsvnEditComponent implements OnInit, OnChanges {
 
 
   constructor(
-    private genericService: GenericService,
     private systemService: SystemService,
     private authService: AuthService,
     private oldRsvnService : RsvnService,
@@ -109,7 +107,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
         data => {
           this.rsvnEditForm.patchValue(data)
           this.currRsvn = data
-          this.genericService.getItemQueryList('room', `rsvn=${data.id}`).subscribe(
+          this.roomService.getWithQuery(`rsvn=${data.id}`).subscribe(
             rooms => {
               this.currNumRooms = rooms.length
               this.currRooms = rooms

@@ -16,7 +16,7 @@ export class BldgDataService extends DefaultDataService<IBldg> {
         http:HttpClient, 
         httpUrlGenerator: HttpUrlGenerator,
         env: AppEnv ) { 
-            httpUrlGenerator.entityResource('Room',env.WEB_API );
+            httpUrlGenerator.entityResource('Bldg',env.WEB_API );
             super('Bldg', http, httpUrlGenerator);
         }
         override update(update:Update<IBldg>): Observable<IBldg> {

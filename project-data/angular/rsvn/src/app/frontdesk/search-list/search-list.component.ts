@@ -7,7 +7,7 @@ import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.servic
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
 import { GuestEntityService } from '@app/_ngrxServices/guest-entity.service';
-import { GenericService } from '@app/_services/generic.service';
+//import { GenericService } from '@app/_services/generic.service';
 
 
 @Component({
@@ -30,7 +30,7 @@ export class SearchListComponent implements OnInit,OnChanges {
     private roomService: RoomEntityService,
     private rsvnService: RsvnEntityService,
     private guestService: GuestEntityService,
-    private genericService: GenericService
+  //  private genericService: GenericService
 
   ) { }
 

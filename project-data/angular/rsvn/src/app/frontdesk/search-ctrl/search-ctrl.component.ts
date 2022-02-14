@@ -1,19 +1,20 @@
 import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
-import { catchError, tap, map, mergeMap, subscribeOn, filter } from 'rxjs/operators';
+import { catchError, tap, map, mergeMap, subscribeOn, filter, concatMap } from 'rxjs/operators';
 import { combineLatest, Observable, of, throwError } from 'rxjs';
 
 import { IRsvn } from '@app/_interface/rsvn';
 import { IGuest } from '@app/_interface/guest';
 
-import { GenericService } from '@app/_services/generic.service';
-import { SystemService } from '@app/_services/system.service';
-import { GuestService } from '@app/_services/guest.service';
+//import { GenericService } from '@app/_services/generic.service';
+//import { SystemService } from '@app/_services/system.service';
+//import { GuestService } from '@app/_services/guest.service';
 
 import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
 import { GuestEntityService } from '@app/_ngrxServices/guest-entity.service';
+import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
 import { IRoominfo } from '@app/_interface/roominfo';
 import { IRoom } from '@app/_interface/room';
 
@@ -37,7 +38,9 @@ export class SearchCtrlComponent implements OnInit {
     private roomService: RoomEntityService,
     private rsvnService: RsvnEntityService,
     private guestService: GuestEntityService,
-    private genericService: GenericService
+    private bldgService: BldgEntityService,
+
+    // private genericService: GenericService
 
 
   ) { }
@@ -52,49 +55,56 @@ export class SearchCtrlComponent implements OnInit {
 
   activeRsvn$: Observable<IRsvn[]> = of()
   lateCheckout$: Observable<any> = of()
-  multiList :any
-  roomCount$:Observable<IRsvn[]> = of()
+  multiList: any
+  roomCount$: Observable<IRsvn[]> = of()
 
-
-noRsvn() {
-
-}
+  noRsvn() {
+  }
 
   //--------------------------------------
   selectRsvn(rsvn: any) {
     this.currRsvnChange.emit(rsvn)
-    this.guestService.getByKey(rsvn.primary).subscribe(d=>this.currGuestChange.emit(d))
+    this.guestService.getByKey(rsvn.primary).subscribe(d => this.currGuestChange.emit(d))
   }
 
   selectGuest(guest: any) {
+    console.log("SELECT Guest", guest)
     this.currGuestChange.emit(guest)
   }
-
- //--------------------------------------
- guestSelect(guestid:any) {
-  this.guestService.getByKey(guestid).subscribe(d=>this.currGuestChange.emit(d))
-} 
+  //--------------------------------------
+  guestSelect(guestid: any) {
+    this.guestService.getByKey(guestid).subscribe(d => this.currGuestChange.emit(d))
+  }
 
   //--------------------------------------
-  rsvnSelect(rsvnid:any) {
-    this.rsvnService.getByKey(rsvnid).subscribe(d=>{
+  rsvnSelect(rsvnid: any) {
+    this.rsvnService.getByKey(rsvnid).subscribe(d => {
       this.currRsvnChange.emit(d);
       this.guestSelect(d.primary)
     })
-  } 
-  
-  
+  }
+  //--------------------------------------
+  clearCheckin(room: number) {
+    console.log(room)
+    this.roomService.getByKey(room).pipe(
+      map(room => {
+        let rm = { ...room }
+        rm.status = 'checkout'
+        console.log(rm, "New Room")
+        return rm
+      }), 
+      concatMap((room: IRoom) => this.roomService.update(room))
+    ).subscribe()
+  }
+  //--------------------------------------
   reload() {
     this.activeRsvn$ = this.rsvnService.entities$.pipe(
       map(rsvn => rsvn.filter(r => r.dateIn <= this.Today && r.dateOut >= this.Today)))
-
-
-
     let checkouts$ = this.roomService.entities$.pipe(
       map(rooms => rooms.filter(room => room.status == 'checkin' && room.dateOut < this.Today)))
 
     let roominfos$ = this.roominfoService.entities$
-    let bldgs$ = this.genericService.getItemList('bldg')
+    let bldgs$ = this.bldgService.entities$
 
     this.lateCheckout$ = combineLatest([checkouts$, roominfos$, bldgs$]).pipe(
       map(([checkouts, roominfo, bldg]) => {
@@ -109,24 +119,20 @@ noRsvn() {
       })
     )
 
-
-
-    
-      let rsvns$ = this.rsvnService.entities$
-      let rooms$ = this.roomService.entities$
-      this.roomCount$ = combineLatest([rsvns$,rooms$]).pipe(
-        map(([rsvns,rooms])=> {
-        let rres:any  = []
+    let rsvns$ = this.rsvnService.entities$
+    let rooms$ = this.roomService.entities$
+    this.roomCount$ = combineLatest([rsvns$, rooms$]).pipe(
+      map(([rsvns, rooms]) => {
+        let rres: any = []
         rsvns.forEach(rvn => {
-          if(rvn.numrooms != rooms.filter(rms => rms.rsvn == rvn.id).length) {
+          if (rvn.numrooms != rooms.filter(rms => rms.rsvn == rvn.id).length) {
             rres.push(rvn)
           }
         })
-        return rres  
+        return rres
       }))
-
   }
-//--------------------------------------
+  //--------------------------------------
   ngOnInit(): void {
     this.reload()
     this.searchForm.valueChanges
@@ -137,12 +143,12 @@ noRsvn() {
             map(rsvn => rsvn.filter(r => r.dateIn <= date && r.dateOut >= date)),
             map(rsvn => rsvn.sort((a, b) => a.dateIn.localeCompare(b.dateIn)))
           )
-          this.multiList= {rsvn:dateRsvn$}
+          this.multiList = { rsvn: dateRsvn$ }
         } else if (val.query && val.query.length > 1) {
           let rsvnList$ = this.rsvnService.getWithQuery(`query=${val.query}`)
           let guestList$ = this.guestService.getWithQuery(`query=${val.query}`)
-          this.multiList = {rsvn:rsvnList$,guest:guestList$}
+          this.multiList = { rsvn: rsvnList$, guest: guestList$ }
         }
       })
-   }
+  }
 }

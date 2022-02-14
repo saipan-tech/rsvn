@@ -9,7 +9,7 @@ import { IRoom } from '@app/_interface/room';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
 import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
-import { GenericService } from '@app/_services/generic.service';
+//import { GenericService } from '@app/_services/generic.service';
 import { RoomService } from '@app/_services/room.service';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -34,7 +34,7 @@ export class RoomChecksComponent implements OnInit,OnChanges {
     private roomService: RoomEntityService,
     private roominfoService: RoominfoEntityService,
     private bldgService:BldgEntityService,
-    private genericService: GenericService
+  //  private genericService: GenericService
   ) { }
 
   currNumRooms: number = 0

@@ -6,7 +6,6 @@ import { IRate } from '@app/_interface/rate'
 import { IRoominfo } from '@app/_interface/roominfo'
 import { ISeason } from '@app/_interface/season'
 import { IGuest } from '@app/_interface/guest'
-import { GenericService } from '@app/_services/generic.service';
 import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
 import { map, concatMap, tap, mergeMap } from 'rxjs/operators';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';

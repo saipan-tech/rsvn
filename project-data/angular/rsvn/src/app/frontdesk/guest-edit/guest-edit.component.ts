@@ -1,12 +1,13 @@
 import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
-import { GenericService } from '@app/_services/generic.service';
 import { RsvnService  } from '@app/_services/rsvn.service';
 import { SystemService } from '@app/_services/system.service';
 import { AuthService } from '@app/_services/auth.service';
 import { IGuest } from '@app/_interface/guest';
 import { IRsvn } from '@app/_interface/rsvn';
 import {DangerDialogComponent, DialogManagerService} from "@app/shared/dialog";
+import { GuestEntityService } from '@app/_ngrxServices/guest-entity.service';
+import { of } from 'rxjs';
 @Component({
   selector: 'app-guest-edit',
   templateUrl: './guest-edit.component.html',
@@ -15,10 +16,10 @@ import {DangerDialogComponent, DialogManagerService} from "@app/shared/dialog";
 export class GuestEditComponent implements OnInit, OnChanges {
 
   constructor(
-    private genericService: GenericService,
     private systemService: SystemService,
     private authService: AuthService,
     private rsvnService: RsvnService,
+    private guestService: GuestEntityService,
     private dialogManagerService: DialogManagerService,
   ) { }
 
@@ -75,7 +76,7 @@ export class GuestEditComponent implements OnInit, OnChanges {
   //---------------------------------
   loadGuest(guest: any) {
     if (guest && guest.id) {
-      this.genericService.getItem('guest', guest.id).subscribe(
+       this.guestService.getByKey(guest.id).subscribe(
         data => {
           this.rsvnService.getGuestRsvn(this.currGuest.id)
             .subscribe(d => this.rsvnList = d )
@@ -95,7 +96,11 @@ export class GuestEditComponent implements OnInit, OnChanges {
         guest[field] = ''
       }
     }
-    this.genericService.updateItem('guest', guest).subscribe(
+    let guest$
+    if( guest.id) guest$ = this.guestService.update(guest)
+    else guest$ =  this.guestService.add(guest)
+    
+    guest$.subscribe(
       data => {
         this.guest2form(data);
         this.selGuest(data);
@@ -118,7 +123,7 @@ export class GuestEditComponent implements OnInit, OnChanges {
       }
     }).afterClosed().subscribe(deleteConfirmed => {
       if (deleteConfirmed && !this.rsvnList.length) {
-        this.genericService.deleteItem('guest', guest).subscribe(
+        this.guestService.delete(guest.id).subscribe(
           data => {
             this.clearGuest()
           },
@@ -180,7 +185,7 @@ export class GuestEditComponent implements OnInit, OnChanges {
       data => this.idList = data
     )
     if (this.currGuest && this.currGuest.id) {
-      this.genericService.getItem('guest', this.currGuest.id).subscribe(
+      this.guestService.getByKey(this.currGuest.id).subscribe(
         data => {
           this.rsvnService.getGuestRsvn(this.currGuest.id)
           .subscribe(d => this.rsvnList = d )
