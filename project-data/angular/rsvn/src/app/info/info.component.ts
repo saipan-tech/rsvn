@@ -6,6 +6,7 @@ import { tap, map, mergeMap, concatMap, filter, first, switchMap } from 'rxjs/op
 import { IRsvn } from '@app/_interface/rsvn';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
+import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
 import { combineLatest, from, Observable, of } from 'rxjs';
 import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
 
@@ -18,13 +19,10 @@ let Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
 })
 export class InfoComponent implements OnInit {
   constructor(
-    private genericService: GenericService,
-    private authService: AuthService,
-    private appCons: AppConstants,
     private roominfoService: RoominfoEntityService,
     private roomService: RoomEntityService,
+    private bldgService: BldgEntityService,
     private rsvnService:RsvnEntityService
-
   ) { }
 
   @Input() mode: any
@@ -38,21 +36,14 @@ export class InfoComponent implements OnInit {
   //====================================================
 selectRsvn(rsvn:number) {
   this.rsvnService.getByKey(rsvn).subscribe(rsvn =>  this.currRsvnChange.emit(rsvn))
-
-  
 }
-
-
   //====================================================
   refreshInfo() {
     // var infoArray = []
-
-  
-
     var activeList$ = this.roomService.entities$
       .pipe(map(rooms => rooms.filter(rooms => rooms.dateIn <= Today && rooms.dateOut >= Today)))
 
-    var al$ = combineLatest([activeList$, this.genericService.getItemList('bldg'),this.roominfoService.entities$]).pipe(
+    var al$ = combineLatest([activeList$, this.bldgService.entities$,this.roominfoService.entities$]).pipe(
       map(([active,bldg,roominfo]) => {
         let result:any = []
         active.forEach(
@@ -69,7 +60,6 @@ selectRsvn(rsvn:number) {
 
     this.infoArray$ = al$
   }
-
  //====================================================
   ngOnInit(): void {
     this.refreshInfo()

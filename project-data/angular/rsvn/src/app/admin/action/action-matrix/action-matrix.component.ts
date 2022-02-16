@@ -6,7 +6,12 @@ import { SystemService } from '@app/_services/system.service';
 import { RoomService } from '@app/_services/room.service';
 import { AppConstants } from '@app/app.constants';
 import { catchError, tap, map, mergeMap, concatMap } from 'rxjs/operators';
-
+import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
+import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
+import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
+import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
+import { GuestEntityService } from '@app/_ngrxServices/guest-entity.service';
+import { combineLatest, Observable, of } from 'rxjs';
 @Component({
   selector: 'app-action-matrix',
   templateUrl: './action-matrix.component.html',
@@ -17,9 +22,13 @@ export class ActionMatrixComponent implements OnInit {
   constructor(
     private genericService: GenericService,
     private systemService: SystemService,
-    private roomService: RoomService,
+   // private roomService: RoomService,
     private authService: AuthService,
-
+    private roominfoService: RoominfoEntityService,
+    private roomService: RoomEntityService,
+    private bldgService: BldgEntityService,
+    private rsvnService:RsvnEntityService,
+    private guestService:GuestEntityService,
     private appCons: AppConstants,
 
 
@@ -39,18 +48,13 @@ export class ActionMatrixComponent implements OnInit {
   sidebarData: any;
   rsvnList: any;
   staffList: any;
-
-
-  //====================================================
-  markTime(comment: string) {
-    console.log("Marking Time -->", comment, '  ', new Date().getTime() - this.startTime)
-  }
-  //====================================================
-  startTimer() {
-    this.startTime = new Date().getTime()
-    console.log("Starting Timer")
-  }
-
+  Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
+  
+  
+  dispList$:Observable<any> = of()
+  bldgList$:Observable<any> = of()
+  
+  
   //====================================================
   newRefreshGrid() {
 
@@ -62,8 +66,11 @@ export class ActionMatrixComponent implements OnInit {
     let bldgList: any = []
 
     let Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
-    this.startTimer()
     // Grab all of the roominfos
+    
+    
+    
+    
     this.genericService.getItemList('bldg')
       // getting all rooms 
       .pipe(
@@ -72,8 +79,8 @@ export class ActionMatrixComponent implements OnInit {
         mergeMap((d) => this.genericService.getItemQueryList('action', 'today=1')),
         tap((action) => actionList = action),
         // scan rsvn rooms active
-        mergeMap((d) => this.roomService.getRoomDateScan(Today, '')),
-        tap((active) => activeList = active),
+ //       mergeMap((d) => this.roomService.getRoomDateScan(Today, '')),
+//        tap((active) => activeList = active),
         // get active rsvns
         mergeMap(() => this.genericService.getItemQueryList('rsvn', `active=${Today}`)),
         tap((rsvn) => this.rsvnList = rsvn),
@@ -87,11 +94,47 @@ export class ActionMatrixComponent implements OnInit {
         (d) => {
           this.dispList = this.mergeDisplist(bldgList, roomList, actionList, activeList)
           this.loaded = true
-          this.markTime("completed")
 
         }
       )
   }
+
+  //====================================================
+  reload() {
+    let activeRoom$ = this.roomService.entities$
+    .pipe(map(rooms => rooms.filter(room => room.dateIn <= this.Today && room.dateOut >= this.Today)))
+    
+    let mergedRooms$ = combineLatest([activeRoom$,this.bldgService.entities$,this.roominfoService.entities$]).pipe(
+      map(([rooms,bldg,roominfo]) => {
+        let result:any[] = []
+        roominfo.forEach((ri) => {
+          result.push({ rooms:rooms.filter(room=>room.roominfo == ri.id), roominfo:ri, bldg:bldg.find(b=>b.id == ri.bldg)})
+        })  
+        return result
+      })
+    )
+    
+    let action$   =   this.genericService.getItemQueryList('action', 'today=1')
+    let staff$    =   this.genericService.getItemList('staff')
+    
+
+    this.bldgList$ = this.bldgService.entities$
+    this.dispList$ = mergedRooms$
+  /*  
+    this.dispList$ = combineLatest([mergedRooms$,action$,staff$]).pipe(
+     map(([roominfo,action,staff])=>{
+
+
+     })
+   ) 
+*/
+  
+  
+  }
+
+
+
+
   //====================================================
   layout(act: any) {
     this.sidebarData = act
@@ -125,6 +168,9 @@ export class ActionMatrixComponent implements OnInit {
   }
   //====================================================
   ngOnInit(): void {
+
+    this.reload()
+
     this.authService.getSession().subscribe(
       data => this.user = data
     )
@@ -132,7 +178,7 @@ export class ActionMatrixComponent implements OnInit {
       data => this.roomStatus = data
     )
 
-    this.newRefreshGrid()
+   // this.newRefreshGrid()
   }
   //=================================
   ngOnDestroy() {

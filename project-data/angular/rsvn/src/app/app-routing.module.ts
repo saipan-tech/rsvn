@@ -30,7 +30,7 @@ import { BldgResolver } from './_ngrxServices/bldg-resolver';
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard',  component: DashboardComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver, bldg:BldgResolver}  },
+  { path: 'dashboard',  component: DashboardComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver, bldg:BldgResolver,guest:GuestResolver}  },
   { path: 'frontdesk', component: FrontdeskComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver,bldg:BldgResolver, guest:GuestResolver} , canActivate:[AuthGuard] },
   { path: 'config', component: ConfigComponent, canActivate:[AuthGuard] },
   { path: 'guest', component: GuestEditComponent , canActivate:[AuthGuard]},
@@ -39,7 +39,7 @@ const appRoutes: Routes = [
   children: [
     { path: 'actionitems', component: ActionItemsComponent, canActivate:[AuthGuard] },
     { path: 'actionmatrix', component: ActionMatrixComponent, canActivate:[AuthGuard] },
-  ], canActivate:[AuthGuard]
+  ], resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver,bldg:BldgResolver, guest:GuestResolver} ,canActivate:[AuthGuard]
 },
 
   { path: 'staff', component: StaffComponent , canActivate:[AuthGuard]},

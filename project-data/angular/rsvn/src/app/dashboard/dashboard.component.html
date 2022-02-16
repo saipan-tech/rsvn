@@ -1,60 +1,41 @@
 <div style="margin:auto;padding:1em;background-color:snow;width:90%">
     <div class="row">
         <div class="col-md-4">
-            <div *ngIf="rsvnList && rsvnList.checkin.length">
-                <h5>Check Ins</h5>
-
-                <div *ngFor="let out of rsvnList.checkin">
-                    <div class="row">
-                        <div class="col-4">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
-                        <div class="col d-flex flex-wrap">
-                            <div *ngFor="let x of out.rooms" class="gbutt">
-                                <div class='{{ x.roominfo.bldg.name}}'>{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}</div>
-                            </div>
-                        </div>
-                        <hr>
+ 
+            <h4>Check Ins</h4>
+            <ng-container *ngFor="let wl of workList$ | async">
+                <ng-container *ngIf="wl.rsvn.dateIn==Today">
+                    <div  >{{ wl.guest.fullname }} </div>
+                    <div *ngFor="let r of wl.rooms">
+                        {{r.bldg.name}} - {{r.roominfo.number}}  {{ r.roominfo.rateAlias}}
+                    </div>
+                </ng-container>
+            </ng-container>
+            
+            <h4>Check Outs</h4>
+            <ng-container *ngFor="let wl of workList$ | async">
+                <ng-container  *ngIf="wl.rsvn.dateOut==Today">{{ wl.guest.fullname }} 
+                    <div  >{{ wl.guest.fullname }} </div>
+                    <div *ngFor="let r of wl.rooms">
+                        {{r.bldg.name}} - {{r.roominfo.number}}  {{ r.roominfo.rateAlias}}
                     </div>
 
-                </div>
-            </div>
-
-            <div *ngIf="rsvnList && rsvnList.checkout.length">
-                <h5>Check Outs</h5>
-
-                <div *ngFor="let out of rsvnList.checkout">
-                    <div class="row">
-                        <div class="col-4">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
-                        <div class="col  d-flex flex-wrap">
-                            <div *ngFor="let x of out.rooms" class="gbutt">
-                                <div class='{{ x.roominfo.bldg.name}}'>{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}
-                                </div>
-                            </div>
-
-                        </div>
-                        <hr>
+                </ng-container>
+            </ng-container>
+            
+            <h4>In House</h4>
+            <ng-container *ngFor="let wl of workList$ | async">
+                <ng-container  *ngIf="wl.rsvn.dateIn<Today && wl.rsvn.dateOut>Today">
+                    <div  >{{ wl.guest.fullname }} </div>
+                    <div *ngFor="let r of wl.rooms">
+                        {{r.bldg.name}} - {{r.roominfo.number}}  {{ r.roominfo.rateAlias}}
                     </div>
+                </ng-container>
+            </ng-container>
+            
+                                    
 
-                </div>
-            </div>
 
-            <div *ngIf="rsvnList && rsvnList.inhouse.length">
-                <h5>In House</h5>
-
-                <div *ngFor="let out of rsvnList.inhouse">
-                    <div class="row">
-                        <div class="col-4">{{ out.primary.firstname }} {{ out.primary.lastname }}</div>
-
-                        <div class="col  d-flex  flex-wrap">
-                            <div *ngFor="let x of out.rooms" class="gbutt">
-                                <div class='{{ x.roominfo.bldg.name}}'>{{ x.roominfo.bldg.name }}-{{x.roominfo.number}}
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <hr>
-                </div>
-            </div>
         </div>
         <div class="col-md-4">
             <app-info></app-info>

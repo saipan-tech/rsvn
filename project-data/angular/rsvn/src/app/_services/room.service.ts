@@ -71,6 +71,10 @@ export class RoomService {
     return this.http.get<any[]>(`${this.urlRoot}/rsvncalc/${rsvn_id}/`)
   }
 
+
+
+  
+
   getActionRoominfo(action_id:number):Observable<any[]> {
     return this.http.get<any[]>(`${this.urlRoot}/actionrooms/${action_id}/`)
   }
@@ -80,6 +84,10 @@ export class RoomService {
   putActionRoominfo(action_id:number,roominfo:IRoominfo):Observable<any[]> {
     return this.http.put<any[]>(`${this.urlRoot}/actionrooms/${action_id}/`,roominfo)
   }
+  
+  
+  
+  
   getRoomDateScan(date:string,modifier:string):Observable<IDStatus> {
     return this.http.get<IDStatus>(`${this.urlRoot}/roomdatescan/${date}/?${modifier}`)
   }
