@@ -1,7 +1,7 @@
 
 .grid_button {
     width:150px;
-    height:100px;
+    height:60px;
   background-color: white;
     border:1px solid green;
 
@@ -11,7 +11,7 @@
 .imgbutt {
     background-color:inherit;
     border:none;
-}
+ }
 
 .gbl {
     height:40px;
@@ -31,4 +31,10 @@
 .warning {
     background-color:red;
     color:yellow;
+}
+
+
+.subcell {
+    font-size:small;
+    text-align:center;
 }

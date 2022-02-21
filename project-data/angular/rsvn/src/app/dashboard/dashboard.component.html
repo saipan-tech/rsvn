@@ -1,35 +1,50 @@
 <div style="margin:auto;padding:1em;background-color:snow;width:90%">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
  
-            <h4>Check Ins</h4>
+            <h4><u>Check Ins</u></h4>
             <ng-container *ngFor="let wl of workList$ | async">
                 <ng-container *ngIf="wl.rsvn.dateIn==Today">
-                    <div  >{{ wl.guest.fullname }} </div>
-                    <div *ngFor="let r of wl.rooms">
-                        {{r.bldg.name}} - {{r.roominfo.number}}  {{ r.roominfo.rateAlias}}
+                    <div class="row">
+                        <div class="col-4">{{ wl.guest.fullname }}</div>
+                        <div class="col  d-flex flex-wrap">
+                            <div class="roomgrid" *ngFor="let r of wl.rooms">
+                                {{r.bldg.name}} - {{r.roominfo.number}}
+                            </div>
+                        </div>
                     </div>
+                    <hr>
                 </ng-container>
             </ng-container>
             
-            <h4>Check Outs</h4>
+            <h4><u>Check Outs</u></h4>
             <ng-container *ngFor="let wl of workList$ | async">
-                <ng-container  *ngIf="wl.rsvn.dateOut==Today">{{ wl.guest.fullname }} 
-                    <div  >{{ wl.guest.fullname }} </div>
-                    <div *ngFor="let r of wl.rooms">
-                        {{r.bldg.name}} - {{r.roominfo.number}}  {{ r.roominfo.rateAlias}}
+                <ng-container  *ngIf="wl.rsvn.dateOut==Today">
+                    <div class="row">
+                        <div class="col-4">{{ wl.guest.fullname }}</div>
+                        <div class="col d-flex flex-wrap">
+                            <div  class="roomgrid" *ngFor="let r of wl.rooms">
+                                {{r.bldg.name}} - {{r.roominfo.number}}
+                            </div>
+                        </div>
                     </div>
+                    <hr>
 
                 </ng-container>
             </ng-container>
             
-            <h4>In House</h4>
+            <h4><u>In House</u></h4>
             <ng-container *ngFor="let wl of workList$ | async">
                 <ng-container  *ngIf="wl.rsvn.dateIn<Today && wl.rsvn.dateOut>Today">
-                    <div  >{{ wl.guest.fullname }} </div>
-                    <div *ngFor="let r of wl.rooms">
-                        {{r.bldg.name}} - {{r.roominfo.number}}  {{ r.roominfo.rateAlias}}
+                    <div class="row">
+                        <div class="col-4">{{ wl.guest.fullname }}</div>
+                        <div class="col d-flex flex-wrap">
+                            <div  class="roomgrid"  *ngFor="let r of wl.rooms">
+                                {{r.bldg.name}} - {{r.roominfo.number}} 
+                            </div>
+                        </div>
                     </div>
+                    <hr>
                 </ng-container>
             </ng-container>
             
@@ -37,9 +52,7 @@
 
 
         </div>
-        <div class="col-md-4">
-            <app-info></app-info>
-
+        <div class="col-md-2">
 
 
 

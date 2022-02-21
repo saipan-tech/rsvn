@@ -57,8 +57,18 @@ export class SearchCtrlComponent implements OnInit {
   lateCheckout$: Observable<any> = of()
   multiList: any
   roomCount$: Observable<IRsvn[]> = of()
+  guestList$: Observable<IGuest[]> = of()
+  qv:boolean = false
 
   noRsvn() {
+    combineLatest([this.guestService.entities$,this.rsvnService.entities$]).pipe(
+      map(([guest,rsvn]) => {
+        let result = []
+        guest.forEach( g=>{
+
+        })
+      })
+    )
   }
 
   //--------------------------------------
@@ -97,7 +107,18 @@ export class SearchCtrlComponent implements OnInit {
     ).subscribe()
   }
   //--------------------------------------
+ 
   reload() {
+      
+    this.guestList$ = combineLatest([this.rsvnService.entities$,this.guestService.entities$]).pipe(
+      map(([rsvn,guest]) => {
+        let result:any = []
+        guest.forEach(gst => {
+          if(! rsvn.find(v => v.primary == gst.id)) result.push(gst)
+        })
+        return result
+      })
+    )
     this.activeRsvn$ = this.rsvnService.entities$.pipe(
       map(rsvn => rsvn.filter(r => r.dateIn <= this.Today && r.dateOut >= this.Today)))
     let checkouts$ = this.roomService.entities$.pipe(

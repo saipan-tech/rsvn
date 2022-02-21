@@ -3,8 +3,6 @@ import { GenericService } from '@app/_services/generic.service';
 import { IRoominfo } from '@app/_interface/roominfo';
 import { AuthService } from '@app/_services/auth.service';
 import { SystemService } from '@app/_services/system.service';
-import { RoomService } from '@app/_services/room.service';
-import { AppConstants } from '@app/app.constants';
 import { catchError, tap, map, mergeMap, concatMap } from 'rxjs/operators';
 import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
@@ -22,15 +20,12 @@ export class ActionMatrixComponent implements OnInit {
   constructor(
     private genericService: GenericService,
     private systemService: SystemService,
-   // private roomService: RoomService,
     private authService: AuthService,
     private roominfoService: RoominfoEntityService,
     private roomService: RoomEntityService,
     private bldgService: BldgEntityService,
-    private rsvnService:RsvnEntityService,
-    private guestService:GuestEntityService,
-    private appCons: AppConstants,
-
+    private rsvnService: RsvnEntityService,
+    private guestService: GuestEntityService
 
   ) { }
 
@@ -48,124 +43,97 @@ export class ActionMatrixComponent implements OnInit {
   sidebarData: any;
   rsvnList: any;
   staffList: any;
+
   Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
-  
-  
-  dispList$:Observable<any> = of()
-  bldgList$:Observable<any> = of()
-  
-  
-  //====================================================
-  newRefreshGrid() {
 
-    let dispList: any = []
-    let actionList: any = []
-    let activeList: any = []
-    let rsvnList: any = []
-    let roomList: any = []
-    let bldgList: any = []
 
-    let Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
-    // Grab all of the roominfos
-    
-    
-    
-    
-    this.genericService.getItemList('bldg')
-      // getting all rooms 
-      .pipe(
-        map(d => bldgList = d),
-        //getting todays action
-        mergeMap((d) => this.genericService.getItemQueryList('action', 'today=1')),
-        tap((action) => actionList = action),
-        // scan rsvn rooms active
- //       mergeMap((d) => this.roomService.getRoomDateScan(Today, '')),
-//        tap((active) => activeList = active),
-        // get active rsvns
-        mergeMap(() => this.genericService.getItemQueryList('rsvn', `active=${Today}`)),
-        tap((rsvn) => this.rsvnList = rsvn),
-        // get all roominfo
-        mergeMap(() => this.genericService.getItemList('roominfo')),
-        tap((roominfo) => roomList = roominfo),
-        mergeMap(() => this.genericService.getItemList('staff')),
-        tap((staff) => this.staffList = staff),
-      )
-      .subscribe(
-        (d) => {
-          this.dispList = this.mergeDisplist(bldgList, roomList, actionList, activeList)
-          this.loaded = true
-
-        }
-      )
-  }
-
+  dispList$: Observable<any> = of()
+  bldgList$: Observable<any> = of()
+  currRsvn$: Observable<any> = of()
   //====================================================
   reload() {
     let activeRoom$ = this.roomService.entities$
-    .pipe(map(rooms => rooms.filter(room => room.dateIn <= this.Today && room.dateOut >= this.Today)))
-    
-    let mergedRooms$ = combineLatest([activeRoom$,this.bldgService.entities$,this.roominfoService.entities$]).pipe(
-      map(([rooms,bldg,roominfo]) => {
-        let result:any[] = []
-        roominfo.forEach((ri) => {
-          result.push({ rooms:rooms.filter(room=>room.roominfo == ri.id), roominfo:ri, bldg:bldg.find(b=>b.id == ri.bldg)})
-        })  
+      .pipe(map(rooms => rooms.filter(room => room.dateIn <= this.Today && room.dateOut >= this.Today)))
+    let activeRsvn$ = this.rsvnService.entities$
+      .pipe(map(rsvns => rsvns.filter(rsvn => rsvn.dateIn <= this.Today && rsvn.dateOut >= this.Today)))
+
+    let rsvnRooms$ = combineLatest([activeRsvn$, activeRoom$]).pipe(
+      map(([rsvns, rooms]) => {
+        let result: any[] = []
+        rooms.forEach(room => result.push({ room: room, rsvn: rsvns.find(rvn => rvn.id == room.rsvn) }))
+        return result
+      }))
+
+    let action$ = this.genericService.getItemQueryList('action', 'today=1')
+    let staff$ = this.genericService.getItemList('staff')
+
+    let actionList$ = combineLatest([action$, staff$]).pipe(
+      map(([actions, staffs]) => {
+        let result: any[] = []
+        actions.forEach((act: any) => {
+          let srec = staffs.find((sl: any) => sl.id == act.staff)
+          act.roominfos.forEach((ari: any) => {
+            result.push({
+              roominfo: ari,
+              action: act.id,
+              staff: srec
+            })
+          })
+        })
+        return result
+      }))
+
+    // we need to find rooms that are marked occupied but have no reservation
+    let occList$ = combineLatest([activeRoom$, this.roominfoService.entities$]).pipe(
+      map(([room, roominfo]) => {
+        let occ: IRoominfo[] = roominfo.filter(ri => ri.status == 'occupied')
+        let result: any[] = []
+        occ.forEach(oc => {
+          if (!room.find(rm => rm.roominfo == oc.id)) {
+            result.push(oc)
+          }
+        })
         return result
       })
     )
-    
-    let action$   =   this.genericService.getItemQueryList('action', 'today=1')
-    let staff$    =   this.genericService.getItemList('staff')
-    
+
+    let mergedRooms$ = combineLatest([actionList$, rsvnRooms$, this.bldgService.entities$, this.roominfoService.entities$,occList$]).pipe(
+      map(([action, rooms, bldg, roominfo,occ]) => {
+        let result: any[] = []
+        roominfo.forEach((ri) => {
+          let rms = rooms.filter(room => room.room.roominfo == ri.id)
+          result.push({
+            rooms: rms,
+            action: action.filter(act => ri.id == act.roominfo),
+            roominfo: ri,
+            bldg: bldg.find(b => b.id == ri.bldg),
+            occ: occ.filter(oc=>ri.id == oc.id)
+          })
+        })
+        return result
+      }))
 
     this.bldgList$ = this.bldgService.entities$
     this.dispList$ = mergedRooms$
-  /*  
-    this.dispList$ = combineLatest([mergedRooms$,action$,staff$]).pipe(
-     map(([roominfo,action,staff])=>{
 
-
-     })
-   ) 
-*/
-  
-  
   }
-
-
-
 
   //====================================================
   layout(act: any) {
     this.sidebarData = act
   }
+
+
   //====================================================
-  mergeDisplist(bldgList: any, roomList: any, action: any, active: any) {
-    //inject action 
-    action.forEach((act: any) => {
-      let srec = this.staffList.find((sl: any) => sl.id == act.staff)
-      act.roominfos.forEach((ari: any) => {
-        let found = roomList.find((rl: any) => rl.id == ari)
-        if (!found.action) found.action = []
-        found.action.push({ action: act, staff: srec })
+  selectRsvn(rsvnid: number) {
+    let rsvn$ = this.rsvnService.getByKey(rsvnid)
+    this.currRsvn$ = combineLatest([rsvn$, this.guestService.entities$]).pipe(
+      map(([rsvn, guests]) => {
+        return { rsvn, guest: guests.find(g => g.id == rsvn.primary) }
       })
-    })
-    // Inject active 
-    for (let key of Object.keys(active)) {
-      active[key].forEach((act: any) => {
-          let found = roomList.find((rl: any) => rl.id == act.roominfo)
-          if (!found.active) found.active = []
-          found.active.push({ active: key, room: act })
-      })
-    }
-
-    let dispList: any = []
-    bldgList.forEach((bldg: any) => {
-      dispList.push({ bldg: bldg, rooms: roomList.filter((rl: any) => rl.bldg == bldg.id) })
-
-    })
-    return dispList
+    )
   }
+
   //====================================================
   ngOnInit(): void {
 
@@ -178,26 +146,19 @@ export class ActionMatrixComponent implements OnInit {
       data => this.roomStatus = data
     )
 
-   // this.newRefreshGrid()
-  }
-  //=================================
-  ngOnDestroy() {
   }
   //=================================
   roomStatusChange(roominfoID: any, mode: string) {
-    this.genericService.getItem('roominfo', roominfoID)
+    this.roominfoService.getByKey(roominfoID)
       .pipe(
         map((ri: any) => {
-          ri.status = mode
-          return ri
+          let ricopy = { ...ri }
+          ricopy.status = mode
+          return ricopy
         }),
-        concatMap((ri: any) => this.genericService.updateItem('roominfo', ri))
+        concatMap((ri: IRoominfo) => this.roominfoService.update(ri))
       )
-      .subscribe(
-        d => {
-          this.newRefreshGrid()
-        }
-      )
+      .subscribe()
   }
   //=================================
 

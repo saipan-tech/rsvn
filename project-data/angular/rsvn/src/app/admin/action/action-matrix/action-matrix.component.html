@@ -1,72 +1,53 @@
-
-<div *ngIf="!loaded">
-  <img src="/assets/img/loader.gif">
-</div>
-
-<div class="d-flex" *ngIf="loaded">
-  <div style="width:20%; height:700px;overflow-y:scroll">
-    <app-action-matrix-sidebar [data]='sidebarData'></app-action-matrix-sidebar>
-  </div>
-  <div style="width:80% ;height:700px;overflow-y:scroll;background-color:rgb(233, 233, 233)">
-  </div>
-</div>
+<div class="d-flex">
+  <div style="width:100% ;height:700px;overflow-y:scroll;background-color:rgb(233, 233, 233)">
 
 
-<div *ngFor="let bldg of bldgList$ | async">
-  <h3 class="mt-2">{{ bldg.name}}</h3>
-  <hr>
-  <div class="d-flex flex-wrap">
-    <div *ngFor="let x of dispList$ | async">
-      <ng-container *ngIf="bldg.name == x.bldg.name">
-        <div class="grid_button">
-          <div class="row">
-            <div class="col">{{ x.roominfo.number }}</div>
-            <div class="col"></div>
-          </div>
-          <div class="row">
-            <div class="col">Ready</div>
-            <div class="col"></div>
-          </div>
-          <div>Worker Line</div>
-        </div>
-      </ng-container>
-    </div>
-  </div>
-</div>
+    <div *ngFor="let bldg of bldgList$ | async">
+      <h3 class="mt-2">{{ bldg.name}}</h3>
+        <div class="d-flex flex-wrap">
+        <div *ngFor="let x of dispList$ | async">
+          <ng-container *ngIf="bldg.name == x.bldg.name">
+            <div class="grid_button">
+              <div class="row" >
+                <div  class='col' style="border-right:1px solid green;text-align:center;font-size:medium;font-weight:bold">
+                <div [ngClass]="{'warning':x.occ.length}">{{ x.roominfo.number }}</div>
+              </div>
+                <div class="col">
+                 
+                  <div *ngFor="let r of x.rooms">
+                    <button class="imgbutt" *ngIf="r.room.dateOut == Today" >
+                      <img src="/assets/img/check-red.png" height="20px"></button>
 
-<!--
+                    <button class="imgbutt" *ngIf="r.room.dateIn == Today">
+                      <img src="/assets/img/check-green.png" height="20px"></button>
+
+                    <button class="imgbutt" *ngIf="r.room.dateIn != Today && r.room.dateOut != Today">
+                      <img src="/assets/img/house.png" height='20px'></button>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 ">
+                  <div class="{{x.roominfo.status}} subcell" [matMenuTriggerFor]="roomMenu">{{x.roominfo.status}}</div>
+                </div>
+                <div class="col-6"></div>
+              </div>
 
 
-    <div *ngFor="let item of dispList">
-      <h4>{{item.bldg.name}}</h4>
 
-      <div class="d-flex flex-wrap">
-        <div *ngFor="let rms of item.rooms">
-          <div class="grid_button">
-            
-            
-            <div class="d-flex">
+              <mat-menu #roomMenu="matMenu">
+                <div class="menu-head">Room Status Override</div>
+                <button *ngFor="let rs of roomStatus" mat-menu-item
+                  (click)="roomStatusChange(x.roominfo.id,rs.value)">{{
+                  rs.display}} </button>
+              </mat-menu>
             </div>
-            
-            <div class="d-flex">
-              <div class="col-6 {{rms.status}}" style="font-size:small;text-align:center;cursor:pointer" [matMenuTriggerFor]="roomMenu">{{ rms.status}}</div>
-              <div class="col-6"></div>
-            </div>
-            <div style="background-color:rgb(194, 208, 223);color:black;height:1.5em">
-              <span style="font-size:small;cursor:pointer;margin-left:5px" (click)='layout(x)'
-                *ngFor="let x of rms.action">( {{ x.staff.last_name | slice :0:6 }} ) </span>
-            </div>
+          </ng-container>
 
-            
-            
-            
-            <mat-menu #roomMenu="matMenu">
-              <div class="menu-head">Room Status Override</div>
-              <button *ngFor="let rs of roomStatus" mat-menu-item (click)="roomStatusChange(rms.id,rs.value)">{{
-                rs.display}} </button>
-            </mat-menu>
-           </div>
+
+
         </div>
       </div>
     </div>
--->
+
+  </div>

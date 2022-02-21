@@ -1,14 +1,13 @@
-
-
 <div class="row">
     <div class="col-4" style="height:700px;overflow-y:scroll">
-        <app-action-items (changeItems)='refreshGrid()'></app-action-items>
-        <app-grid-select [roominfos]='roominfos' (roominfosChange)='refreshGrid()' [actionRec]='actionRec' [staff]='staff' ></app-grid-select>
+        <app-action-items></app-action-items>
+        <app-grid-select [roominfos]='roominfos'  [actionRec]='actionRec'
+            [staff]='staff'></app-grid-select>
     </div>
     <div class="col" style="height:700px;overflow-y:scroll;;background-color:rgb(177, 177, 177)">
-        <div *ngFor="let bld of bldgList">
+        <div *ngFor="let bld of dispList$ | async">
             <h4> {{ bld.name }}</h4>
-            <table class="table hktable">
+            <table class="hktable">
                 <tr>
                     <th>Rooms/DOW</th>
                     <th *ngFor="let d of dow; let i = index" [ngClass]="{'daymark': i === dow_now}">{{d}} </th>
@@ -16,36 +15,48 @@
                 <tr *ngFor="let room of bld.rooms">
                     <th style="width:5%">{{ room.number }}</th>
                     <td [ngClass]="{'daymark':dow_now === 0}">
-                        <div *ngFor="let x of room.week.sun " >
-                            <button mat-button (click)="actionSelect(x.id)">{{x.name}}: 
+                        <div *ngFor="let x of room.week.sun ">
+                            <button [ngClass]="{'selectmark':currAction==x.id}"  mat-button (click)="actionSelect(x.id)">{{x.name}}:
                                 <span style="font-size:x-small"> {{x.item|slice:0:10}}</span>
-                            </button> 
+                            </button>
                         </div>
                     </td>
                     <td [ngClass]="{'daymark':dow_now === 1}">
-                        <div *ngFor="let x of room.week.mon "  > 
-                            <button mat-button (click)="actionSelect(x.id)">{{x.name}}: <span style="font-size:x-small">{{x.item
-                            |slice:0:10}}</span></button></div>
+                        <div *ngFor="let x of room.week.mon ">
+                            <button [ngClass]="{'selectmark':currAction==x.id}"  mat-button (click)="actionSelect(x.id)"> {{x.name}}: <span
+                                    style="font-size:x-small">{{x.item |slice:0:10}}</span></button>
+                        </div>
                     </td>
                     <td [ngClass]="{'daymark':dow_now === 2}">
-                        <div *ngFor="let x of room.week.tue "><button mat-button (click)="actionSelect(x.id)">{{x.name}}: <span style="font-size:x-small"> {{x.item
-                            |slice:0:10}}</span></button></div>
+                        <div *ngFor="let x of room.week.tue ">
+                            <button [ngClass]="{'selectmark':currAction==x.id}"   mat-button (click)="actionSelect(x.id)"> {{x.name}}: <span
+                                    style="font-size:x-small"> {{x.item |slice:0:10}}</span></button>
+                        </div>
                     </td>
                     <td [ngClass]="{'daymark':dow_now === 3}">
-                        <div *ngFor="let x of room.week.wed "><button mat-button (click)="actionSelect(x.id)">{{x.name}}: <span style="font-size:x-small"> {{x.item
-                            |slice:0:10}}</span></button></div>
+                        <div *ngFor="let x of room.week.wed ">
+                            <button [ngClass]="{'selectmark':currAction==x.id}"  mat-button (click)="actionSelect(x.id)"> {{x.name}}: <span
+                                    style="font-size:x-small"> {{x.item |slice:0:10}}</span></button>
+                        </div>
                     </td>
                     <td [ngClass]="{'daymark':dow_now === 4}">
-                        <div *ngFor="let x of room.week.thr "><button mat-button (click)="actionSelect(x.id)">{{x.name}}: <span style="font-size:x-small"> {{x.item
-                            |slice:0:10}}</span></button></div>
+                        <div *ngFor="let x of room.week.thr ">
+                            <button [ngClass]="{'selectmark':currAction==x.id}"  mat-button (click)="actionSelect(x.id)"> {{x.name}}: <span
+                                    style="font-size:x-small"> {{x.item |slice:0:10}}</span></button>
+                        </div>
                     </td>
                     <td [ngClass]="{'daymark':dow_now === 5}">
-                        <div *ngFor="let x of room.week.fri "><button mat-button (click)="actionSelect(x.id)">{{x.name}}: <span style="font-size:x-small"> {{x.item
-                            |slice:0:10}}</span></button></div>
+                        <div *ngFor="let x of room.week.fri ">
+                            <button [ngClass]="{'selectmark':currAction==x.id}"  mat-button (click)="actionSelect(x.id)"> {{x.name}}: <span
+                                    style="font-size:x-small"> {{x.item |slice:0:10}}</span></button>
+                        </div>
                     </td>
                     <td [ngClass]="{'daymark':dow_now === 6}">
-                        <div *ngFor="let x of room.week.sat "><button mat-button (click)="actionSelect(x.id)">{{x.name}}: <span style="font-size:x-small"> {{x.item
-                            |slice:0:10}}</span></button> </div>
+                        <div *ngFor="let x of room.week.sat ">
+                            <button [ngClass]="{'selectmark':currAction==x.id}" mat-button (click)="actionSelect(x.id)"> {{x.name}}:
+                                <span style="font-size:x-small">{{x.item|slice:0:10}}</span>
+                            </button>
+                        </div>
                     </td>
 
                 </tr>

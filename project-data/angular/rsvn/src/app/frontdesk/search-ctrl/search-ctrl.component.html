@@ -1,5 +1,7 @@
-<mat-card style="background-color:limegreen;text-align:center;height:97%;overflow-y:scroll">
-    <mat-card-title><h3>Search</h3></mat-card-title>
+<mat-card style="background-color:limegreen;text-align:left;height:97%;overflow-y:scroll">
+    <mat-card-title>
+        <h3>Search</h3>
+    </mat-card-title>
     <mat-card-header>
 
         <form novalidate [formGroup]="searchForm" class="form-inline">
@@ -10,34 +12,55 @@
             </div>
         </form>
     </mat-card-header>
-<hr>
-<div class="resblk"> 
+    <button class="form-control" (click)='qv=!qv'>Quick View</button>
 
-    <div class="section">Search Results</div>
-    <app-search-list [multiList]='multiList' (currRsvnChange)='selectRsvn($event)'
-        (currGuestChange)='selectGuest($event)'></app-search-list>
+    <hr>
+    <div class="resblk">
 
-    <app-info (currRsvnChange)='selectRsvn($event)'></app-info>
+        <ng-container *ngIf="qv">
+            <ng-container *ngIf="guestList$ | async as guests">
+                <div class="section" *ngIf="guests.length">Non Reservation Guests</div>
+                <div class="d-flex flex-wrap">
+                    <div *ngFor="let c of guests" class="namecol active" (click)='guestSelect(c.id)'>
+                        {{c.firstname}} {{c.lastname}}
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+        
+        <div class="section">Search Results</div>
 
-    <ng-container *ngIf="lateCheckout$ | async as checkouts">
-        <div class="section" *ngIf="checkouts.length">Overdue Check Outs</div>
-        <div class="row listcell" *ngFor="let c of checkouts">
-            <div class="col-4 namecol active" (click)='rsvnSelect(c.room.rsvn)'>{{c.bldg.name}} - {{c.roominfo.number}}
+
+
+
+
+        <app-search-list [multiList]='multiList' (currRsvnChange)='selectRsvn($event)'
+            (currGuestChange)='selectGuest($event)'></app-search-list>
+
+        <app-info (currRsvnChange)='selectRsvn($event)'></app-info>
+
+        <ng-container *ngIf="lateCheckout$ | async as checkouts">
+            <div class="section" *ngIf="checkouts.length">Overdue Check Outs</div>
+            <div class="row" *ngFor="let c of checkouts">
+                <div class="col-1"></div>
+                <div class="col-3 namecol active" (click)='rsvnSelect(c.room.rsvn)'>{{c.bldg.name}} -
+                    {{c.roominfo.number}}
+                </div>
+
+                <div class="col-4 datecol">{{c.room.dateIn}} >> {{c.room.dateOut}}</div>
+                <div class="col-4"> <button mat-button (click)="clearCheckin(c.room.id)">Clear</button></div>
             </div>
+        </ng-container>
 
-            <div class="col datecol">{{c.room.dateIn}} >> {{c.room.dateOut}}</div>
-            <div class="col-2"> <button mat-button (click)="clearCheckin(c.room.id)">Clear</button></div>
-        </div>
-    </ng-container>
+        <ng-container *ngIf="roomCount$ | async as rcounts">
+            <div class="section" *ngIf="rcounts.length">Rooms Not Assigned</div>
+            <div class="row" *ngFor="let r of rcounts">
+                <div class='active namecol' (click)='rsvnSelect(r.id)'>{{r.confirm}} - {{r.dateIn}} - {{r.dateOut}}
+                </div>
+            </div>
+        </ng-container>
 
-    <ng-container *ngIf="roomCount$ | async as rcounts">
-        <div class="section" *ngIf="rcounts.length">Rooms Not Assigned</div>
-        <div class="row" *ngFor="let r of rcounts">
-            <div class='active namecol' (click)='rsvnSelect(r.id)'>{{r.confirm}} - {{r.dateIn}} - {{r.dateOut}}</div>
-        </div>
-    </ng-container>
-
-</div>
+    </div>
 
 
 </mat-card>
