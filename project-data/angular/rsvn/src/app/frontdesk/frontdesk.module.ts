@@ -53,8 +53,6 @@ import { SearchListComponent } from './search-list/search-list.component';
     GridLineComponent,
     RsvnCtrlComponent,
     RoomListComponent,
-  //  SearcherCtrlComponent,
-  //  SearcherListComponent,
     RoomAvailComponent,
     RoomChecksComponent,
     RoomChecksWidgetComponent,

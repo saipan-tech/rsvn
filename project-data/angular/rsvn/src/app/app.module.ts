@@ -24,6 +24,8 @@ import { SharedModule } from '@app/shared/shared.module';
 import { RoomListItemComponent } from './config/room-list/room-list-item.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+
+
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -33,9 +35,10 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+
+
 import { environment } from '../environments/environment';
-
-
 import { AuthModule } from '@app/auth/auth.module'
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -69,6 +72,8 @@ import { GuestDataService } from '@app/_ngrxServices/guest-data.service';
 import { BldgEntityService } from './_ngrxServices/bldg-entity.service';
 import { BldgResolver } from './_ngrxServices/bldg-resolver';
 import { BldgDataService } from './_ngrxServices/bldg-data.service';
+import { MatrixComponent } from './matrix/matrix.component';
+import { MatrixLineComponent } from './matrix/matrix-line/matrix-line.component';
 
 const entityMetadata: EntityMetadataMap = {
   Roominfo: {},
@@ -96,6 +101,8 @@ const entityMetadata: EntityMetadataMap = {
     GuestListComponent,
     HeaderComponent,
     RoomListItemComponent,
+    MatrixComponent,
+    MatrixLineComponent,
 
 
 
@@ -117,6 +124,7 @@ const entityMetadata: EntityMetadataMap = {
     AdminModule,
     RatemgrModule,
     AuthModule,
+    MatCardModule,
     MatAutocompleteModule,
     MatInputModule,
     MatIconModule,
