@@ -7,7 +7,9 @@ import { IRoominfo } from '@app/_interface/roominfo';
   styleUrls: ['./matrix-line.component.scss']
 })
 export class MatrixLineComponent implements OnInit {
-@Input() roominfo:IRoominfo = {} as IRoominfo
+@Input() dayList:any
+@Input() gridwidth:any
+@Input() gridline:any
   constructor() { }
 
   ngOnInit(): void {

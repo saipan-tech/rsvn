@@ -3,23 +3,32 @@
         Occupancy Matrix
     </mat-card-title>
     <mat-card-header>
-
+        <div class="d-flex">
+            <button style="width:200px" class="form-control btn btn-outline-primary">Refresh </button>
+            <input style="text-align:center;width:300px" (change)='changeDate()' type='date' [(ngModel)]='currDateStart'
+                class='form-control'>
+            <mat-slider min="7" max="30" step="1" [ngStyle]="{'background-color':'royalblue'}" [(ngModel)]="days"
+                (change)="slide()"></mat-slider>
+            <div class="form-control" style="width:200px"> {{ days }} Days</div>
+        </div>
+        <div>{{days}} {{ currDateStart }}</div>
     </mat-card-header>
     <mat-card-content>
 
         <div class="d-flex">
             <div class="roomcell" [style.width.%]='gridwidth'>Dates</div>
-            <div class="roomcell" [style.width.%]='gridwidth' *ngFor="let x of dayList"> dd </div>
+            <div class="roomcell" [style.width.%]='gridwidth' *ngFor="let d of dayList">
+                {{ d | date:'EE'}}<br>
+                {{ d | date:'M/d'}}
+            </div>
         </div>
 
         <div *ngFor="let d of gridList$ | async">
-            {{ d.bldg.name }}
+            <h3>{{ d.bldg.name }}</h3>
             <hr>
             <ng-container *ngFor="let r of d.roominfo">
-                <div class="d-flex">
-                    <div class="roomcell" [style.width.%]='gridwidth'>{{ r.number }}</div>
-                    <div class="roomcell" [style.width.%]='gridwidth' *ngFor="let x of dayList"> dd </div>
-                </div>
+                    <app-matrix-line [gridline]='r' [dayList]='dayList' [gridwidth]='gridwidth' ></app-matrix-line>
+                   
             </ng-container>
         </div>
     </mat-card-content>

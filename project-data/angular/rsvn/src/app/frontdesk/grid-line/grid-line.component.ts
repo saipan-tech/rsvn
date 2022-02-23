@@ -8,6 +8,8 @@ import { SystemService } from '@app/_services/system.service';
   templateUrl: './grid-line.component.html',
   styleUrls: ['./grid-line.component.css']
 })
+
+
 export class GridLineComponent implements OnInit{
 
   @Input() room:any

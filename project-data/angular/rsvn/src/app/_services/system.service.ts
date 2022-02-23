@@ -76,6 +76,16 @@ export class SystemService {
         return dayList
     }
 
+   //==================================================
+   daySpan(d1: string, d2: string): number {
+    var d1D = new Date(d1).getTime()
+    var d2D = new Date(d2).getTime()
+    return ((d2D - d1D) / this.appCons.DAILYSECONDS)
+
+}
+
+
+
     //==================================================
     seasonSpanSeq(d1: string, d2: string):Observable<any> {
         let dStack :any = []        

@@ -1,4 +1,10 @@
-<div>{{ roominfo.number }}</div>
+<div class="d-flex">
+    <div class="roomcell" [style.width.%]='gridwidth'>{{ gridline.roominfo.number }}</div>
+
+    <div class="roomcell" [style.width.%]='gridwidth' *ngFor="let x of dayList">
+        
+        dd</div>
+</div>
 <!--
 <div class="d-flex">
     <div [style.width.%]='gridwidth '[ngStyle]="{'border-color':room.color, 'border-width':'3px'}"  class="daycell">{{ room.number}} </div>
