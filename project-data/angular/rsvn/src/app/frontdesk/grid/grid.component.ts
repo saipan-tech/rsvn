@@ -16,7 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.css']
+  styleUrls: ['./grid.component.scss']
 })
 export class GridComponent implements OnInit, OnChanges {
 

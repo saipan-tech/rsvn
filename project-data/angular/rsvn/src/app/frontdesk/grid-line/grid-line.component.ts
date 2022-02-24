@@ -6,7 +6,7 @@ import { SystemService } from '@app/_services/system.service';
 @Component({
   selector: 'app-grid-line',
   templateUrl: './grid-line.component.html',
-  styleUrls: ['./grid-line.component.css']
+  styleUrls: ['./grid-line.component.scss']
 })
 
 
