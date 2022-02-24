@@ -3,7 +3,7 @@
         Occupancy Matrix
     </mat-card-title>
     <mat-card-header>
-        <div class="d-flex">
+        <div class="d-flex p-2">
             <button style="width:200px" class="form-control btn btn-outline-primary">Refresh </button>
             <input style="text-align:center;width:300px" (change)='changeDate()' type='date' [(ngModel)]='currDateStart'
                 class='form-control'>
@@ -11,7 +11,7 @@
                 (change)="slide()"></mat-slider>
             <div class="form-control" style="width:200px"> {{ days }} Days</div>
         </div>
-        <div>{{days}} {{ currDateStart }}</div>
+    
     </mat-card-header>
     <mat-card-content>
 

@@ -1,9 +1,13 @@
 <div class="d-flex">
     <div class="roomcell" [style.width.%]='gridwidth'>{{ gridline.roominfo.number }}</div>
-
-    <div class="roomcell" [style.width.%]='gridwidth' *ngFor="let x of dayList">
+<!-- 
+    <div>{{ gridline.rooms | json }}</div>
+--> 
+    <div class="roomcell" [style.width.%]='gridwidth' *ngFor="let x of lineArray">
         
-        dd</div>
+        <button  [ngStyle]="{'background-color':x.color}" class="rmbutt" *ngIf='x'>X</button>
+
+    </div>
 </div>
 <!--
 <div class="d-flex">
