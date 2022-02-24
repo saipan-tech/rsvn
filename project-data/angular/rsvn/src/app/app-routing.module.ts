@@ -10,7 +10,6 @@ import { GuestEditComponent } from '@app/frontdesk/guest-edit/guest-edit.compone
 import { DropdownComponent } from '@app/config/dropdown/dropdown.component';
 import { ActionComponent } from './admin/action/action.component';
 import { StaffComponent } from './admin/staff/staff.component';
-import { GridComponent } from './frontdesk/grid/grid.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { RatemgrCtrlComponent } from './ratemgr/ratemgr-ctrl/ratemgr-ctrl.component';
 import { SeasonService } from './_services/season.service';
@@ -43,7 +42,6 @@ const appRoutes: Routes = [
 },
 
   { path: 'staff', component: StaffComponent , canActivate:[AuthGuard]},
-  { path: 'grid', component: GridComponent , canActivate:[AuthGuard]},
   { path: 'calendar', component: CalendarComponent , canActivate:[AuthGuard]},
   { path: 'ratemgr', component: RatemgrCtrlComponent , canActivate:[AuthGuard]},
 

@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { IRoominfo } from '@app/_interface/roominfo';
+import { IRsvn } from '@app/_interface/rsvn';
+import { EventEmitter } from 'stream';
 
 @Component({
   selector: 'app-matrix-line',
@@ -10,6 +12,8 @@ export class MatrixLineComponent implements OnInit {
 @Input() dayList:any[] = []
 @Input() gridwidth:any
 @Input() gridline:any
+
+
 lineArray:any
 constructor() { }
 

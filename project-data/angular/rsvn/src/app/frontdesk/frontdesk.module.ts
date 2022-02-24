@@ -4,9 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FrontdeskComponent } from './frontdesk.component';
 import { RsvnEditComponent } from './rsvn-edit/rsvn-edit.component';
 import { GuestEditComponent } from './guest-edit/guest-edit.component';
-import { GridComponent } from './grid/grid.component';
 import { RoomCtrlComponent } from './room-ctrl/room-ctrl.component';
-import { GridLineComponent } from './grid-line/grid-line.component';
 import { RsvnCtrlComponent } from './rsvn-ctrl/rsvn-ctrl.component';
 import { ClockComponent } from '@app/system/clock/clock.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -31,8 +29,6 @@ import { ChargesModule } from '@app/charges/charges.module';
 import {SharedDialogModule} from "@app/shared/dialog/shared-dialog.module";
 import { RoomListComponent } from './room-list/room-list.component';
 
-//import { SearcherCtrlComponent } from './searcher-ctrl/searcher-ctrl.component';
-//import { SearcherListComponent } from './searcher-list/searcher-list.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { RoomAvailComponent } from './room-avail/room-avail.component';
 import { RoomChecksComponent } from './room-checks/room-checks.component';
@@ -48,9 +44,7 @@ import { SearchListComponent } from './search-list/search-list.component';
     FrontdeskComponent,
     RsvnEditComponent,
     GuestEditComponent,
-    GridComponent,
     RoomCtrlComponent,
-    GridLineComponent,
     RsvnCtrlComponent,
     RoomListComponent,
     RoomAvailComponent,
@@ -84,7 +78,6 @@ import { SearchListComponent } from './search-list/search-list.component';
   ],
   exports: [
     ClockComponent,
-    GridComponent,
     FrontdeskComponent
   ]
 })

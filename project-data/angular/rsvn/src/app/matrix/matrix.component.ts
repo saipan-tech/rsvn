@@ -30,7 +30,7 @@ export class MatrixComponent implements OnInit {
   gridwidth = 0
   days = 24
   gridList$: Observable<any> = of()
-  dayList:any
+  dayList: any
   @Input() currRsvn = {} as IRsvn
   @Input() currGuest = {} as IGuest
   @Input() currDateStart = this.addDay(this.Today, -4)
@@ -52,17 +52,22 @@ export class MatrixComponent implements OnInit {
     private activatedRoute: ActivatedRoute
 
   ) { }
-changeDate() {
-this.reload()
-}
-slide() {
-this.reload()
-}
-  
+  changeDate() {
+    this.reload()
+  }
+  slide() {
+    this.reload()
+  }
+  setDay(date: string) {
+    console.log(date)
+    this.currDateStart = this.addDay(date, -4)
+    this.reload()
 
-addDay(day: string, offset: number) {
-  return new Date(new Date(day).getTime() + (this.appCons.DAILYSECONDS * offset)).toISOString().slice(0, 10)
-}
+  }
+
+  addDay(day: string, offset: number) {
+    return new Date(new Date(day).getTime() + (this.appCons.DAILYSECONDS * offset)).toISOString().slice(0, 10)
+  }
 
   reload() {
     this.dayList = this.systemService.daylister(this.currDateStart, this.days)
@@ -70,14 +75,14 @@ addDay(day: string, offset: number) {
     let roominfo$ = this.roominfoService.entities$
     let bldg$ = this.bldgService.entities$
     let dateIn = this.currDateStart
-    let dateOut = this.addDay(this.currDateStart,this.days)
+    let dateOut = this.addDay(this.currDateStart, this.days)
 
     let rooms$ = this.roomService.entities$.pipe(
       map(room => {
-        return room.filter(rm => 
-          rm.dateIn <= dateIn  && rm.dateOut >= dateIn ||
-          rm.dateIn <= dateOut &&  rm.dateOut >= dateIn ||
-          rm.dateIn <= dateOut && rm.dateOut  >=  dateOut ) 
+        return room.filter(rm =>
+          rm.dateIn <= dateIn && rm.dateOut >= dateIn ||
+          rm.dateIn <= dateOut && rm.dateOut >= dateIn ||
+          rm.dateIn <= dateOut && rm.dateOut >= dateOut)
       }),
     )
 
@@ -85,25 +90,25 @@ addDay(day: string, offset: number) {
 
 
     let rsvn$ = this.rsvnService.entities$
-    let stageRooms$ = combineLatest([roominfo$, rsvn$, bldg$,rooms$]).pipe(
-      map(([roominfo, rsvn, bldg,rooms]) => {
-        let riList:any[] = []
+    let stageRooms$ = combineLatest([roominfo$, rsvn$, bldg$, rooms$]).pipe(
+      map(([roominfo, rsvn, bldg, rooms]) => {
+        let riList: any[] = []
         roominfo.forEach(ri => {
-          let rms:any  = rooms.filter(rf=>ri.id==rf.roominfo)
-          let rmm:any[] = []
-            rms.forEach((r:any)=> {
+          let rms: any = rooms.filter(rf => ri.id == rf.roominfo)
+          let rmm: any[] = []
+          rms.forEach((r: any) => {
 
-              let rvn = rsvn.find(v=>v.id == r.rsvn)
+            let rvn = rsvn.find(v => v.id == r.rsvn)
 
-              rmm.push({
-                room:{...r}, 
-                startOffset:Math.max(Number(this.systemService.daySpan(this.currDateStart,r.dateIn)),0),
-                endOffset:Math.min(Number(this.systemService.daySpan(this.currDateStart,r.dateOut)),this.days),
-                rsvn:rvn
+            rmm.push({
+              room: { ...r },
+              startOffset: Math.max(Number(this.systemService.daySpan(this.currDateStart, r.dateIn)), 0),
+              endOffset: Math.min(Number(this.systemService.daySpan(this.currDateStart, r.dateOut)), this.days),
+              rsvn: rvn
 
-              })
             })
-          riList.push({ roominfo:ri,rooms:rmm })
+          })
+          riList.push({ roominfo: ri, rooms: rmm })
         })
         let result: any = []
         bldg.forEach(bldg => {
@@ -114,8 +119,8 @@ addDay(day: string, offset: number) {
     )
 
     //    rooms$.subscribe(d => console.log(d))
-   this.gridList$ = stageRooms$
-   stageRooms$.subscribe(d=>console.log(d))
+    this.gridList$ = stageRooms$
+    stageRooms$.subscribe(d => console.log(d))
   }
 
 
