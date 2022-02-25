@@ -28,40 +28,17 @@ export class DashboardComponent implements OnInit {
     private guestService:GuestEntityService
   ) { }
 
-  rsvnList: any;
-  Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
-  workList$:Observable<any> = of()
+  currRsvnId:number = 0
+  currRsvnInfo$:Observable<any> = of()
 
-  reload() {
-    var activeRsvn$ = this.rsvnService.entities$
-    .pipe(map(rsvns => rsvns.filter(rsvn => rsvn.dateIn <= this.Today && rsvn.dateOut >= this.Today)))
-    var activeRoom$ = this.roomService.entities$
-    .pipe(map(rooms => rooms.filter(room => room.dateIn <= this.Today && room.dateOut >= this.Today)))
-    
-    let mergedRooms$ = combineLatest([activeRoom$,this.bldgService.entities$,this.roominfoService.entities$]).pipe(
-      map(([rooms,bldg,roominfo]) => {
-        let result:any[] = []
-        rooms.forEach((r) => {
-          let rinfo = roominfo.find(ri => ri.id==r.roominfo)
-          result.push({ room:r, roominfo:rinfo, bldg:bldg.find(b=>b.id == rinfo?.bldg)})
-        })  
-        return result
+  selectRsvn(rsvnId:number) {
+    this.currRsvnInfo$= combineLatest([this.rsvnService.getByKey(rsvnId),this.guestService.entities$]).pipe(
+      map(([rsvn,guest]) => {
+        return {rsvn,guest:guest.find(g=> g.id==rsvn.primary)}
       })
     )
-    this.workList$ = combineLatest([activeRsvn$,mergedRooms$,this.guestService.entities$]).pipe(
-      map(([rsvn,room,guest]) => {
-        let result:any[] = []
-        rsvn.forEach(r=> {
-          result.push({rsvn:r,guest:guest.find(g=>g.id==r.primary),rooms:room.filter(rm=>rm.room.rsvn==r.id)})
-        })
-        return result
-      })
-    )
-
-
   }
   ngOnInit(): void {
-    this.reload()
     
   }
 }

@@ -17,7 +17,7 @@
 
         <div class="d-flex">
             <div class="roomcell" [style.width.%]='gridwidth'>Dates</div>
-            <div class="roomcell" [style.width.%]='gridwidth' (click)='setDay(d)' style="cursor:pointer"
+            <div class="roomcell" [style.width.%]='gridwidth' (click)='setDate(d)' style="cursor:pointer"
                 *ngFor="let d of dayList" [ngStyle]="{'background-color':d == Today ? 'yellow' : 'navajoWhite' }">
                 {{ d | date:'EE'}}<br>
                 {{ d | date:'M/d'}}
@@ -28,7 +28,7 @@
             <h3>{{ d.bldg.name }}</h3>
             <hr>
             <ng-container *ngFor="let r of d.roominfo">
-                <app-matrix-line [gridline]='r' [dayList]='dayList' [gridwidth]='gridwidth' ></app-matrix-line>
+                <app-matrix-line [gridline]='r' [dayList]='dayList' [gridwidth]='gridwidth' (rsvnId)='selectRsvn($event)' ></app-matrix-line>
 
             </ng-container>
         </div>

@@ -1,12 +1,13 @@
 <div class="d-flex">
     <div class="roomcell" [style.width.%]='gridwidth'>{{ gridline.roominfo.number }}</div>
-<!-- 
+    <!-- 
     <div>{{ gridline.rooms | json }}</div>
---> 
-    <div class="roomcell" [style.width.%]='gridwidth' *ngFor="let x of lineArray">
-        
-        <button  [ngStyle]="{'background-color':x.color}" class="rmbutt" *ngIf='x'>X</button>
+-->
 
+    <div class="roomcell" [style.width.%]='gridwidth' *ngFor="let x of lineArray" >
+       <button [ngStyle]="{'background-color':x.color}" (click)="selectRsvn(x.rsvn)" class="rmbutt" *ngIf='x'>
+    X {{ x|json}}
+        </button>
     </div>
 </div>
 <!--

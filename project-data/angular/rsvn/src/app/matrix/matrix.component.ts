@@ -37,7 +37,7 @@ export class MatrixComponent implements OnInit {
   // -------------------------------------------
   @Output() currRsvnChange = new EventEmitter<IRsvn>()
   @Output() currGuestChange = new EventEmitter<IGuest>()
-  @Output() gridSelect = new EventEmitter<IRsvn>()
+  @Output() rsvnId = new EventEmitter<number>()
   // -------------------------------------------
 
   constructor(
@@ -58,14 +58,20 @@ export class MatrixComponent implements OnInit {
   slide() {
     this.reload()
   }
-  setDay(date: string) {
-    console.log(date)
+  setDate(date: string) {
     this.currDateStart = this.addDay(date, -4)
     this.reload()
 
   }
+  selectRsvn(rsvnid:number) {
+    this.rsvnId.emit(rsvnid)
+    console.log("In matrix",rsvnid)
+    
+    this.reload()
+  }
 
-  addDay(day: string, offset: number) {
+
+   addDay(day: string, offset: number) {
     return new Date(new Date(day).getTime() + (this.appCons.DAILYSECONDS * offset)).toISOString().slice(0, 10)
   }
 
@@ -104,8 +110,8 @@ export class MatrixComponent implements OnInit {
               room: { ...r },
               startOffset: Math.max(Number(this.systemService.daySpan(this.currDateStart, r.dateIn)), 0),
               endOffset: Math.min(Number(this.systemService.daySpan(this.currDateStart, r.dateOut)), this.days),
-              rsvn: rvn
-
+              rsvn: rvn,
+              currRsvnId:this.currRsvn.id
             })
           })
           riList.push({ roominfo: ri, rooms: rmm })

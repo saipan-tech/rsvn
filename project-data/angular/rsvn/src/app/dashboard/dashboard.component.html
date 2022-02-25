@@ -1,14 +1,12 @@
 <div style="margin:auto;padding:1em;background-color:snow;width:90%">
     <div class="row">
         <div class="col-md-8">
-
-<app-matrix></app-matrix>
-       
-
-
-            
+            <app-matrix (rsvnId)='selectRsvn($event)'></app-matrix>
         </div>
         <div class="col-md-4">
+            <div *ngIf="currRsvnInfo$ | async as curr">
+                {{ curr | json }}
+            </div>
             <app-weather></app-weather>
         </div>
     </div>
