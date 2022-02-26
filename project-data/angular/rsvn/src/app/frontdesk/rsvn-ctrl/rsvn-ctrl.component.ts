@@ -46,7 +46,7 @@ export class RsvnCtrlComponent implements OnInit,OnChanges {
       ret =  `${this.currGuest.firstname} ${this.currGuest.middlename} ${this.currGuest.lastname} `
       break;
     case 2 :  
-      ret = `Check-in ${this.currRsvn.dateIn} =>  Check-out ${this.currRsvn.dateOut}`
+      ret = `In - ${this.currRsvn.dateIn} =>  Out - ${this.currRsvn.dateOut}`
     break;
   }
   return ret

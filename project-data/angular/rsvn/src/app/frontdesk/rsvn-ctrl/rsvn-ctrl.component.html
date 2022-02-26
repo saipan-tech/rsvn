@@ -1,64 +1,42 @@
-<div style="height:98%;overflow-y:scroll">
-    
-    <mat-accordion>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-                {{ (currGuest && currGuest.id) ? msgString(1) : 'New Guest' }}
-            </mat-panel-title>
-            <mat-panel-description>
-              Guest Information
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <app-guest-edit [(currRsvn)]='currRsvn' [currGuest]='currGuest'
-          (currGuestChange)="guestAction($event)"> </app-guest-edit>
-        </mat-expansion-panel>
 
-        <mat-expansion-panel *ngIf="currGuest && currGuest.id">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-                {{ (currRsvn &&currRsvn.id) ? msgString(2) :'New Rsvn' }}
-            </mat-panel-title>
-            <mat-panel-description>
-            </mat-panel-description>
-   
-          </mat-expansion-panel-header>
-          <app-rsvn-edit [currRsvn]='currRsvn' (currRsvnChange)="rsvnAction($event)"
-          [(currGuest)]='currGuest'>
 
+  <mat-accordion > 
+    <mat-expansion-panel style="background-color:limegreen">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h3>{{ (currGuest && currGuest.id) ? msgString(1) : 'New Guest' }}</h3>
+        </mat-panel-title>
+      
+      </mat-expansion-panel-header>
+      <app-guest-edit [(currRsvn)]='currRsvn' [currGuest]='currGuest' (currGuestChange)="guestAction($event)">
+      </app-guest-edit>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel style="background-color:limegreen" *ngIf="currGuest && currGuest.id">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h5> {{ (currRsvn &&currRsvn.id) ? msgString(2) :'New Rsvn' }}</h5>
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+
+      </mat-expansion-panel-header>
+      <app-rsvn-edit [currRsvn]='currRsvn' (currRsvnChange)="rsvnAction($event)" [(currGuest)]='currGuest'>
       </app-rsvn-edit>
-     
-        </mat-expansion-panel>
 
-        <mat-expansion-panel *ngIf="currRsvn && currRsvn.id">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Charges & Payments
-              </mat-panel-title>
-              <mat-panel-description>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
+    </mat-expansion-panel>
 
-                <app-charge-ctrl [currRsvn]='currRsvn'> </app-charge-ctrl>
-            
-          </mat-expansion-panel>
+    <mat-expansion-panel style="background-color:limegreen"  *ngIf="currRsvn && currRsvn.id">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h5> Charges & Payments</h5>
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Grid
-              </mat-panel-title>
-              <mat-panel-description>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-     
-     <!--
+      <app-charge-ctrl [currRsvn]='currRsvn'> </app-charge-ctrl>
 
-           <app-grid [currRsvn]='currRsvn' (currRsvnChange)='rsvnAction($event)' (currGuestChange)='guestAction($event)'> </app-grid>
---> 
-            
-          </mat-expansion-panel>
+    </mat-expansion-panel>
+  </mat-accordion>
 
-      </mat-accordion>
-    
-</div>

@@ -5,8 +5,9 @@
 -->
 
     <div class="roomcell" [style.width.%]='gridwidth' *ngFor="let x of lineArray" >
-       <button [ngStyle]="{'background-color':x.color}" (click)="selectRsvn(x.rsvn)" class="rmbutt" *ngIf='x'>
-    X {{ x|json}}
+       <button [ngStyle]="{'background-color':x.color}" (click)="selectRsvn(x.rsvn)" 
+       [ngClass]="{'rmbutt':true,'selectCell':x.curr == x.rsvn}" *ngIf='x'>
+    X
         </button>
     </div>
 </div>

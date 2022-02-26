@@ -57,7 +57,7 @@ export class SearchCtrlComponent implements OnInit {
   lateCheckout$: Observable<any> = of()
   multiList: any
   roomCount$: Observable<IRsvn[]> = of()
-  guestList$: Observable<IGuest[]> = of()
+  guestList$: Observable<any[]> = of()
   qv:boolean = false
 
   noRsvn() {
@@ -78,12 +78,15 @@ export class SearchCtrlComponent implements OnInit {
   }
 
   selectGuest(guest: any) {
-    console.log("SELECT Guest", guest)
     this.currGuestChange.emit(guest)
   }
   //--------------------------------------
   guestSelect(guestid: any) {
-    this.guestService.getByKey(guestid).subscribe(d => this.currGuestChange.emit(d))
+    this.guestService.getByKey(guestid).
+      subscribe(d => {
+        this.currGuestChange.emit(d)
+        this.currRsvnChange.emit({} as IRsvn)
+      })
   }
 
   //--------------------------------------
@@ -112,13 +115,18 @@ export class SearchCtrlComponent implements OnInit {
       
     this.guestList$ = combineLatest([this.rsvnService.entities$,this.guestService.entities$]).pipe(
       map(([rsvn,guest]) => {
-        let result:any = []
+        let result:any[] = []
         guest.forEach(gst => {
-          if(! rsvn.find(v => v.primary == gst.id)) result.push(gst)
+          if(! rsvn.find(v => v.primary == gst.id))  result.push(gst)
+
         })
+        console.log(result)
         return result
       })
     )
+
+
+
     this.activeRsvn$ = this.rsvnService.entities$.pipe(
       map(rsvn => rsvn.filter(r => r.dateIn <= this.Today && r.dateOut >= this.Today)))
     let checkouts$ = this.roomService.entities$.pipe(

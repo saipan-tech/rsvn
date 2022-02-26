@@ -74,6 +74,7 @@ import { BldgResolver } from './_ngrxServices/bldg-resolver';
 import { BldgDataService } from './_ngrxServices/bldg-data.service';
 import { MatrixComponent } from './matrix/matrix.component';
 import { MatrixLineComponent } from './matrix/matrix-line/matrix-line.component';
+import { MatrixViewComponent } from './matrix/matrix-view/matrix-view.component';
 
 const entityMetadata: EntityMetadataMap = {
   Roominfo: {},
@@ -103,6 +104,7 @@ const entityMetadata: EntityMetadataMap = {
     RoomListItemComponent,
     MatrixComponent,
     MatrixLineComponent,
+    MatrixViewComponent,
 
 
 

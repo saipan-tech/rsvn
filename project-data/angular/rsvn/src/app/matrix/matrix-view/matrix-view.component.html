@@ -1,0 +1,22 @@
+
+<div *ngIf="currRsvnInfo | async as curr">
+   <div class="row">
+       <div class="col">
+        <h3>{{ curr.guest.fullname }}</h3>
+        <h5>{{ curr.guest.address }} </h5>
+        <h5>{{ curr.guest.city }}, {{ curr.guest.state }}  {{curr.guest.zipcode }}</h5>
+         
+        <h4>{{ curr.guest.phone }}</h4>
+     
+
+       </div>
+       <div class="col">
+           <h4><u><a [routerLink] ="['/frontdesk', curr.rsvn.id ]"  routerLinkActive="active">Reservation</a></u></h4>
+        <h5>{{curr.rsvn.confirm }}</h5>
+        <h5>{{curr.rsvn.status }}</h5>
+
+        <h5>{{ curr.rsvn.dateIn }} --{{ curr.rsvn.dateOut }}</h5>
+        <h5>{{ curr.rsvn.numrooms }} Rooms </h5>
+       </div>
+   </div>
+</div>

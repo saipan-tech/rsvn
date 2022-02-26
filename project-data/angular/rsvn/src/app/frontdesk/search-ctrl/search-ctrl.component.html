@@ -19,9 +19,11 @@
 
         <ng-container *ngIf="qv">
             <ng-container *ngIf="guestList$ | async as guests">
-                <div class="section" *ngIf="guests.length">Non Reservation Guests</div>
+                <div class="section" *ngIf="guests.length">All Non Rsvn Guests</div>
                 <div class="d-flex flex-wrap">
-                    <div *ngFor="let c of guests" class="namecol active" (click)='guestSelect(c.id)'>
+                    <div *ngFor="let c of guests" 
+                    [ngClass]="{'namecol':true, 'active':true, 'marker':c.marker }" 
+                    (click)='guestSelect(c.id)'>
                         {{c.firstname}} {{c.lastname}}
                     </div>
                 </div>

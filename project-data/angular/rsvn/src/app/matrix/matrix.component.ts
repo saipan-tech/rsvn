@@ -31,6 +31,7 @@ export class MatrixComponent implements OnInit {
   days = 24
   gridList$: Observable<any> = of()
   dayList: any
+  currRsvnId = 0
   @Input() currRsvn = {} as IRsvn
   @Input() currGuest = {} as IGuest
   @Input() currDateStart = this.addDay(this.Today, -4)
@@ -65,9 +66,7 @@ export class MatrixComponent implements OnInit {
   }
   selectRsvn(rsvnid:number) {
     this.rsvnId.emit(rsvnid)
-    console.log("In matrix",rsvnid)
-    
-    this.reload()
+    this.currRsvnId = rsvnid
   }
 
 
@@ -111,7 +110,7 @@ export class MatrixComponent implements OnInit {
               startOffset: Math.max(Number(this.systemService.daySpan(this.currDateStart, r.dateIn)), 0),
               endOffset: Math.min(Number(this.systemService.daySpan(this.currDateStart, r.dateOut)), this.days),
               rsvn: rvn,
-              currRsvnId:this.currRsvn.id
+              currRsvnId:this.currRsvnId
             })
           })
           riList.push({ roominfo: ri, rooms: rmm })
@@ -126,7 +125,7 @@ export class MatrixComponent implements OnInit {
 
     //    rooms$.subscribe(d => console.log(d))
     this.gridList$ = stageRooms$
-    stageRooms$.subscribe(d => console.log(d))
+
   }
 
 

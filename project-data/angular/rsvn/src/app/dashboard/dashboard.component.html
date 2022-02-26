@@ -4,9 +4,9 @@
             <app-matrix (rsvnId)='selectRsvn($event)'></app-matrix>
         </div>
         <div class="col-md-4">
-            <div *ngIf="currRsvnInfo$ | async as curr">
-                {{ curr | json }}
-            </div>
+           <app-matrix-view [currRsvnInfo]="currRsvnInfo$"></app-matrix-view>
+           
+            
             <app-weather></app-weather>
         </div>
     </div>

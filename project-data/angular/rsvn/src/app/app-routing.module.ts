@@ -31,6 +31,7 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard',  component: DashboardComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver, bldg:BldgResolver,guest:GuestResolver}  },
   { path: 'frontdesk', component: FrontdeskComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver,bldg:BldgResolver, guest:GuestResolver} , canActivate:[AuthGuard] },
+  { path: 'frontdesk/:rsvnId', component: FrontdeskComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver,bldg:BldgResolver, guest:GuestResolver} , canActivate:[AuthGuard] },
   { path: 'config', component: ConfigComponent, canActivate:[AuthGuard] },
   { path: 'guest', component: GuestEditComponent , canActivate:[AuthGuard]},
   { path: 'dropdown', component: DropdownComponent , canActivate:[AuthGuard]},
