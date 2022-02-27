@@ -23,17 +23,12 @@
                 <div class="d-flex flex-wrap">
                     <div *ngFor="let c of guests" 
                     [ngClass]="{'namecol':true, 'active':true, 'marker':c.marker }" 
-                    (click)='guestSelect(c.id)'>
-                        {{c.firstname}} {{c.lastname}}
-                    </div>
+                    (click)='guestSelect(c.id)'>{{c.firstname}} {{c.lastname}}</div>
                 </div>
             </ng-container>
         </ng-container>
         
         <div class="section">Search Results</div>
-
-
-
 
 
         <app-search-list [multiList]='multiList' (currRsvnChange)='selectRsvn($event)'
@@ -42,7 +37,7 @@
         <app-info (currRsvnChange)='selectRsvn($event)'></app-info>
 
         <ng-container *ngIf="lateCheckout$ | async as checkouts">
-            <div class="section" *ngIf="checkouts.length">Overdue Check Outs</div>
+            <div class="section" *ngIf="checkouts.length">Overdue Check Outs <button mat-button (click)="clearCheckinAll()">Clear All</button></div>
             <div class="row" *ngFor="let c of checkouts">
                 <div class="col-1"></div>
                 <div class="col-3 namecol active" (click)='rsvnSelect(c.room.rsvn)'>{{c.bldg.name}} -
@@ -53,11 +48,25 @@
                 <div class="col-4"> <button mat-button (click)="clearCheckin(c.room.id)">Clear</button></div>
             </div>
         </ng-container>
+        
 
         <ng-container *ngIf="roomCount$ | async as rcounts">
             <div class="section" *ngIf="rcounts.length">Rooms Not Assigned</div>
-            <div class="row" *ngFor="let r of rcounts">
-                <div class='active namecol' (click)='rsvnSelect(r.id)'>{{r.confirm}} - {{r.dateIn}} - {{r.dateOut}}
+            <div  *ngFor="let r of rcounts">
+                <div class='active' (click)='rsvnSelect(r.id)'>{{r.confirm}} - {{r.dateIn}} - {{r.dateOut}}
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="expiredOcc$ | async as occ">
+            <div class="section" *ngIf="occ.length">Expired Occupancy <button mat-button (click)="clearOcc(0,'inspect')">Inspect All</button></div>
+            <div  class="row" *ngFor="let o of occ">
+                <div class="col-1"></div>
+                <div class='col active' >{{o.bldgname}} - {{o.number}}
+                    <button mat-button (click)="clearOcc(o.id,'inspect')" class="inspect">Inspect</button>        
+                    <button mat-button (click)="clearOcc(o.id,'dirty')" class="dirty">Dirty</button>        
+                    <button mat-button (click)="clearOcc(o.id,'ready')" class="ready">Ready</button>        
+                
                 </div>
             </div>
         </ng-container>

@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
 import { catchError, tap, map, mergeMap, subscribeOn, filter, concatMap } from 'rxjs/operators';
-import { combineLatest, Observable, of, throwError } from 'rxjs';
+import { combineLatest, concat, Observable, of, throwError } from 'rxjs';
 
 import { IRsvn } from '@app/_interface/rsvn';
 import { IGuest } from '@app/_interface/guest';
@@ -54,17 +54,24 @@ export class SearchCtrlComponent implements OnInit {
   });
 
   activeRsvn$: Observable<IRsvn[]> = of()
+  
   lateCheckout$: Observable<any> = of()
+  lateCheckout: IRoom[] = []
+
   multiList: any
   roomCount$: Observable<IRsvn[]> = of()
   guestList$: Observable<any[]> = of()
-  qv:boolean = false
+  
+  expiredOcc$: Observable<any[]> = of()
+  expiredOcc: IRoom[] = []
+
+  qv: boolean = false
 
   noRsvn() {
-    combineLatest([this.guestService.entities$,this.rsvnService.entities$]).pipe(
-      map(([guest,rsvn]) => {
+    combineLatest([this.guestService.entities$, this.rsvnService.entities$]).pipe(
+      map(([guest, rsvn]) => {
         let result = []
-        guest.forEach( g=>{
+        guest.forEach(g => {
 
         })
       })
@@ -85,50 +92,58 @@ export class SearchCtrlComponent implements OnInit {
     this.guestService.getByKey(guestid).
       subscribe(d => {
         this.currGuestChange.emit(d)
-        this.currRsvnChange.emit({} as IRsvn)
+
       })
   }
-
   //--------------------------------------
   rsvnSelect(rsvnid: any) {
-    this.rsvnService.getByKey(rsvnid).subscribe(d => {
-      this.currRsvnChange.emit(d);
-      this.guestSelect(d.primary)
-    })
+    this.rsvnService.getByKey(rsvnid).pipe(
+      tap(rsvn => this.currRsvnChange.emit(rsvn)),
+      concatMap(rsvn => this.guestService.getByKey(rsvn.primary)),
+      tap(guest => this.currGuestChange.emit(guest))
+    ).subscribe()
   }
   //--------------------------------------
   clearCheckin(room: number) {
-    console.log(room)
     this.roomService.getByKey(room).pipe(
       map(room => {
         let rm = { ...room }
         rm.status = 'checkout'
-        console.log(rm, "New Room")
         return rm
-      }), 
+      }),
       concatMap((room: IRoom) => this.roomService.update(room))
     ).subscribe()
   }
   //--------------------------------------
- 
+  clearCheckinAll() {
+    this.lateCheckout.forEach(
+      (co:any) => {
+        let rm = { ...co.room }
+        rm.status = 'checkout'
+        this.roomService.update(rm).subscribe()
+      }
+    )
+  }
+
+
   reload() {
-      
-    this.guestList$ = combineLatest([this.rsvnService.entities$,this.guestService.entities$]).pipe(
-      map(([rsvn,guest]) => {
-        let result:any[] = []
+
+    this.guestList$ = combineLatest([this.rsvnService.entities$, this.guestService.entities$]).pipe(
+      map(([rsvn, guest]) => {
+        let result: any[] = []
         guest.forEach(gst => {
-          if(! rsvn.find(v => v.primary == gst.id))  result.push(gst)
+          if (!rsvn.find(v => v.primary == gst.id)) result.push(gst)
 
         })
         console.log(result)
         return result
       })
     )
-
-
-
     this.activeRsvn$ = this.rsvnService.entities$.pipe(
       map(rsvn => rsvn.filter(r => r.dateIn <= this.Today && r.dateOut >= this.Today)))
+
+    let activeRooms$ = this.roomService.entities$.pipe(
+      map(room => room.filter(r => r.dateIn <= this.Today && r.dateOut >= this.Today)))
     let checkouts$ = this.roomService.entities$.pipe(
       map(rooms => rooms.filter(room => room.status == 'checkin' && room.dateOut < this.Today)))
 
@@ -150,6 +165,8 @@ export class SearchCtrlComponent implements OnInit {
 
     let rsvns$ = this.rsvnService.entities$
     let rooms$ = this.roomService.entities$
+
+    // Room Counter
     this.roomCount$ = combineLatest([rsvns$, rooms$]).pipe(
       map(([rsvns, rooms]) => {
         let rres: any = []
@@ -160,10 +177,54 @@ export class SearchCtrlComponent implements OnInit {
         })
         return rres
       }))
+
+    // Expired Occ
+    this.expiredOcc$ = combineLatest([activeRooms$, roominfos$, bldgs$]).pipe(
+      map(([arooms, roominfos, bldg]) => {
+        let occRooms = roominfos.filter(ri => ri.status == 'occupied')
+        let rres: any = []
+        occRooms.forEach(oc => {
+          if (!arooms.filter(ar => ar.roominfo == oc.id).length) {
+            let bld: any = bldg.find(b => b.id == oc.bldg)
+            rres.push(
+              { ...oc, bldgname: bld.name })
+          }
+        })
+        return rres
+      }))
   }
+  //--------------------------------------
+
+  roominfoStatusChange$(roomid: number, value: string): Observable<any> {
+    return this.roominfoService.getByKey(roomid).pipe(
+      map(ri => {
+        var rmin = { ...ri }
+        rmin.status = value
+        return rmin
+      }),
+      concatMap(rminfo => this.roominfoService.update(rminfo))
+    )
+  }
+
+  //--------------------------------------
+
+  clearOcc(roomid: number, value: string) {
+    if (roomid == 0) {
+      this.expiredOcc.forEach((ex: any) => {
+        this.roominfoStatusChange$(ex.id, value).subscribe()
+      })
+    } else {
+      this.roominfoStatusChange$(roomid, value).subscribe()
+
+    }
+  }
+
+
   //--------------------------------------
   ngOnInit(): void {
     this.reload()
+    this.expiredOcc$.subscribe(data => this.expiredOcc = data)
+    this.lateCheckout$.subscribe(data => this.lateCheckout = data)
     this.searchForm.valueChanges
       .subscribe(val => {
         if (val.dquery) {

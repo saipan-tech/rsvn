@@ -57,9 +57,9 @@ export class RoomAvailComponent implements OnInit, OnChanges {
     let exclude$ = this.roomService.entities$
       .pipe(
         map(room => room.filter(room =>
-          (room.dateIn <= dateIn && room.dateOut >= dateIn) ||
-          (room.dateIn <= dateOut && room.dateOut >= dateIn) ||
-          (room.dateIn <= dateOut && room.dateOut >= dateOut)
+          (room.dateIn <= dateIn && room.dateOut > dateIn) ||
+          (room.dateIn <= dateOut && room.dateOut > dateIn) ||
+          (room.dateIn <= dateOut && room.dateOut > dateOut)
         )
         ))
 

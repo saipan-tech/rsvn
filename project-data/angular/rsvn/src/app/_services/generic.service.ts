@@ -19,7 +19,7 @@ export class GenericService {
   private urlRoot = `${this.env.WEB_API}` 
 
   
-  getItemList(base:string,): Observable<any[]> {
+  getItemList(base:string): Observable<any[]> {
     return this.http
       .get<any[]>(`${this.urlRoot}/${base}/`)
   }
