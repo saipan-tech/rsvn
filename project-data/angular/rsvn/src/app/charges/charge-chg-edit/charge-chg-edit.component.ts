@@ -1,5 +1,5 @@
 import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
-import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter, Inject } from '@angular/core';
 import { IBldg } from '@app/_interface/bldg';
 import { IRoom } from '@app/_interface/room'
 import { IRoominfo } from '@app/_interface/roominfo'
@@ -8,6 +8,8 @@ import { IDropdown} from '@app/_interface/dropdown'
 import { GenericService } from '@app/_services/generic.service';
 import { SystemService } from '@app/_services/system.service';
 import { AuthService } from '@app/_services/auth.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+
 @Component({
   selector: 'app-charge-chg-edit',
   templateUrl: './charge-chg-edit.component.html',
@@ -19,12 +21,17 @@ export class ChargeChgEditComponent implements OnInit {
     private genericService: GenericService,
     private systemService: SystemService,
     private authService: AuthService,
-    
+    @Inject(MAT_DIALOG_DATA) data: any,
+    private dialogRef: MatDialogRef<ChargeChgEditComponent>,
+  ) { 
+    this.currRsvn = data.currRsvn
+    this.currCharge = data.currCharge
+    this.chargeEditForm.patchValue(this.currCharge)
 
-  ) { }
-  @Input() currRsvn: any
-  @Input() currCharge: ICharge = {} as ICharge
-  @Output() currChargeChange = new EventEmitter<ICharge>()
+  }
+  
+  currRsvn: any
+  currCharge: any
 
   form_error: any
   user: any
@@ -55,29 +62,11 @@ export class ChargeChgEditComponent implements OnInit {
   chgtypeList :IDropdown[] = []
   
   //---------------------------------
-
   deleteCharge(chg:ICharge) {
     this.genericService.deleteItem('charge',chg)
       .subscribe(data => {
-        this.newCharge()
-        this.currChargeChange.emit(data)
-
+      this.close()
       })
-
-  }
-
-
-//---------------------------------
-  
-  selectCharge(chg:ICharge) {
-    this.genericService.getItem('charge',chg.id)
-      .subscribe(data => {
-        this.currCharge= data
-        this.currChargeChange.emit(data)
-        this.chargeEditForm.patchValue(this.currCharge)
-
-      })
-
   }
     //--------------------------
   updateCharge(charge: ICharge) {
@@ -91,12 +80,9 @@ export class ChargeChgEditComponent implements OnInit {
       charge = this.blankCharge(charge)
       this.genericService.updateItem('charge', charge).subscribe(
         data => {
-          this.newCharge()
-          this.ngOnInit()
+          this.close()
         },
         err => console.log("Error",err)
-
-
       )
     }
   }
@@ -113,21 +99,10 @@ export class ChargeChgEditComponent implements OnInit {
   newCharge() {
     this.chargeEditForm.reset()
     this.currCharge = {} as ICharge
-    this.currChargeChange.emit(this.currCharge)
   }
   //--------------------------
-
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.ngOnInit()
-    
-    if (this.currCharge && this.currCharge.id) {
-      this.chargeEditForm.patchValue(this.currCharge)
-
-    } else {
-      this.newCharge()
-    }
-
+  close() {
+    this.dialogRef.close()
   }
   //--------------------------
   ngOnInit(): void {

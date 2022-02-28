@@ -54,36 +54,25 @@ export class SearchCtrlComponent implements OnInit {
   });
 
   activeRsvn$: Observable<IRsvn[]> = of()
-  
+
   lateCheckout$: Observable<any> = of()
   lateCheckout: IRoom[] = []
 
   multiList: any
   roomCount$: Observable<IRsvn[]> = of()
   guestList$: Observable<any[]> = of()
-  
+
   expiredOcc$: Observable<any[]> = of()
   expiredOcc: IRoom[] = []
 
   qv: boolean = false
-
-  noRsvn() {
-    combineLatest([this.guestService.entities$, this.rsvnService.entities$]).pipe(
-      map(([guest, rsvn]) => {
-        let result = []
-        guest.forEach(g => {
-
-        })
-      })
-    )
-  }
 
   //--------------------------------------
   selectRsvn(rsvn: any) {
     this.currRsvnChange.emit(rsvn)
     this.guestService.getByKey(rsvn.primary).subscribe(d => this.currGuestChange.emit(d))
   }
-
+  //--------------------------------------
   selectGuest(guest: any) {
     this.currGuestChange.emit(guest)
   }
@@ -92,7 +81,8 @@ export class SearchCtrlComponent implements OnInit {
     this.guestService.getByKey(guestid).
       subscribe(d => {
         this.currGuestChange.emit(d)
-
+        this.currRsvn = {} as IRsvn
+        this.currRsvnChange.emit(this.currRsvn)
       })
   }
   //--------------------------------------
@@ -117,14 +107,37 @@ export class SearchCtrlComponent implements OnInit {
   //--------------------------------------
   clearCheckinAll() {
     this.lateCheckout.forEach(
-      (co:any) => {
+      (co: any) => {
         let rm = { ...co.room }
         rm.status = 'checkout'
         this.roomService.update(rm).subscribe()
       }
     )
   }
+  //--------------------------------------
+  roominfoStatusChange$(roomid: number, value: string): Observable<any> {
+    return this.roominfoService.getByKey(roomid).pipe(
+      map(ri => {
+        var rmin = { ...ri }
+        rmin.status = value
+        return rmin
+      }),
+      concatMap(rminfo => this.roominfoService.update(rminfo))
+    )
+  }
 
+  //--------------------------------------
+
+  clearOcc(roomid: number, value: string) {
+    if (roomid == 0) {
+      this.expiredOcc.forEach((ex: any) => {
+        this.roominfoStatusChange$(ex.id, value).subscribe()
+      })
+    } else {
+      this.roominfoStatusChange$(roomid, value).subscribe()
+
+    }
+  }
 
   reload() {
 
@@ -192,31 +205,6 @@ export class SearchCtrlComponent implements OnInit {
         })
         return rres
       }))
-  }
-  //--------------------------------------
-
-  roominfoStatusChange$(roomid: number, value: string): Observable<any> {
-    return this.roominfoService.getByKey(roomid).pipe(
-      map(ri => {
-        var rmin = { ...ri }
-        rmin.status = value
-        return rmin
-      }),
-      concatMap(rminfo => this.roominfoService.update(rminfo))
-    )
-  }
-
-  //--------------------------------------
-
-  clearOcc(roomid: number, value: string) {
-    if (roomid == 0) {
-      this.expiredOcc.forEach((ex: any) => {
-        this.roominfoStatusChange$(ex.id, value).subscribe()
-      })
-    } else {
-      this.roominfoStatusChange$(roomid, value).subscribe()
-
-    }
   }
 
 

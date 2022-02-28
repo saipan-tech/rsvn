@@ -5,7 +5,8 @@ import { IDropdown } from '@app/_interface/dropdown'
 import { GenericService } from '@app/_services/generic.service';
 import { SystemService } from '@app/_services/system.service';
 import { AuthService } from '@app/_services/auth.service';
-
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { Inject } from '@angular/core';
 
 @Component({
   selector: 'app-charge-pmt-edit',
@@ -19,16 +20,23 @@ export class ChargePmtEditComponent implements OnInit {
   @Output() currPaymentChange = new EventEmitter<IPayment>()
 
   constructor(
-     private genericService: GenericService,
+    private genericService: GenericService,
     private systemService: SystemService,
     private authService: AuthService,
+    @Inject(MAT_DIALOG_DATA) data: any,
+    private dialogRef: MatDialogRef<ChargePmtEditComponent>,
+  ) { 
+    this.currRsvn = data.currRsvn
+    this.currPayment = data.currPayment
+    this.paymentEditForm.patchValue(this.currPayment)
+  }
+  
 
-  ) { }
 
   form_error: any;
   user: any
- 
-  pmttypeList:IDropdown[] = []
+
+  pmttypeList: IDropdown[] = []
 
   paymentEditForm = new FormGroup({
     id: new FormControl(''),
@@ -41,15 +49,20 @@ export class ChargePmtEditComponent implements OnInit {
   })
 
   //---------------------------------
+  close() {
+    this.dialogRef.close()
+  }
+  //---------------------------------
 
   deletePayment(pmt: IPayment) {
     this.genericService.deleteItem('payment', pmt)
       .subscribe(data => {
         this.newPayment()
         this.currPaymentChange.emit(data)
+        this.close()
       })
   }
- 
+
   //--------------------------
   updatePayment(payment: IPayment) {
     if (this.currRsvn.id) {
@@ -63,7 +76,7 @@ export class ChargePmtEditComponent implements OnInit {
       this.genericService.updateItem('payment', payment).subscribe(
         data => {
           this.newPayment()
-          this.ngOnInit()
+          this.close()
         },
         err => console.log("Error", err)
       )
@@ -85,18 +98,9 @@ export class ChargePmtEditComponent implements OnInit {
     this.currPaymentChange.emit(this.currPayment)
 
   }
-   
+
   //--------------------------
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.ngOnInit()
-  
-    if (this.currPayment && this.currPayment.id) {
-      this.paymentEditForm.patchValue(this.currPayment)
-    } else {
-      this.newPayment()
-    }
-  }
   //--------------------------
   ngOnInit(): void {
     this.systemService.getDropdownList('payitem').subscribe(

@@ -7,6 +7,8 @@ import { AuthService } from '@app/_services/auth.service';
 import { RoomService } from '@app/_services/room.service';
 import { AppConstants } from '@app/app.constants';
 import { ChargeService } from '@app/_services/charge.service';
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { ChargePmtEditComponent } from '../charge-pmt-edit/charge-pmt-edit.component';
 
 
 @Component({
@@ -21,14 +23,38 @@ export class ChargePmtListComponent implements OnInit {
   @Output() currPaymentChange = new EventEmitter<IPayment>()
   @Output() pmtSubTotal = new EventEmitter<Number>()
 
+
+
   constructor(
 
     private genericService: GenericService,
     private roomService: RoomService,
-    private chargeService: ChargeService
+    private chargeService: ChargeService,
+    private dialog: MatDialog
+
 
   ) { }
+  //--------------------------
+  openDialog(payment: IPayment) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.panelClass = [];
+    dialogConfig.width = '30%';
+    dialogConfig.data = {
+      currRsvn: this.currRsvn,
+      currPayment: payment
 
+    }
+
+    const dialogRef = this.dialog.open(ChargePmtEditComponent, dialogConfig)
+    dialogRef.afterClosed()
+      .subscribe(
+        data => {
+          this.ngOnInit()
+        }
+      )
+  }
   form_error: any;
   user: any
   numDays = 0
@@ -37,22 +63,16 @@ export class ChargePmtListComponent implements OnInit {
   grandTotal = 0
   payTotal = 0
   balance = 0
-  pmttypeList:IDropdown[] = []
-//---------------------------------
-  blankPayment(payment: any) {
-    for (const field in payment) {
-      if (payment[field] == null) {
-        payment[field] = ''
-      }
-    }
-    return payment
-  }
-   //---------------------------------
-   selectPayment(pmt: IPayment) {
+  pmttypeList: IDropdown[] = []
+  blankPayment:IPayment = {} as IPayment
+  //---------------------------------
+
+
+  //---------------------------------
+  selectPayment(pmt: IPayment) {
     this.genericService.getItem('payment', pmt.id)
       .subscribe(data => {
-        this.currPayment = data
-        this.currPaymentChange.emit(data)
+        this.openDialog(data)
       })
   }
   //--------------------------
@@ -89,8 +109,8 @@ export class ChargePmtListComponent implements OnInit {
   }
   //--------------------------
   ngOnInit(): void {
- 
-    this.genericService.getItemQueryList('room',`rsvn=${this.currRsvn.id}&all=1`)
+
+    this.genericService.getItemQueryList('room', `rsvn=${this.currRsvn.id}&all=1`)
       .subscribe(data => {
         this.chargeService.getRsvnPayment(this.currRsvn.id)
           .subscribe(data => {

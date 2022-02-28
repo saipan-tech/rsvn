@@ -51,6 +51,7 @@ export class ActionItemsComponent implements OnInit {
     }
   
     const dialogRef = this.dialog.open(ActionEditComponent, dialogConfig)
+    
     dialogRef.afterClosed()
       .subscribe(
         data => {

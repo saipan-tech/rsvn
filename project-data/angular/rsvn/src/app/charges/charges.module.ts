@@ -18,6 +18,7 @@ import { ChargeChgEditComponent } from './charge-chg-edit/charge-chg-edit.compon
 import { ChargePmtListComponent } from './charge-pmt-list/charge-pmt-list.component';
 import { ChargeChgListComponent } from './charge-chg-list/charge-chg-list.component';
 import { ChargeRoomListComponent } from './charge-room-list/charge-room-list.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { ChargeRoomListComponent } from './charge-room-list/charge-room-list.com
     MatRadioModule,
     AppRoutingModule,
     MatExpansionModule,
+    MatCardModule
   ],
   exports: [
     ChargeCtrlComponent

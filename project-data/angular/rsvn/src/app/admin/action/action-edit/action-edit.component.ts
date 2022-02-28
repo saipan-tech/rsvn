@@ -61,7 +61,6 @@ export class ActionEditComponent implements OnInit {
 
 
   }
-  @Output() currActionChange = new EventEmitter<IAction>()
     
     actionEditForm = new FormGroup({
       id: new FormControl(''),
