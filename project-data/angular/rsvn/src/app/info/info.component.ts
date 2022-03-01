@@ -10,7 +10,6 @@ import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
 import { combineLatest, from, Observable, of } from 'rxjs';
 import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
 
-let Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
 
 @Component({
   selector: 'app-info',
@@ -29,6 +28,7 @@ export class InfoComponent implements OnInit {
   @Output() currRsvnChange = new EventEmitter<IRsvn>();
 
   result = []
+
   Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
 
   infoArray$: any 
@@ -41,7 +41,7 @@ selectRsvn(rsvn:number) {
   refreshInfo() {
     // var infoArray = []
     var activeList$ = this.roomService.entities$
-      .pipe(map(rooms => rooms.filter(rooms => rooms.dateIn <= Today && rooms.dateOut >= Today)))
+      .pipe(map(rooms => rooms.filter(rooms => rooms.dateIn <= this.Today && rooms.dateOut >= this.Today)))
 
     var al$ = combineLatest([activeList$, this.bldgService.entities$,this.roominfoService.entities$]).pipe(
       map(([active,bldg,roominfo]) => {
@@ -60,8 +60,11 @@ selectRsvn(rsvn:number) {
 
     this.infoArray$ = al$
   }
+
  //====================================================
-  ngOnInit(): void {
+ 
+ //====================================================
+ ngOnInit(): void {
     this.refreshInfo()
   }
   //=================================
