@@ -83,6 +83,105 @@ RSVN Users Manual
 Dashboard
 \end_layout
 
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/full_dashboard.png
+	width 14cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/matrix1.png
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Occupancy Matrix
+\end_layout
+
+\begin_layout Standard
+The Occupancy Matrix is a quick glance view of room occupancy.
+ The date select and range controls are on top.
+ The room lanes show a visual histogram of rooms vs dates.
+ Clicking on a room lane wil retrieve basic guest informaton and reservation
+ information and a link to additional information and full guest profile
+ will display.
+\end_layout
+
+\begin_layout Subsection
+Date Select and Range
+\end_layout
+
+\begin_layout Standard
+The date axis has 3 controls:
+\end_layout
+
+\begin_layout Itemize
+The calendar select will adust the date origin of the horizontal date axis.
+\end_layout
+
+\begin_layout Itemize
+Clicking on any of the dates will push the origin to (day - 4) of the selected
+ date.
+ 
+\end_layout
+
+\begin_layout Itemize
+The slider will adjust the number of days represented up to 30 days.
+\end_layout
+
+\begin_layout Subsection
+Room Lanes
+\end_layout
+
+\begin_layout Standard
+Room lanes are color coded for easier identification.
+ The meaning and variety are all customizable.
+ Room status can be realized with just a glance and historical room states
+ can be accesed and visualized as well.
+\end_layout
+
+\begin_layout Section
+Reservation Viewer
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/image309.png
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Clicking on a room marked in the room lane will display a condensed room
+ information block.
+ This way one can click through many selections quickly, once desired reservatio
+n has been located, selecting the Reservation link navigates to a full reservati
+on and guest profile.
+\end_layout
+
+\begin_layout Section
+Weather Widget
+\end_layout
+
 \begin_layout Part
 Guest and Reservations
 \end_layout
