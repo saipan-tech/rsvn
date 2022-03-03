@@ -29,6 +29,7 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
+\spacing single
 \use_hyperref false
 \papersize default
 \use_geometry false
@@ -44,6 +45,7 @@
 \use_package undertilde 1
 \cite_engine basic
 \cite_engine_type default
+\biblio_style plain
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -79,6 +81,13 @@
 RSVN Users Manual
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
 \begin_layout Part
 Dashboard
 \end_layout
@@ -86,7 +95,7 @@ Dashboard
 \begin_layout Standard
 \begin_inset Graphics
 	filename img/full_dashboard.png
-	width 14cm
+	width 12cm
 
 \end_inset
 
@@ -118,9 +127,12 @@ Occupancy Matrix
 The Occupancy Matrix is a quick glance view of room occupancy.
  The date select and range controls are on top.
  The room lanes show a visual histogram of rooms vs dates.
- Clicking on a room lane wil retrieve basic guest informaton and reservation
+ The room lane shows the first 2 letters of the last name of the primary
+ guest.
+ Clicking on a room lane will retrieve basic guest information and reservation
  information and a link to additional information and full guest profile
- will display.
+ will display and all rooms associated with the selected date will be highlighte
+d in red.
 \end_layout
 
 \begin_layout Subsection
@@ -132,17 +144,19 @@ The date axis has 3 controls:
 \end_layout
 
 \begin_layout Itemize
-The calendar select will adust the date origin of the horizontal date axis.
+The calendar select will adjust the dates on the horizontal date axis.
+ The date selected on the calendar will be the starting date.
 \end_layout
 
 \begin_layout Itemize
-Clicking on any of the dates will push the origin to (day - 4) of the selected
- date.
- 
+Clicking on any of the dates will push the start of the date line to (day
+ - 4) of the selected date.
+ If the first date is clicked the date line will move forward.
 \end_layout
 
 \begin_layout Itemize
 The slider will adjust the number of days represented up to 30 days.
+ It will not affect the starting date.
 \end_layout
 
 \begin_layout Subsection
@@ -159,9 +173,10 @@ Color Coding
 \end_layout
 
 \begin_layout Standard
-The meaning and variety of colors are all customizable.
+The meaning and variety of colors are all customized from the configuration
+ screen.
  Room status can be realized with just a glance and historical room states
- can be accesed and visualized as well.
+ can be accessed and visualized as well.
 \end_layout
 
 \begin_layout Subsubsection
@@ -188,19 +203,198 @@ Reservation Viewer
 \end_layout
 
 \begin_layout Standard
-Clicking on a room marked in the room lane will display a condensed room
- information block.
- This way one can click through many selections quickly, once desired reservatio
-n has been located, selecting the Reservation link navigates to a full reservati
-on and guest profile.
-\end_layout
-
-\begin_layout Section
-Weather Widget
+Clicking on a room in the room lane will display a condensed room information
+ block.
+ This allows rapid review of reservations on the Occupancy Matrix.
+ Clicking on the Reservation link in the view will open a full Guest and
+ Reservations section.
 \end_layout
 
 \begin_layout Part
 Guest and Reservations
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/guest_reservations.png
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Wrap figure
+lines 0
+placement R
+overhang 0in
+width "4.5cm"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/search.png
+	width 4.5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Search
+\end_layout
+
+\begin_layout Standard
+The Search sidebar is a handy collection of information.
+ All guests and reservations are accessible here via quick search either
+ by name or date.
+ The standard out-of-the-box installation has 8 panels which are dynamic
+ and relay usual and unusual events.
+ This section is easily customized per installation as needed.
+ 
+\end_layout
+
+\begin_layout Subsection
+Query
+\end_layout
+
+\begin_layout Subsubsection
+Text Query
+\end_layout
+
+\begin_layout Standard
+Enter at least 2 characters into the query box and any partial name matches
+ will display in Search Results and No Rsvn Guests.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Date Query
+\end_layout
+
+\begin_layout Standard
+Select a date and any reservations that are/were active on that date will
+ display in the list.
+\end_layout
+
+\begin_layout Subsubsection
+Quick View
+\end_layout
+
+\begin_layout Standard
+The quick view searchs the full database of guests and displays any one
+ that has not had a reservation.
+\end_layout
+
+\begin_layout Subsection
+Result Panels
+\end_layout
+
+\begin_layout Subsubsection
+All Non Rsvn Guests
+\end_layout
+
+\begin_layout Standard
+When toggling the Quick View button, all guests in the database that have
+ yet to make a reservation will list out.
+ Click on the name and a new reservation can be made.
+\end_layout
+
+\begin_layout Subsubsection
+Search Results
+\end_layout
+
+\begin_layout Standard
+Entering 2 or more letters in the query will produce a list of matches of
+ reservations in this pane.
+ The name and the dateIn dateOut values for this match.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+No Rsvn Guests
+\end_layout
+
+\begin_layout Standard
+Entering 2 or more letters in the query will produce a list of matches of
+ guest.
+ The name and the dateIn dateOut values for this match.
+\end_layout
+
+\begin_layout Subsubsection
+Check Ins
+\end_layout
+
+\begin_layout Standard
+All rooms that are scheduled for check in today will show up.
+ Rooms are listed by building and room numbers.
+ Selecting the rooms will bring up guest and reservation data.
+\end_layout
+
+\begin_layout Subsubsection
+Check Outs
+\end_layout
+
+\begin_layout Standard
+All rooms that are scheduled for check out today will show up.
+ Rooms are listed by building and room numbers.
+ Selecting the rooms will bring up guest and reservation data.
+\end_layout
+
+\begin_layout Subsubsection
+In House
+\end_layout
+
+\begin_layout Standard
+All rooms that are occupied or reservations have been made.
+ Rooms are listed by building and room number.
+ selecting the rooms will bring up guest and reservation data.
+\end_layout
+
+\begin_layout Subsubsection
+Rooms Not Assigned
+\end_layout
+
+\begin_layout Standard
+This is an automatic pane which will show any reservations that have not
+ have all the rooms assigned.
+\end_layout
+
+\begin_layout Subsubsection
+Expired Occupancy
+\end_layout
+
+\begin_layout Standard
+If a room has not been properly checked out after the reservation has expired
+ it may still indicate occupied it will show uphere and it can be reset
+ to a different status.
+ The defaults are Inspect, dirty, ready.
+\end_layout
+
+\begin_layout Section
+Guest Information 
+\end_layout
+
+\begin_layout Section
+Rooms Control
 \end_layout
 
 \begin_layout Part

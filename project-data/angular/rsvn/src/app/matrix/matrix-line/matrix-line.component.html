@@ -7,7 +7,7 @@
     <div class="roomcell" [style.width.%]='gridwidth' *ngFor="let x of lineArray" >
        <button [ngStyle]="{'background-color':x.color}" (click)="selectRsvn(x.rsvn)" 
        [ngClass]="{'rmbutt':true,'selectCell':x.curr == x.rsvn}" *ngIf='x'>
-    X
+    {{ x.name | slice:0:2}}
         </button>
     </div>
 </div>

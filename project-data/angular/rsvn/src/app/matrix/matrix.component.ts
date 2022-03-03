@@ -11,7 +11,7 @@ import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
-
+import { GuestEntityService } from '@app/_ngrxServices/guest-entity.service';
 import { AppConstants } from '@app/app.constants';
 import { SystemService } from '@app/_services/system.service';
 import { ActivatedRoute } from '@angular/router';
@@ -45,6 +45,7 @@ export class MatrixComponent implements OnInit {
     private genericService: GenericService,
     private rsvnService: RsvnEntityService,
     private roomService: RoomEntityService,
+    private guestService: GuestEntityService,
 
     private bldgService: BldgEntityService,
     private roominfoService: RoominfoEntityService,
@@ -79,6 +80,7 @@ export class MatrixComponent implements OnInit {
     this.gridwidth = 100 / (Number(this.days) + 1)
     let roominfo$ = this.roominfoService.entities$
     let bldg$ = this.bldgService.entities$
+    let guest$ = this.guestService.entities$
     let dateIn = this.currDateStart
     let dateOut = this.addDay(this.currDateStart, this.days)
 
@@ -95,22 +97,24 @@ export class MatrixComponent implements OnInit {
 
 
     let rsvn$ = this.rsvnService.entities$
-    let stageRooms$ = combineLatest([roominfo$, rsvn$, bldg$, rooms$]).pipe(
-      map(([roominfo, rsvn, bldg, rooms]) => {
+    let stageRooms$ = combineLatest([roominfo$, rsvn$, bldg$, rooms$, guest$]).pipe(
+      map(([roominfo, rsvn, bldg, rooms,guests]) => {
         let riList: any[] = []
         roominfo.forEach(ri => {
           let rms: any = rooms.filter(rf => ri.id == rf.roominfo)
           let rmm: any[] = []
           rms.forEach((r: any) => {
 
-            let rvn = rsvn.find(v => v.id == r.rsvn)
+            let rvn:any = rsvn.find(v => v.id == r.rsvn)
+            let gst = guests.find(g => g.id == rvn.primary)
 
             rmm.push({
               room: { ...r },
               startOffset: Math.max(Number(this.systemService.daySpan(this.currDateStart, r.dateIn)), 0),
               endOffset: Math.min(Number(this.systemService.daySpan(this.currDateStart, r.dateOut)), this.days),
               rsvn: rvn,
-              currRsvnId:this.currRsvnId
+              currRsvnId:this.currRsvnId,
+              guest:gst
             })
           })
           riList.push({ roominfo: ri, rooms: rmm })

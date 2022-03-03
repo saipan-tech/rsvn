@@ -1,4 +1,4 @@
-<mat-card style="background-color:limegreen;text-align:center;height:98%;overflow-y:scroll" *ngIf="currRsvn && currRsvn.id">
+<mat-card style="text-align:center;height:98%;overflow-y:scroll" *ngIf="currRsvn && currRsvn.id">
     <div class="card-header"> <h3>{{ currGuest.fullname }}</h3></div>
     <app-room-checks [currRsvn]='currRsvn'  ></app-room-checks>
     <app-room-avail [currRsvn]='currRsvn' ></app-room-avail>

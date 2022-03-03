@@ -26,7 +26,8 @@ reload() {
         this.lineArray[y] = { 
           color:rm.rsvn.color,
           rsvn:rm.rsvn.id,
-          curr:rm.currRsvnId
+          curr:rm.currRsvnId,
+          name:rm.guest.lastname
         }
       }
     })

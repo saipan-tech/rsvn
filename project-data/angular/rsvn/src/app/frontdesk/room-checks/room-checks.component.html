@@ -1,4 +1,4 @@
-<mat-card style="background-color:limegreen;text-align:center">
+<mat-card style="text-align:center">
     <div>
         <h4>{{currRsvn.primary.firstname}} {{currRsvn.primary.middlename}} {{currRsvn.primary.lastname}}</h4>
 
@@ -8,7 +8,7 @@
         </div>
         <h5>Assigned Rooms - {{currNumRooms}}/{{currRsvn.numrooms}}</h5>
     </div>
-    <mat-card-content style=" background-color:lightgreen;padding:1em">
+    <mat-card-content style="padding:1em">
         <div class="d-flex flex-wrap">
             <div *ngFor="let r of currRooms$ | async" class="rmcell ">
                 <app-room-checks-widget [currRoom]='r'  ></app-room-checks-widget>
