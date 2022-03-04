@@ -103,6 +103,12 @@ Dashboard
 \end_layout
 
 \begin_layout Standard
+The Dashboard is the first view that comes up by default.
+ It has a navigation bar, Occupancy Matrix for an overall room view.
+ There are information panels that will display 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage pagebreak
 \end_inset
 
@@ -164,7 +170,9 @@ Room Lanes
 \end_layout
 
 \begin_layout Standard
-Room lanes are color coded for easy identification.
+Room lanes show if a room is occupied over a span of dates.
+ The room markers contain the first 2 letters of a guest's name and are
+ color coded for easy recognition and identification.
  
 \end_layout
 
@@ -185,7 +193,7 @@ Room Highlighting
 
 \begin_layout Standard
 Selecting a room will highlight it and any other rooms on that particular
- reservation.
+ reservation will also be highlighted .
 \end_layout
 
 \begin_layout Section
@@ -207,7 +215,7 @@ Clicking on a room in the room lane will display a condensed room information
  block.
  This allows rapid review of reservations on the Occupancy Matrix.
  Clicking on the Reservation link in the view will open a full Guest and
- Reservations section.
+ Reservations section with the selected room as current.
 \end_layout
 
 \begin_layout Part
@@ -263,7 +271,8 @@ Search
 \end_layout
 
 \begin_layout Standard
-The Search sidebar is a handy collection of information.
+The Search sidebar is a handy collection of information situated on the
+ left sidebar on the Guest And Reservations page.
  All guests and reservations are accessible here via quick search either
  by name or date.
  The standard out-of-the-box installation has 8 panels which are dynamic
@@ -291,8 +300,8 @@ Date Query
 \end_layout
 
 \begin_layout Standard
-Select a date and any reservations that are/were active on that date will
- display in the list.
+Select a date and any reservations active on that date will display in the
+ Search Results panel.
 \end_layout
 
 \begin_layout Subsubsection
@@ -300,8 +309,8 @@ Quick View
 \end_layout
 
 \begin_layout Standard
-The quick view searchs the full database of guests and displays any one
- that has not had a reservation.
+The quick view searchs the full database of guests and displays any that
+ have not had a reservation.
 \end_layout
 
 \begin_layout Subsection
@@ -370,6 +379,16 @@ All rooms that are occupied or reservations have been made.
 \end_layout
 
 \begin_layout Subsubsection
+Overdue Checkouts
+\end_layout
+
+\begin_layout Standard
+If a room status remains at checkin after the reservation is active the
+ room will automatically list in this poanel.
+ Rooms can be cleared one at a time or as a batch with a single Clear All
+\end_layout
+
+\begin_layout Subsubsection
 Rooms Not Assigned
 \end_layout
 
@@ -384,13 +403,49 @@ Expired Occupancy
 
 \begin_layout Standard
 If a room has not been properly checked out after the reservation has expired
- it may still indicate occupied it will show uphere and it can be reset
+ it may still indicate occupied it will show up here and it can be reset
  to a different status.
  The defaults are Inspect, dirty, ready.
+ Room status cna be changed individually or a batch which will take the
+ room to Inspect.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/Guest.png
+	width 9cm
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
 Guest Information 
+\end_layout
+
+\begin_layout Standard
+The Guest Information dashboard in the center panel on he Guest And Reservations
+ page.
+\end_layout
+
+\begin_layout Subsection
+Guest Edit
+\end_layout
+
+\begin_layout Subsection
+Reservation Edit
+\end_layout
+
+\begin_layout Subsection
+Charges and Payments
 \end_layout
 
 \begin_layout Section

@@ -54,14 +54,9 @@ export class RoomAvailComponent implements OnInit, OnChanges {
       })
     ).subscribe()
 
-    let exclude$ = this.roomService.entities$
-      .pipe(
-        map(room => room.filter(room =>
-          (room.dateIn <= dateIn && room.dateOut > dateIn) ||
-          (room.dateIn <= dateOut && room.dateOut > dateIn) ||
-          (room.dateIn <= dateOut && room.dateOut > dateOut)
-        )
-        ))
+
+    let exclude$ = this.roomService.activeRoom$(dateIn,dateOut)
+
 
     let edited$ = combineLatest([ris$, exclude$]).pipe(
       map(([roominfo, exclude]) => {

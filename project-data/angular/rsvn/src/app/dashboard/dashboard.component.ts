@@ -32,11 +32,15 @@ export class DashboardComponent implements OnInit {
   currRsvnInfo$:Observable<any> = of()
 
   selectRsvn(rsvnId:number) {
+    this.currRsvnId = rsvnId
     this.currRsvnInfo$= combineLatest([this.rsvnService.getByKey(rsvnId),this.guestService.entities$]).pipe(
       map(([rsvn,guest]) => {
         return {rsvn,guest:guest.find(g=> g.id==rsvn.primary)}
       })
     )
+  }
+  clearRsvn() {
+    this.selectRsvn(0)
   }
   ngOnInit(): void {
     

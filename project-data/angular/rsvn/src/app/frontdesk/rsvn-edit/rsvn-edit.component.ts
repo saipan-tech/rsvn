@@ -9,11 +9,14 @@ import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
 import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { resultMemoize } from '@ngrx/store';
 
 @Component({
   selector: 'app-rsvn-edit',
   templateUrl: './rsvn-edit.component.html',
-  styleUrls: ['./rsvn-edit.component.css']
+  styleUrls: ['./rsvn-edit.component.scss']
 })
 export class RsvnEditComponent implements OnInit, OnChanges {
 
@@ -155,8 +158,10 @@ export class RsvnEditComponent implements OnInit, OnChanges {
           rsvn.clerk = this.user.username
         }
         // Here we test if there would be a room collision with this save
+        // This has to be updated to also change dates in rooms assigned
         
-        
+ 
+
         this.oldRsvnService.rsvnTest(rsvn.id, rsvn.dateIn, rsvn.dateOut).subscribe(
           dd => {
             if (!dd.result.length) {

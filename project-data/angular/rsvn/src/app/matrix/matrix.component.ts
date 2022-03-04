@@ -42,7 +42,6 @@ export class MatrixComponent implements OnInit {
   // -------------------------------------------
 
   constructor(
-    private genericService: GenericService,
     private rsvnService: RsvnEntityService,
     private roomService: RoomEntityService,
     private guestService: GuestEntityService,
@@ -51,7 +50,6 @@ export class MatrixComponent implements OnInit {
     private roominfoService: RoominfoEntityService,
     private appCons: AppConstants,
     private systemService: SystemService,
-    private activatedRoute: ActivatedRoute
 
   ) { }
   changeDate() {
