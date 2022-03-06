@@ -99,7 +99,7 @@
     <button *ngIf="rsvnEditForm.value.id  &&  rsvnEditForm.valid &&  rsvnEditForm.dirty"
         class="form-control btn-outline-primary" (click)="updateRsvn(rsvnEditForm.value)">Update</button>
     <button *ngIf="!rsvnEditForm.value.id &&  rsvnEditForm.valid  &&  rsvnEditForm.dirty"
-        class="form-control btn-outline-primary" (click)="updateRsvn(rsvnEditForm.value)">Create</button>
+        class="form-control btn-outline-primary" (click)="createRsvn(rsvnEditForm.value)">Create</button>
     <button *ngIf="rsvnEditForm.value.id && !rsvnLocked()" class="form-control btn-outline-primary"
         (click)="deleteRsvn(rsvnEditForm.value)">Delete</button>
 

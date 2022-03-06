@@ -9,9 +9,9 @@ import { RsvnService } from '@app/_services/rsvn.service';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
 import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
-import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { resultMemoize } from '@ngrx/store';
+import { combineLatest, concat } from 'rxjs';
+import { concatAll, concatMap, map, tap } from 'rxjs/operators';
+import { GenericService } from '@app/_services/generic.service';
 
 @Component({
   selector: 'app-rsvn-edit',
@@ -24,12 +24,12 @@ export class RsvnEditComponent implements OnInit, OnChanges {
   constructor(
     private systemService: SystemService,
     private authService: AuthService,
-    private oldRsvnService : RsvnService,
+    private oldRsvnService: RsvnService,
     private rsvnService: RsvnEntityService,
     private roomService: RoomEntityService,
+    private genericService: GenericService,
     private dialogManagerService: DialogManagerService,
   ) { }
-
 
   @Input() currRsvn: any
   @Output() currRsvnChange = new EventEmitter<IRsvn>();
@@ -106,21 +106,23 @@ export class RsvnEditComponent implements OnInit, OnChanges {
   //---------------------------------
   loadRsvn(rsvn: any) {
     if (rsvn && rsvn.id) {
-      this.rsvnService.getByKey(rsvn.id).subscribe(
-        data => {
-          this.rsvnEditForm.patchValue(data)
-          this.currRsvn = data
-          this.roomService.getWithQuery(`rsvn=${data.id}`).subscribe(
-            rooms => {
-              this.currNumRooms = rooms.length
-              this.currRooms = rooms
-            }
-          )
-        },
-        err => {
-          console.log("ERROR in rsvn Loading", err)
+      this.rsvnService.getByKey(rsvn.id).pipe(
+        map((rvn: any) => {
+          this.rsvnEditForm.patchValue(rvn)
+          this.currRsvn = rvn
+        }),
+        concatMap((rvn: any) => this.roomService.entities$),
+        map((rooms) => {
+          return rooms.filter(rm => rm.rsvn == rsvn.id)
+        }),
+        map(rooms => {
+          this.currNumRooms = rooms.length
+          this.currRooms = rooms
         }
-      )
+        )
+      ).subscribe()
+
+
     }
   }
 
@@ -137,7 +139,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
       this.rsvnService.add(rsvn).subscribe(
         data => {
           this.currRsvn = data
-          this.loadRsvn(data)
+
           this.currRsvnChange.emit(data)
         }
       )
@@ -145,43 +147,51 @@ export class RsvnEditComponent implements OnInit, OnChanges {
   }
   //---------------------------------
   updateRsvn(rsvn: any) {
-    if (!rsvn.id) {
-      this.createRsvn(rsvn)
-    } else {
-      // Before updating - let's run a validity check on the dates and the rooms
-      if (this.currGuest.id) {
-        this.form_error = {}
-        rsvn.primary = Number(this.currGuest.id)
-        rsvn.dateIn = this.fromHTMLDate(rsvn.dateIn)
-        rsvn.dateOut = this.fromHTMLDate(rsvn.dateOut)
-        if (rsvn && !rsvn.clerk) {
-          rsvn.clerk = this.user.username
-        }
-        // Here we test if there would be a room collision with this save
-        // This has to be updated to also change dates in rooms assigned
-        
- 
-
-        this.oldRsvnService.rsvnTest(rsvn.id, rsvn.dateIn, rsvn.dateOut).subscribe(
-          dd => {
-            if (!dd.result.length) {
-              this.rsvnService.update(rsvn).subscribe(
-                data => {
-                  this.currRsvn = data
-                  this.loadRsvn(data)
-                  this.currRsvnChange.emit(data)
-                }
-              )
-
-            }
-          },
-          err => {
-            this.form_error = err.error
-          }
-        )
+    // Before updating - let's run a validity check on the dates and the rooms
+    if (this.currGuest.id) {
+      this.form_error = {}
+      rsvn.primary = Number(this.currGuest.id)
+      rsvn.dateIn = this.fromHTMLDate(rsvn.dateIn)
+      rsvn.dateOut = this.fromHTMLDate(rsvn.dateOut)
+      if (rsvn && !rsvn.clerk) {
+        rsvn.clerk = this.user.username
       }
+      // Here we test if there would be a room collision with this save
+      // This has to be updated to also change dates in rooms assigned
+
+      this.oldRsvnService.rsvnTest(rsvn.id, rsvn.dateIn, rsvn.dateOut).subscribe(
+        dd => {
+          if (!dd.result.length) {
+            let rsvnRooms = this.roomService.rsvnRooms$(rsvn.id)
+
+            this.rsvnService.update(rsvn).pipe(
+              tap(rsvn => {
+                this.currRsvn = rsvn
+                this.currRsvnChange.emit(rsvn)
+              }),
+              concatMap(rsvn => this.roomService.rsvnRooms$(rsvn.id)),
+              map(rms => {
+                let result: any = [];
+                rms.forEach(rm => {
+                  let r = { ...rm }
+                  r.dateIn = rsvn.dateIn
+                  r.dateOut = rsvn.dateOut
+                  this.genericService.updateItem('room', r).subscribe()
+
+                })
+
+                return result
+              }),
+
+
+
+            ).subscribe(data => this.currRsvnChange.emit(rsvn))
+
+          }
+        })
     }
   }
+
   //---------------------------------
   rsvnLocked() {
     if (this.currRsvn && this.currRsvn.id && this.currNumRooms == 0) {

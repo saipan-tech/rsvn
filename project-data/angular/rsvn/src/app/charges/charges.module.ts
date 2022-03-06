@@ -19,6 +19,7 @@ import { ChargePmtListComponent } from './charge-pmt-list/charge-pmt-list.compon
 import { ChargeChgListComponent } from './charge-chg-list/charge-chg-list.component';
 import { ChargeRoomListComponent } from './charge-room-list/charge-room-list.component';
 import { MatCardModule } from '@angular/material/card';
+import { ChargeInvoiceComponent } from './charge-invoice/charge-invoice.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MatCardModule } from '@angular/material/card';
     ChargeChgEditComponent,
     ChargePmtListComponent,
     ChargeChgListComponent,
-    ChargeRoomListComponent
+    ChargeRoomListComponent,
+    ChargeInvoiceComponent
   ],
   imports: [
    

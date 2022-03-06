@@ -35,8 +35,16 @@ export class SearchListComponent implements OnInit,OnChanges {
   ) { }
 
 reload() {
-  let rsvn$:Observable<IRsvn[]> = this.multiList.rsvn
-  let guest$:Observable<IGuest[]> = this.multiList.guest
+  let rsvn$:Observable<IRsvn[]> = of()
+  let guest$:Observable<IGuest[]> = of()
+  
+  if(this.multiList && this.multiList.rsvn) {
+    rsvn$ = this.multiList.rsvn
+  }
+  if(this.multiList && this.multiList.guest) {
+    guest$ = this.multiList.guest
+  }
+  
   
   this.guestList$ = combineLatest([rsvn$,guest$]).pipe(
     map(([rsvn,guest]) => {

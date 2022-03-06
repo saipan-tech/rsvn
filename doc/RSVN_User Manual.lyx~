@@ -271,7 +271,8 @@ Search
 \end_layout
 
 \begin_layout Standard
-The Search sidebar is a handy collection of information.
+The Search sidebar is a handy collection of information situated on the
+ left sidebar on the Guest And Reservations page.
  All guests and reservations are accessible here via quick search either
  by name or date.
  The standard out-of-the-box installation has 8 panels which are dynamic
@@ -409,8 +410,30 @@ If a room has not been properly checked out after the reservation has expired
  room to Inspect.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/Guest.png
+	width 9cm
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Guest Information 
+\end_layout
+
+\begin_layout Standard
+The Guest Information dashboard in the center panel on he Guest And Reservations
+ page.
 \end_layout
 
 \begin_layout Subsection

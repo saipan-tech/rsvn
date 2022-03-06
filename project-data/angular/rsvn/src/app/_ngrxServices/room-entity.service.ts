@@ -4,7 +4,7 @@ import {
     EntityCollectionServiceBase, 
     EntityCollectionServiceElementsFactory 
 } from "@ngrx/data";
-import { map } from "rxjs/operators";
+import { filter, map } from "rxjs/operators";
 
 @Injectable()
 export class RoomEntityService extends EntityCollectionServiceBase<IRoom> {
@@ -13,7 +13,7 @@ export class RoomEntityService extends EntityCollectionServiceBase<IRoom> {
         super('Room', serviceElementsFactory)
     }
 
-
+    //=============================================
     activeRoom$(dateIn:string,dateOut:string) { 
     return this.entities$
     .pipe(
@@ -24,4 +24,15 @@ export class RoomEntityService extends EntityCollectionServiceBase<IRoom> {
       )
       ))
       }
+    //=============================================
+    rsvnRooms$(rsvnid:number) {
+        return this.entities$
+        .pipe(
+            map( rooms=> rooms.filter( rm => rm.rsvn == rsvnid))
+        )
+    }
+
+
 }
+
+
