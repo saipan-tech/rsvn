@@ -10,7 +10,7 @@ import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
 import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
 import { combineLatest, concat } from 'rxjs';
-import { concatAll, concatMap, map, tap } from 'rxjs/operators';
+import { concatAll, concatMap, map, switchMap, tap } from 'rxjs/operators';
 import { GenericService } from '@app/_services/generic.service';
 
 @Component({
@@ -121,11 +121,8 @@ export class RsvnEditComponent implements OnInit, OnChanges {
         }
         )
       ).subscribe()
-
-
     }
   }
-
   //---------------------------------
   createRsvn(rsvn: any) {
     if (this.currGuest.id) {
@@ -156,42 +153,14 @@ export class RsvnEditComponent implements OnInit, OnChanges {
       if (rsvn && !rsvn.clerk) {
         rsvn.clerk = this.user.username
       }
-      // Here we test if there would be a room collision with this save
-      // This has to be updated to also change dates in rooms assigned
-
       this.oldRsvnService.rsvnTest(rsvn.id, rsvn.dateIn, rsvn.dateOut).subscribe(
         dd => {
           if (!dd.result.length) {
-            let rsvnRooms = this.roomService.rsvnRooms$(rsvn.id)
-
-            this.rsvnService.update(rsvn).pipe(
-              tap(rsvn => {
-                this.currRsvn = rsvn
-                this.currRsvnChange.emit(rsvn)
-              }),
-              concatMap(rsvn => this.roomService.rsvnRooms$(rsvn.id)),
-              map(rms => {
-                let result: any = [];
-                rms.forEach(rm => {
-                  let r = { ...rm }
-                  r.dateIn = rsvn.dateIn
-                  r.dateOut = rsvn.dateOut
-                  this.genericService.updateItem('room', r).subscribe()
-
-                })
-
-                return result
-              }),
-
-
-
-            ).subscribe(data => this.currRsvnChange.emit(rsvn))
-
+            this.rsvnService.update(rsvn).subscribe(d => this.roomService.load())
           }
         })
     }
   }
-
   //---------------------------------
   rsvnLocked() {
     if (this.currRsvn && this.currRsvn.id && this.currNumRooms == 0) {
@@ -199,7 +168,6 @@ export class RsvnEditComponent implements OnInit, OnChanges {
     }
     return true
   }
-
   //---------------------------------
   deleteRsvn(rsvn: any) {
     this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {

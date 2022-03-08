@@ -115,6 +115,8 @@ class RsvnViewSet(viewsets.ModelViewSet):
             
         return queryset.order_by('primary__lastname','primary__firstname')    
 
+  
+    
     def create(self,request):
         guest = Guest.objects.get(id=int(request.data['primary']))
         drec = request.data 
@@ -128,6 +130,21 @@ class RsvnViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         return Response(serializer.errors)
 
+    
+    def update(self,request,pk=None):
+        rsvn = self.get_object()
+        serializer = RsvnSerializer(rsvn,data=request.data)
+        if serializer.is_valid():
+            x = serializer.save()
+            for ro in Room.objects.filter(rsvn__id=x.id):
+                ro.dateIn = x.dateIn
+                ro.dateOut = x.dateOut
+                ro.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+            
+
+    
     def destroy(self,request,pk=None):
         rsvn = self.get_object()
         if not Room.objects.filter(rsvn__id=rsvn.id) :

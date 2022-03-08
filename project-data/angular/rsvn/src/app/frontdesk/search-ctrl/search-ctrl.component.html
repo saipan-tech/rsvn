@@ -34,7 +34,7 @@
         <app-search-list [multiList]='multiList' (currRsvnChange)='selectRsvn($event)'
             (currGuestChange)='selectGuest($event)'></app-search-list>
 
-        <app-info (currRsvnChange)='selectRsvn($event)'></app-info>
+        <app-info [currRsvn]="currRsvn" (currRsvnChange)='selectRsvn($event)'></app-info>
 
         <ng-container *ngIf="lateCheckout$ | async as checkouts">
             <div class="section" *ngIf="checkouts.length">Overdue Check Outs <button mat-button (click)="clearCheckinAll()">Clear All</button></div>
