@@ -147,16 +147,19 @@ export class RsvnEditComponent implements OnInit, OnChanges {
     // Before updating - let's run a validity check on the dates and the rooms
     if (this.currGuest.id) {
       this.form_error = {}
-      rsvn.primary = Number(this.currGuest.id)
-      rsvn.dateIn = this.fromHTMLDate(rsvn.dateIn)
-      rsvn.dateOut = this.fromHTMLDate(rsvn.dateOut)
+      let rvn = { ...rsvn }
+
+      rvn.dateIn = this.fromHTMLDate(rsvn.dateIn)
+      rvn.dateOut = this.fromHTMLDate(rsvn.dateOut)
+      rvn.primary = Number(this.currGuest.id)
+
       if (rsvn && !rsvn.clerk) {
-        rsvn.clerk = this.user.username
+        rvn.clerk = this.user.username
       }
       this.oldRsvnService.rsvnTest(rsvn.id, rsvn.dateIn, rsvn.dateOut).subscribe(
         dd => {
           if (!dd.result.length) {
-            this.rsvnService.update(rsvn).subscribe(d => this.roomService.load())
+            this.rsvnService.update(rvn).subscribe(d => this.roomService.load())
           }
         })
     }
