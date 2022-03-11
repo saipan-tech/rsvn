@@ -1,9 +1,5 @@
 <div class="row">
-    <div class="col-4" style="height:700px;overflow-y:scroll">
-        <app-action-items></app-action-items>
-        <app-grid-select [roominfos]='roominfos'  [actionRec]='actionRec'
-            [staff]='staff'></app-grid-select>
-    </div>
+
     <div class="col" style="height:700px;overflow-y:scroll;;background-color:rgb(177, 177, 177)">
         <div *ngFor="let bld of dispList$ | async">
             <h4> {{ bld.name }}</h4>

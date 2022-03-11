@@ -18,6 +18,8 @@ import { SeasonCalendarComponent } from './ratemgr/season-calendar/season-calend
 import { RateListComponent } from './ratemgr/rate-list/rate-list.component';
 import { ActionItemsComponent } from './admin/action/action-items/action-items.component';
 import { ActionMatrixComponent } from './admin/action/action-matrix/action-matrix.component';
+import { ActionStaffComponent } from './admin/action/action-staff/action-staff.component';
+import { ActionManagerComponent } from './admin/action/action-manager/action-manager.component';
 import { AuthGuard } from './auth/auth.guard';
 
 import { RoominfoResolver } from '@app/_ngrxServices/roominfo-resolver';
@@ -29,22 +31,24 @@ import { BldgResolver } from './_ngrxServices/bldg-resolver';
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard',  component: DashboardComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver, bldg:BldgResolver,guest:GuestResolver}  },
-  { path: 'frontdesk', component: FrontdeskComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver,bldg:BldgResolver, guest:GuestResolver} , canActivate:[AuthGuard] },
-  { path: 'frontdesk/:rsvnId', component: FrontdeskComponent,resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver,bldg:BldgResolver, guest:GuestResolver} , canActivate:[AuthGuard] },
-  { path: 'config', component: ConfigComponent, canActivate:[AuthGuard] },
-  { path: 'guest', component: GuestEditComponent , canActivate:[AuthGuard]},
-  { path: 'dropdown', component: DropdownComponent , canActivate:[AuthGuard]},
-  { path: 'action', component: ActionComponent,
-  children: [
-    { path: 'actionitems', component: ActionItemsComponent, canActivate:[AuthGuard] },
-    { path: 'actionmatrix', component: ActionMatrixComponent, canActivate:[AuthGuard] },
-  ], resolve: { roominfo: RoominfoResolver,room: RoomResolver, rsvn: RsvnResolver,bldg:BldgResolver, guest:GuestResolver} ,canActivate:[AuthGuard]
-},
-
-  { path: 'staff', component: StaffComponent , canActivate:[AuthGuard]},
-  { path: 'calendar', component: CalendarComponent , canActivate:[AuthGuard]},
-  { path: 'ratemgr', component: RatemgrCtrlComponent , canActivate:[AuthGuard]},
+  { path: 'dashboard', component: DashboardComponent, resolve: { roominfo: RoominfoResolver, room: RoomResolver, rsvn: RsvnResolver, bldg: BldgResolver, guest: GuestResolver } },
+  { path: 'frontdesk', component: FrontdeskComponent, resolve: { roominfo: RoominfoResolver, room: RoomResolver, rsvn: RsvnResolver, bldg: BldgResolver, guest: GuestResolver }, canActivate: [AuthGuard] },
+  { path: 'frontdesk/:rsvnId', component: FrontdeskComponent, resolve: { roominfo: RoominfoResolver, room: RoomResolver, rsvn: RsvnResolver, bldg: BldgResolver, guest: GuestResolver }, canActivate: [AuthGuard] },
+  
+  { path: 'currentroom', component: ActionMatrixComponent, canActivate: [AuthGuard] },
+  
+  { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
+  { path: 'guest', component: GuestEditComponent, canActivate: [AuthGuard] },
+  { path: 'dropdown', component: DropdownComponent, canActivate: [AuthGuard] },
+  {
+    path: 'action', component: ActionComponent,
+    resolve: { roominfo: RoominfoResolver, room: RoomResolver, rsvn: RsvnResolver, bldg: BldgResolver, guest: GuestResolver }, 
+    canActivate: [AuthGuard] },
+  { path: 'actionstaff', component: ActionStaffComponent, canActivate: [AuthGuard] },
+  { path: 'actionmanager', component: ActionManagerComponent, canActivate: [AuthGuard] },
+  { path: 'staff', component: StaffComponent, canActivate: [AuthGuard] },
+  { path: 'calendar', component: CalendarComponent, canActivate: [AuthGuard] },
+  { path: 'ratemgr', component: RatemgrCtrlComponent, canActivate: [AuthGuard] },
 
 
 ];

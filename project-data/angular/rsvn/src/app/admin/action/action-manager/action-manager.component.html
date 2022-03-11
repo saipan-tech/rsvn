@@ -1,0 +1,17 @@
+
+
+
+<div class="row">
+    <div class="col-5">
+        <app-action-items [(actionRec)]="actionRec"></app-action-items>
+        <div class="row">
+            <div class="col"><app-action-edit [actionRec]='actionRec'></app-action-edit> </div>
+            <div class="col"><app-grid-select [actionRec]='actionRec'></app-grid-select></div>
+        </div>
+    </div>
+<div class="col-7">
+<app-action-staff></app-action-staff>
+
+</div>
+</div>
+

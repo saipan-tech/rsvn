@@ -18,7 +18,6 @@ import { RoomService } from '@app/_services/room.service';
 })
 export class ActionItemsComponent implements OnInit {
 
-  actionRec: any
   roominfos: IRoominfo[] = []
   actionList: any[] = []
   itemList: IDropdown[] = []
@@ -27,7 +26,12 @@ export class ActionItemsComponent implements OnInit {
   currRoominfos:any[] = []
   showall = false;
   search$ = this.genericService.getItemQueryList('action','today=1')
+  
+  
+  
   @Output() changeItems:any  = new EventEmitter<any>()
+  @Input() actionRec: IAction = {} as IAction
+  @Output() actionRecChange  = new EventEmitter<IAction>()
   
   
   constructor(
@@ -35,41 +39,10 @@ export class ActionItemsComponent implements OnInit {
     private systemService: SystemService,
     private roomService: RoomService,
     private authService: AuthService,
-    private dialog: MatDialog
   ) { }
 
   //--------------------------
-  openDialog(actionRec: IAction) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.panelClass = [];
-    dialogConfig.width = '50%';
-    dialogConfig.data = {
-      actionRec: actionRec,
-
-    }
   
-    const dialogRef = this.dialog.open(ActionEditComponent, dialogConfig)
-    
-    dialogRef.afterClosed()
-      .subscribe(
-        data => {
-          this.actionRec = data;
-          this.changeItems.emit(true)
-          this.ngOnInit()
-        }
-      )
-  }
-
- 
-  bldgName(id: number) {
-    let b = this.bldgList.find(f => f.id == id)
-    if (b) return b.name
-    else return {}
-
-
-  }
   dropDisplay(ddlist: IDropdown[], key: string) {
     let found: IDropdown | any = ddlist.find(d => d.value == key)
     if (found) return found.display
@@ -79,7 +52,6 @@ export class ActionItemsComponent implements OnInit {
 
   newAction() {
     this.actionRec = {} as IAction
-    this.openDialog(this.actionRec)
   }
 
 
@@ -87,8 +59,7 @@ export class ActionItemsComponent implements OnInit {
     this.roomService.getActionRoominfo(act_id)
       .subscribe(d=> { 
         this.currRoominfos = d
-        this.currRoominfos.forEach( cri =>
-          cri.bldgName = this.bldgName(cri.bldg) ) 
+
       })
   }
 
@@ -103,8 +74,13 @@ export class ActionItemsComponent implements OnInit {
       this.showall = false
     }
    
-    this.ngOnInit()
+    
   }
+ actionSelect(actionid:number):void {
+this.genericService.getItem('action',actionid)
+  .subscribe(d=> this.actionRecChange.emit(d))
+
+ }
 
   ngOnInit(): void {
 

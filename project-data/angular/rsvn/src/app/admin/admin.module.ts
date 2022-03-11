@@ -8,6 +8,7 @@ import { StaffListComponent } from './staff/staff-list/staff-list.component';
 import { StaffEditComponent } from './staff/staff-edit/staff-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,6 +17,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+
 import { ActionComponent } from './action/action.component';
 import { ActionStaffComponent } from './action/action-staff/action-staff.component';
 import { ActionItemsComponent } from './action/action-items/action-items.component';
@@ -24,6 +27,7 @@ import { GridSelectComponent } from './grid-select/grid-select.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { ActionMatrixComponent } from './action/action-matrix/action-matrix.component';
 import { ActionMatrixSidebarComponent } from './action/action-matrix-sidebar/action-matrix-sidebar.component';
+import { ActionManagerComponent } from './action/action-manager/action-manager.component';
 
 
 @NgModule({
@@ -39,6 +43,7 @@ import { ActionMatrixSidebarComponent } from './action/action-matrix-sidebar/act
     GridSelectComponent,
     ActionMatrixComponent,
     ActionMatrixSidebarComponent,
+    ActionManagerComponent,
    
     
   ],
@@ -50,6 +55,7 @@ import { ActionMatrixSidebarComponent } from './action/action-matrix-sidebar/act
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
+
     MatTabsModule,
     MatFormFieldModule,
     MatIconModule,
@@ -58,9 +64,10 @@ import { ActionMatrixSidebarComponent } from './action/action-matrix-sidebar/act
     MatSliderModule,
     MatRadioModule,
     MatCheckboxModule,
-    FrontdeskModule,
     MatMenuModule,
-
+    MatCardModule,
+    FrontdeskModule,
+  
   ],
   exports : [
     StaffComponent,

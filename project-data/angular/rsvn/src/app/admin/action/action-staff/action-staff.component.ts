@@ -13,6 +13,7 @@ import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.servic
 import { GuestEntityService } from '@app/_ngrxServices/guest-entity.service';
 import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
 import { combineLatest, Observable, of } from 'rxjs';
+import { IAction } from '@app/_interface/action';
 
 
 @Component({
@@ -35,7 +36,10 @@ export class ActionStaffComponent implements OnInit, OnChanges {
 
   ) { }
 
-  actionRec: any
+  @Input() actionRec: IAction = {} as IAction
+  @Output() actionRecChange = new EventEmitter<IAction>()
+
+  
   roominfos: any
 
   roomList: any;
@@ -125,7 +129,7 @@ export class ActionStaffComponent implements OnInit, OnChanges {
           this.roominfos = ri.map((q: any) => q = q.id)
           return ri
         }))
-      .subscribe(data => console.log(data, this.roominfos, this.actionRec))
+      .subscribe(d=> this.actionRecChange.emit(this.actionRec))
   }
   //====================================================
 

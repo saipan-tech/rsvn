@@ -159,7 +159,17 @@ export class RsvnEditComponent implements OnInit, OnChanges {
       this.oldRsvnService.rsvnTest(rsvn.id, rsvn.dateIn, rsvn.dateOut).subscribe(
         dd => {
           if (!dd.result.length) {
-            this.rsvnService.update(rvn).subscribe(d => this.roomService.load())
+            this.rsvnService.update(rvn)
+              .subscribe(d => {
+                this.roomService.load()
+                this.currRsvn = d
+                this.currRsvnChange.emit(d)
+              })
+          }
+          else {
+            alert("Room Collisions - Cannot move the Reservation Dates")
+            this.rsvnEditForm.patchValue(this.currRsvn)
+
           }
         })
     }
@@ -197,10 +207,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
   //---------------------------------
   ngOnChanges(changes: SimpleChanges) {
     this.rsvnEditForm.reset()
-    //    if (this.currRsvn && this.currRsvn.id == 0) {
-
     this.rsvnEditFormInit()
-    //    }
     this.loadRsvn(this.currRsvn)
   }
   //---------------------------------
