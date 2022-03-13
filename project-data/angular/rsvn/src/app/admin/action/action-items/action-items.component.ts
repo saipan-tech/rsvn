@@ -22,18 +22,18 @@ export class ActionItemsComponent implements OnInit {
   actionList: any[] = []
   itemList: IDropdown[] = []
   staffList: any[] = []
-  bldgList:any[] = []
-  currRoominfos:any[] = []
+  bldgList: any[] = []
+  currRoominfos: any[] = []
   showall = false;
-  search$ = this.genericService.getItemQueryList('action','today=1')
-  
-  
-  
-  @Output() changeItems:any  = new EventEmitter<any>()
+  search$ = this.genericService.getItemQueryList('action', 'today=1')
+
+
+
+  @Output() changeItems: any = new EventEmitter<any>()
   @Input() actionRec: IAction = {} as IAction
-  @Output() actionRecChange  = new EventEmitter<IAction>()
-  
-  
+  @Output() actionRecChange = new EventEmitter<IAction>()
+
+
   constructor(
     private genericService: GenericService,
     private systemService: SystemService,
@@ -42,7 +42,7 @@ export class ActionItemsComponent implements OnInit {
   ) { }
 
   //--------------------------
-  
+
   dropDisplay(ddlist: IDropdown[], key: string) {
     let found: IDropdown | any = ddlist.find(d => d.value == key)
     if (found) return found.display
@@ -54,54 +54,48 @@ export class ActionItemsComponent implements OnInit {
     this.actionRec = {} as IAction
   }
 
-
-  getRooms(act_id:number ) {
-    this.roomService.getActionRoominfo(act_id)
-      .subscribe(d=> { 
-        this.currRoominfos = d
-
-      })
-  }
-
   toggleView() {
     this.showall = !this.showall
-    if(this.showall) {
+    if (this.showall) {
       this.search$ = this.genericService.getItemList('action')
       this.showall = true
     }
     else {
-      this.search$ = this.genericService.getItemQueryList('action','today=1')
+      this.search$ = this.genericService.getItemQueryList('action', 'today=1')
       this.showall = false
     }
-   
-    
-  }
- actionSelect(actionid:number):void {
-this.genericService.getItem('action',actionid)
-  .subscribe(d=> this.actionRecChange.emit(d))
+    this.ngOnInit()
 
- }
+  }
+  actionSelect(actionid: number): void {
+    this.genericService.getItem('action', actionid)
+      .subscribe(d => {
+        this.actionRecChange.emit(d);
+        this.ngOnInit()
+      })
+
+  }
 
   ngOnInit(): void {
 
 
     this.actionList = []
-      // we decide the observable to search on ahead of time
-      this.search$.pipe(
-        tap(data => this.actionList = data),
-        concatMap(() => this.genericService.getItemList('staff')),
-        tap(data => {
-           this.staffList = data
-          this.actionList.forEach(act => {
-            let a = this.staffList.find(sl => sl.id == act.staff )
-            act.fullname = `${a.first_name} ${a.last_name}`
-          })
-        }),
-        concatMap(() => this.genericService.getItemList('bldg')),
-        tap(data => this.bldgList =  data)
+    // we decide the observable to search on ahead of time
+    this.search$.pipe(
+      tap(data => this.actionList = data),
+      concatMap(() => this.genericService.getItemList('staff')),
+      tap(data => {
+        this.staffList = data
+        this.actionList.forEach(act => {
+          let a = this.staffList.find(sl => sl.id == act.staff)
+          act.fullname = `${a.first_name} ${a.last_name}`
+        })
+      }),
+      concatMap(() => this.genericService.getItemList('bldg')),
+      tap(data => this.bldgList = data)
 
-      ).subscribe()
-  
-    }
+    ).subscribe()
+
+  }
 
 }

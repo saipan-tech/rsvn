@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '@app/_services/auth.service';
+
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { currUser, isLoggedIn, isLoggedOut } from '@app/auth/store/auth.selectors';
@@ -21,20 +21,12 @@ export class HeaderComponent implements OnInit {
   isLoggedIn$: Observable<boolean> = of(false)
 
   constructor(
-    private authService: AuthService,
     private router: Router,
     private store: Store<AppState>
-
-
   ) { }
   user: any
   security: any
   activeLink = 'dashboard'
-  currRsvn: any;
-
-
-
-
 
   logOff() {
     this.store.dispatch(logout())
@@ -46,7 +38,6 @@ export class HeaderComponent implements OnInit {
     if (userProfile) {
       this.store.dispatch(login({ user: JSON.parse(userProfile) }));
     }
-
 
     this.store.pipe(select(currUser))
       .subscribe(u => this.currUser = u)

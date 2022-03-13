@@ -16,8 +16,9 @@ import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog"
 import { PostalService } from '@app/_services/postal.service';
 import { IAction } from '@app/_interface/action';
 import { RoomService } from '@app/_services/room.service';
-
-
+import { currUser, isLoggedIn, isLoggedOut } from '@app/auth/store/auth.selectors';
+import { select, Store } from '@ngrx/store';
+import { AppState } from "@app/reducers"
 let days = ['mon', 'tue', 'wed', 'thr', 'fri', 'sat', 'sun']
 
 
@@ -35,16 +36,19 @@ export class ActionEditComponent implements OnInit,OnChanges {
   staffList: any[] = []
   itemList: any[] = []
   roominfos: Number[] = []
-  user: any;
+  currUser: any;
   @Input() actionRec: IAction = {} as IAction
+  @Output() actionRecChange = new EventEmitter<IAction>()
 
+  
   constructor(
     private genericService: GenericService,
     private systemService: SystemService,
     private roomService: RoomService,
     private authService: AuthService,
     private dialogManagerService: DialogManagerService,
-    private postalService: PostalService
+    private postalService: PostalService,
+    private store: Store<AppState>
 
   ) { }
 
@@ -83,7 +87,7 @@ export class ActionEditComponent implements OnInit,OnChanges {
           .subscribe(data => {
           })
       }
-      this.close()
+      this.actionRecChange.emit(this.actionRec)
     })
   }
   //--------------------------
@@ -101,7 +105,7 @@ export class ActionEditComponent implements OnInit,OnChanges {
     this.genericService.updateItem('action', this.actionRec)
       .subscribe(
         data => {
-          if (this.actionRec.id) this.close()
+          this.actionRecChange.emit(data)
           this.actionRec = data
         },
         err => console.log("Error", err)
@@ -122,7 +126,7 @@ export class ActionEditComponent implements OnInit,OnChanges {
   //---------------------------------
   rec2form() {
     if (this.actionRec && !this.actionRec.id) {
-      this.actionRec.assignedBy = this.user.username
+      this.actionRec.assignedBy = this.currUser.username
     }
     if (this.actionRec && this.actionRec.id) {
       this.makeStaffList(this.actionRec.department)
@@ -141,7 +145,7 @@ export class ActionEditComponent implements OnInit,OnChanges {
   }
   //---------------------------------
   ngOnChanges(changes: SimpleChanges): void {
-      this.rec2form()
+    if(this.actionRec)  this.rec2form()
   }
   //---------------------------------
   ngOnInit(): void {
@@ -154,11 +158,14 @@ export class ActionEditComponent implements OnInit,OnChanges {
     this.systemService.getDropdownList('actionitem').subscribe(
       data => this.itemList = data
     )
-    this.authService.getSession().subscribe(
-      data => {
-        this.user = data;
-        this.rec2form()
 
+    
+    this.store.pipe(select(currUser))
+      .subscribe(u => {
+        this.currUser = u
       })
+
+
+
   }
 }

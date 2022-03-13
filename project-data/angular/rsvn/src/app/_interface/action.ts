@@ -1,7 +1,7 @@
 import { IStaff } from "./staff";
 export interface IAction {
     id: number;
-    roominfos   : [];
+    roominfos   : string;
     department  : string;
     staff       : IStaff;
     item        : string;

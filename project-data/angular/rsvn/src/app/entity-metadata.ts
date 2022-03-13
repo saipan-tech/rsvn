@@ -35,14 +35,20 @@ const entityMetadata: EntityMetadataMap = {
       optimisticAdd:true,
       optimisticUpdate:true
     }
+  },
+
+  Action: {
+    entityDispatcherOptions: {
+      optimisticDelete:true,
+      optimisticAdd:true,
+      optimisticUpdate:true
+    }
   }
-
-
 
 
 };
 
-const pluralNames = { Room:'Room', Rsvn:'Rsvn', Roominfo:'Roominfo',Guest:'Guest',Bldg:'Bldg' };
+const pluralNames = { Room:'Room', Rsvn:'Rsvn', Roominfo:'Roominfo',Guest:'Guest',Bldg:'Bldg',Action:'Action' };
 
 export const entityConfig: EntityDataModuleConfig = {
   entityMetadata,

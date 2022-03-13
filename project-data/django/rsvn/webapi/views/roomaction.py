@@ -29,29 +29,3 @@ class RoomActionViewSet(viewsets.ModelViewSet):
             self.serializer_class = RoomActionAllSerializer
         return queryset    
 
-#------------------------------------------
-class RoomActionRoominfo(APIView):
-#------------------------------------------
-    def get_object(self,id):
-        try:
-            return RoomAction.objects.get(id=id)
-        except model.DoesNotExist:
-            raise Http404
-    
-    def get(self,request,id, format=None)  :
-        action = self.get_object(id)
-        serializer = RoominfoSerializer(action.roominfos.all().order_by('bldg','number'),many=True)
-        return Response(serializer.data)        
-
-    def post(self,request,id, format=None)  :
-        action = self.get_object(id)
-        roominfo = Roominfo.objects.get(id=request.data['id'])
-        action.roominfos.add(roominfo)
-        return Response(request.data)        
-
-    def put(self,request,id, format=None)  :
-        action = self.get_object(id)
-        roominfo = Roominfo.objects.get(id=request.data['id'])
-        action.roominfos.remove(roominfo)
-        return Response(request.data)        
-

@@ -36,7 +36,7 @@
     <a mat-tab-link *ngIf="currUser.level > 1" (click)="activeLink = 'currentroom'" [active]="activeLink == 'currentroom'"
       routerLink="/currentroom">Current Room Status</a>
    <a mat-tab-link *ngIf="currUser.level > 1" (click)="activeLink = 'actionmanager'" [active]="activeLink == 'actionmanager'"
-      routerLink="/actionmanager">Action</a>
+      routerLink="/actionmanager">Work Management</a>
    <a mat-tab-link *ngIf="currUser.level > 2" (click)="activeLink = 'staff'" [active]="activeLink == 'staff'"
       routerLink="/staff">Staff</a>
    <a mat-tab-link *ngIf="currUser.level > 3" (click)="activeLink = 'ratemgr'" [active]="activeLink == 'ratemgr'"

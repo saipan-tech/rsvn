@@ -8,7 +8,6 @@ import { HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http'
 import { catchError, tap, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { AppEnv } from '@app/_helpers/appenv';
-import { IDStatus } from '@app/admin/grid-select/grid-select.component';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 }; 
@@ -70,27 +69,7 @@ export class RoomService {
   getRsvnCalc(rsvn_id:number):Observable<any[]> {
     return this.http.get<any[]>(`${this.urlRoot}/rsvncalc/${rsvn_id}/`)
   }
-
-
-
-  
-
-  getActionRoominfo(action_id:number):Observable<any[]> {
-    return this.http.get<any[]>(`${this.urlRoot}/actionrooms/${action_id}/`)
-  }
-  postActionRoominfo(action_id:number,roominfo:IRoominfo):Observable<any[]> {
-    return this.http.post<any[]>(`${this.urlRoot}/actionrooms/${action_id}/`,roominfo)
-  }
-  putActionRoominfo(action_id:number,roominfo:IRoominfo):Observable<any[]> {
-    return this.http.put<any[]>(`${this.urlRoot}/actionrooms/${action_id}/`,roominfo)
-  }
-  
-  
-  
-  
-  getRoomDateScan(date:string,modifier:string):Observable<IDStatus> {
-    return this.http.get<IDStatus>(`${this.urlRoot}/roomdatescan/${date}/?${modifier}`)
-  }
+ 
 
   getBldgRoom():Observable<any[]> {
     return this.http.get<any>(`${this.urlRoot}/bldgroom/`)

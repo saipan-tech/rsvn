@@ -1,19 +1,16 @@
 <mat-card class="gridcard">
-    <mat-card-header *ngIf="staff"><h3>{{staff.first_name}}{{staff.last_name}}</h3> Action # {{actionRec.id}}</mat-card-header>
+    <mat-card-header>
+    </mat-card-header>
     <mat-card-content>
-        <div *ngFor="let b of matrix">
-            <h6 style="padding:1em">{{b.bldg.name }}</h6>
+        <div *ngFor="let bld of roominfos ">
+            <h3>{{ bld.bldg.name }}</h3>
             <div class="d-flex flex-wrap">
-                <div *ngFor="let r of b.rooms">
-                    <button mat-button class="{{r.marker}} {{r.border}}" (click)='checkMark(r.id)'> {{r.number}}</button>
+                <div *ngFor='let room of bld.rooms '>
+                    <button mat-button [ngClass]="{'check':room.check }"    (click)="setRoom(room.id)">{{ room.number }}</button>
                 </div>
-
             </div>
-            <hr>
         </div>
-
     </mat-card-content>
     <mat-card-footer>
-
     </mat-card-footer>
 </mat-card>

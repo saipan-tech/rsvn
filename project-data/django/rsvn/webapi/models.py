@@ -235,7 +235,7 @@ class RoomCharge (models.Model):
 #---------------------------------------------------------
 class RoomAction (models.Model):
     staff           =   models.ForeignKey(Staff,models.CASCADE, related_name='staffOf')
-    roominfos       =   models.ManyToManyField(Roominfo,blank=True)
+    roominfos       =   models.CharField(max_length=2048, blank=True)
     department      =   models.CharField(max_length=80)
     item            =   models.CharField(max_length=512)
     descr           =   models.CharField(max_length=2048, blank=True)

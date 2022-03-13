@@ -72,6 +72,12 @@ import { GuestDataService } from '@app/_ngrxServices/guest-data.service';
 import { BldgEntityService } from './_ngrxServices/bldg-entity.service';
 import { BldgResolver } from './_ngrxServices/bldg-resolver';
 import { BldgDataService } from './_ngrxServices/bldg-data.service';
+
+import { ActionEntityService } from './_ngrxServices/action-entity.service';
+import { ActionResolver } from './_ngrxServices/action-resolver';
+import { ActionDataService } from './_ngrxServices/action-data.service';
+
+
 import { MatrixComponent } from './matrix/matrix.component';
 import { MatrixLineComponent } from './matrix/matrix-line/matrix-line.component';
 import { MatrixViewComponent } from './matrix/matrix-view/matrix-view.component';
@@ -81,7 +87,8 @@ const entityMetadata: EntityMetadataMap = {
   Room : {},
   Rsvn : {},
   Guest : {},
-  Bldg : {}
+  Bldg : {},
+  Action: {}
 };
 
 
@@ -182,7 +189,12 @@ const entityMetadata: EntityMetadataMap = {
 
     BldgEntityService,
     BldgResolver,
-    BldgDataService
+    BldgDataService,
+
+    ActionEntityService,
+    ActionResolver,
+    ActionDataService
+
 
   ],
   bootstrap: [AppComponent]
@@ -200,6 +212,7 @@ export class AppModule {
     private rsvnDataService: RsvnDataService,
     private guestDataService: GuestDataService,
     private bldgDataService: BldgDataService,
+    private actionDataService: ActionDataService,
     
     private appEnv: AppEnv 
     ) {
@@ -210,7 +223,8 @@ export class AppModule {
     entityDataService.registerService('Room', roomDataService);
     entityDataService.registerService('Guest', guestDataService);
     entityDataService.registerService('Bldg', bldgDataService);
-
+    entityDataService.registerService('Action', actionDataService);
+  
 }
 
 
