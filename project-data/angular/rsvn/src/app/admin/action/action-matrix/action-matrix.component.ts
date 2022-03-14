@@ -4,11 +4,13 @@ import { IRoominfo } from '@app/_interface/roominfo';
 import { AuthService } from '@app/_services/auth.service';
 import { SystemService } from '@app/_services/system.service';
 import { catchError, tap, map, mergeMap, concatMap } from 'rxjs/operators';
+
 import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
 import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
 import { GuestEntityService } from '@app/_ngrxServices/guest-entity.service';
+import { ActionEntityService } from '@app/_ngrxServices/action-entity.service';
 import { combineLatest, Observable, of } from 'rxjs';
 @Component({
   selector: 'app-action-matrix',
@@ -25,7 +27,8 @@ export class ActionMatrixComponent implements OnInit {
     private roomService: RoomEntityService,
     private bldgService: BldgEntityService,
     private rsvnService: RsvnEntityService,
-    private guestService: GuestEntityService
+    private guestService: GuestEntityService,
+    private actionService: ActionEntityService
 
   ) { }
 
@@ -64,7 +67,7 @@ export class ActionMatrixComponent implements OnInit {
         return result
       }))
 
-    let action$ = this.genericService.getItemQueryList('action', 'today=1')
+    let action$ = this.actionService.getWithQuery('today=1')
     let staff$ = this.genericService.getItemList('staff')
 
     let actionList$ = combineLatest([action$, staff$]).pipe(
@@ -72,7 +75,8 @@ export class ActionMatrixComponent implements OnInit {
         let result: any[] = []
         actions.forEach((act: any) => {
           let srec = staffs.find((sl: any) => sl.id == act.staff)
-          act.roominfos.forEach((ari: any) => {
+          
+          act.roominfos.split(',').forEach((ari: any) => {
             result.push({
               roominfo: ari,
               action: act.id,

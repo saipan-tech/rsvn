@@ -43,7 +43,8 @@ const appRoutes: Routes = [
     resolve: { roominfo: RoominfoResolver, room: RoomResolver, rsvn: RsvnResolver, bldg: BldgResolver, 
     guest: GuestResolver }, canActivate: [AuthGuard] },
   
-  { path: 'currentroom', component: ActionMatrixComponent, canActivate: [AuthGuard] },
+  { path: 'currentroom', component: ActionMatrixComponent, resolve: { roominfo: RoominfoResolver, room: RoomResolver, 
+    rsvn: RsvnResolver, bldg: BldgResolver, guest: GuestResolver, action:ActionResolver },canActivate: [AuthGuard] },
   
   { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
   { path: 'guest', component: GuestEditComponent, canActivate: [AuthGuard] },
