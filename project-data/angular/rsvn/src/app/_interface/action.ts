@@ -3,7 +3,7 @@ export interface IAction {
     id: number;
     roominfos   : string;
     department  : string;
-    staff       : IStaff;
+    staff       : number;
     item        : string;
     descr       : string;
     result      : string;

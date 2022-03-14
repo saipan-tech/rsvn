@@ -3,20 +3,23 @@
 </button>
 <div class="row heading">
    <div class="col-1">#</div>
+
+   <div class="col-1">Cont</div>
    <div class="col-2">Date</div>
    <div class="col-2">Dept</div>
    <div class="col-2">Name</div>
    <div class="col-3">Days</div>
-   <div class="col-2">Rooms</div>
+   <div class="col-1">Rooms</div>
 </div>
 
 <div *ngFor="let act of actionList">
    <div class="row drows">
-      <div class="col-1">{{act.id }}</div>
+      <div class="col-1 active" (click)='actionSelect(act.id)'>{{act.id }}</div>
+      <div  class="col-1" > {{ act.continuous ? 'C':'' }}</div>
       <div class="col-2">{{act.date }}</div>
       <div class="col-2">{{ act.department}}</div>
       <div class="col-2 active" (click)='actionSelect(act.id)'>{{ act.fullname}}</div>
       <div class="col-3">{{act.days }}</div>
-      <div class="col-2">{{act.roominfos.length }}</div>
+      <div class="col-1">{{act.roominfos.length }}</div>
    </div>
 </div>

@@ -19,11 +19,9 @@ export class GridSelectComponent implements OnInit {
   @Input() actionRec: IAction = {} as IAction
   @Output() actionRecChange = new EventEmitter<IAction>()
 
-  
+
   Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
-  
   roominfos: any;
-  
 
   constructor(
     private roominfoService: RoominfoEntityService,
@@ -33,46 +31,54 @@ export class GridSelectComponent implements OnInit {
 
   ) { }
   //---------------------------------
-    setRoom(roomid:string) {
-      let actionRec = { ...this.actionRec }
-      let arSet = new Set(actionRec.roominfos.split(','))
-      if(arSet.has('')) arSet.delete('')
-      if(arSet.has(String(roomid))) { 
-        arSet.delete(String(roomid)) 
-      }
-      else {arSet.add(roomid)}
+  setRoom(roomid: string) {
+    let actionRec = { ...this.actionRec }
+    let arSet = new Set(actionRec.roominfos.split(','))
 
-      actionRec.roominfos = [...arSet].join(',')
-      this.actionRec = actionRec
-      this.actionRecChange.emit(this.actionRec)
-      this.reload()
-      this.actionService.update(actionRec).subscribe()
+    if (arSet.has('')) arSet.delete('')
+
+    if (arSet.has(String(roomid))) {
+      arSet.delete(String(roomid))
+    }
+    else {
+      arSet.add(roomid)
     }
 
+    if (arSet.size) actionRec.roominfos = [...arSet].join(',')
+    else actionRec.roominfos = ""
+    this.actionRec = actionRec
+    this.actionRecChange.emit(actionRec)
+    this.reload()
+    this.actionService.update(actionRec).subscribe()
+  }
   //---------------------------------
   reload() {
-      this.roominfoService.entities$.pipe(
-          map((roominfo) => {
-            let actrooms = this.actionRec.roominfos.split(',')
-            let result:any = []
-            roominfo.forEach((ri:IRoominfo) => {
-              result.push({...ri,check:actrooms.find((a:any) => a == ri.id)})
-
-            })
-            return result
-          }),
-        concatMap((roominfo)=> this.bldgService.entities$.pipe(
-          map((bldg) => {
-            let result:any = []
-            bldg.forEach( b => {
-              result.push({bldg:b,rooms:roominfo.filter((ri:any)=>ri.bldg == b.id)})
-            })
-          return result
-          })
-        ) 
-
-        )).subscribe(d=>this.roominfos =d)
+    this.roominfoService.entities$.pipe(
+      map((roominfo) => {
         
+        let actrooms:any = []
+        if( this.actionRec.roominfos && this.actionRec.roominfos.length) {
+          actrooms = this.actionRec.roominfos.split(',')
+        }
+        let result: any = []
+        roominfo.forEach((ri: IRoominfo) => {
+          result.push({ ...ri, check: actrooms.find((a: any) => a == ri.id) })
+
+        })
+        return result
+      }),
+      concatMap((roominfo) => this.bldgService.entities$.pipe(
+        map((bldg) => {
+          let result: any = []
+          bldg.forEach(b => {
+            result.push({ bldg: b, rooms: roominfo.filter((ri: any) => ri.bldg == b.id) })
+          })
+          return result
+        })
+      )
+
+      )).subscribe(d => this.roominfos = d)
+
 
   }
 

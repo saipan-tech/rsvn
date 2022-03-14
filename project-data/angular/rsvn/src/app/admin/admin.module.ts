@@ -18,8 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
-
-import { ActionComponent } from './action/action.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { ActionStaffComponent } from './action/action-staff/action-staff.component';
 import { ActionItemsComponent } from './action/action-items/action-items.component';
 import { ActionEditComponent } from './action/action-edit/action-edit.component';
@@ -36,14 +35,14 @@ import { ActionManagerComponent } from './action/action-manager/action-manager.c
 
     StaffListComponent,
     StaffEditComponent,
-    ActionComponent,
+
     ActionStaffComponent,
     ActionItemsComponent,
     ActionEditComponent,
-    GridSelectComponent,
     ActionMatrixComponent,
     ActionMatrixSidebarComponent,
     ActionManagerComponent,
+    GridSelectComponent
    
     
   ],
@@ -56,6 +55,7 @@ import { ActionManagerComponent } from './action/action-manager/action-manager.c
     ReactiveFormsModule,
     FormsModule,
 
+
     MatTabsModule,
     MatFormFieldModule,
     MatIconModule,
@@ -66,12 +66,12 @@ import { ActionManagerComponent } from './action/action-manager/action-manager.c
     MatCheckboxModule,
     MatMenuModule,
     MatCardModule,
+    MatExpansionModule,
     FrontdeskModule,
   
   ],
   exports : [
     StaffComponent,
-    ActionComponent
   ],
  
 })

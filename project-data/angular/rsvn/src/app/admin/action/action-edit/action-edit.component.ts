@@ -8,10 +8,11 @@ import { IDropdown } from '@app/_interface/dropdown'
 import { GenericService } from '@app/_services/generic.service';
 import { SystemService } from '@app/_services/system.service';
 import { AuthService } from '@app/_services/auth.service';
+import { ActionEntityService } from '@app/_ngrxServices/action-entity.service';
 
 import { Inject } from '@angular/core';
 import { IUser } from '@app/_interface/user';
-import { catchError, tap, map, mergeMap } from 'rxjs/operators';
+import { catchError, tap, map, mergeMap, concatMap } from 'rxjs/operators';
 import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog";
 import { PostalService } from '@app/_services/postal.service';
 import { IAction } from '@app/_interface/action';
@@ -19,6 +20,7 @@ import { RoomService } from '@app/_services/room.service';
 import { currUser, isLoggedIn, isLoggedOut } from '@app/auth/store/auth.selectors';
 import { select, Store } from '@ngrx/store';
 import { AppState } from "@app/reducers"
+import { Observable } from 'rxjs';
 let days = ['mon', 'tue', 'wed', 'thr', 'fri', 'sat', 'sun']
 
 
@@ -44,6 +46,8 @@ export class ActionEditComponent implements OnInit,OnChanges {
   constructor(
     private genericService: GenericService,
     private systemService: SystemService,
+    private actionService: ActionEntityService,
+
     private roomService: RoomService,
     private authService: AuthService,
     private dialogManagerService: DialogManagerService,
@@ -52,6 +56,18 @@ export class ActionEditComponent implements OnInit,OnChanges {
 
   ) { }
 
+  blankActionRecord():IAction {
+    let newRec = {} as IAction
+    newRec.department=''
+    newRec.staff=0 
+    newRec.item=''
+    newRec.descr=''
+    newRec.result=''
+    return newRec
+
+    }
+  
+   
   actionEditForm = new FormGroup({
     id: new FormControl(''),
     department: new FormControl('', Validators.required),
@@ -83,37 +99,59 @@ export class ActionEditComponent implements OnInit,OnChanges {
       }
     }).afterClosed().subscribe(deleteConfirmed => {
       if (deleteConfirmed) {
-        this.genericService.deleteItem('action', this.actionRec)
+        this.actionService.delete(this.actionRec.id)
           .subscribe(data => {
+            this.actionRecChange.emit(this.blankActionRecord())
           })
       }
-      this.actionRecChange.emit(this.actionRec)
+  
     })
   }
   //--------------------------
-  updateAction() {
+  updateAction$():Observable<any> {
 
-    this.actionRec = this.actionEditForm.value
-    this.actionRec.days = ""
+    let  actionRec = this.actionEditForm.value
+    actionRec.days = ""
     for (let d of days) {
       if (this.actionEditForm.value[d] == true) {
-        this.actionRec.days = this.actionRec.days + d + ','
-
+         actionRec.days +=  d + ','
       }
     }
-
-    this.genericService.updateItem('action', this.actionRec)
-      .subscribe(
-        data => {
-          this.actionRecChange.emit(data)
-          this.actionRec = data
-        },
-        err => console.log("Error", err)
+    if(actionRec.id) 
+    {
+      return this.actionService.update(actionRec).pipe(
+        map(action=> {
+          this.actionRec = action
+          this.actionRecChange.emit(action)
+        })
       )
+  
+    }
+    else {
+      actionRec.roominfos =""
+      actionRec.assignedBy = this.currUser.username
+
+      return this.actionService.add(actionRec).pipe(
+        map(action=> {
+       
+          this.actionRec = action
+          this.actionRecChange.emit(action)
+        })
+      )
+
+    }
+  }
+  //--------------------------
+  updateAction() {
+    this.updateAction$().subscribe()
   }
 
   //---------------------------------
-  close() {
+  newAction() {
+    
+    this.actionEditForm.reset()
+    this.actionRec =  this.blankActionRecord()
+    this.actionRecChange.emit(this.actionRec)
   }
 
   //---------------------------------
@@ -125,18 +163,20 @@ export class ActionEditComponent implements OnInit,OnChanges {
   }
   //---------------------------------
   rec2form() {
-    if (this.actionRec && !this.actionRec.id) {
-      this.actionRec.assignedBy = this.currUser.username
-    }
+  //  if (this.actionRec && !this.actionRec.id) {
+  //    this.actionRec.assignedBy = this.currUser.username
+  //  }
     if (this.actionRec && this.actionRec.id) {
       this.makeStaffList(this.actionRec.department)
     }
     this.actionEditForm.patchValue(this.actionRec)
     // split out the days and load the checkboxes
-    let dayList = this.actionRec.days.split(',')
-
+    let dayList:any  = []
+    if(this.actionRec.days) {
+      dayList = this.actionRec.days.split(',')
+    }  
     for (let d of days) {
-      if (dayList.find(dl => dl == d)) {
+      if (dayList.find((dl:any) => dl == d)) {
         this.actionEditForm.controls[d].patchValue(true)
       } else {
         this.actionEditForm.controls[d].patchValue(false)
@@ -145,7 +185,11 @@ export class ActionEditComponent implements OnInit,OnChanges {
   }
   //---------------------------------
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.actionRec)  this.rec2form()
+    if(this.actionRec)  
+    {
+    this.rec2form()
+    this.actionRecChange.emit(this.actionRec)
+  }
   }
   //---------------------------------
   ngOnInit(): void {
@@ -165,7 +209,6 @@ export class ActionEditComponent implements OnInit,OnChanges {
         this.currUser = u
       })
 
-
-
+   
   }
 }

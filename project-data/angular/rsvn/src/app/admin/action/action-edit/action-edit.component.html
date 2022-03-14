@@ -3,7 +3,6 @@
         <form novalidate [formGroup]="actionEditForm">
 
             <div class="form-control">
-
                 <div class="d-flex">
                     <label class="uppercell form-control">Date<abbr class="req" title="Required">*</abbr></label>
                     <input class="lowercell form-control" type="date" formControlName='date'>
@@ -95,7 +94,7 @@
         <button class="btn" style="margin-left:2em" [disabled]="false">
             <span class="material-icons"> printer </span>
         </button>
-        <button class="btn" style="margin-left:2em" [disabled]="false">
+        <button class="btn" style="margin-left:2em" [disabled]="false" (click)='newAction()'>
             <span class="material-icons"> note_add </span>
         </button>
 

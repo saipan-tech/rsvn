@@ -1,72 +1,78 @@
-<div>{{ actionRec | json }}</div>
+<div><h4>Weekly Work Schedule View</h4></div>
 
-<div class="row">
-
-    <div class="col" style="height:700px;overflow-y:scroll;;background-color:rgb(177, 177, 177)">
-        <div *ngFor="let bld of dispList">
-            <h4> {{ bld.name }}</h4>
-            <table class="hktable">
-                <tr>
-                    <th>Rooms/DOW</th>
-                    <th *ngFor="let d of dow; let i = index" [ngClass]="{'daymark': i === dow_now}">{{d}} </th>
-                </tr>
-                <tr *ngFor="let room of bld.rooms">
-                    <th style="width:5%">{{ room.number }}</th>
-                    <td [ngClass]="{'daymark':dow_now === 0}">
-                        <div *ngFor="let x of room.week.sun ">
-                            <button [ngClass]="{'selectmark':actionRec.id==x.id}"  mat-button (click)="selectAction(x.id)">{{x.name}}:
-                                <span style="font-size:x-small"> {{x.item|slice:0:10}}</span>
-                            </button>
-                        </div>
-                    </td>
-                    <td [ngClass]="{'daymark':dow_now === 1}">
-                        <div *ngFor="let x of room.week.mon ">
-                            <button [ngClass]="{'selectmark':actionRec.id==x.id}"  mat-button (click)="selectAction(x.id)"> {{x.name}}: <span
-                                    style="font-size:x-small">{{x.item |slice:0:10}}</span></button>
-                        </div>
-                    </td>
-                    <td [ngClass]="{'daymark':dow_now === 2}">
-                        <div *ngFor="let x of room.week.tue ">
-                            <button [ngClass]="{'selectmark':actionRec.id==x.id}"   mat-button (click)="selectAction(x.id)"> {{x.name}}: <span
-                                    style="font-size:x-small"> {{x.item |slice:0:10}}</span></button>
-                        </div>
-                    </td>
-                    <td [ngClass]="{'daymark':dow_now === 3}">
-                        <div *ngFor="let x of room.week.wed ">
-                            <button [ngClass]="{'selectmark':actionRec.id==x.id}"  mat-button (click)="selectAction(x.id)"> {{x.name}}: <span
-                                    style="font-size:x-small"> {{x.item |slice:0:10}}</span></button>
-                        </div>
-                    </td>
-                    <td [ngClass]="{'daymark':dow_now === 4}">
-                        <div *ngFor="let x of room.week.thr ">
-                            <button [ngClass]="{'selectmark':actionRec.id==x.id}"  mat-button (click)="selectAction(x.id)"> {{x.name}}: <span
-                                    style="font-size:x-small"> {{x.item |slice:0:10}}</span></button>
-                        </div>
-                    </td>
-                    <td [ngClass]="{'daymark':dow_now === 5}">
-                        <div *ngFor="let x of room.week.fri ">
-                            <button [ngClass]="{'selectmark':actionRec.id==x.id}"  mat-button (click)="selectAction(x.id)"> {{x.name}}: <span
-                                    style="font-size:x-small"> {{x.item |slice:0:10}}</span></button>
-                        </div>
-                    </td>
-                    <td [ngClass]="{'daymark':dow_now === 6}">
-                        <div *ngFor="let x of room.week.sat ">
-                            <button [ngClass]="{'selectmark':actionRec.id==x.id}" mat-button (click)="selectAction(x.id)"> {{x.name}}:
-                                <span style="font-size:x-small">{{x.item|slice:0:10}}</span>
-                            </button>
-                        </div>
-                    </td>
-
-                </tr>
-            </table>
-        </div>
+<div style="height:700px;overflow-y:scroll">
 
 
+    <div *ngFor="let bld of dispList">
 
-
-
-
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="true" (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h5>{{ bld.bldg.name }}</h5>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+    
+                <table class="hktable">
+                    <tr>
+                        <th>Rooms/DOW</th>
+                        <th *ngFor="let d of dow; let i = index" [ngClass]="{'daymark': i === dow_now}">{{d}} </th>
+                    </tr>
+                    <tr *ngFor="let room of bld.rooms">
+                        <th style="width:5%">{{ room.number }}</th>
+                        <td [ngClass]="{'daymark':dow_now === 0}">
+                            <div *ngFor="let x of room.week.sun ">
+                                <button [ngClass]="{'selectmark':actionRec.id==x.id}"
+                                    (click)="selectAction(x.id)">{{x.name}}:
+                                    <span style="font-size:x-small"> {{x.item|slice:0:10}}</span>
+                                </button>
+                            </div>
+                        </td>
+                        <td [ngClass]="{'daymark':dow_now === 1}">
+                            <div *ngFor="let x of room.week.mon ">
+                                <button [ngClass]="{'selectmark':actionRec.id==x.id}" (click)="selectAction(x.id)">
+                                    {{x.name}}: <span style="font-size:x-small">{{x.item |slice:0:10}}</span></button>
+                            </div>
+                        </td>
+                        <td [ngClass]="{'daymark':dow_now === 2}">
+                            <div *ngFor="let x of room.week.tue ">
+                                <button [ngClass]="{'selectmark':actionRec.id==x.id}" (click)="selectAction(x.id)">
+                                    {{x.name}}: <span style="font-size:x-small"> {{x.item |slice:0:10}}</span></button>
+                            </div>
+                        </td>
+                        <td [ngClass]="{'daymark':dow_now === 3}">
+                            <div *ngFor="let x of room.week.wed ">
+                                <button [ngClass]="{'selectmark':actionRec.id==x.id}" (click)="selectAction(x.id)">
+                                    {{x.name}}: <span style="font-size:x-small"> {{x.item |slice:0:10}}</span></button>
+                            </div>
+                        </td>
+                        <td [ngClass]="{'daymark':dow_now === 4}">
+                            <div *ngFor="let x of room.week.thr ">
+                                <button [ngClass]="{'selectmark':actionRec.id==x.id}" (click)="selectAction(x.id)">
+                                    {{x.name}}: <span style="font-size:x-small"> {{x.item |slice:0:10}}</span></button>
+                            </div>
+                        </td>
+                        <td [ngClass]="{'daymark':dow_now === 5}">
+                            <div *ngFor="let x of room.week.fri ">
+                                <button [ngClass]="{'selectmark':actionRec.id==x.id}" (click)="selectAction(x.id)">
+                                    {{x.name}}: <span style="font-size:x-small"> {{x.item |slice:0:10}}</span></button>
+                            </div>
+                        </td>
+                        <td [ngClass]="{'daymark':dow_now === 6}">
+                            <div *ngFor="let x of room.week.sat ">
+                                <button [ngClass]="{'selectmark':actionRec.id==x.id}" (click)="selectAction(x.id)">
+                                    {{x.name}}:
+                                    <span style="font-size:x-small">{{x.item|slice:0:10}}</span>
+                                </button>
+                            </div>
+                        </td>
+    
+                    </tr>
+                </table>
+    
+            </mat-expansion-panel>
+        </mat-accordion>
+    
     </div>
-
-
 </div>

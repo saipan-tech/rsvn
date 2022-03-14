@@ -1,12 +1,12 @@
 <mat-card class="gridcard">
-    <mat-card-header>
+    <mat-card-header><h3>Room Assignments</h3>
     </mat-card-header>
     <mat-card-content>
         <div *ngFor="let bld of roominfos ">
-            <h3>{{ bld.bldg.name }}</h3>
+            <h5>{{ bld.bldg.name }}</h5>
             <div class="d-flex flex-wrap">
                 <div *ngFor='let room of bld.rooms '>
-                    <button mat-button [ngClass]="{'check':room.check }"    (click)="setRoom(room.id)">{{ room.number }}</button>
+                    <button [ngClass]="{'check':room.check,'rabuttons':!room.check }"    (click)="setRoom(room.id)">{{ room.number }}</button>
                 </div>
             </div>
         </div>

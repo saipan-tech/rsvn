@@ -7,7 +7,7 @@ import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.servic
 import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
 import { combineLatest, Observable, of } from 'rxjs';
 import { IAction } from '@app/_interface/action';
-
+import { ActionEntityService } from '@app/_ngrxServices/action-entity.service';
 @Component({
   selector: 'app-action-staff',
   templateUrl: './action-staff.component.html',
@@ -20,7 +20,9 @@ export class ActionStaffComponent implements OnInit, OnChanges {
     private eroomService: RoomService,
     private appCons: AppConstants,
     private roominfoService: RoominfoEntityService,
-    private bldgService: BldgEntityService
+    private bldgService: BldgEntityService,
+    private actionService: ActionEntityService
+
   ) { }
 
   @Input() actionRec: IAction = {} as IAction
@@ -43,9 +45,16 @@ export class ActionStaffComponent implements OnInit, OnChanges {
   dow_now = new Date().getDay()
   dispList$: Observable<any> = of()
   currAction: any
+
+
+
+  panelOpenState = true;
+
+
+
   //====================================================
   selectAction(actionid: number) {
-    this.genericService.getItem('action', actionid)
+    this.actionService.getByKey(actionid)
       .subscribe(d => {
         this.actionRec = d
         this.actionRecChange.emit(d)
@@ -54,11 +63,12 @@ export class ActionStaffComponent implements OnInit, OnChanges {
   //====================================================
   refresh() {
     let Today = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
-    let action$ = combineLatest([this.genericService.getItemQueryList('action', 'today=1'),
+    let action$ = combineLatest([this.actionService.getWithQuery('today=1'),
     this.genericService.getItemList('staff')])
+
     let bldg$ = this.bldgService.entities$
-    let staff$ = this.genericService.getItemList('staff')
     // initialize roomlist
+
     this.roominfoService.entities$.pipe(
       map(ri => {
         let result: any = []
@@ -67,27 +77,30 @@ export class ActionStaffComponent implements OnInit, OnChanges {
       }),
       concatMap((roomlist: any) => action$.pipe(
         map(([act, staff]) => {
-          act.forEach(action => {
+          act.forEach((action: any) => {
             let mark = action.id == this.actionRec.id
             let st = staff.find(staff => staff.id == action.staff)
             // stepping through each action roominfos 
-            action.roominfos.forEach((rinfo: any) => {
-              let found_room = roomlist.find((f: any) => rinfo == f.id)
-              action.days.split(',').forEach((day: any) => {
-                if (day && day != '') {
-                  if (found_room && found_room.week && !found_room.week[day]) found_room.week[day] = []
-                  found_room.week[day].push(
-                    {
-                      name: st.last_name,
-                      item: action.item,
-                      id: action.id,
-                      mark
-                    }
-                  )
-                }
+            if (action.roominfos.length) {
+              action.roominfos.split(',').forEach((rinfo: any) => {
+                let found_room = roomlist.find((f: any) => rinfo == f.id)
+                action.days.split(',').forEach((day: any) => {
+                  if (day && day != '') {
+                    if (found_room && found_room.week && !found_room.week[day]) found_room.week[day] = []
+                    found_room.week[day].push(
+                      {
+                        name: st.last_name,
+                        item: action.item,
+                        id: action.id,
+                        mark
+                      }
+                    )
+                  }
+                })
               })
-            })
+            }
           })
+
           return roomlist
         }))),
       concatMap((roomlist) => bldg$.pipe(
@@ -104,6 +117,7 @@ export class ActionStaffComponent implements OnInit, OnChanges {
   //====================================================
   ngOnChanges(changes: SimpleChanges): void {
     this.refresh()
+    this.actionRecChange.emit(this.actionRec)
   }
   //====================================================
   ngOnInit(): void {

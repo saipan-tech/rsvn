@@ -16,7 +16,7 @@ import { RoomService } from '@app/_services/room.service';
   templateUrl: './action-items.component.html',
   styleUrls: ['./action-items.component.scss']
 })
-export class ActionItemsComponent implements OnInit {
+export class ActionItemsComponent implements OnInit,OnChanges {
 
   roominfos: IRoominfo[] = []
   actionList: any[] = []
@@ -76,25 +76,27 @@ export class ActionItemsComponent implements OnInit {
 
   }
 
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.actionRecChange.emit(this.actionRec);
+    this.ngOnInit()
+  }
   ngOnInit(): void {
 
 
-    this.actionList = []
+    let actionList:any = []
     // we decide the observable to search on ahead of time
     this.search$.pipe(
-      tap(data => this.actionList = data),
-      concatMap(() => this.genericService.getItemList('staff')),
-      tap(data => {
-        this.staffList = data
-        this.actionList.forEach(act => {
-          let a = this.staffList.find(sl => sl.id == act.staff)
-          act.fullname = `${a.first_name} ${a.last_name}`
+      concatMap((actions) => this.genericService.getItemList('staff').pipe(
+        map((staff) => {
+          actions.forEach((act:any) => {
+            let a = staff.find(sl => sl.id == act.staff)
+            act.fullname = `${a.first_name} ${a.last_name}`
+          })
+        return actions
         })
-      }),
-      concatMap(() => this.genericService.getItemList('bldg')),
-      tap(data => this.bldgList = data)
-
-    ).subscribe()
+      ))).subscribe(d=>this.actionList= d)
 
   }
 
