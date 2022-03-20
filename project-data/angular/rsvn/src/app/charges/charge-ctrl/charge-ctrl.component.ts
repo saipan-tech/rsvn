@@ -47,6 +47,10 @@ export class ChargeCtrlComponent implements OnInit {
     
   }
 
+  handlePrintInvoiceClick() {
+    console.log('Here\'s your invoice');
+  }
+
   //--------------------------
   ngOnInit(): void {
     
