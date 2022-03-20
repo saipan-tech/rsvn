@@ -28,6 +28,7 @@
     "@ngrx/store": "^12.5.1",
     "@ngrx/store-devtools": "^12.5.1",
     "bootstrap": "^5.1.3",
+    "jspdf": "^2.5.1",
     "ngx-socket-io": "^4.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
