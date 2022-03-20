@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core';
 import { IRsvn } from '@app/_interface/rsvn';
 import { ICharge } from '@app/_interface/charge';
-import { jsPDF } from "jspdf";
+
 @Component({
   selector: 'app-charge-ctrl',
   templateUrl: './charge-ctrl.component.html',
@@ -49,17 +49,6 @@ export class ChargeCtrlComponent implements OnInit {
   }
 
   handlePrintInvoiceClick() {
-    const doc = new jsPDF();
-    const tableEl = document.createElement('table');
-    const trEl = document.createElement('tr')
-    const tdEl = document.createElement('td')
-    tdEl.textContent = 'Here\'s your invoice';
-    tableEl.appendChild(trEl.appendChild(tdEl));
-    doc.html(tableEl, {
-      callback: function (doc) {
-        doc.save("invoice.pdf");
-      }
-    })
   }
 
   //--------------------------
