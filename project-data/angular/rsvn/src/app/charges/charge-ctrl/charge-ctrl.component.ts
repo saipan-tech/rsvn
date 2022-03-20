@@ -50,8 +50,16 @@ export class ChargeCtrlComponent implements OnInit {
 
   handlePrintInvoiceClick() {
     const doc = new jsPDF();
-    doc.text('Here\'s your invoice', 10, 10);
-    doc.save("invoice.pdf");
+    const tableEl = document.createElement('table');
+    const trEl = document.createElement('tr')
+    const tdEl = document.createElement('td')
+    tdEl.textContent = 'Here\'s your invoice';
+    tableEl.appendChild(trEl.appendChild(tdEl));
+    doc.html(tableEl, {
+      callback: function (doc) {
+        doc.save("invoice.pdf");
+      }
+    })
   }
 
   //--------------------------
