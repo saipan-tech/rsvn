@@ -1,6 +1,7 @@
-import { Component, Input, Output, OnChanges, OnInit, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core';
-import { IRsvn } from '@app/_interface/rsvn';
+import { Component, Input, OnInit } from '@angular/core';
 import { ICharge } from '@app/_interface/charge';
+import { IRsvn } from '@app/_interface/rsvn';
+import { RoomService } from '@app/_services/room.service';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
@@ -14,8 +15,7 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 export class ChargeCtrlComponent implements OnInit {
 
   constructor(
-    
-
+    private roomService: RoomService,
   ) { }
 
   @Input() currRsvn:IRsvn = {} as IRsvn
@@ -26,7 +26,7 @@ export class ChargeCtrlComponent implements OnInit {
   pmtSubTotal = 0
   chgSubTotal = 0
   roomSubTotal = 0
-
+  fullRoomList: any[] = [];
 
   changeCharge(event:ICharge) {
       this.currCharge = event
@@ -61,12 +61,11 @@ export class ChargeCtrlComponent implements OnInit {
             // headers are automatically repeated if the table spans over multiple pages
             // you can declare how many rows should be treated as headers
             headerRows: 1,
-            widths: [ '*', 'auto', 100, '*' ],
+            widths: [ '*', '*', 150 ],
     
             body: [
-              [ 'First', 'Second', 'Third', 'The last one' ],
-              [ 'Value 1', 'Value 2', 'Value 3', 'Value 4' ],
-              [ { text: 'Bold value', bold: true }, 'Val 2', 'Val 3', 'Val 4' ]
+              [ 'Room Name', 'Room #', 'Price' ],
+              ...this.roomCharges()
             ]
           }
         }
@@ -80,9 +79,20 @@ export class ChargeCtrlComponent implements OnInit {
     pdfMake.createPdf(docDefinition).open({}, win);
   }
 
+  roomCharges(): any[] {
+    return this.fullRoomList.reduce((accu, room)=> {
+      room.days.forEach((roomDay: any)=> {
+        accu.push([roomDay.alias, room.roominfo.number,  roomDay.amount])
+      })
+      return accu
+    }, []);
+  }
+
   //--------------------------
   ngOnInit(): void {
-    
+    this.roomService.getRsvnCalc(this.currRsvn.id).subscribe((data: any) => {
+      this.fullRoomList = data  
+    }) 
   }
 }
 
