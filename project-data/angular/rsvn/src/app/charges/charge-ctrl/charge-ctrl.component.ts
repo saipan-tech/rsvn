@@ -73,9 +73,11 @@ export class ChargeCtrlComponent implements OnInit {
       ]
     };
     
-    // download the PDF
-    const pdf = pdfMake.createPdf(docDefinition)
-    pdf.download();
+    // open new tab
+    var win = window.open('', '_blank');
+
+    // load pdf in new tab
+    pdfMake.createPdf(docDefinition).open({}, win);
   }
 
   //--------------------------
