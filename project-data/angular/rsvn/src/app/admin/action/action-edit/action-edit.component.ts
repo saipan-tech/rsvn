@@ -202,8 +202,7 @@ export class ActionEditComponent implements OnInit,OnChanges {
     this.systemService.getDropdownList('actionitem').subscribe(
       data => this.itemList = data
     )
-
-    
+   
     this.store.pipe(select(currUser))
       .subscribe(u => {
         this.currUser = u
