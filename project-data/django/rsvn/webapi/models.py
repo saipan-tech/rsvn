@@ -155,6 +155,23 @@ class Rsvn (models.Model):
         return  (self.dateOut - self.dateIn).days
     def __str__(self) :
         return f"{self.primary.firstname} {self.primary.lastname}  {self.dateIn}  {self.dateOut}"
+
+#---------------------------------------------------------
+class SvcRsvn (models.Model):
+    roominfo    =   models.ForeignKey(Roominfo,models.CASCADE)
+    status		=	models.CharField(max_length=13, default="New")
+    dateIn		=	models.DateField()
+    dateOut		=	models.DateField()
+    color       =  	models.CharField(max_length=40, default='black')
+    notes		=	models.TextField(blank=True)
+    clerk       =   models.CharField(max_length=80,default="FrontDesk")
+    created     =   models.DateTimeField(auto_now_add=True)
+    modified    =   models.DateTimeField(auto_now=True)
+    def num_days (self):
+        return  (self.dateOut - self.dateIn).days
+    def __str__(self) :
+        return f"Service Reservation -  {self.dateIn}  {self.dateOut}"
+
 #---------------------------------------------------------
 class Service (models.Model):
 	rsvn			= 	models.ForeignKey(Rsvn,on_delete=models.CASCADE)

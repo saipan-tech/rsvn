@@ -89,6 +89,14 @@ class RoominfoAllSerializer(serializers.ModelSerializer):
         model= Roominfo
         fields = '__all__'
         depth=1
+#--------------------------------------------------------------------
+class SvcRsvnSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model= SvcRsvn
+        fields = '__all__'
+
+
+
 
 #--------------------------------------------------------------------
 class BldgSerializer(serializers.ModelSerializer):

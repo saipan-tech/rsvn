@@ -51,12 +51,16 @@ export class ActionMatrixComponent implements OnInit {
 
 
   dispList$: Observable<any> = of()
+  statusList: any = {}
   bldgList$: Observable<any> = of()
   currRsvn$: Observable<any> = of()
+
   //====================================================
   reload() {
+
     let activeRoom$ = this.roomService.entities$
       .pipe(map(rooms => rooms.filter(room => room.dateIn <= this.Today && room.dateOut >= this.Today)))
+
     let activeRsvn$ = this.rsvnService.entities$
       .pipe(map(rsvns => rsvns.filter(rsvn => rsvn.dateIn <= this.Today && rsvn.dateOut >= this.Today)))
 
@@ -68,6 +72,7 @@ export class ActionMatrixComponent implements OnInit {
       }))
 
     let action$ = this.actionService.getWithQuery('today=1')
+
     let staff$ = this.genericService.getItemList('staff')
 
     let actionList$ = combineLatest([action$, staff$]).pipe(
@@ -75,7 +80,7 @@ export class ActionMatrixComponent implements OnInit {
         let result: any[] = []
         actions.forEach((act: any) => {
           let srec = staffs.find((sl: any) => sl.id == act.staff)
-          
+
           act.roominfos.split(',').forEach((ari: any) => {
             result.push({
               roominfo: ari,
@@ -101,8 +106,8 @@ export class ActionMatrixComponent implements OnInit {
       })
     )
 
-    let mergedRooms$ = combineLatest([actionList$, rsvnRooms$, this.bldgService.entities$, this.roominfoService.entities$,occList$]).pipe(
-      map(([action, rooms, bldg, roominfo,occ]) => {
+    let mergedRooms$ = combineLatest([actionList$, rsvnRooms$, this.bldgService.entities$, this.roominfoService.entities$, occList$]).pipe(
+      map(([action, rooms, bldg, roominfo, occ]) => {
         let result: any[] = []
         roominfo.forEach((ri) => {
           let rms = rooms.filter(room => room.room.roominfo == ri.id)
@@ -111,15 +116,36 @@ export class ActionMatrixComponent implements OnInit {
             action: action.filter(act => ri.id == act.roominfo),
             roominfo: ri,
             bldg: bldg.find(b => b.id == ri.bldg),
-            occ: occ.filter(oc=>ri.id == oc.id)
+            occ: occ.filter(oc => ri.id == oc.id)
           })
         })
         return result
       }))
 
+   
+
+
+
+
+   mergedRooms$.pipe(
+      map((x:any) => {
+        let status: any = {};
+        x.forEach((disp: any) => {
+
+          if (!status.hasOwnProperty(disp.bldg.name)) {
+            status[disp.bldg.name] = {}
+          }
+
+          if (!status[disp.bldg.name].hasOwnProperty(disp.roominfo.status)) {
+            status[disp.bldg.name][disp.roominfo.status] = []
+          }
+          status[disp.bldg.name][disp.roominfo.status].push(disp)
+        })
+        return status
+      })).subscribe(data=> this.statusList = data)
+    
     this.bldgList$ = this.bldgService.entities$
     this.dispList$ = mergedRooms$
-
   }
 
   //====================================================

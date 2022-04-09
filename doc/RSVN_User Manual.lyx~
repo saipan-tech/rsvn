@@ -89,6 +89,10 @@ RSVN Users Manual
 \end_layout
 
 \begin_layout Part
+GUI Functions
+\end_layout
+
+\begin_layout Section
 Dashboard
 \end_layout
 
@@ -103,15 +107,14 @@ Dashboard
 \end_layout
 
 \begin_layout Standard
-The Dashboard is the first view that comes up by default after logging on.
- It has a navigation bar, and an Occupancy Matrix that plots room numbers
- across dates.
+The Dashboard is the first view that comes up by default after logging in
+ with a navigation bar, and an Occupancy Matrix that plots room number occupancy
+ across date s.
  The right panel is an area for information panels that can display custom
  information ( i.e., weather info, traffic info, flight schedules, tours).
- 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Occupancy Matrix
 \end_layout
 
@@ -141,16 +144,19 @@ status open
 \begin_layout Standard
 The Occupancy Matrix is a quick glance view of room occupancy.
  The date select and range controls are on top.
- The room lanes show a visual histogram of rooms vs dates.
+ The room lanes show a visual histogram of room occupation versus dates.
  The room lane shows the first 2 letters of the last name of the primary
  guest in each day cell.
  Clicking on a room lane will display basic guest and reservation information
  in the right sidebar.
  All rooms on the same reservation with the selected room will be highlighted
  in red.
- The information dialog well have a link labeled Reservation which when
- clicked will switch to the Guest and Reservation tab and set the current
- reservation and current guest.
+ The information dialog well have a link labeled 
+\series bold
+Reservation
+\series default
+ which when clicked will switch to the Guest and Reservation tab and set
+ the current reservation and current guest for viewing.
 \end_layout
 
 \begin_layout Subsection
@@ -188,18 +194,21 @@ Room lanes show a room which has a reservation over a span of days.
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Color Coding
 \end_layout
 
 \begin_layout Standard
 The meaning and variety of colors are all customized from the configuration
  screen.
- The color is assigned through the required Color field dropdown when creating
- a reservation.
+ The color is assigned through the required 
+\series bold
+Color 
+\series default
+field dropdown when creating a reservation.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Room Highlighting
 \end_layout
 
@@ -208,7 +217,7 @@ Selecting a room bar will highlight it and any other rooms on that particular
  reservation.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Reservation Viewer
 \end_layout
 
@@ -227,18 +236,15 @@ Clicking on a room lane will display a condensed room information block
  in the right side panel.
  In this block there is the guest name, address, and phone number, and informati
 on on the reservation.
- Clicking on the Reservation link in the view will open a full Guest and
- Reservation panel with the selected reservation as current.
+ Clicking on the 
+\series bold
+Reservation
+\series default
+ link in the view will open a full Guest and Reservation panel with the
+ selected reservation as current.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage pagebreak
-\end_inset
-
-
-\end_layout
-
-\begin_layout Part
+\begin_layout Section
 Guest and Reservations
 \end_layout
 
@@ -271,14 +277,7 @@ The Guest and Reservations is the primary database information portal.
  
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
+\begin_layout Subsection
 Search
 \end_layout
 
@@ -345,7 +344,7 @@ The quick view searchs the full database of guests and displays any that
  have not had a reservation.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Result Panels
 \end_layout
 
@@ -442,7 +441,7 @@ If a room has not been properly checked out after the reservation has expired
  room to Inspect.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Guest Information 
 \end_layout
 
@@ -467,7 +466,7 @@ s page.
  
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Guest Edit
 \end_layout
 
@@ -487,7 +486,7 @@ The Guest edit form is used for data entry and update.
  
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Reservation Edit
 \end_layout
 
@@ -505,7 +504,7 @@ Reservation Edit
 Reservation Edit for creating and updating reservations.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Charges and Payments
 \end_layout
 
@@ -528,7 +527,7 @@ Charges and payments panel lists each room and each day's charge.
  and payments.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Rooms Control
 \end_layout
 
@@ -568,14 +567,7 @@ The Rooms control panel is on the right side panel of the Guest and Reservations
  the rooms are listed by the building and rate category alias.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage pagebreak
-\end_inset
-
-
-\end_layout
-
-\begin_layout Part
+\begin_layout Section
 Current Room Status
 \end_layout
 
@@ -603,7 +595,7 @@ View all rooms readiness status.
  A room cannot be checked in if the status is not set to Ready.
 \end_layout
 
-\begin_layout Part
+\begin_layout Section
 Work Management
 \end_layout
 
@@ -667,7 +659,7 @@ Work schedule assignments are made here.
  
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Room Assignments
 \end_layout
 
@@ -706,7 +698,7 @@ All rooms are listed in this section.
  Once a save is made the calendar will reflect the new room assignments.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsubsection
 Icons Bar
 \end_layout
 
@@ -778,7 +770,7 @@ Delete the currently displayed action.
  
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Weekly Calendar
 \end_layout
 
@@ -820,7 +812,7 @@ The weekly calendar shows all work that is currently assigned.
  Schedule Assignnments editor which displays after selection.
 \end_layout
 
-\begin_layout Part
+\begin_layout Section
 Staff
 \end_layout
 
@@ -859,7 +851,7 @@ The Staff section is where all of the staff member's information and security
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Staff Edit
 \end_layout
 
@@ -918,7 +910,7 @@ Reset Password.
 
 \end_layout
 
-\begin_layout Part
+\begin_layout Section
 Rate Management
 \end_layout
 
@@ -935,7 +927,7 @@ ut the year.
  from the Rate Management system automatically.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Rate Calendar
 \end_layout
 
@@ -954,20 +946,33 @@ Current Year View
 \end_layout
 
 \begin_layout Standard
-This changes the active year of the displayed calendar where previous years
- can be researched and future years can be edited.
- Once leaving and returning to this tab it will revert back to the current
- year.
-\end_layout
+\begin_inset Wrap figure
+lines 0
+placement o
+overhang 0in
+width "4cm"
+status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Graphics
 	filename img/calendar_season_labels.png
-	width 5cm
+	width 4cm
 
 \end_inset
 
 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This changes the active year of the displayed calendar where previous years
+ can be researched and future years can be edited.
+ Once leaving and returning to this tab it will revert back to the current
+ year.
 \end_layout
 
 \begin_layout Paragraph
@@ -1005,10 +1010,6 @@ width "4cm"
 status open
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset Graphics
 	filename img/season_count.png
 	width 4cm
@@ -1032,7 +1033,7 @@ The Season Count output gives the active calendar year breakdown of seasons
  
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Season
 \end_layout
 
@@ -1047,13 +1048,14 @@ Season
 \end_layout
 
 \begin_layout Standard
-Through this dialog we establish the rates we will be using.
- We can select the color of the field in the calendar, a short descripiton
- and most importantly the amount of discount to be applied to the rack rate.
+Through this dialog rates are established.
+ The color of the field in the calendar must be selected as well as a short
+ descripiton and most importantly the amount of discount to be applied to
+ the rack rate.
  The numbers will be a decimal less than 1.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Rate List
 \end_layout
 
@@ -1075,7 +1077,7 @@ The Rate Table is where the Rate for a particular room type is defined.
  the different seasons previosly defined in the season table.
 \end_layout
 
-\begin_layout Part
+\begin_layout Section
 Configuration
 \end_layout
 

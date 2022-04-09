@@ -107,12 +107,11 @@ Dashboard
 \end_layout
 
 \begin_layout Standard
-The Dashboard is the first view that comes up by default after logging on.
- It has a navigation bar, and an Occupancy Matrix that plots room numbers
- across dates.
+The Dashboard is the first view that comes up by default after logging in
+ with a navigation bar, and an Occupancy Matrix that plots room number occupancy
+ across date s.
  The right panel is an area for information panels that can display custom
  information ( i.e., weather info, traffic info, flight schedules, tours).
- 
 \end_layout
 
 \begin_layout Subsection
@@ -145,16 +144,19 @@ status open
 \begin_layout Standard
 The Occupancy Matrix is a quick glance view of room occupancy.
  The date select and range controls are on top.
- The room lanes show a visual histogram of rooms vs dates.
+ The room lanes show a visual histogram of room occupation versus dates.
  The room lane shows the first 2 letters of the last name of the primary
  guest in each day cell.
  Clicking on a room lane will display basic guest and reservation information
  in the right sidebar.
  All rooms on the same reservation with the selected room will be highlighted
  in red.
- The information dialog well have a link labeled Reservation which when
- clicked will switch to the Guest and Reservation tab and set the current
- reservation and current guest.
+ The information dialog well have a link labeled 
+\series bold
+Reservation
+\series default
+ which when clicked will switch to the Guest and Reservation tab and set
+ the current reservation and current guest for viewing.
 \end_layout
 
 \begin_layout Subsection
@@ -199,8 +201,11 @@ Color Coding
 \begin_layout Standard
 The meaning and variety of colors are all customized from the configuration
  screen.
- The color is assigned through the required Color field dropdown when creating
- a reservation.
+ The color is assigned through the required 
+\series bold
+Color 
+\series default
+field dropdown when creating a reservation.
 \end_layout
 
 \begin_layout Paragraph
@@ -231,8 +236,12 @@ Clicking on a room lane will display a condensed room information block
  in the right side panel.
  In this block there is the guest name, address, and phone number, and informati
 on on the reservation.
- Clicking on the Reservation link in the view will open a full Guest and
- Reservation panel with the selected reservation as current.
+ Clicking on the 
+\series bold
+Reservation
+\series default
+ link in the view will open a full Guest and Reservation panel with the
+ selected reservation as current.
 \end_layout
 
 \begin_layout Section
@@ -331,7 +340,7 @@ Quick View
 \end_layout
 
 \begin_layout Standard
-The quick view searchs the full database of guests and displays any that
+The quick view searches the full database of guests and displays any that
  have not had a reservation.
 \end_layout
 
@@ -356,7 +365,7 @@ Search Results
 \begin_layout Standard
 Entering 2 or more letters in the query will produce a list of matches of
  reservations in this pane.
- The name and the dateIn dateOut values for this match.
+ The name and the dateIn/dateOut values for this match.
  
 \end_layout
 
@@ -367,7 +376,7 @@ No Rsvn Guests
 \begin_layout Standard
 Entering 2 or more letters in the query will produce a list of matches of
  guest.
- The name and the dateIn dateOut values for this match.
+ The name and the dateIn/dateOut values for this match.
 \end_layout
 
 \begin_layout Paragraph
@@ -427,9 +436,9 @@ Expired Occupancy
 If a room has not been properly checked out after the reservation has expired
  it may still indicate occupied it will show up here and it can be reset
  to a different status.
- The defaults are Inspect, dirty, ready.
- Room status cna be changed individually or a batch which will take the
- room to Inspect.
+ The defaults are Inspect, Dirty, Ready.
+ Room status can be changed individually or in the batch procvssing which
+ will take the room to Inspect.
 \end_layout
 
 \begin_layout Subsection
@@ -537,10 +546,6 @@ status open
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 

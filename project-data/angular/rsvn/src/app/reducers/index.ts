@@ -28,7 +28,7 @@ import {
   }
     
   export const metaReducers: MetaReducer<AppState>[] =
-      !environment.production ? [logger] : [];
+      !environment.production ? [] : [];
   
   
   

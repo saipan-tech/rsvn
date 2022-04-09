@@ -12,7 +12,7 @@
       </app-guest-edit>
     </mat-expansion-panel>
 
-    <mat-expansion-panel  *ngIf="currGuest && currGuest.id">
+    <mat-expansion-panel  *ngIf="currGuest && currGuest.id" [expanded]=true>
       <mat-expansion-panel-header>
         <mat-panel-title>
           <h5> {{ (currRsvn &&currRsvn.id) ? msgString(2) :'New Rsvn' }}</h5>

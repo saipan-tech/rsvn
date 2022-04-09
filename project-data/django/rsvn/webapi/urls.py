@@ -34,6 +34,7 @@ from webapi.views.calendar import *
 from webapi.views.staff import *
 from webapi.views.calc import *
 from webapi.views.roomaction import *
+from webapi.views.svcrsvn import *
 
 from webapi.tools.weather import *
 
@@ -60,6 +61,7 @@ router.register(r'seasoncal',SeasonCalViewSet)
 router.register(r'calendar',CalendarViewSet)
 router.register(r'action',RoomActionViewSet)
 router.register(r'config',ConfigViewSet)
+router.register(r'svcrsvn',SvcRsvnViewSet)
 
 # yrp
 # Wire up our API using automatic URL routing.

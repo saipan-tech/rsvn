@@ -20,7 +20,7 @@ export class RoomEntityService extends EntityCollectionServiceBase<IRoom> {
       map(room => room.filter(room =>
         (room.dateIn <= dateIn && room.dateOut > dateIn) ||
         (room.dateIn <= dateOut && room.dateOut > dateIn) ||
-        (room.dateIn <= dateOut && room.dateOut > dateOut)
+        (room.dateIn <= dateOut && room.dateOut >= dateOut)
       )
       ))
       }
