@@ -25,8 +25,11 @@ import { ActionEditComponent } from './action/action-edit/action-edit.component'
 import { GridSelectComponent } from './grid-select/grid-select.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { ActionMatrixComponent } from './action/action-matrix/action-matrix.component';
-import { ActionMatrixSidebarComponent } from './action/action-matrix-sidebar/action-matrix-sidebar.component';
 import { ActionManagerComponent } from './action/action-manager/action-manager.component';
+import { CurrentCtrlComponent } from './current-ctrl/current-ctrl.component';
+import { SvcrsvnEditComponent } from './current-ctrl/svcrsvn-edit/svcrsvn-edit.component';
+import { SvcrsvnListComponent } from './current-ctrl/svcrsvn-list/svcrsvn-list.component';
+import { CurrentMatrixComponent } from './current-ctrl/current-matrix/current-matrix.component';
 
 
 @NgModule({
@@ -40,9 +43,12 @@ import { ActionManagerComponent } from './action/action-manager/action-manager.c
     ActionItemsComponent,
     ActionEditComponent,
     ActionMatrixComponent,
-    ActionMatrixSidebarComponent,
     ActionManagerComponent,
-    GridSelectComponent
+    GridSelectComponent,
+    CurrentCtrlComponent,
+    SvcrsvnEditComponent,
+    SvcrsvnListComponent,
+    CurrentMatrixComponent
    
     
   ],
