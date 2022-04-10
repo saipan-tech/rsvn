@@ -26,15 +26,14 @@
    <a mat-tab-link *ngIf="currUser.level > 0" (click)="activeLink = 'frontdesk'" [active]="activeLink == 'frontdesk'"
       routerLink="/frontdesk"> Guest and Reservations </a>
 
-
    <!--
        <a mat-tab-link 
        (click)="activeLink = 'calendar'"
        [active]="activeLink == 'calendar'" routerLink="/calendar"> Calendar </a>
     -->
-   
+  
     <a mat-tab-link *ngIf="currUser.level > 1" (click)="activeLink = 'currentroom'" [active]="activeLink == 'currentroom'"
-      routerLink="/currentroom">Current Room Status</a>
+      routerLink="/currentctrl">Current Room Status</a>
    <a mat-tab-link *ngIf="currUser.level > 1" (click)="activeLink = 'actionmanager'" [active]="activeLink == 'actionmanager'"
       routerLink="/actionmanager">Work Management</a>
    <a mat-tab-link *ngIf="currUser.level > 3" (click)="activeLink = 'ratemgr'" [active]="activeLink == 'ratemgr'"

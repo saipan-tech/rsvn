@@ -24,7 +24,6 @@ import { ActionItemsComponent } from './action/action-items/action-items.compone
 import { ActionEditComponent } from './action/action-edit/action-edit.component';
 import { GridSelectComponent } from './grid-select/grid-select.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { ActionMatrixComponent } from './action/action-matrix/action-matrix.component';
 import { ActionManagerComponent } from './action/action-manager/action-manager.component';
 import { CurrentCtrlComponent } from './current-ctrl/current-ctrl.component';
 import { SvcrsvnEditComponent } from './current-ctrl/svcrsvn-edit/svcrsvn-edit.component';
@@ -42,7 +41,6 @@ import { CurrentMatrixComponent } from './current-ctrl/current-matrix/current-ma
     ActionStaffComponent,
     ActionItemsComponent,
     ActionEditComponent,
-    ActionMatrixComponent,
     ActionManagerComponent,
     GridSelectComponent,
     CurrentCtrlComponent,
