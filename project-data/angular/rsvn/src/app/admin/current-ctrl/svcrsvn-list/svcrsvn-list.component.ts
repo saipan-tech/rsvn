@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { ICalendar } from '@app/_interface/calendar';
 import { ISvcRsvn } from '@app/_interface/svcrsvn';
 import { SvcrsvnEditComponent } from '../svcrsvn-edit/svcrsvn-edit.component';
-
+import { IRoominfo } from '@app/_interface/roominfo';
 
 
 @Component({
@@ -17,23 +18,26 @@ export class SvcrsvnListComponent implements OnInit {
 
   ) { }
 
+    currSvcRsvn:ISvcRsvn = {} as ISvcRsvn
 
+    @Input() currRoominfo:IRoominfo = {} as IRoominfo
+    
   //--------------------------
-  openDialog(currSRID:number) {
+  openDialog(currSvcRsvn:ISvcRsvn) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.panelClass = [];
     dialogConfig.minWidth = '25%';
     dialogConfig.data = {
-      currSvcRsvnID: currSRID
+      currSvcRsvn: currSvcRsvn
     }
     const dialogRef = this.dialog.open(SvcrsvnEditComponent, dialogConfig)
     dialogRef.afterClosed()
       .subscribe(
         data => {
-  //        this.currxRec = data;
-  //        this.ngOnInit()
+          this.currSvcRsvn = data;
+          this.ngOnInit()
         }
       )
   }

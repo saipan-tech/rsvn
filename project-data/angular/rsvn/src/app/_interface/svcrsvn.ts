@@ -1,4 +1,5 @@
 export interface ISvcRsvn {
+  id:number;
   roominfo:number;
   status:string;
   dateIn:string;

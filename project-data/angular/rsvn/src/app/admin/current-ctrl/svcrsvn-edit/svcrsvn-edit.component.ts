@@ -5,8 +5,10 @@ import { Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
 import { SystemService } from '@app/_services/system.service';
 import { IDropdown } from '@app/_interface/dropdown';
-
-
+import { ISvcRsvn } from '@app/_interface/svcrsvn';
+import { RoomService } from '@app/_services/room.service';
+import { GenericService } from '@app/_services/generic.service';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-svcrsvn-edit',
   templateUrl: './svcrsvn-edit.component.html',
@@ -17,28 +19,46 @@ export class SvcrsvnEditComponent implements OnInit {
   constructor(
     private systemService: SystemService,
     private dialogRef: MatDialogRef<SvcrsvnEditComponent>,
+    private xroomService: RoomService,
+    private genericService: GenericService,
     @Inject(MAT_DIALOG_DATA) data: any,
 
-  ) { }
+  ) {
+    this.currSvcRsvn = data.currSvcRsvn 
 
+   }
 
+  currSvcRsvn:ISvcRsvn
   roomStatus: IDropdown[] = [];
   colorList: IDropdown[] = [];
 
   svcrsvnEditForm = new FormGroup({
+    id:new FormControl(''),
     status: new FormControl(''),
     dateIn: new FormControl('', Validators.required),
     dateOut: new FormControl('', Validators.required),
     color: new FormControl('', Validators.required),
     notes: new FormControl('', Validators.required),
-    clerk: new FormControl(''),
-    created: new FormControl(''),
-    modified: new FormControl(''),
+    clerk: new FormControl({ value: '', disabled: true }),
+    created: new FormControl({ value: '', disabled: true }),
+    modified: new FormControl({ value: '', disabled: true })
+
 
   })
 
+  
   updateSvcRsvn() {
+    let csr = this.svcrsvnEditForm.value
+    this.xroomService.availableRooms(csr.dateIn,csr.dateOut).pipe(
+      map(rmlist => {
+        
+      })
+    )
 
+    csr.dateIn = this.fromHTMLDate(csr.dateIn)
+    csr.dateOut = this.fromHTMLDate(csr.dateOut)
+    if(!csr.id) {
+    }
   }
 
   deleteSvcRsvn() {
@@ -66,6 +86,8 @@ export class SvcrsvnEditComponent implements OnInit {
     this.systemService.getDropdownList('color').subscribe(
       data => this.colorList = data
     )
+    this.svcrsvnEditForm.patchValue(this.currSvcRsvn)
+
   }
 
 }

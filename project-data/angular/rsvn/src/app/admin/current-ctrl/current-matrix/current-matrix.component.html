@@ -11,7 +11,7 @@
               <div class="row">
                 <div class='col'
                   style="border-right:1px solid green;text-align:center;font-size:medium;font-weight:bold">
-                  <div [ngClass]="{'warning':x.occ.length}">{{ x.roominfo.number }}</div>
+                  <div style="cursor:pointer" (click)="roomStats(x.roominfo)" [ngClass]="{'warning':x.occ.length}">{{ x.roominfo.number }}</div>
                 </div>
                 <div class="col">
                   <div *ngFor="let r of x.rooms">

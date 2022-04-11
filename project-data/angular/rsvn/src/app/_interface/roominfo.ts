@@ -14,5 +14,7 @@ export interface IRoominfo  {
     rateAlias:string;
     marker:string;
     border:string;
+    phone:string;
+    ipaddr:string;
 
 }

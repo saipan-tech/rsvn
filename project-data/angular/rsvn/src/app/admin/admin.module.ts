@@ -18,6 +18,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ActionStaffComponent } from './action/action-staff/action-staff.component';
 import { ActionItemsComponent } from './action/action-items/action-items.component';
@@ -29,6 +31,7 @@ import { CurrentCtrlComponent } from './current-ctrl/current-ctrl.component';
 import { SvcrsvnEditComponent } from './current-ctrl/svcrsvn-edit/svcrsvn-edit.component';
 import { SvcrsvnListComponent } from './current-ctrl/svcrsvn-list/svcrsvn-list.component';
 import { CurrentMatrixComponent } from './current-ctrl/current-matrix/current-matrix.component';
+import { RoomstatusComponent } from './current-ctrl/roomstatus/roomstatus.component';
 
 
 @NgModule({
@@ -46,7 +49,8 @@ import { CurrentMatrixComponent } from './current-ctrl/current-matrix/current-ma
     CurrentCtrlComponent,
     SvcrsvnEditComponent,
     SvcrsvnListComponent,
-    CurrentMatrixComponent
+    CurrentMatrixComponent,
+    RoomstatusComponent
    
     
   ],
@@ -71,6 +75,7 @@ import { CurrentMatrixComponent } from './current-ctrl/current-matrix/current-ma
     MatMenuModule,
     MatCardModule,
     MatExpansionModule,
+    MatTableModule,
     FrontdeskModule,
   
   ],

@@ -1,11 +1,27 @@
-
 <div class="row">
     <div class="col">
-        <app-current-matrix></app-current-matrix>
+        <app-current-matrix [(currRoominfo)]="currRoominfo"></app-current-matrix>
     </div>
     <div class="col">
-        <app-svcrsvn-list></app-svcrsvn-list>
+
+<mat-card>
+
+    <mat-tab-group mat-align-tabs="start">
+        
+        <mat-tab label="Room Information">
+            <app-roomstatus [currRoominfo]="currRoominfo"></app-roomstatus>
+        </mat-tab>
+        
+        <mat-tab label="Service Reservation">
+            <app-svcrsvn-list [currRoominfo]="currRoominfo"></app-svcrsvn-list>
+        </mat-tab>
+
+      </mat-tab-group>
+
+</mat-card>
+               
+
+
+
     </div>
 </div>
-
-

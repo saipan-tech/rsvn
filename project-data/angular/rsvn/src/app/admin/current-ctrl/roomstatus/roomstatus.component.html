@@ -1,0 +1,70 @@
+<div class="row" *ngIf="currRoominfo && currRoominfo.id">
+    <div class="col-3">
+        <mat-card  class="statTable">
+            <mat-card-title>Information</mat-card-title>
+            <mat-card-content>
+                <div class="row datacell">
+                    <div class="col statlabel">ID</div>
+                    <div class="col statvalue">{{ currRoominfo.id }}</div>
+                </div>
+                <div class="row datacell">
+                    <div class="col statlabel">Bldg</div>
+                    <div class="col statvalue">{{ currRoominfo.bldg }}</div>
+                </div>
+                <div class="row datacell">
+                    <div class="col statlabel">Floor</div>
+                    <div class="col statvalue">{{ currRoominfo.floor }}</div>
+                </div>
+                <div class="row datacell">
+                    <div class="col statlabel">Number</div>
+                    <div class="col statvalue">{{ currRoominfo.number }}</div>
+                </div>
+                <div class="row datacell">
+                    <div class="col statlabel">Status</div>
+                    <div class="col statvalue">{{ currRoominfo.status}}</div>
+                </div>
+                <div class="row datacell">
+                    <div class="col statlabel">Rate Alias</div>
+                    <div class="col statvalue">{{ currRoominfo.rateAlias }}</div>
+                </div>
+                <div class="row datacell">
+                    <div class="col statlabel"># of Beds</div>
+                    <div class="col statvalue">{{ currRoominfo.beds }}</div>
+                </div>
+                <div class="row datacell">
+                    <div class="col statlabel">Size</div>
+                    <div class="col statvalue">{{ currRoominfo.size }}</div>
+                </div>
+                <div class="row datacell">
+                    <div class="col statlabel">Descr</div>
+                    <div class="col statvalue">{{ currRoominfo.descr }}</div>
+                </div>
+                <div class="row datacell">
+                    <div class="col statlabel">Phone</div>
+                    <div class="col statvalue">{{ currRoominfo.phone }}</div>
+                </div>
+                <div class="row datacell">
+                    <div class="col statlabel">IP Address</div>
+                    <div class="col statvalue">{{ currRoominfo.ipaddr}}</div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+    <div class="col-9">
+        <mat-card>
+            <mat-card-title>History</mat-card-title>
+
+            <mat-card-content>
+ 
+                <div *ngFor="let rm of roomList$ | async">
+                    {{rm | json}}
+
+                </div>
+
+
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+</div>
