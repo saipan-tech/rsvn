@@ -248,7 +248,6 @@ class RoomCharge (models.Model):
     modified    =   models.DateTimeField(auto_now=True)
     def __str__(self) :
         return f"{self.room.roominfo.bldg.name} {self.room.roominfo.number}   -- {self.date}"
-
 #---------------------------------------------------------
 class RoomAction (models.Model):
     staff           =   models.ForeignKey(Staff,models.CASCADE, related_name='staffOf')
@@ -293,7 +292,7 @@ class Cities (models.Model):
     lat         =   models.DecimalField(max_digits=12, decimal_places=6,default=Decimal('000.000000'))
 
 #---------------------------------------------------------
-class   Config (models.Model):
+class  Config (models.Model):
     section     =   models.CharField(max_length=1024)
     key         =   models.CharField(max_length=1024)
     value       =   models.CharField(max_length=1024)

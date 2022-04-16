@@ -32,7 +32,9 @@ import { SvcrsvnEditComponent } from './current-ctrl/svcrsvn-edit/svcrsvn-edit.c
 import { SvcrsvnListComponent } from './current-ctrl/svcrsvn-list/svcrsvn-list.component';
 import { CurrentMatrixComponent } from './current-ctrl/current-matrix/current-matrix.component';
 import { RoomstatusComponent } from './current-ctrl/roomstatus/roomstatus.component';
-
+import { MatSortModule } from '@angular/material/sort';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { RoomchartsComponent } from './current-ctrl/roomcharts/roomcharts.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { RoomstatusComponent } from './current-ctrl/roomstatus/roomstatus.compon
     SvcrsvnEditComponent,
     SvcrsvnListComponent,
     CurrentMatrixComponent,
-    RoomstatusComponent
+    RoomstatusComponent,
+    RoomchartsComponent
    
     
   ],
@@ -63,7 +66,7 @@ import { RoomstatusComponent } from './current-ctrl/roomstatus/roomstatus.compon
     ReactiveFormsModule,
     FormsModule,
 
-
+    MatSortModule,
     MatTabsModule,
     MatFormFieldModule,
     MatIconModule,
@@ -77,6 +80,14 @@ import { RoomstatusComponent } from './current-ctrl/roomstatus/roomstatus.compon
     MatExpansionModule,
     MatTableModule,
     FrontdeskModule,
+    NgxEchartsModule.forRoot({
+      /**
+       * This will import all modules from echarts.
+       * If you only need custom modules,
+       * please refer to [Custom Build] section.
+       */
+      echarts: () => import('echarts'), 
+    }),
   
   ],
   exports : [

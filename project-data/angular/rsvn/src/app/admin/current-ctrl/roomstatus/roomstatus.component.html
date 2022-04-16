@@ -1,3 +1,7 @@
+<div class="row" *ngIf="!currRoominfo || !currRoominfo.id">
+    <h3>Select a Room Number in the matrix to display Room Statistics</h3>
+</div>
+
 <div class="row" *ngIf="currRoominfo && currRoominfo.id">
     <div class="col-3">
         <mat-card  class="statTable">
@@ -21,7 +25,7 @@
                 </div>
                 <div class="row datacell">
                     <div class="col statlabel">Status</div>
-                    <div class="col statvalue">{{ currRoominfo.status}}</div>
+                    <div class="col statvalue {{ currRoominfo.status}}">{{ currRoominfo.status}}</div>
                 </div>
                 <div class="row datacell">
                     <div class="col statlabel">Rate Alias</div>
@@ -51,20 +55,59 @@
         </mat-card>
 
     </div>
-    <div class="col-9">
-        <mat-card>
-            <mat-card-title>History</mat-card-title>
+    <div class="col-3">
+        <mat-card class="statTable">
+            <mat-card-title>Usage</mat-card-title>
 
             <mat-card-content>
  
-                <div *ngFor="let rm of roomList$ | async">
-                    {{rm | json}}
-
+                <div class="row datacell">
+                    <div class="col statlabel">Reservations</div>
+                    <div class="col statvalue">{{ roomUsage.result.length}} </div>
                 </div>
-
-
+                <div class="row datacell">
+                    <div class="col statlabel">Days</div>
+                    <div class="col statvalue">{{ roomUsage.totals}} </div>
+                </div>
+                <div class="row datacell">
+                    <div class="col statlabel">Revenue</div>
+                    <div class="col statvalue"> </div>
+                </div>
+                <div class="row datacell">
+                    <div class="col statlabel">Service Calls</div>
+                    <div class="col statvalue"> </div>
+                </div>
+                  
             </mat-card-content>
         </mat-card>
 
     </div>
+    <div class="col-5">
+        <mat-card class="statTable">
+            <mat-card-title>History</mat-card-title>
+
+            <mat-card-content>
+                <table class="table">
+                    <tr>
+                        <th></th>
+                        <th>Check In</th>
+                        <th>Check Out</th>
+                        <th># of Days</th>
+                        
+                    </tr>
+                    <tr *ngFor="let rms of roomUsage.result; index as i ">
+                        <td>{{i+1}}.</td>
+                        <td>{{ rms.dateIn }}</td>
+                        <td>{{ rms.dateOut}}</td>
+                        <td style="text-align:center">{{ rms.span}}</td>
+
+                    </tr>
+      
+                </table>
+                  
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+
 </div>

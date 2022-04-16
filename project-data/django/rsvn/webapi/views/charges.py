@@ -69,6 +69,9 @@ class RoomChargeViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset() 
 
+        if "roominfo" in self.request.GET:
+            queryset = queryset.filter(room__roominfo__id=self.request.GET['roominfo'])
+
         if "rsvn" in self.request.GET :
             queryset = queryset.filter(room__rsvn__id=self.request.GET['rsvn'])
         
@@ -90,3 +93,4 @@ class RoomChargeViewSet(viewsets.ModelViewSet):
                     Q(room__rsvn__dateIn__lte = dateOut) & Q(room__rsvn__dateOut__gte = dateIn) |
                     Q(room__rsvn__dateIn__lte = dateOut) & Q(room__rsvn__dateOut__gte =  dateOut) 
                     )
+        return queryset
