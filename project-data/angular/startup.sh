@@ -14,7 +14,8 @@ npm install @ngrx/data@12
 npm install @ngrx/effects@12 
 npm install @ngrx/router-store@12 
 npm install @ngrx/entity@12
-npm install ngx-socket-io
+npm install echarts 
+npm install ngx-echarts 
 
 ng add @angular/localize --skip-confirmation
 #ng build --prod --output-path /usr/src/app/django/survey/static/ang/main  --watch --output-hashing none

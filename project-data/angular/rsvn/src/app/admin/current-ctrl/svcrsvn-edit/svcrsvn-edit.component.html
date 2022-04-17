@@ -1,0 +1,65 @@
+<div class="card-header" style="text-align:center"> 
+    <nav class='navbar'>
+        <h5>Service Reservation</h5>
+        <button type="button" (click)='close()'>
+            <span class="material-icons"> close </span>
+        </button>
+    </nav>
+</div>
+<form novalidate [formGroup]="svcrsvnEditForm">
+    <div class="d-flex">
+
+        <div class="form-control">
+            <div class="d-flex">
+                <label class="uppercell form-control">Status<abbr class="req" title="Required">*</abbr></label>
+                <select class="form-control lowercell" formControlName='status'>
+                    <option value=""></option>
+                    <option *ngFor="let sl of roomStatus" [ngValue]="sl.value">{{sl.display}} </option>
+                </select>
+            </div>
+
+
+
+            <div class="d-flex">
+                <label class="uppercell form-control">Date In<abbr class="req" title="Required">*</abbr></label>
+                <input class="lowercell form-control" type="text" formControlName='dateIn'>
+            </div>
+            <div class="d-flex">
+                <label class="uppercell form-control">Date Out<abbr class="req" title="Required">*</abbr></label>
+                <input class="lowercell form-control" type="text" formControlName='dateOut'>
+            </div>
+            <div class="d-flex">
+                <label class="uppercell form-control">Color<abbr class="req" title="Required">*</abbr></label>
+                <select class="form-control lowercell" [ngStyle]="{'background-color':svcrsvnEditForm.value.color}"
+                    formControlName='color'>
+                    <option value=""></option>
+                    <option [ngStyle]="{'background-color':c.value}" *ngFor="let c of colorList" [ngValue]="c.value">
+                        {{c.display}} </option>
+                </select>
+            </div>
+            <div class="d-flex">
+                <label class="uppercell form-control">Notes<abbr class="req" title="Required">*</abbr></label>
+                <input class="lowercell form-control" type="text" formControlName='notes'>
+            </div>
+            <div class="d-flex">
+                <label class="uppercell form-control">Clerk<abbr class="req" title="Required">*</abbr></label>
+                <input class="lowercell form-control" type="text" formControlName='clerk'>
+            </div>
+            <div class="d-flex">
+                <label class="uppercell form-control">Created<abbr class="req" title="Required">*</abbr></label>
+                <input class="lowercell form-control" type="text" formControlName='created'>
+            </div>
+            <div class="d-flex">
+                <label class="uppercell form-control">Modified<abbr class="req" title="Required">*</abbr></label>
+                <input class="lowercell form-control" type="text" formControlName='modified'>
+            </div>
+        </div>
+
+    </div>
+
+<button class="btn" [disabled]="!(svcrsvnEditForm.valid)" (click)='updateSvcRsvn()'>
+    <span class="material-icons">save</span></button>
+<button class="btn" style="margin-left:6em" [disabled]="false" (click)='deleteSvcRsvn()'>
+    <span class="material-icons"> delete </span>
+</button>
+</form>

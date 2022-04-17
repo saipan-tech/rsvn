@@ -1,0 +1,47 @@
+<ng-container *ngFor="let bldg of bldgList$ | async">
+  <mat-card>
+    <mat-card-title>
+      {{ bldg.name}}
+    </mat-card-title>
+    <mat-card-content>
+      <div class="d-flex flex-wrap">
+        <div *ngFor="let x of dispList$ | async">
+          <ng-container *ngIf="bldg.name == x.bldg.name">
+            <div class="grid_button">
+              <div class="row">
+                <div class='col'
+                  style="border-right:1px solid green;text-align:center;font-size:medium;font-weight:bold">
+                  <div style="cursor:pointer" (click)="roomStats(x.roominfo)" [ngClass]="{'warning':x.occ.length}">{{ x.roominfo.number }}</div>
+                </div>
+                <div class="col">
+                  <div *ngFor="let r of x.rooms">
+                    <button class="imgbutt" *ngIf="r.room.dateOut == Today">
+                      <img src="/assets/img/check-red.png" height="20px"></button>
+
+                    <button class="imgbutt" *ngIf="r.room.dateIn == Today">
+                      <img src="/assets/img/check-green.png" height="20px"></button>
+
+                    <button class="imgbutt" *ngIf="r.room.dateIn != Today && r.room.dateOut != Today">
+                      <img src="/assets/img/house.png" height='20px'></button>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 ">
+                  <div class="{{x.roominfo.status}} subcell" [matMenuTriggerFor]="roomMenu">{{x.roominfo.status}}
+                  </div>
+                </div>
+                <div class="col-6"></div>
+              </div>
+              <mat-menu #roomMenu="matMenu">
+                <div class="menu-head">Room Status Override</div>
+                <button *ngFor="let rs of roomStatus" mat-menu-item
+                  (click)="roomStatusChange(x.roominfo.id,rs.value)">{{rs.display}} </button>
+              </mat-menu>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>

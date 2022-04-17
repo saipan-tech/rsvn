@@ -89,6 +89,10 @@ RSVN Users Manual
 \end_layout
 
 \begin_layout Part
+GUI Functions
+\end_layout
+
+\begin_layout Section
 Dashboard
 \end_layout
 
@@ -103,42 +107,56 @@ Dashboard
 \end_layout
 
 \begin_layout Standard
-The Dashboard is the first view that comes up by default.
- It has a navigation bar, Occupancy Matrix for an overall room view.
- There are information panels that will display 
+The Dashboard is the first view that comes up by default after logging in
+ with a navigation bar, and an Occupancy Matrix that plots room number occupancy
+ across date s.
+ The right panel is an area for information panels that can display custom
+ information ( i.e., weather info, traffic info, flight schedules, tours).
+\end_layout
+
+\begin_layout Subsection
+Occupancy Matrix
 \end_layout
 
 \begin_layout Standard
-\begin_inset Newpage pagebreak
-\end_inset
+\begin_inset Wrap figure
+lines 0
+placement o
+overhang 0in
+width "5cm"
+status open
 
-
-\end_layout
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Graphics
 	filename img/matrix1.png
-	width 12cm
+	width 5cm
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Section
-Occupancy Matrix
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 The Occupancy Matrix is a quick glance view of room occupancy.
  The date select and range controls are on top.
- The room lanes show a visual histogram of rooms vs dates.
+ The room lanes show a visual histogram of room occupation versus dates.
  The room lane shows the first 2 letters of the last name of the primary
- guest.
- Clicking on a room lane will retrieve basic guest information and reservation
- information and a link to additional information and full guest profile
- will display and all rooms associated with the selected date will be highlighte
-d in red.
+ guest in each day cell.
+ Clicking on a room lane will display basic guest and reservation information
+ in the right sidebar.
+ All rooms on the same reservation with the selected room will be highlighted
+ in red.
+ The information dialog well have a link labeled 
+\series bold
+Reservation
+\series default
+ which when clicked will switch to the Guest and Reservation tab and set
+ the current reservation and current guest for viewing.
 \end_layout
 
 \begin_layout Subsection
@@ -157,12 +175,12 @@ The calendar select will adjust the dates on the horizontal date axis.
 \begin_layout Itemize
 Clicking on any of the dates will push the start of the date line to (day
  - 4) of the selected date.
- If the first date is clicked the date line will move forward.
+ If the first date is clicked the date line will move forward by 4 days.
 \end_layout
 
 \begin_layout Itemize
-The slider will adjust the number of days represented up to 30 days.
- It will not affect the starting date.
+The slider is used to adjust the number of days up to 30 days.
+ When adjusting the slider, it does not affect the starting date.
 \end_layout
 
 \begin_layout Subsection
@@ -170,33 +188,36 @@ Room Lanes
 \end_layout
 
 \begin_layout Standard
-Room lanes show if a room is occupied over a span of dates.
+Room lanes show a room which has a reservation over a span of days.
  The room markers contain the first 2 letters of a guest's name and are
  color coded for easy recognition and identification.
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Color Coding
 \end_layout
 
 \begin_layout Standard
 The meaning and variety of colors are all customized from the configuration
  screen.
- Room status can be realized with just a glance and historical room states
- can be accessed and visualized as well.
+ The color is assigned through the required 
+\series bold
+Color 
+\series default
+field dropdown when creating a reservation.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Room Highlighting
 \end_layout
 
 \begin_layout Standard
-Selecting a room will highlight it and any other rooms on that particular
- reservation will also be highlighted .
+Selecting a room bar will highlight it and any other rooms on that particular
+ reservation.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Reservation Viewer
 \end_layout
 
@@ -211,14 +232,19 @@ Reservation Viewer
 \end_layout
 
 \begin_layout Standard
-Clicking on a room in the room lane will display a condensed room information
- block.
- This allows rapid review of reservations on the Occupancy Matrix.
- Clicking on the Reservation link in the view will open a full Guest and
- Reservations section with the selected room as current.
+Clicking on a room lane will display a condensed room information block
+ in the right side panel.
+ In this block there is the guest name, address, and phone number, and informati
+on on the reservation.
+ Clicking on the 
+\series bold
+Reservation
+\series default
+ link in the view will open a full Guest and Reservation panel with the
+ selected reservation as current.
 \end_layout
 
-\begin_layout Part
+\begin_layout Section
 Guest and Reservations
 \end_layout
 
@@ -233,16 +259,32 @@ Guest and Reservations
 \end_layout
 
 \begin_layout Standard
-\begin_inset Newpage pagebreak
-\end_inset
+The Guest and Reservations is the primary database information portal.
+ It has a search system which allows the staff to find any reservation or
+ any guest that is in the database.
+ The search panel on the left sidebar allows for partial name searches and
+ date searches.
+ The date searches for any reservation that was active on that date.
+ A reservatiuon is considered active if the search date is between and including
+ the check in date (dateIn) and the check out date (dateOut).
+ There is a quick view which will display all of the guest names in the
+ database.
+ There is also guest record and reservation create and delete capabilities.
+ Once a reservation has been created, and the time span during which the
+ rooms need to be made available is determined, the application filters
+ all available rooms from the inventory and allows the clerk to select the
+ rooms from a matrix which has the room organized by room type.
+ 
+\end_layout
 
-
+\begin_layout Subsection
+Search
 \end_layout
 
 \begin_layout Standard
 \begin_inset Wrap figure
-lines 0
-placement R
+lines 17
+placement o
 overhang 0in
 width "4.5cm"
 status open
@@ -257,35 +299,24 @@ status open
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
 \end_layout
 
-\begin_layout Section
-Search
-\end_layout
-
 \begin_layout Standard
 The Search sidebar is a handy collection of information situated on the
- left sidebar on the Guest And Reservations page.
+ left sidebar of the Guest And Reservations page.
  All guests and reservations are accessible here via quick search either
  by name or date.
- The standard out-of-the-box installation has 8 panels which are dynamic
- and relay usual and unusual events.
- This section is easily customized per installation as needed.
+ The default installation has 8 info panels which display usual and unusual
+ events.
+ Guests are accessed 3 ways, partial text query matching, date query and
+ a quick view.
  
 \end_layout
 
-\begin_layout Subsection
-Query
-\end_layout
-
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Text Query
 \end_layout
 
@@ -295,16 +326,16 @@ Enter at least 2 characters into the query box and any partial name matches
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Date Query
 \end_layout
 
 \begin_layout Standard
-Select a date and any reservations active on that date will display in the
- Search Results panel.
+Select a date and any reservation that is active on that date will display
+ in the Search Results panel.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Quick View
 \end_layout
 
@@ -313,11 +344,11 @@ The quick view searchs the full database of guests and displays any that
  have not had a reservation.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Result Panels
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 All Non Rsvn Guests
 \end_layout
 
@@ -327,7 +358,7 @@ When toggling the Quick View button, all guests in the database that have
  Click on the name and a new reservation can be made.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Search Results
 \end_layout
 
@@ -338,7 +369,7 @@ Entering 2 or more letters in the query will produce a list of matches of
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 No Rsvn Guests
 \end_layout
 
@@ -348,7 +379,7 @@ Entering 2 or more letters in the query will produce a list of matches of
  The name and the dateIn dateOut values for this match.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Check Ins
 \end_layout
 
@@ -358,7 +389,7 @@ All rooms that are scheduled for check in today will show up.
  Selecting the rooms will bring up guest and reservation data.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Check Outs
 \end_layout
 
@@ -368,7 +399,7 @@ All rooms that are scheduled for check out today will show up.
  Selecting the rooms will bring up guest and reservation data.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 In House
 \end_layout
 
@@ -378,7 +409,7 @@ All rooms that are occupied or reservations have been made.
  selecting the rooms will bring up guest and reservation data.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Overdue Checkouts
 \end_layout
 
@@ -388,7 +419,7 @@ If a room status remains at checkin after the reservation is active the
  Rooms can be cleared one at a time or as a batch with a single Clear All
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Rooms Not Assigned
 \end_layout
 
@@ -397,7 +428,7 @@ This is an automatic pane which will show any reservations that have not
  have all the rooms assigned.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Expired Occupancy
 \end_layout
 
@@ -410,11 +441,8 @@ If a room has not been properly checked out after the reservation has expired
  room to Inspect.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage newpage
-\end_inset
-
-
+\begin_layout Subsection
+Guest Information 
 \end_layout
 
 \begin_layout Standard
@@ -427,44 +455,629 @@ If a room has not been properly checked out after the reservation has expired
 
 \end_layout
 
-\begin_layout Section
-Guest Information 
-\end_layout
-
 \begin_layout Standard
-The Guest Information dashboard in the center panel on he Guest And Reservations
- page.
+The Guest Information dashboard in the center panel on the Guest And Reservation
+s page.
+ It is a set of three (3) drop down accordion panels, Guest Edit, Reservation
+ Edit and Charges and Payments.
+ From here a new guest can be created or an existing record can be edited
+ or deleted.
+ A guest record can only be deleted if it has no reservations.
+ 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Guest Edit
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/guest_edit.png
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Guest edit form is used for data entry and update.
+ If the Delete guest Record button is lit,the record can also be deleted.
+ 
+\end_layout
+
+\begin_layout Subsubsection
 Reservation Edit
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/rsvn_edit.png
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Reservation Edit for creating and updating reservations.
+\end_layout
+
+\begin_layout Subsubsection
 Charges and Payments
 \end_layout
 
-\begin_layout Section
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/charges_edit.png
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Charges and payments panel lists each room and each day's charge.
+ The room charges are automatically set from the Season and Rate Management
+ system.
+ All other charges and payments can be entered.
+ All values are totaled and an invoice can be printed including all charges
+ and payments.
+\end_layout
+
+\begin_layout Subsection
 Rooms Control
 \end_layout
 
-\begin_layout Part
-Action
+\begin_layout Standard
+\begin_inset Wrap figure
+lines 9
+placement o
+overhang 0in
+width "5cm"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/room_ctrl.png
+	width 5cm
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Part
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Rooms control panel is on the right side panel of the Guest and Reservations
+ Page.
+ Once a reservation has been selected the Check In and Check Out date is
+ displayed along with the Rooms that have been assigned.
+ Below this the Rooms Available listing shows rooms that are available ,
+ the rooms are listed by the building and rate category alias.
+\end_layout
+
+\begin_layout Section
+Current Room Status
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/current_room.png
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+View all rooms readiness status.
+ Rooms are listed numerically and grouped by building name.
+ From this panel we show each room's current status and a dropdown that
+ will allow overriding any status value.
+ The staff can keep track of all rooms and make changes to status which
+ effect check ins.
+ The room status is a safety measure to make sure rooms are ready to be
+ occupied.
+ We want to follow up on information from housekeeping and room maintenance
+ and expedite the return to ready service.
+ A room cannot be checked in if the status is not set to Ready.
+\end_layout
+
+\begin_layout Section
+Work Management
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/work_mngt_active.png
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Work Management System allows tracking of work schedules.
+ Work schedules can only be created for existing staff.
+ The default look of the listed work assignments is for all that are active
+ on the current calender.
+ Pressing the View All button will reveal all work assignments in database.
+ From this page, staff member's schedule can be managed.
+ Assignments are work for a specific day or any combination of days in a
+ week.
+ If the schedule is to be perpetual, setting the Continuous check box will
+ make the assignment the continue weekly rotation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Wrap figure
+lines 12
+placement r
+overhang 0in
+width "5cm"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/work_sched_2.png
+	width 5cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Work schedule assignments are made here.
+ All active work assignments will be shown in the list.
+ Clicking the assignment number(#) or staff name will bring the record for
+ update or review.
+ To create a new record press th new page icon.
+ Staff schedules are designed for a weekly rotation.
+ They can be for a selected week or a continuous rotating schedule.
+ Each work assignment requires date of assignment, the staff name, the work
+ item optional description, and optional result field.
+ Weekdays can be selected and rooms are assigned.
+ 
+\end_layout
+
+\begin_layout Subsection
+Room Assignments
+\end_layout
+
+\begin_layout Standard
+\begin_inset Wrap figure
+lines 6
+placement o
+overhang 0in
+width "4cm"
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/room_assign.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+All rooms are listed in this section.
+ Shaded room numbers have already been selected.
+ Pressing the room number will toggle them on or off.
+ Any changes must be saved using the save icon on the bottom of the dialog.
+ Once a save is made the calendar will reflect the new room assignments.
+\end_layout
+
+\begin_layout Subsubsection
+Icons Bar
+\end_layout
+
+\begin_layout Standard
+Located on the bottom of the dialog is the control icons.
+ They serve the editor as well as the Room Assignments.
+ 
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset Graphics
+	filename img/save_icon.png
+	width 5mm
+
+\end_inset
+
+Save
+\end_layout
+
+\begin_layout Standard
+Any changes made to the schedules must be confirmed by a save before switching
+ menus.
+ 
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset Graphics
+	filename img/new_item.png
+	width 5mm
+
+\end_inset
+
+New
+\end_layout
+
+\begin_layout Standard
+Create a new Assignment Schedule.
+ 
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset Graphics
+	filename img/printer_icon.png
+	width 5mm
+
+\end_inset
+
+Printer
+\end_layout
+
+\begin_layout Standard
+Display Printer menu, for printing of work assignments and administration
+ manpower reports.
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset Graphics
+	filename img/trash_icon.png
+	width 5mm
+
+\end_inset
+
+Trash
+\end_layout
+
+\begin_layout Standard
+Delete the currently displayed action.
+ Removes all of the current action entries from the calendar.
+ 
+\end_layout
+
+\begin_layout Subsection
+Weekly Calendar
+\end_layout
+
+\begin_layout Standard
+\begin_inset Wrap figure
+lines 9
+placement r
+overhang 0in
+width "5cm"
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/schedule_view.png
+	width 5cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The weekly calendar shows all work that is currently assigned.
+ It is a single week calendar with no dates.
+ It only shows the current week Sunday thru Saturday.
+ Every row in the calendar represents a room.
+ The current weekday is highlighted.
+ The staff working a particular room and a brief description of the task
+ is shown.
+ There can be multiple staff working a room simultaneously.
+ Clicking on any staff's name will bring up that staff's work schedule and
+ highlight all rooms assigned under that work assignment.
+ If there needs to be any schedule changes, it must be done from the Work
+ Schedule Assignnments editor which displays after selection.
+\end_layout
+
+\begin_layout Section
 Staff
 \end_layout
 
-\begin_layout Part
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/staff_list.png
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Staff section is where all of the staff member's information and security
+ level is managed.
+ It takes a level 4 security level to access this section.
+ The staff list displays key information about each staff memeber.
+ The 
+\begin_inset Graphics
+	filename img/new_item.png
+	width 5mm
+
+\end_inset
+
+ icon in the right hand corner is for creating a new record.
+ When creating or selecting a member from the highlighted name, the full
+ edit form is displayed and updates or deletes can be made.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Staff Edit
+\end_layout
+
+\begin_layout Standard
+\begin_inset Wrap figure
+lines 0
+placement o
+overhang 0in
+width "7cm"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/staff_edit.png
+	width 7cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Staff edit dialog is where guest records are created/updated.
+ When creating a record, press new icon, enter the data.
+ This sets up the record for verification.
+ The email address must be verified.
+ In the Staff List, the Temp Password field will have a value until the
+ staff member makes verification.
+ To send the verification email, reselect the record from the list and click
+ on 
+\family sans
+\series bold
+Send email verification.
+ 
+\family default
+\series default
+Once the staff member receives the verification email, they reset their
+ own password.
+ They can log in normally after that.
+ Once a Staff record has been verified, if the password is forgotten, it
+ can be manually reset by clicking on 
+\family sans
+\series bold
+Reset Password.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
 Rate Management
 \end_layout
 
-\begin_layout Part
+\begin_layout Standard
+The Rate Management System manages room rates and season definitions.
+ All rooms will belong to a room type.
+ Each room type has a rack rate which is the maximum amount a room can be
+ sold for.
+ Seasons are predefined rate discounts, operating uniformly across all hotel
+ rooms.
+ Through the Season Calendar we assign which seasons are on which days throughto
+ut the year.
+ A reservation when created, and rooms assigned, will pick up the rates
+ from the Rate Management system automatically.
+\end_layout
+
+\begin_layout Subsection
+Rate Calendar
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/rate_manage_1.png
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Current Year View 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Wrap figure
+lines 0
+placement o
+overhang 0in
+width "4cm"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/calendar_season_labels.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This changes the active year of the displayed calendar where previous years
+ can be researched and future years can be edited.
+ Once leaving and returning to this tab it will revert back to the current
+ year.
+\end_layout
+
+\begin_layout Paragraph
+Seasons Activation
+\end_layout
+
+\begin_layout Standard
+Represent the current color coding for the seasons used in the rate calendar.
+ After selecting one or a range of dates using the mouse click and shift
+ key, pressing one of the season buttons will activate the selected days
+ to that season.
+\end_layout
+
+\begin_layout Paragraph
+Holidays
+\end_layout
+
+\begin_layout Standard
+There is a list of National Holidays for the current year.
+ On the calendar itself the days are represented by a red number.
+ If there are no holidays displayed, pressing Synch Holidays will regenerate
+ the list.
+\end_layout
+
+\begin_layout Paragraph
+Season Count
+\end_layout
+
+\begin_layout Standard
+\begin_inset Wrap figure
+lines 0
+placement o
+overhang 0in
+width "4cm"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/season_count.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Season Count output gives the active calendar year breakdown of seasons
+ assigned to how many days.
+ From that information a gross dollar projection can be made.
+ It also gives an actual revenue snapshot for that year or up-to-date on
+ an incomplete year.
+ 
+\end_layout
+
+\begin_layout Subsection
+Season
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/season_1.png
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Through this dialog rates are established.
+ The color of the field in the calendar must be selected as well as a short
+ descripiton and most importantly the amount of discount to be applied to
+ the rack rate.
+ The numbers will be a decimal less than 1.
+\end_layout
+
+\begin_layout Subsection
+Rate List
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/rate_list.png
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Rate Table is where the Rate for a particular room type is defined.
+ The color code is established, the rack rate is associated with a room
+ type.
+ Once this information the rate schedule is automatically generated for
+ the different seasons previosly defined in the season table.
+\end_layout
+
+\begin_layout Section
 Configuration
 \end_layout
 

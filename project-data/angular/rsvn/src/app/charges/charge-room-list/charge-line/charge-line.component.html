@@ -7,6 +7,7 @@
           <div *ngIf="roomall && roomall.bldg" class='form-control'><h5>{{ roomall.bldg.name }}  </h5></div>
           
           <div class='form-control'><h6>Room - {{ roomall.roominfo.number }}</h6></div>
+          <div class="form-control"><h6>{{ roomTotal | currency}}</h6></div>
    
         </div>
 

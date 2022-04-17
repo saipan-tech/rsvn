@@ -155,6 +155,23 @@ class Rsvn (models.Model):
         return  (self.dateOut - self.dateIn).days
     def __str__(self) :
         return f"{self.primary.firstname} {self.primary.lastname}  {self.dateIn}  {self.dateOut}"
+
+#---------------------------------------------------------
+class SvcRsvn (models.Model):
+    roominfo    =   models.ForeignKey(Roominfo,models.CASCADE)
+    status		=	models.CharField(max_length=13, default="New")
+    dateIn		=	models.DateField()
+    dateOut		=	models.DateField()
+    color       =  	models.CharField(max_length=40, default='black')
+    notes		=	models.TextField(blank=True)
+    clerk       =   models.CharField(max_length=80,default="FrontDesk")
+    created     =   models.DateTimeField(auto_now_add=True)
+    modified    =   models.DateTimeField(auto_now=True)
+    def num_days (self):
+        return  (self.dateOut - self.dateIn).days
+    def __str__(self) :
+        return f"Service Reservation -  {self.dateIn}  {self.dateOut}"
+
 #---------------------------------------------------------
 class Service (models.Model):
 	rsvn			= 	models.ForeignKey(Rsvn,on_delete=models.CASCADE)
@@ -231,7 +248,6 @@ class RoomCharge (models.Model):
     modified    =   models.DateTimeField(auto_now=True)
     def __str__(self) :
         return f"{self.room.roominfo.bldg.name} {self.room.roominfo.number}   -- {self.date}"
-
 #---------------------------------------------------------
 class RoomAction (models.Model):
     staff           =   models.ForeignKey(Staff,models.CASCADE, related_name='staffOf')
@@ -276,7 +292,7 @@ class Cities (models.Model):
     lat         =   models.DecimalField(max_digits=12, decimal_places=6,default=Decimal('000.000000'))
 
 #---------------------------------------------------------
-class   Config (models.Model):
+class  Config (models.Model):
     section     =   models.CharField(max_length=1024)
     key         =   models.CharField(max_length=1024)
     value       =   models.CharField(max_length=1024)

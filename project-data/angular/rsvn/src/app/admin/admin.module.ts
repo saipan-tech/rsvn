@@ -18,16 +18,23 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ActionStaffComponent } from './action/action-staff/action-staff.component';
 import { ActionItemsComponent } from './action/action-items/action-items.component';
 import { ActionEditComponent } from './action/action-edit/action-edit.component';
 import { GridSelectComponent } from './grid-select/grid-select.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { ActionMatrixComponent } from './action/action-matrix/action-matrix.component';
-import { ActionMatrixSidebarComponent } from './action/action-matrix-sidebar/action-matrix-sidebar.component';
 import { ActionManagerComponent } from './action/action-manager/action-manager.component';
-
+import { CurrentCtrlComponent } from './current-ctrl/current-ctrl.component';
+import { SvcrsvnEditComponent } from './current-ctrl/svcrsvn-edit/svcrsvn-edit.component';
+import { SvcrsvnListComponent } from './current-ctrl/svcrsvn-list/svcrsvn-list.component';
+import { CurrentMatrixComponent } from './current-ctrl/current-matrix/current-matrix.component';
+import { RoomstatusComponent } from './current-ctrl/roomstatus/roomstatus.component';
+import { MatSortModule } from '@angular/material/sort';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { RoomchartsComponent } from './current-ctrl/roomcharts/roomcharts.component';
 
 @NgModule({
   declarations: [
@@ -39,10 +46,14 @@ import { ActionManagerComponent } from './action/action-manager/action-manager.c
     ActionStaffComponent,
     ActionItemsComponent,
     ActionEditComponent,
-    ActionMatrixComponent,
-    ActionMatrixSidebarComponent,
     ActionManagerComponent,
-    GridSelectComponent
+    GridSelectComponent,
+    CurrentCtrlComponent,
+    SvcrsvnEditComponent,
+    SvcrsvnListComponent,
+    CurrentMatrixComponent,
+    RoomstatusComponent,
+    RoomchartsComponent
    
     
   ],
@@ -55,7 +66,7 @@ import { ActionManagerComponent } from './action/action-manager/action-manager.c
     ReactiveFormsModule,
     FormsModule,
 
-
+    MatSortModule,
     MatTabsModule,
     MatFormFieldModule,
     MatIconModule,
@@ -67,7 +78,16 @@ import { ActionManagerComponent } from './action/action-manager/action-manager.c
     MatMenuModule,
     MatCardModule,
     MatExpansionModule,
+    MatTableModule,
     FrontdeskModule,
+    NgxEchartsModule.forRoot({
+      /**
+       * This will import all modules from echarts.
+       * If you only need custom modules,
+       * please refer to [Custom Build] section.
+       */
+      echarts: () => import('echarts'), 
+    }),
   
   ],
   exports : [
