@@ -82,9 +82,12 @@ export class SystemService {
     var d2D = new Date(d2).getTime()
     return ((d2D - d1D) / this.appCons.DAILYSECONDS)
 
-}
+    }
 
+    dayDelta(d1:string,delta:number) {
+        return new Date(d1).getTime() + (this.appCons.DAILYSECONDS * delta)
 
+    }
 
     //==================================================
     seasonSpanSeq(d1: string, d2: string):Observable<any> {

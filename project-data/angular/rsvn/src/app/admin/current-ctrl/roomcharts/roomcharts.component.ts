@@ -8,6 +8,7 @@ import { concatMap, map, tap } from 'rxjs/operators';
 import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
 import { Observable, of } from 'rxjs';
 import { GenericService } from '@app/_services/generic.service';
+import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
 
 @Component({
   selector: 'app-roomcharts',
@@ -18,7 +19,10 @@ export class RoomchartsComponent implements OnInit {
 
 
   @Input() currRoominfo: IRoominfo = {} as IRoominfo
-  dataSet$: Observable<any> = of()
+  dataSet$: any
+  graphType:any = []
+  dateStart :string =''
+  dateEnd : string =''
 
   constructor(
     private roomService: RoomEntityService,
@@ -30,48 +34,16 @@ export class RoomchartsComponent implements OnInit {
   ) { }
 
 
-
+  chartCtrlForm = new FormGroup({
+    chartSpan: new FormControl('all'),
+    dateStart: new FormControl(''),
+    dateEnd: new FormControl('')
+  
+  })
 
   chartData: any = []
   //========================================
-  chartOption: EChartsOption = {
-    xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    },
-    yAxis: {
-      type: 'value',
-    },
-    series: [
-      {
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
-        type: 'bar',
-      },
-    ],
-
-  };
-
-  //========================================
-  chartTemplate: EChartsOption = {
-    xAxis: {
-      type: 'category',
-      data: [],
-    },
-    yAxis: {
-      type: 'value',
-    },
-    series: [{ data: [], type: 'bar' }],
-
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
-      }
-    }
-  }
-
-  //========================================
-
+  
   makeChart(dataSet:any) {
 
     let chart =   
@@ -88,7 +60,7 @@ export class RoomchartsComponent implements OnInit {
         axisLine: {
           show: true,
           lineStyle: {
-            color: 'green'
+            color: 'blue'
           }
         },
         axisLabel: {
@@ -104,7 +76,7 @@ export class RoomchartsComponent implements OnInit {
         axisLine: {
           show: true,
           lineStyle: {
-            color: 'blue'
+            color: 'green'
           }
         },
         axisLabel: {
@@ -129,8 +101,8 @@ export class RoomchartsComponent implements OnInit {
   reload() {
 
     let roomStats$ = this.roominfoService.entities$.pipe(
-      concatMap(roominfo => this.roomService.entities$.pipe(
-        concatMap( rooms => this.genericService.getItemList("roomcharge").pipe(
+      concatMap(roominfo => this.roomService.activeRoom$(this.dateStart,this.dateEnd).pipe(
+         concatMap( rooms => this.genericService.getItemList("roomcharge").pipe(
         map(charges  => {
           let result: any = []
           roominfo.forEach(ri => {
@@ -162,7 +134,7 @@ export class RoomchartsComponent implements OnInit {
       )))))
 
 
-    this.dataSet$ = this.roominfoService.bldgRoominfo$(roomStats$).pipe(
+   let dataSet$ = this.roominfoService.bldgRoominfo$(roomStats$).pipe(
       map(bld => {
         bld.forEach(
           (b:any) => {
@@ -184,13 +156,61 @@ export class RoomchartsComponent implements OnInit {
 
       })
     )
-
+    dataSet$.subscribe(d=>this.dataSet$ =d) 
   }
+
+
+  //========================================
+  manualDate() {
+    this.dateStart = this.systemService.fromHTMLDate(this.chartCtrlForm.value.dateStart)
+    this.dateEnd = this.systemService.fromHTMLDate(this.chartCtrlForm.value.dateEnd)
+    this.chartCtrlForm.patchValue({chartSpan:"custom"})
+    
+  }
+  //========================================
+setDates(x:string) {
+  let _today = new Date()
+  let Today = _today.toISOString().slice(0,10)
+  let year = new Date().getFullYear()
+  switch(x) {
+    case 'all':
+      this.dateStart = "2019-01-01"
+      this.dateEnd = Today
+      break;
+    case 'curr30days':
+      this.dateEnd = Today
+      this.dateStart = new Date(this.systemService.dayDelta(Today,-30)).toISOString().slice(0,10)
+      break;
+    case 'curryear':
+      this.dateStart = `${year}-01-01`
+      this.dateEnd = Today
+      break;
+    case 'lastyear':
+      this.dateStart = `${year - 1}-01-01`
+      this.dateEnd = `${year - 1}-12-31`
+      break;
+              }
+//    this.systemService.toHTMLDate(new Date(this.dateEnd))    
+    this.chartCtrlForm.patchValue({dateStart:this.dateStart,dateEnd:this.dateEnd}) 
+
+}
   //========================================
 
   ngOnInit(): void {
+    this.setDates('all')
     this.reload()
+    this.systemService.getDropdownList('graphType').subscribe(
+      data => this.graphType = data
+    )
+  
+      this.chartCtrlForm.get('chartSpan')?.valueChanges.subscribe(
+        x => { 
+          this.setDates(x)
+          this.reload()
+        }
+      )
  
+
   }
 
 
