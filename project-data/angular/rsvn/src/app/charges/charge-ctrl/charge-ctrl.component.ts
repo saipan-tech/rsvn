@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ICharge } from '@app/_interface/charge';
 import { IRsvn } from '@app/_interface/rsvn';
+import { ChargeService } from '@app/_services/charge.service';
 import { RoomService } from '@app/_services/room.service';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -16,6 +17,7 @@ export class ChargeCtrlComponent implements OnInit {
 
   constructor(
     private roomService: RoomService,
+    private chargeService: ChargeService,
   ) { }
 
   @Input() currRsvn:IRsvn = {} as IRsvn
@@ -27,6 +29,7 @@ export class ChargeCtrlComponent implements OnInit {
   chgSubTotal = 0
   roomSubTotal = 0
   fullRoomList: any[] = [];
+  chargeList: ICharge[] = [];
 
   changeCharge(event:ICharge) {
       this.currCharge = event
@@ -55,21 +58,48 @@ export class ChargeCtrlComponent implements OnInit {
   handlePrintInvoiceClick() { 
     var docDefinition = {
       content: [
+        {text: 'Invoice', style: 'header'},
+        {text: 'Room Charges', style: 'subheader'},
         {
-          layout: 'lightHorizontalLines', // optional
+          layout: 'lightHorizontalLines',
           table: {
-            // headers are automatically repeated if the table spans over multiple pages
-            // you can declare how many rows should be treated as headers
             headerRows: 1,
-            widths: [ '*', '*', 150 ],
-    
+            widths: [ '*', '*', '*', 150 ],
             body: [
-              [ 'Room Name', 'Room #', 'Price' ],
+              [ 'Date', 'Room Name', 'Room #', 'Price' ],
               ...this.roomCharges()
+            ]
+          },
+        },
+        {text: 'Charges', style: 'subheader'},
+        {
+          style: 'invoiceTable',
+          layout: 'lightHorizontalLines',
+          table: {
+            headerRows: 1,
+            widths: [ '*', '*', '*', '*', '*', 150 ],
+            body: [
+              [ 'Date', 'Item', 'Description', 'Count', 'Unit', 'Amount' ],
+              ...this.charges()
             ]
           }
         }
-      ]
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          margin: [0, 0, 0, 10] as [number, number, number, number]
+        },
+        subheader: {
+          fontSize: 16,
+          bold: true,
+          margin: [0, 10, 0, 5] as [number, number, number, number]
+        },
+        invoiceTable: {
+          margin: [0, 5, 0, 15] as [number, number, number, number]
+        },
+      },
     };
     
     // open new tab
@@ -82,10 +112,21 @@ export class ChargeCtrlComponent implements OnInit {
   roomCharges(): any[] {
     return this.fullRoomList.reduce((accu, room)=> {
       room.days.forEach((roomDay: any)=> {
-        accu.push([roomDay.alias, room.roominfo.number,  roomDay.amount])
+        accu.push([roomDay.date, roomDay.alias, room.roominfo.number,  roomDay.amount])
       })
       return accu
     }, []);
+  }
+
+  charges(): any[] {
+    return this.chargeList.map((charge)=> [
+      charge.date,
+      charge.item,
+      charge.descr,
+      charge.count,
+      charge.unit,
+      Number(charge.amount).toFixed(2),
+    ])
   }
 
   //--------------------------
@@ -93,6 +134,9 @@ export class ChargeCtrlComponent implements OnInit {
     this.roomService.getRsvnCalc(this.currRsvn.id).subscribe((data: any) => {
       this.fullRoomList = data  
     }) 
+    this.chargeService.getRsvnCharge(this.currRsvn.id).subscribe(data => {
+      this.chargeList = data; 
+    })
   }
 }
 
