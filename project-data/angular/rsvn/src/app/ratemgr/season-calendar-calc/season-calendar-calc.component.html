@@ -10,15 +10,16 @@
             <div class="col" style="text-align:right">{{ item.accum | number : '1.0-0' }}</div>
         </div>
         <div class='row tally'>
+            <div class="col">Total Yearly Maximum</div>
             <div class="col"></div>
-            <div class="col"  style="text-align:right">Total Yearly Projection</div>
             <div class="col"  style="text-align:right;font-weight:bold">{{ tallyTotal | number : '1.0-0' }}</div>
         </div>
 
         <div class='row tally'>
             <div class="col">Total Yearly Actual</div>
-            <div class="col"> {{ chargeCalc.count }} </div>
-            <div class="col"  style="text-align:right;font-weight:bold">{{ chargeCalc.total.amount__sum | number : '1.0-0' }}</div>
+            <div class="col" style="text-align:right"> 
+             </div>
+            <div class="col"  style="text-align:right;font-weight:bold">{{ chargeCalc.total.amount__sum | number : '1.0-0'}}</div>
         </div>
 
     </div>

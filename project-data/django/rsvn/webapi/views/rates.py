@@ -34,5 +34,6 @@ class SeasonCalViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(date__year=int(self.request.GET['year'])).order_by('date')
         if "date" in self.request.GET :
             queryset = queryset.filter(date=self.request.GET['date'])
-            
+        if "dateStart" in self.request.GET and "dateEnd" in self.request.GET :
+            queryset = queryset.filter(date__range=(self.request.GET['dateStart'],self.request.GET['dateEnd']))
         return queryset

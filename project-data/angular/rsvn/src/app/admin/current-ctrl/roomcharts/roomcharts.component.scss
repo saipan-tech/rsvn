@@ -1,3 +1,20 @@
 .graphbox {
     width:70%;
 }
+
+.periodTable {
+    tr {
+
+    }
+    th {
+        text-align:right;
+    }
+    td,th {
+        border:1px solid silver;
+        padding:.5em;
+
+    }
+    td {
+        text-align:right;
+    }
+}
