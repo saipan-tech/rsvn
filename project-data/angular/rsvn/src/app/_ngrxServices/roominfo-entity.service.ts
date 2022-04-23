@@ -18,10 +18,14 @@ export class RoominfoEntityService extends EntityCollectionServiceBase<IRoominfo
         return entities$.pipe(
             concatMap(result => this.bldgService.entities$.pipe(
                 map(bldg => {
+                    let roominfos:any = []
+                    result.map((res:any) => {
+                        roominfos.push({...res})
+                    })
                     let final: any = []
                     bldg.map(bldg => final.push({
                         bldg,
-                        roominfo: result.filter((res: any) => res.bldg == bldg.id)
+                        roominfo: roominfos.filter((res: any) => res.bldg == bldg.id)
                     }))
                     return final
                 })

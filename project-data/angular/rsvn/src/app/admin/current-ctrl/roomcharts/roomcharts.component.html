@@ -61,12 +61,11 @@
                                 </tr>
                                 <tr>
                                     <th>Revenue Actual</th>
-                                    <td>{{ ds.total_charges | number:'.2' }}</td>
+                                    <td>{{ ds.total_charges | number:'0.0-0' }}</td>
                                 </tr>
                                 
                                 <tr>
                                     <th>Revenue Max</th>
-                                    <td> {{ stats[i].total_max_revenue | number :'.2'}}</td>
                                 </tr>
                             </table>
 

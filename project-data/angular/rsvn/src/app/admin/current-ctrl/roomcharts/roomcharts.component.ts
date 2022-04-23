@@ -11,6 +11,7 @@ import { GenericService } from '@app/_services/generic.service';
 import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
 import { ISeasonCal } from '@app/_interface/seasoncal';
 import { IRate } from '@app/_interface/rate';
+import { ICharge } from '@app/_interface/charge';
 
 @Component({
   selector: 'app-roomcharts',
@@ -27,7 +28,7 @@ export class RoomchartsComponent implements OnInit {
   dateEnd: string = ''
   daystack: any = []
   roomsSum: any
-  stats : any
+  stats: any
 
   constructor(
     private roomService: RoomEntityService,
@@ -110,6 +111,32 @@ export class RoomchartsComponent implements OnInit {
     let total_daily = 0
     this.daystack = this.systemService.daySpanSeq(this.dateStart, this.dateEnd)
 
+    let roomStack$ = this.roominfoService.entities$.pipe(
+      concatMap(roominfo => this.roomService.activeRoom$(this.dateStart, this.dateEnd).pipe(
+        concatMap(rooms => this.genericService.getItemList("roomcharge").pipe(
+          map(charges => {
+            let result: any = []
+            roominfo.forEach(ri => {
+             let rms: any = []
+              let total_days = 0
+              let total_charge = 0
+              rooms.filter((r: any) => r.roominfo == ri.id).map((rm: any) => {
+                let days = this.systemService.daySpan(rm.dateIn, rm.dateOut)
+                let chrg = charges.filter((c: any) => c.room == rm.id)
+                let record = { ...rm, days, chrg }
+                total_days += days
+                rms.push(record)
+              })
+            })
+
+            return result
+          })
+        )))))
+
+
+
+
+
     let roomStats$ = this.roominfoService.entities$.pipe(
       concatMap(roominfo => this.roomService.activeRoom$(this.dateStart, this.dateEnd).pipe(
         concatMap(rooms => this.genericService.getItemList("roomcharge").pipe(
@@ -120,7 +147,7 @@ export class RoomchartsComponent implements OnInit {
               let rms: any = []
               let total_days = 0
               let total_charge = 0
-              rooms.filter(r => r.roominfo == ri.id).map((rm: any) => {
+              rooms.filter((r: any) => r.roominfo == ri.id).map((rm: any) => {
                 let days = this.systemService.daySpan(rm.dateIn, rm.dateOut)
                 let chrg = charges.filter((c: any) => c.room == rm.id).reduce((prev, curr) => {
                   return Number(prev) + Number(curr.amount)
@@ -139,7 +166,7 @@ export class RoomchartsComponent implements OnInit {
                 total_rsvns: rms.length
               })
             })
-
+            console.log(result)
             return result
           })
         )))))
@@ -183,39 +210,50 @@ export class RoomchartsComponent implements OnInit {
     // this gives us a daily room value    
     this.roominfoService.bldgRoominfo$(this.roominfoService.entities$).pipe(
       concatMap((bldg) => this.genericService.getItemList('rate').pipe(
-        concatMap((rate) => this.genericService.getItemQueryList('seasoncal', `dateStart=${this.dateStart}&dateEnd=${this.dateEnd}`).pipe(
-          concatMap((cal => this.genericService.getItemList('season').pipe(
-            map((season) => {
-              bldg.map((bld: any) => {
-                bld.rateAliasList = bld.roominfo.reduce((a: any, b: any) =>
-                  (a[b.rateAlias] = (a[b.rateAlias] || 0) + 1, a), {})
-                bld.rate = JSON.parse(JSON.stringify(rate))
-                bld.rate.map((r: any) => {
-                  r.total = 0 
-                  if(bld.rateAliasList.hasOwnProperty(r.alias)) r.total =  Number(r.rack) * Number(bld.rateAliasList[r.alias]) 
-                })
-                bld.total_daily = bld.rate.reduce((a: any, b: any) => a + (b.total ? b.total : 0), 0)
-                bld.calTotal = cal.reduce((a: any, b: any) =>
-                  (a[b.season] = (a[b.season] || 0) + 1, a), {})
-                bld.total_max_revenue = 0
-                  season.map(seas => {
-                    seas.total = bld.calTotal[seas.name] || 0
-                    seas.max_revenue = seas.total * seas.discount * bld.total_daily
-                    bld.total_max_revenue += seas.max_revenue 
+        concatMap((rate) => this.genericService.getItemQueryList('seasoncal',`dateStart=${this.dateStart}&dateEnd=${this.dateEnd}`).pipe(
+          concatMap((cal) => this.genericService.getItemList('season').pipe(
+            concatMap((season) => this.roomService.activeRoom$(this.dateStart, this.dateEnd).pipe(
+              concatMap((rooms) => this.genericService.getItemList("roomcharge").pipe(
+                map((charges) => {
+                  bldg.map((bld: any) => {
+                    let result: any = []
+                    // grab all rooms and charges
+                    bld.roominfo.forEach((ri: any) => {
+                      let rms: any = []
+                      let rs = rooms.filter((r: any) => r.roominfo == ri.id)
+                      ri.rooms = rs
+                      rs.map((rm: any) => {
+                        charges.filter((c: any) => c.room == rm.id)
+                          .map((chg:any) => {
+                            let xx = cal.find(c => c.date == chg.date)
+                            if(xx && xx.season)
+                            rms.push({
+                              season: xx.season,
+                              amount: chg.amount, date: chg.date
+                            })
+                          })
+                      })
+                      ri.roomDates = rms
+                      // from here let's create a roomSeason breakdown for stacked bar graph
+                      ri.roomSeasons = {}
+                      season.map(seas => {
+                          ri.roomSeasons[seas.name] = {}
+                          ri.roomSeasons[seas.name].list = ri.roomDates.filter((rd:any) => rd.season == seas.name ) 
+                      })
+
+                    })
+                    // Rate alias List  counts the  rates perbldg Deluxe1 Presidential etc
+                    
+ 
                   })
-                  bld.season = season
-    
-                // we now have rack rate total for each room set
-                // now we pump in the calendar and execute the discounts and we have a good total
+
+
+                  return bldg
+                })
+              ))))))))))).subscribe(data => {
+                this.stats = data
+                console.log(data)
               })
-
-
-              return bldg
-            })
-          )))))))).subscribe(data => {
-            this.stats =data 
-            console.log(data)
-          }) 
 
 
 
@@ -346,5 +384,40 @@ export class RoomchartsComponent implements OnInit {
                 })
               )))
             ))))))
+
+
+
+
+                               let rateAliasList:any
+
+
+                    rateAliasList = bld.roominfo.reduce((a: any, b: any) =>
+                      (a[b.rateAlias] = (a[b.rateAlias] || 0) + 1, a), {})
+                    
+                      // creates a clean copy of rates  
+                    bld.rate = JSON.parse(JSON.stringify(rate))
+                    // multiply rack rate times number of units - gives rate total or max 
+                    bld.rate.map((r: any) => {
+                      r.total = 0
+                      if (rateAliasList.hasOwnProperty(r.alias)) r.total = Number(r.rack) * Number(rateAliasList[r.alias])
+                      r.count = rateAliasList[r.alias]
+                    })
+                    // we scan through and get our total
+                    bld.total_daily = bld.rate.reduce((a: any, b: any) => a + (b.total || 0), 0)
+                    
+                    // Look through and aggreggate on season name
+                    bld.calTotal = cal.reduce((a: any, b: any) =>
+                      (a[b.season] = (a[b.season] || 0) + 1, a), {})
+                    
+                    bld.total_max_revenue = 0
+                    season.map(seas => {
+                      seas.total = bld.calTotal[seas.name] || 0
+                      seas.max_revenue = seas.total * seas.discount * bld.total_daily
+                      bld.total_max_revenue += seas.max_revenue
+                    })
+                    bld.season = season
+
+                    // we now have rack rate total for each room set
+                    // now we pump in the calendar and execute the discounts and we have a good total
 
         */

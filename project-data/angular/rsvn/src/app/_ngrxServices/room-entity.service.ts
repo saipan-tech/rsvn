@@ -21,8 +21,9 @@ export class RoomEntityService extends EntityCollectionServiceBase<IRoom> {
         (room.dateIn <= dateIn && room.dateOut > dateIn) ||
         (room.dateIn <= dateOut && room.dateOut > dateIn) ||
         (room.dateIn <= dateOut && room.dateOut >= dateOut)
+           )  )
+
       )
-      ))
       }
     //=============================================
     rsvnRooms$(rsvnid:number) {
