@@ -74,6 +74,9 @@ class RoomChargeViewSet(viewsets.ModelViewSet):
 
         if "rsvn" in self.request.GET :
             queryset = queryset.filter(room__rsvn__id=self.request.GET['rsvn'])
+
+        if "room" in self.request.GET :
+            queryset = queryset.filter(room__id=self.request.GET['room'])
         
         if "future" in self.request.GET :
             queryset = queryset.filter( room__rsvn__dateOut__gt=self.request.GET['future'])
@@ -81,7 +84,7 @@ class RoomChargeViewSet(viewsets.ModelViewSet):
         if  "dateIn" in self.request.GET and "dateOut" in self.request.GET :
             dateIn = self.request.GET['dateIn']
             dateOut = self.request.GET['dateOut']
-            if "exclude" in self.request.GET  :
+            if "exclude" in self.request.GET :
                 queryset = queryset.exclude(
                     Q(room__rsvn__dateIn__lte = dateIn)  & Q(room__rsvn__dateOut__gte = dateIn) |
                     Q(room__rsvn__dateIn__lte = dateOut) & Q(room__rsvn__dateOut__gte = dateIn) |
@@ -94,3 +97,4 @@ class RoomChargeViewSet(viewsets.ModelViewSet):
                     Q(room__rsvn__dateIn__lte = dateOut) & Q(room__rsvn__dateOut__gte =  dateOut) 
                     )
         return queryset
+        

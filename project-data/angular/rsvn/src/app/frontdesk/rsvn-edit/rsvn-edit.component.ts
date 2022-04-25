@@ -149,6 +149,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
       this.form_error = {}
       let rvn = { ...rsvn }
 
+
       rvn.dateIn = this.fromHTMLDate(rsvn.dateIn)
       rvn.dateOut = this.fromHTMLDate(rsvn.dateOut)
       rvn.primary = Number(this.currGuest.id)
@@ -159,8 +160,13 @@ export class RsvnEditComponent implements OnInit, OnChanges {
       this.oldRsvnService.rsvnTest(rsvn.id, rsvn.dateIn, rsvn.dateOut).subscribe(
         dd => {
           if (!dd.result.length) {
+
+
             this.rsvnService.update(rvn)
               .subscribe(d => {
+
+                // AFTER UPDATE WE HAVE TO ADJUST ROOM ASSIGNMENTS AND ROOM CHARGES 
+
                 this.roomService.load()
                 this.currRsvn = d
                 this.currRsvnChange.emit(d)

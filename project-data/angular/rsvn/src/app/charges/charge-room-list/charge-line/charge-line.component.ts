@@ -64,16 +64,6 @@ export class ChargeLineComponent implements OnInit {
   }
 */
   ngOnInit(): void {
-    this.genericService.getItemList('bldg')
-      .subscribe(
-        data => {
-          this.bldgList = data
-          this.roomall.bldg = data.find(rec => rec.id == this.roomall.roominfo.bldg)
-        }
-      )
-      this.roomall.days.forEach(
-        (ra: { amount: number; }) => this.roomTotal += ra.amount
-      )
 
   }
 }

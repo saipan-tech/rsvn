@@ -61,7 +61,7 @@ export class SystemService {
         return dayList
     }
     //==================================================
-    daySpanSeq(d1: string, d2: string): any[] {
+    daySpanSeq(d1: string, d2: string,offset:number): any[] {
 
         var d1D = new Date(d1).getTime()
         var d2D = new Date(d2).getTime()
@@ -69,10 +69,17 @@ export class SystemService {
         let start = Math.min(d1D, d2D)
         let end = Math.max(d1D, d2D)
         var dayList: any = []
+        if(offset)
+        while (start < end) {
+            dayList.push(new Date(start).toISOString().slice(0, 10))
+            start += this.appCons.DAILYSECONDS
+        }
+        else 
         while (start <= end) {
             dayList.push(new Date(start).toISOString().slice(0, 10))
             start += this.appCons.DAILYSECONDS
         }
+
         return dayList
     }
 
@@ -83,6 +90,7 @@ export class SystemService {
     return ((d2D - d1D) / this.appCons.DAILYSECONDS)
 
     }
+   //==================================================
 
     dayDelta(d1:string,delta:number) {
         return new Date(d1).getTime() + (this.appCons.DAILYSECONDS * delta)
@@ -92,7 +100,7 @@ export class SystemService {
     //==================================================
     seasonSpanSeq(d1: string, d2: string):Observable<any> {
         let dStack :any = []        
-        let dateList = this.daySpanSeq(d1, d2)
+        let dateList = this.daySpanSeq(d1, d2,0)
         dateList.forEach(
             d => {
             dStack.push(

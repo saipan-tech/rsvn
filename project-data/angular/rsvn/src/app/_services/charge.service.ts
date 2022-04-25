@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { catchError, tap, map } from 'rxjs/operators';
+import { catchError, tap, map, concatMap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { AppEnv } from '@app/_helpers/appenv';
 import { IRsvn } from '@app/_interface/rsvn';
 import { ICharge } from '@app/_interface/charge';
 import { IPayment } from '@app/_interface/payment';
+import { IRoomcharge } from '@app/_interface/roomcharge';
+import { IRoom } from '@app/_interface/room';
+import { GenericService } from './generic.service';
+import { SystemService } from '@app/_services/system.service';
+import { number } from 'echarts';
+import { concatLatestFrom } from '@ngrx/effects';
 
 
 @Injectable({
@@ -15,7 +21,10 @@ export class ChargeService {
 
   constructor(
     private env: AppEnv,
-    private http: HttpClient
+    private http: HttpClient,
+    private genericService: GenericService,
+    private systemService: SystemService,
+   
   ) { }
 
   private urlRoot = `${this.env.WEB_API}`
@@ -30,11 +39,58 @@ export class ChargeService {
       .get<IPayment[]>(`${this.urlRoot}/payment?rsvn=${rsvnid}`)
   }
   //==================================================
-  getChargeCalc(query:string): Observable<any> {
+  getChargeCalc(query: string): Observable<any> {
     return this.http
       .get<any>(`${this.urlRoot}/chargecalc?${query}`)
   }
+  //==================================================
+  deleteCharge(rcid: number) {
+    this.genericService.deleteItem('roomcharge', rcid).subscribe()
+  }
+  //==================================================
+  addCharge(record: any) {
+    this.genericService.updateItem('roomcharge', record).subscribe()
+  }
+  //==================================================
+  synchRoomcharge(roomid: number): Observable<any> {
+    return this.genericService.getItem('room',roomid).pipe(
+      concatMap((room) => this.genericService.getItem('roominfo',room.roominfo).pipe(
+        concatMap((roominfo) => this.genericService.getItemQueryList('seasoncal', `dateStart=${room.dateIn}&dateEnd=${room.dateOut}`).pipe(
+          concatMap((seascal) => this.genericService.getItemList('rate').pipe(
+            concatMap((rate) => this.genericService.getItemList('season').pipe(
+              concatMap((seasons) => this.genericService.getItemQueryList('roomcharge', `room=${roomid}`).pipe(
+                map((rcharges) => {
+                  let dayStack = this.systemService.daySpanSeq(room.dateIn, room.dateOut, 1)
 
+                  //                console.log(room, roominfo, seascal, seasons,rate, rcharges, dayStack)
 
+                  rcharges.forEach(rc => {
+                    if (!dayStack.find(ds => ds == rc.date)) {
+                      this.deleteCharge(rc.id)
+                    }
+                  })
+                  dayStack.forEach(ds => {
+                    if (!rcharges.find(rc => rc.date == ds)) {
+                      // making up charges
+                      // grap season calendar day
+                      let seacal = seascal.find((s) => s.date == ds)
+                      let seas = seasons.find((sn) => sn.name == seacal.season)
+                      let curr_rate = rate.find((r) => r.alias == roominfo.rateAlias)
+
+                      //                    console.log("ADDING Records",ds, seacal.season, curr_rate.rack, seas.discount)
+                      let record = {
+                        room: roomid,
+                        date: ds,
+                        amount: Number(curr_rate.rack * seas.discount)
+                      }
+                      //                  console.log("ADDING Records",record)
+                      this.addCharge(record)
+                    }
+                  })
+                })
+              )),
+            )))))))))
+
+  }
 
 }

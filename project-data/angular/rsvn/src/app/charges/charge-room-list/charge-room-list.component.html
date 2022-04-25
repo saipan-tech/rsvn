@@ -1,10 +1,15 @@
 <section>
     <h3 class="section-heading">Room Charges</h3>
     <div class="section-body ">
-
-  
-        <app-charge-line *ngFor="let room of fullRoomList" [roomall]='room' (roomallChange)='newRoomall($event)'>
+        <div *ngFor="let room of roomList" >
+            {{ room | json}}
+            <hr>
+        </div>
+  <!--
+        <app-charge-line [roomall]='room' (roomallChange)='newRoomall($event)'>
         </app-charge-line>
+
+  -->
         <div class="d-flex subtotalcell">
             <div class="form-control"></div>
             <div class=" form-control align-self-end"><strong>Room Charge</strong></div>

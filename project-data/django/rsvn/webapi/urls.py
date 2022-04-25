@@ -81,7 +81,6 @@ urlpatterns = [
     path('people/',PeopleAPI.as_view()),
     path('holiday/<year>/',HolidayAPI.as_view()),
     path('roomcalc/<roominfo_id>/<dateIn>/<dateOut>/',RoomCalc.as_view()),
-    path('rsvncalc/<rsvnid>/',RsvnCalc.as_view()),
     path('email/',PostOfficeView.as_view()),
     path('rsvncheck/',RsvnCheckView.as_view()),
     path('roomdatescan/<date>/',RoomDateScan.as_view()),

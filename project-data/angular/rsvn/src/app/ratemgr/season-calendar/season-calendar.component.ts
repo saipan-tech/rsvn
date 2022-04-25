@@ -118,7 +118,7 @@ export class SeasonCalendarComponent implements OnInit {
     if(event.shiftKey) {
       this.clipboard.push(date)
       if(this.clipboard.length >1)  {
-        this.dateList = this.systemService.daySpanSeq( this.clipboard.pop().date,this.clipboard.pop().date)
+        this.dateList = this.systemService.daySpanSeq( this.clipboard.pop().date,this.clipboard.pop().date,0)
       }
     } else {
       this.clipboard = [ date ]

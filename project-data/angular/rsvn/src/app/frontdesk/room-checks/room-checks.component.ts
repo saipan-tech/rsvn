@@ -42,7 +42,7 @@ export class RoomChecksComponent implements OnInit,OnChanges {
   ngOnChanges(changes:SimpleChanges) {
     if(! changes.currRsvn.firstChange) this.reload()
   }
-
+// ===========================
   reload() {
 
     let currRooms$ = this.roomService.entities$.pipe(

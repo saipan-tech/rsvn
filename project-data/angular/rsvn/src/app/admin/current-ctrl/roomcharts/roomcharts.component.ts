@@ -109,7 +109,7 @@ export class RoomchartsComponent implements OnInit {
   reload() {
 
     let total_daily = 0
-    this.daystack = this.systemService.daySpanSeq(this.dateStart, this.dateEnd)
+    this.daystack = this.systemService.daySpanSeq(this.dateStart, this.dateEnd,0)
 
     let roomStack$ = this.roominfoService.entities$.pipe(
       concatMap(roominfo => this.roomService.activeRoom$(this.dateStart, this.dateEnd).pipe(
@@ -227,8 +227,9 @@ export class RoomchartsComponent implements OnInit {
                           .map((chg:any) => {
                             let xx = cal.find(c => c.date == chg.date)
                             if(xx && xx.season)
+// Getting actual cost data not predictive!
                             rms.push({
-                              season: xx.season,
+                              season: xx.season,room:rm.id,
                               amount: chg.amount, date: chg.date
                             })
                           })
@@ -239,10 +240,11 @@ export class RoomchartsComponent implements OnInit {
                       season.map(seas => {
                           ri.roomSeasons[seas.name] = {}
                           ri.roomSeasons[seas.name].list = ri.roomDates.filter((rd:any) => rd.season == seas.name ) 
+                          ri.roomSeasons[seas.name].total = ri.roomSeasons[seas.name].list.reduce((a:any,b:any) => Number(a) + (Number(b.amount) || 0), 0 )
                       })
 
                     })
-                    // Rate alias List  counts the  rates perbldg Deluxe1 Presidential etc
+             
                     
  
                   })

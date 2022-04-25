@@ -10,7 +10,8 @@ import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
 import { GenericService } from '@app/_services/generic.service';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, subscribeOn } from 'rxjs/operators';
-
+import { ChargeService } from '@app/_services/charge.service';
+import { concatMap } from 'rxjs/operators';
 @Component({
   selector: 'app-room-avail',
   templateUrl: './room-avail.component.html',
@@ -33,7 +34,8 @@ export class RoomAvailComponent implements OnInit, OnChanges {
     private roomService: RoomEntityService,
     private roominfoService: RoominfoEntityService,
     private bldgService: BldgEntityService,
-    private genericService: GenericService
+    private genericService: GenericService,
+    private chargeService: ChargeService
   ) { }
 
 
@@ -102,7 +104,11 @@ export class RoomAvailComponent implements OnInit, OnChanges {
         dateIn: this.currRsvn.dateIn,
         dateOut: this.currRsvn.dateOut
       }
-      this.roomService.add(newroom).subscribe()
+      this.roomService.add(newroom).pipe(
+        concatMap((room:any)  => this.chargeService.synchRoomcharge(room.id).pipe(
+          map((t) => console.log(t,room))
+        ))
+        ).subscribe(data => console.log("RETRUN",data))
     }
 
   }

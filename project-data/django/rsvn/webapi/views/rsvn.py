@@ -130,16 +130,21 @@ class RsvnViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         return Response(serializer.errors)
 
-    
+    def fix_charges(self,room):
+        pass 
+
     def update(self,request,pk=None):
         rsvn = self.get_object()
         serializer = RsvnSerializer(rsvn,data=request.data)
         if serializer.is_valid():
             x = serializer.save()
+            # This is were we change the rooms
             for ro in Room.objects.filter(rsvn__id=x.id):
+               # from here we should change the charges as well
                 ro.dateIn = x.dateIn
                 ro.dateOut = x.dateOut
                 ro.save()
+                self.fix_charges(ro)
             return Response(serializer.data)
         return Response(serializer.errors)
             
