@@ -1,9 +1,11 @@
 <section>
     <h3 class="section-heading">Room Charges</h3>
     <div class="section-body ">
-        <div *ngFor="let room of roomList" >
-            {{ room | json}}
+        <div *ngFor="let rec of roomList$ | async " >
+            <h4 >{{ rec.bldg.name }} - {{ rec.roominfo.number}} {{ rec.roominfo.rateAlias}}</h4> 
+             Total - {{ rec.total_charges|currency}}
             <hr>
+            
         </div>
   <!--
         <app-charge-line [roomall]='room' (roomallChange)='newRoomall($event)'>
