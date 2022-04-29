@@ -1,0 +1,12 @@
+
+    .recbox {
+        height: 600px;
+        .box {
+            border: 1px solid teal;
+            height: 300px;
+            overflow-y: scroll;
+        }
+        .heading {
+            font-weight:bold;
+        }
+    }

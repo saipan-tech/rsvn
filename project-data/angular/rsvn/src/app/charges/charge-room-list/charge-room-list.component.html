@@ -1,22 +1,27 @@
-<section>
-    <h3 class="section-heading">Room Charges</h3>
-    <div class="section-body ">
-        <div *ngFor="let rec of roomList$ | async " >
-            <h4 >{{ rec.bldg.name }} - {{ rec.roominfo.number}} {{ rec.roominfo.rateAlias}}</h4> 
-             Total - {{ rec.total_charges|currency}}
-            <hr>
-            
-        </div>
-  <!--
-        <app-charge-line [roomall]='room' (roomallChange)='newRoomall($event)'>
-        </app-charge-line>
-
-  -->
-        <div class="d-flex subtotalcell">
-            <div class="form-control"></div>
-            <div class=" form-control align-self-end"><strong>Room Charge</strong></div>
-            <div class=" form-control align-self-end dcell"><strong>{{roomTotal | currency}}</strong></div>
-        </div>
+<div>
+    <div class="form-control"><button mat-button >Room Charges</button></div>
+    <div class="headingrow d-flex">
+        
+      
+        <div class="form-control">Building</div>
+        <div class="form-control">Room</div>
+        <div class="form-control">Room Type</div>
+        <div class="form-control">Total</div>
 
     </div>
-</section>
+
+    <div class="d-flex rctable" *ngFor='let rec of roomList$ | async'>
+
+        <div class="active form-control" (click)="roomView(rec)">{{ rec.bldg.name }}</div>
+        <div class="form-control">{{ rec.roominfo.number}}</div>
+        <div class="form-control">{{ rec.roominfo.rateAlias}}</div>
+        <div class="form-control money">{{ rec.total_charges|currency}}</div>
+    </div>
+
+    <div class="d-flex subtotalcell">
+        <div class="form-control"></div>
+        <div class=" form-control align-self-end"><strong>Room Charge</strong></div>
+        <div class=" form-control align-self-end dcell"><strong>{{roomTotal | currency}}</strong></div>
+
+    </div>
+</div>

@@ -1,0 +1,46 @@
+
+
+
+
+<mat-card class="recbox">
+    <mat-card-title>{{ record.bldg.name}} {{ record.roominfo.number }} </mat-card-title>
+    <mat-card-header>Daily Charge</mat-card-header>
+    <mat-card-content>
+        <div class="row heading" >
+            <div class="col">ID</div>
+            <div class="col">Date</div>
+            <div class="col">Season</div>
+            <div class="col">Amount</div>
+        </div>
+
+        <div class="box">
+            <div class="row" *ngFor="let r of record.charges">
+                <div class="col">{{r.id}}</div>
+                <div class="col">{{ r.date }}</div>
+                <div class="col">{{ r.season }}</div>
+                <div class="col">{{ r.amount }}</div>
+            </div>
+         </div>
+    </mat-card-content>
+    <mat-card-footer>
+        <button type="button" class="btn btn-secondary" (click)="close()">
+            <span class="material-icons"> close </span>
+        </button>
+
+    </mat-card-footer>
+</mat-card>
+
+
+<!--
+            <button class="btn" [disabled]="!(chargeEditForm.valid&& currRsvn && currRsvn.id)"
+            (click)='updateCharge(chargeEditForm.value)' data-bs-dismiss="modal">
+            <span class="material-icons">save</span></button>
+        <button class="btn" [disabled]="!(currCharge && currCharge.id)" (click)='deleteCharge(chargeEditForm.value)'
+            data-bs-dismiss="modal">
+            <span class="material-icons"> delete </span>
+        </button>
+        <button class="btn" [disabled]="!(currCharge && currCharge.id)" (click)='newCharge()'>
+            <span class="material-icons"> note_add </span>
+        </button>
+
+-->

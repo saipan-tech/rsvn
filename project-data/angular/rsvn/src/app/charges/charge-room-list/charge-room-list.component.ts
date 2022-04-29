@@ -16,6 +16,10 @@ import { concatMap, map, tap } from 'rxjs/operators';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
 import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { ChargeRoomViewComponent } from '../charge-room-view/charge-room-view.component'; 
+
+
 @Component({
   selector: 'app-charge-room-list',
   templateUrl: './charge-room-list.component.html',
@@ -30,7 +34,10 @@ export class ChargeRoomListComponent implements OnInit {
     private authService: AuthService,
     private appConstants: AppConstants,
     private genericService: GenericService,
-    private roominfoService: RoominfoEntityService
+    private roominfoService: RoominfoEntityService,  
+    private dialog: MatDialog
+
+
   ) { }
   @Input() currRsvn: any
   @Input() currCharge: ICharge = {} as ICharge
@@ -38,9 +45,6 @@ export class ChargeRoomListComponent implements OnInit {
   @Output() roomSubTotal = new EventEmitter<Number>()
 
   roomList$: Observable<any> = of()
-
-
-
 
   form_error: any
   user: any
@@ -55,6 +59,33 @@ export class ChargeRoomListComponent implements OnInit {
   grandTotal = 0
   transTotal = 0
   chgtypeList: IDropdown[] = []
+
+
+  //--------------------------
+  openDialog(currRoomView: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.panelClass = ['rvclass'];
+    dialogConfig.width = '50%';
+    dialogConfig.maxHeight = '700px';
+    
+    dialogConfig.data = currRoomView
+
+    const dialogRef = this.dialog.open(ChargeRoomViewComponent, dialogConfig)
+    dialogRef.afterClosed()
+      .subscribe(
+        data => {
+          console.log(data)
+        }
+      )
+  }
+
+
+
+
+
+
 
   //--------------------------
   ngOnChanges(changes: SimpleChanges) {
@@ -102,6 +133,11 @@ export class ChargeRoomListComponent implements OnInit {
     })
     return chgs
   }
+
+roomView(room:any) {
+  this.openDialog(room)
+}
+
   //--------------------------
   ngOnInit(): void {
     this.authService.getSession().subscribe(
@@ -110,7 +146,9 @@ export class ChargeRoomListComponent implements OnInit {
     this.systemService.getDropdownList('chgitem').subscribe(
       data => this.chgtypeList = data
     )
-    this.roomList$ = this.bldgService.entities$.pipe( 
+    this.roomTotal = 0
+    this.roomList$ = this.genericService.getItemQueryList('seasoncal',`dateStart=${this.currRsvn.dateIn}&dateEnd=${this.currRsvn.dateOut}`).pipe(
+    concatMap((seascal) => this.bldgService.entities$.pipe( 
     concatMap((bldg) => this.roominfoService.entities$.pipe(
       concatMap((roominfos) => this.genericService.getItemQueryList("roomcharge", `rsvn=${this.currRsvn.id}`).pipe(
         concatMap((roomcharge) => this.roomService.getWithQuery(`rsvn=${this.currRsvn.id}`).pipe(
@@ -124,13 +162,17 @@ export class ChargeRoomListComponent implements OnInit {
                 return Number(prev) + Number(curr.amount)
               }, 0)        
 
-              
+              this.roomTotal += rcCharges 
+              let charges = roomcharge.filter(rc => rc.room == rm.id)
+              charges.map((cc)=> {
+                cc.season = seascal.find((s)=>s.date == cc.date).season
+              })
               result.push(
                 {
                   room:rm,
                   bldg: bldg.find((b)=> b.id == rinfo.bldg ),
                   roominfo: rinfo,
-                  charges: roomcharge.filter(rc => rc.room == rm.id),
+                  charges: charges,
                   total_charges:rcCharges
                 })
                
@@ -138,7 +180,7 @@ export class ChargeRoomListComponent implements OnInit {
             console.log(result)
             return result
           })
-        )))))))
+        )))))))))
 
     this.numDays = ((new Date(this.currRsvn.dateOut).getTime() - new Date(this.currRsvn.dateIn).getTime()) / this.appConstants.DAILYSECONDS)
   }

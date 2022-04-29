@@ -12,7 +12,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatExpansionModule} from '@angular/material/expansion';
 
 import { ChargeCtrlComponent } from './charge-ctrl/charge-ctrl.component';
-import { ChargeLineComponent } from './charge-room-list/charge-line/charge-line.component';
 import { ChargePmtEditComponent } from './charge-pmt-edit/charge-pmt-edit.component';
 import { ChargeChgEditComponent } from './charge-chg-edit/charge-chg-edit.component';
 import { ChargePmtListComponent } from './charge-pmt-list/charge-pmt-list.component';
@@ -20,17 +19,18 @@ import { ChargeChgListComponent } from './charge-chg-list/charge-chg-list.compon
 import { ChargeRoomListComponent } from './charge-room-list/charge-room-list.component';
 import { MatCardModule } from '@angular/material/card';
 import { ChargeInvoiceComponent } from './charge-invoice/charge-invoice.component';
+import { ChargeRoomViewComponent } from './charge-room-view/charge-room-view.component';
 
 @NgModule({
   declarations: [
     ChargeCtrlComponent,
-    ChargeLineComponent,
     ChargePmtEditComponent,
     ChargeChgEditComponent,
     ChargePmtListComponent,
     ChargeChgListComponent,
     ChargeRoomListComponent,
-    ChargeInvoiceComponent
+    ChargeInvoiceComponent,
+    ChargeRoomViewComponent
   ],
   imports: [
    
