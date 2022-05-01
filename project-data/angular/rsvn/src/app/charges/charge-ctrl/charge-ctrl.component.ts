@@ -69,7 +69,7 @@ export class ChargeCtrlComponent implements OnInit {
             body: [
               [ 'Date', 'Room Name', 'Room #', 'Price' ],
               ...this.roomCharges(),
-              ['', '', { text: 'Subtotal', style: 'subTotalCell'}, { text: `$${this.roomChargesSubtotal()}`, style: 'numberCell' }]
+              ['', '', { text: 'Subtotal', style: 'totalCell'}, { text: `$${this.roomSubTotal.toFixed(2)}`, style: 'alignRight' }]
             ]
           },
         },
@@ -83,7 +83,22 @@ export class ChargeCtrlComponent implements OnInit {
             body: [
               [ 'Date', 'Item', 'Description', 'Count', 'Unit', 'Amount' ],
               ...this.charges(),
-              ['', '', '', '', { text: 'Subtotal', style: 'subTotalCell' }, { text: `$${this.chargesSubtotal()}`, style: 'numberCell' }]
+              ['', '', '', '', { text: 'Subtotal', style: 'totalCell' }, { text: `$${this.chgSubTotal.toFixed(2)}`, style: 'alignRight' }]
+            ]
+          }
+        },
+        {text: 'Total', style: 'subheader'},
+        {
+          style: 'invoiceTable',
+          layout: 'lightHorizontalLines',
+          table: {
+            headerRows: 1,
+            widths: [ '*', 50, 100 ],
+            body: [
+              [  '', '', '' ],
+              [ '', { text: 'Taxes', style: 'alignRight' }, { text: `$${0}`, style: 'alignRight' }],
+              [ '', { text: 'Other', style: 'alignRight' }, { text: `$${0}`, style: 'alignRight' }],
+              [ '', { text: 'Total', style: 'totalCell' }, { text: `$${this.grandTotal.toFixed(2)}`, style: 'alignRight' }]
             ]
           }
         }
@@ -102,10 +117,10 @@ export class ChargeCtrlComponent implements OnInit {
         invoiceTable: {
           margin: [0, 5, 0, 15] as [number, number, number, number]
         },
-        numberCell: {
+        alignRight: {
           alignment: 'right' as Alignment
         },
-        subTotalCell: {
+        totalCell: {
           bold: true,
           alignment: 'right' as Alignment
         }
@@ -122,14 +137,10 @@ export class ChargeCtrlComponent implements OnInit {
   roomCharges(): any[] {
     return this.fullRoomList.reduce((accu, room)=> {
       room.days.forEach((roomDay: any)=> {
-        accu.push([roomDay.date, roomDay.alias, { text: room.roominfo.number, style: 'numberCell' }, { text: roomDay.amount, style: 'numberCell' }])
+        accu.push([roomDay.date, roomDay.alias, { text: room.roominfo.number, style: 'alignRight' }, { text: roomDay.amount, style: 'alignRight' }])
       })
       return accu
     }, []);
-  }
-
-  roomChargesSubtotal(): string {
-    return this.roomCharges().reduce((total, charge): number => charge[3].text as number + total, 0).toFixed(2)
   }
 
   charges(): any[] {
@@ -137,14 +148,10 @@ export class ChargeCtrlComponent implements OnInit {
       charge.date,
       charge.item,
       charge.descr,
-      { text: charge.count, style: 'numberCell' },
-      { text: charge.unit, style: 'numberCell' },
-      { text: Number(charge.amount).toFixed(2), style: 'numberCell' },
+      { text: charge.count, style: 'alignRight' },
+      { text: charge.unit, style: 'alignRight' },
+      { text: Number(charge.amount).toFixed(2), style: 'alignRight' },
     ])
-  }
-
-  chargesSubtotal(): string {
-    return this.chargeList.reduce((total, charge: ICharge): number => charge.amount + total, 0).toFixed(2)
   }
 
   //--------------------------
