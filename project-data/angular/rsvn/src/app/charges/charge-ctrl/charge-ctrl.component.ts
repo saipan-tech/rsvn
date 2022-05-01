@@ -81,7 +81,8 @@ export class ChargeCtrlComponent implements OnInit {
             widths: [ '*', '*', '*', '*', '*', 150 ],
             body: [
               [ 'Date', 'Item', 'Description', 'Count', 'Unit', 'Amount' ],
-              ...this.charges()
+              ...this.charges(),
+              ['', '', '', '', 'Subtotal', this.chargesSubtotal()]
             ]
           }
         }
@@ -119,8 +120,8 @@ export class ChargeCtrlComponent implements OnInit {
     }, []);
   }
 
-  roomChargesSubtotal(): number {
-    return this.roomCharges().reduce((total, charge): number => (charge[3] + total).toFixed(2), 0)
+  roomChargesSubtotal(): string {
+    return this.roomCharges().reduce((total, charge): number => charge[3] as number + total, 0).toFixed(2)
   }
 
   charges(): any[] {
@@ -132,6 +133,10 @@ export class ChargeCtrlComponent implements OnInit {
       charge.unit,
       Number(charge.amount).toFixed(2),
     ])
+  }
+
+  chargesSubtotal(): string {
+    return this.chargeList.reduce((total, charge: ICharge): number => charge.amount + total, 0).toFixed(2)
   }
 
   //--------------------------
