@@ -3,6 +3,7 @@ import { ICharge } from '@app/_interface/charge';
 import { IRsvn } from '@app/_interface/rsvn';
 import { ChargeService } from '@app/_services/charge.service';
 import { RoomService } from '@app/_services/room.service';
+import { format, parseISO } from 'date-fns';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Alignment } from "pdfmake/interfaces";
@@ -137,7 +138,12 @@ export class ChargeCtrlComponent implements OnInit {
   roomCharges(): any[] {
     return this.fullRoomList.reduce((accu, room)=> {
       room.days.forEach((roomDay: any)=> {
-        accu.push([roomDay.date, roomDay.alias, { text: room.roominfo.number, style: 'alignRight' }, { text: roomDay.amount, style: 'alignRight' }])
+        accu.push([
+          format(parseISO(roomDay.date), 'MM/dd/yyyy'),
+          roomDay.alias,
+          { text: room.roominfo.number, style: 'alignRight' },
+          { text: roomDay.amount, style: 'alignRight' }
+        ])
       })
       return accu
     }, []);
@@ -145,7 +151,7 @@ export class ChargeCtrlComponent implements OnInit {
 
   charges(): any[] {
     return this.chargeList.map((charge)=> [
-      charge.date,
+      format(parseISO(charge.date), 'MM/dd/yyyy'),
       charge.item,
       charge.descr,
       { text: charge.count, style: 'alignRight' },
