@@ -5,6 +5,7 @@ import { ChargeService } from '@app/_services/charge.service';
 import { RoomService } from '@app/_services/room.service';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { Alignment } from "pdfmake/interfaces";
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -64,11 +65,11 @@ export class ChargeCtrlComponent implements OnInit {
           layout: 'lightHorizontalLines',
           table: {
             headerRows: 1,
-            widths: [ '*', '*', '*', 150 ],
+            widths: [ 70, '*', 50, 100 ],
             body: [
               [ 'Date', 'Room Name', 'Room #', 'Price' ],
               ...this.roomCharges(),
-              ['', '', 'Subtotal', this.roomChargesSubtotal()]
+              ['', '', { text: 'Subtotal', style: 'subTotalCell'}, { text: `$${this.roomChargesSubtotal()}`, style: 'numberCell' }]
             ]
           },
         },
@@ -78,11 +79,11 @@ export class ChargeCtrlComponent implements OnInit {
           layout: 'lightHorizontalLines',
           table: {
             headerRows: 1,
-            widths: [ '*', '*', '*', '*', '*', 150 ],
+            widths: [ 70, '*', '*', 40, 50, 100 ],
             body: [
               [ 'Date', 'Item', 'Description', 'Count', 'Unit', 'Amount' ],
               ...this.charges(),
-              ['', '', '', '', 'Subtotal', this.chargesSubtotal()]
+              ['', '', '', '', { text: 'Subtotal', style: 'subTotalCell' }, { text: `$${this.chargesSubtotal()}`, style: 'numberCell' }]
             ]
           }
         }
@@ -101,6 +102,13 @@ export class ChargeCtrlComponent implements OnInit {
         invoiceTable: {
           margin: [0, 5, 0, 15] as [number, number, number, number]
         },
+        numberCell: {
+          alignment: 'right' as Alignment
+        },
+        subTotalCell: {
+          bold: true,
+          alignment: 'right' as Alignment
+        }
       },
     };
 
@@ -114,14 +122,14 @@ export class ChargeCtrlComponent implements OnInit {
   roomCharges(): any[] {
     return this.fullRoomList.reduce((accu, room)=> {
       room.days.forEach((roomDay: any)=> {
-        accu.push([roomDay.date, roomDay.alias, room.roominfo.number,  roomDay.amount])
+        accu.push([roomDay.date, roomDay.alias, { text: room.roominfo.number, style: 'numberCell' }, { text: roomDay.amount, style: 'numberCell' }])
       })
       return accu
     }, []);
   }
 
   roomChargesSubtotal(): string {
-    return this.roomCharges().reduce((total, charge): number => charge[3] as number + total, 0).toFixed(2)
+    return this.roomCharges().reduce((total, charge): number => charge[3].text as number + total, 0).toFixed(2)
   }
 
   charges(): any[] {
@@ -129,9 +137,9 @@ export class ChargeCtrlComponent implements OnInit {
       charge.date,
       charge.item,
       charge.descr,
-      charge.count,
-      charge.unit,
-      Number(charge.amount).toFixed(2),
+      { text: charge.count, style: 'numberCell' },
+      { text: charge.unit, style: 'numberCell' },
+      { text: Number(charge.amount).toFixed(2), style: 'numberCell' },
     ])
   }
 
