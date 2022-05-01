@@ -21,7 +21,7 @@ export class ChargeCtrlComponent implements OnInit {
   ) { }
 
   @Input() currRsvn:IRsvn = {} as IRsvn
-  
+
   currCharge : ICharge = {} as ICharge
   grandTotal = 0
   balance = 0
@@ -49,13 +49,13 @@ export class ChargeCtrlComponent implements OnInit {
       case 'chg':
         this.chgSubTotal = event
       break;
-    
+
     }
     this.grandTotal =  this.chgSubTotal + this.roomSubTotal - this.pmtSubTotal
-    
+
   }
 
-  handlePrintInvoiceClick() { 
+  handlePrintInvoiceClick() {
     var docDefinition = {
       content: [
         {text: 'Invoice', style: 'header'},
@@ -67,7 +67,8 @@ export class ChargeCtrlComponent implements OnInit {
             widths: [ '*', '*', '*', 150 ],
             body: [
               [ 'Date', 'Room Name', 'Room #', 'Price' ],
-              ...this.roomCharges()
+              ...this.roomCharges(),
+              ['', '', 'Subtotal', this.roomChargesSubtotal()]
             ]
           },
         },
@@ -101,7 +102,7 @@ export class ChargeCtrlComponent implements OnInit {
         },
       },
     };
-    
+
     // open new tab
     var win = window.open('', '_blank');
 
@@ -118,6 +119,10 @@ export class ChargeCtrlComponent implements OnInit {
     }, []);
   }
 
+  roomChargesSubtotal(): number {
+    return this.roomCharges().reduce((total, charge): number => (charge[3] + total).toFixed(2), 0)
+  }
+
   charges(): any[] {
     return this.chargeList.map((charge)=> [
       charge.date,
@@ -132,10 +137,10 @@ export class ChargeCtrlComponent implements OnInit {
   //--------------------------
   ngOnInit(): void {
     this.roomService.getRsvnCalc(this.currRsvn.id).subscribe((data: any) => {
-      this.fullRoomList = data  
-    }) 
+      this.fullRoomList = data
+    })
     this.chargeService.getRsvnCharge(this.currRsvn.id).subscribe(data => {
-      this.chargeList = data; 
+      this.chargeList = data;
     })
   }
 }
