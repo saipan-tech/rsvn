@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ICharge } from '@app/_interface/charge';
+import { IPayment } from "@app/_interface/payment";
 import { IRsvn } from '@app/_interface/rsvn';
 import { ChargeService } from '@app/_services/charge.service';
 import { RoomService } from '@app/_services/room.service';
@@ -32,6 +33,7 @@ export class ChargeCtrlComponent implements OnInit {
   roomSubTotal = 0
   fullRoomList: any[] = [];
   chargeList: ICharge[] = [];
+  paymentList: IPayment[] = [];
 
   changeCharge(event:ICharge) {
       this.currCharge = event
@@ -94,11 +96,11 @@ export class ChargeCtrlComponent implements OnInit {
           layout: 'lightHorizontalLines',
           table: {
             headerRows: 1,
-            widths: [ 70, '*', '*', 40, 50, 100 ],
+            widths: [ 70,  '*', '*', 100 ],
             body: [
-              [ 'Date', 'Item', 'Description', 'Count', 'Unit', 'Amount' ],
+              [ 'Date', 'Item', 'Description', 'Amount' ],
               ...this.payments(),
-              ['', '', '', '', { text: 'Subtotal', style: 'totalCell' }, { text: `$${this.pmtSubTotal.toFixed(2)}`, style: 'alignRight' }]
+              ['',  '', { text: 'Subtotal', style: 'totalCell' }, { text: `$${this.pmtSubTotal.toFixed(2)}`, style: 'alignRight' }]
             ]
           }
         },
@@ -175,7 +177,12 @@ export class ChargeCtrlComponent implements OnInit {
   }
 
   payments(): any[] {
-    return [];
+    return this.paymentList.map((payment: IPayment)=> [
+      format(parseISO(payment.date), 'MM/dd/yyyy'),
+      payment.item,
+      payment.descr,
+      { text: Number(payment.amount).toFixed(2), style: 'alignRight' },
+    ]);
   }
 
   //--------------------------
@@ -185,6 +192,9 @@ export class ChargeCtrlComponent implements OnInit {
     })
     this.chargeService.getRsvnCharge(this.currRsvn.id).subscribe(data => {
       this.chargeList = data;
+    })
+    this.chargeService.getRsvnPayment(this.currRsvn.id).subscribe(data=> {
+      this.paymentList = data;
     })
   }
 }
