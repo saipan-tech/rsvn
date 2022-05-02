@@ -187,9 +187,11 @@ export class ChargeCtrlComponent implements OnInit {
 
   //--------------------------
   ngOnInit(): void {
+/*
     this.roomService.getRsvnCalc(this.currRsvn.id).subscribe((data: any) => {
       this.fullRoomList = data
     })
+*/
     this.chargeService.getRsvnCharge(this.currRsvn.id).subscribe(data => {
       this.chargeList = data;
     })
