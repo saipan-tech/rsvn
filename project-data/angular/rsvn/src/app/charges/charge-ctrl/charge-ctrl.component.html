@@ -15,7 +15,7 @@
 
     <div class="section-body">
         <div class="d-flex totalcell">
-            <div class="form-control"><button class="print-button">Print Invoice</button></div>
+            <div class="form-control"><button class="print-button" (click)="handlePrintInvoiceClick()">Print Invoice</button></div>
             <div class="form-control"><strong>Balance</strong></div>
             <div class="form-control dcell"><strong>{{ grandTotal | currency}}</strong></div>
         </div>
