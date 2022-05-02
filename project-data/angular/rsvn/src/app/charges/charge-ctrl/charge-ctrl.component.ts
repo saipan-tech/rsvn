@@ -88,6 +88,20 @@ export class ChargeCtrlComponent implements OnInit {
             ]
           }
         },
+        {text: 'Payments', style: 'subheader'},
+        {
+          style: 'invoiceTable',
+          layout: 'lightHorizontalLines',
+          table: {
+            headerRows: 1,
+            widths: [ 70, '*', '*', 40, 50, 100 ],
+            body: [
+              [ 'Date', 'Item', 'Description', 'Count', 'Unit', 'Amount' ],
+              ...this.payments(),
+              ['', '', '', '', { text: 'Subtotal', style: 'totalCell' }, { text: `$${this.pmtSubTotal.toFixed(2)}`, style: 'alignRight' }]
+            ]
+          }
+        },
         {text: 'Total', style: 'subheader'},
         {
           style: 'invoiceTable',
@@ -158,6 +172,10 @@ export class ChargeCtrlComponent implements OnInit {
       { text: charge.unit, style: 'alignRight' },
       { text: Number(charge.amount).toFixed(2), style: 'alignRight' },
     ])
+  }
+
+  payments(): any[] {
+    return [];
   }
 
   //--------------------------
