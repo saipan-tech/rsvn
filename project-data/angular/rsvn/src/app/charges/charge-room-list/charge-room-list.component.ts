@@ -35,6 +35,7 @@ export class ChargeRoomListComponent implements OnInit {
     private appConstants: AppConstants,
     private genericService: GenericService,
     private roominfoService: RoominfoEntityService,  
+    private chargeService: ChargeService,
     private dialog: MatDialog
 
 
@@ -62,7 +63,7 @@ export class ChargeRoomListComponent implements OnInit {
 
 
   //--------------------------
-  openDialog(currRoomView: any) {
+  openDialog(roomid: any) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
@@ -70,22 +71,20 @@ export class ChargeRoomListComponent implements OnInit {
     dialogConfig.width = '50%';
     dialogConfig.maxHeight = '700px';
     
-    dialogConfig.data = currRoomView
+    dialogConfig.data = {
+      roomid,
+      currRsvn:this.currRsvn
+    }
 
     const dialogRef = this.dialog.open(ChargeRoomViewComponent, dialogConfig)
     dialogRef.afterClosed()
       .subscribe(
         data => {
-          console.log(data)
+          this.ngOnInit()
+     
         }
       )
   }
-
-
-
-
-
-
 
   //--------------------------
   ngOnChanges(changes: SimpleChanges) {
@@ -94,52 +93,15 @@ export class ChargeRoomListComponent implements OnInit {
     }
   }
   //--------------------------
-  newRoomall(roomall: IRoom) {
-    this.ngOnInit()
-  }
-  //--------------------------
 
-
-
-  //--------------------------
-
-  chargeTotal() {
-    this.roomTotal = 0
-    this.fullRoomList.forEach(
-      rm => {
-        let rr = {} as { days: any[], roominfo: any }
-        rr = rm
-        rr.days.forEach(
-          r => {
-            this.roomTotal += Number(r.amount)
-          }
-        )
-      }
-    )
-
-
-    this.roomSubTotal.emit(this.roomTotal)
-  }
-  //--------------------------
-  chargeSort(chgs: ICharge[]) {
-    chgs.sort((a, b) => {
-      if (a.date < b.date) {
-        return -1
-      }
-      if (a.date > b.date) {
-        return 1
-      }
-      return 0
-    })
-    return chgs
-  }
-
-roomView(room:any) {
-  this.openDialog(room)
+roomView(roomid:any) {
+  this.openDialog(roomid)
 }
-
   //--------------------------
   ngOnInit(): void {
+ 
+
+    this.numDays = ((new Date(this.currRsvn.dateOut).getTime() - new Date(this.currRsvn.dateIn).getTime()) / this.appConstants.DAILYSECONDS)
     this.authService.getSession().subscribe(
       data => this.user = data
     )
@@ -147,41 +109,13 @@ roomView(room:any) {
       data => this.chgtypeList = data
     )
     this.roomTotal = 0
-    this.roomList$ = this.genericService.getItemQueryList('seasoncal',`dateStart=${this.currRsvn.dateIn}&dateEnd=${this.currRsvn.dateOut}`).pipe(
-    concatMap((seascal) => this.bldgService.entities$.pipe( 
-    concatMap((bldg) => this.roominfoService.entities$.pipe(
-      concatMap((roominfos) => this.genericService.getItemQueryList("roomcharge", `rsvn=${this.currRsvn.id}`).pipe(
-        concatMap((roomcharge) => this.roomService.getWithQuery(`rsvn=${this.currRsvn.id}`).pipe(
-          map((rooms) => {
-            let result: any = []
-
-            rooms.map((rm) => {
-              let rinfo:any  = roominfos.find(ri => ri.id == rm.roominfo)
-              // run a reduce on the charges right here
-              let rcCharges = roomcharge.filter(rc => rc.room == rm.id).reduce((prev: any, curr: any) => {
-                return Number(prev) + Number(curr.amount)
-              }, 0)        
-
-              this.roomTotal += rcCharges 
-              let charges = roomcharge.filter(rc => rc.room == rm.id)
-              charges.map((cc)=> {
-                cc.season = seascal.find((s)=>s.date == cc.date).season
-              })
-              result.push(
-                {
-                  room:rm,
-                  bldg: bldg.find((b)=> b.id == rinfo.bldg ),
-                  roominfo: rinfo,
-                  charges: charges,
-                  total_charges:rcCharges
-                })
-               
-            })
-            console.log(result)
-            return result
-          })
-        )))))))))
-
-    this.numDays = ((new Date(this.currRsvn.dateOut).getTime() - new Date(this.currRsvn.dateIn).getTime()) / this.appConstants.DAILYSECONDS)
-  }
+    this.roomList$ = this.chargeService.getRsvnRoomCharge(this.currRsvn.id).pipe(
+      tap(rl => {
+        this.roomTotal = rl.reduce((prev: any, curr: any) => {
+          return Number(prev) + Number(curr.total_charges)
+        }, 0)
+        this.roomSubTotal.emit(this.roomTotal)
+      } )
+    )
+ }
 }

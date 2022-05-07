@@ -1,32 +1,64 @@
-
-
-
-
 <mat-card class="recbox">
-    <mat-card-title>{{ record.bldg.name}} {{ record.roominfo.number }} </mat-card-title>
+    <mat-card-title></mat-card-title>
     <mat-card-header>Daily Charge</mat-card-header>
+    <hr>
     <mat-card-content>
-        <div class="row heading" >
+        <div class="row heading">
+            <div class="col  text-center">#</div>
+
             <div class="col">ID</div>
+
             <div class="col">Date</div>
             <div class="col">Season</div>
+
             <div class="col">Amount</div>
+            <div class="col-1"></div>
         </div>
 
         <div class="box">
-            <div class="row" *ngFor="let r of record.charges">
+            <div class="row" *ngFor="let r of roomCharge$ | async, let i = index">
+
+                <div class="col text-center">{{ i + 1 }}</div>
                 <div class="col">{{r.id}}</div>
-                <div class="col">{{ r.date }}</div>
+                <div class="col active" (click)="editDate(r)">{{ r.date }}</div>
+
                 <div class="col">{{ r.season }}</div>
-                <div class="col">{{ r.amount }}</div>
+                <div class="col money">{{ r.amount }}</div>
+                <div class="col-1"></div>
             </div>
-         </div>
+        </div>
+    </mat-card-content>
+    <mat-card-title *ngIf="editOn">Edit Entry</mat-card-title>
+    <mat-card-content *ngIf="editOn">
+        <form novalidate [formGroup]="rchargeEditForm">
+            <div class="d-flex">
+                <label class="uppercell form-control">ID</label>
+                <input class="form-control" type="text" formControlName='id'>
+            </div>
+            <div class="d-flex">
+                <label class="uppercell form-control">Date</label>
+                <input class="form-control" type="date" formControlName='date'>
+            </div>
+            <div class="d-flex">
+                <label class="uppercell form-control">Amount</label>
+                <input autofocus class="form-control money" type="text" formControlName='amount'>
+            </div>
+            <div class="d-flex">
+                <label class="uppercell form-control">Created</label>
+                <input  class="form-control" type="text" formControlName='created'>
+            </div>
+        </form>
     </mat-card-content>
     <mat-card-footer>
-        <button type="button" class="btn btn-secondary" (click)="close()">
-            <span class="material-icons"> close </span>
-        </button>
+        <div class="form-control d-flex justify-content-evenly">
+            <button type="button" class="btn btn-secondary" (click)="close()">
+                <span class="material-icons"> close </span>
+            </button>
+            <button *ngIf="editOn && rchargeEditForm.dirty" click="updateRec()">
+                <span class="material-icons"> save </span>
+            </button>            
+            
+        </div>
 
     </mat-card-footer>
 </mat-card>
-

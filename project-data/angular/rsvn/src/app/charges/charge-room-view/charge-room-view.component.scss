@@ -1,6 +1,6 @@
 
     .recbox {
-        height: 600px;
+       
         .box {
             border: 1px solid teal;
             height: 300px;
@@ -9,4 +9,10 @@
         .heading {
             font-weight:bold;
         }
+    }
+    .money {
+        text-align:right;
+        color:darkgreen;
+        font-weight:bold;
+
     }

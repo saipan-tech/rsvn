@@ -12,7 +12,9 @@ import { GenericService } from './generic.service';
 import { SystemService } from '@app/_services/system.service';
 import { number } from 'echarts';
 import { concatLatestFrom } from '@ngrx/effects';
-
+import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
+import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
+import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +26,10 @@ export class ChargeService {
     private http: HttpClient,
     private genericService: GenericService,
     private systemService: SystemService,
-   
+    private bldgService: BldgEntityService,
+    private roominfoService: RoominfoEntityService,
+    private roomService : RoomEntityService
+
   ) { }
 
   private urlRoot = `${this.env.WEB_API}`
@@ -37,6 +42,44 @@ export class ChargeService {
   getRsvnPayment(rsvnid: number): Observable<IPayment[]> {
     return this.http
       .get<IPayment[]>(`${this.urlRoot}/payment?rsvn=${rsvnid}`)
+  }
+  //==================================================
+  getRsvnRoomCharge(rsvnid: number): Observable<any> {
+    return this.genericService.getItem("rsvn", rsvnid).pipe(
+      concatMap((rsvn) => this.genericService.getItemQueryList('seasoncal', `dateStart=${rsvn.dateIn}&dateEnd=${rsvn.dateOut}`).pipe(
+        concatMap((seascal) => this.bldgService.entities$.pipe(
+          concatMap((bldg) => this.roominfoService.entities$.pipe(
+            concatMap((roominfos) => this.genericService.getItemQueryList("roomcharge", `rsvn=${rsvn.id}`).pipe(
+              concatMap((roomcharge) => this.roomService.getWithQuery(`rsvn=${rsvn.id}`).pipe(
+                map((rooms) => {
+                  let result: any = []
+                  let roomTotal = 0
+                  rooms.map((rm) => {
+                    let rinfo: any = roominfos.find(ri => ri.id == rm.roominfo)
+                    // run a reduce on the charges right here
+                    let rcCharges = roomcharge.filter(rc => rc.room == rm.id).reduce((prev: any, curr: any) => {
+                      return Number(prev) + Number(curr.amount)
+                    }, 0)
+
+                    roomTotal += rcCharges
+                    let charges = roomcharge.filter(rc => rc.room == rm.id)
+                    charges.map((cc) => {
+                      cc.season = seascal.find((s) => s.date == cc.date).season
+                    })
+                    result.push(
+                      {
+                        days: this.systemService.daySpan(rsvn.dateIn,rsvn.dateOut),
+                        room: rm,
+                        bldg: bldg.find((b) => b.id == rinfo.bldg),
+                        roominfo: rinfo,
+                        charges: charges,
+                        total_charges: rcCharges
+                      })
+
+                  })
+                   return result
+                })
+              )))))))))))
   }
   //==================================================
   getChargeCalc(query: string): Observable<any> {
@@ -53,8 +96,8 @@ export class ChargeService {
   }
   //==================================================
   synchRoomcharge(roomid: number): Observable<any> {
-    return this.genericService.getItem('room',roomid).pipe(
-      concatMap((room) => this.genericService.getItem('roominfo',room.roominfo).pipe(
+    return this.genericService.getItem('room', roomid).pipe(
+      concatMap((room) => this.genericService.getItem('roominfo', room.roominfo).pipe(
         concatMap((roominfo) => this.genericService.getItemQueryList('seasoncal', `dateStart=${room.dateIn}&dateEnd=${room.dateOut}`).pipe(
           concatMap((seascal) => this.genericService.getItemList('rate').pipe(
             concatMap((rate) => this.genericService.getItemList('season').pipe(

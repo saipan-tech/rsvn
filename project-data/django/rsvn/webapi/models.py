@@ -100,7 +100,7 @@ class Rate(models.Model):
     rack        = 	models.DecimalField(max_digits=12, decimal_places=2,default=Decimal('00.00'))
     color       =  	models.CharField(max_length=40, default='white')
     descr		=	models.CharField(max_length=1028, blank=True)	
-	
+	 
     def __str__(self):
         return(self.rateName)
 #---------------------------------------------------------
