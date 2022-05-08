@@ -32,6 +32,7 @@ export class ChargeCtrlComponent implements OnInit {
   chgSubTotal = 0
   roomSubTotal = 0
   fullRoomList: any[] = [];
+  roomChargeData: any = []
   chargeList: ICharge[] = [];
   paymentList: IPayment[] = [];
 
@@ -152,16 +153,17 @@ export class ChargeCtrlComponent implements OnInit {
   }
 
   roomCharges(): any[] {
-    return this.fullRoomList.reduce((accu, room)=> {
-      room.days.forEach((roomDay: any)=> {
+    return this.roomChargeData.reduce((accu: any[], roomCharges: any)=> {
+      roomCharges.charges.forEach((charge: any)=> {
         accu.push([
-          format(parseISO(roomDay.date), 'MM/dd/yyyy'),
-          roomDay.alias,
-          { text: room.roominfo.number, style: 'alignRight' },
-          { text: roomDay.amount, style: 'alignRight' }
+          format(parseISO(charge.date), 'MM/dd/yyyy'),
+          roomCharges.roominfo.rateAlias,
+          { text: roomCharges.roominfo.number, style: 'alignRight' },
+          { text: charge.amount, style: 'alignRight' }
         ])
       })
-      return accu
+
+      return accu;
     }, []);
   }
 
@@ -187,12 +189,14 @@ export class ChargeCtrlComponent implements OnInit {
 
   //--------------------------
   ngOnInit(): void {
+    this.chargeService.getRsvnRoomCharge(this.currRsvn.id).subscribe(data => {
+      this.roomChargeData = data;
+    })
 
-    this.chargeService.getRsvnRoomCharge(this.currRsvn.id).subscribe(data => console.log(data))
-        
     this.chargeService.getRsvnCharge(this.currRsvn.id).subscribe(data => {
       this.chargeList = data;
     })
+
     this.chargeService.getRsvnPayment(this.currRsvn.id).subscribe(data=> {
       this.paymentList = data;
     })
