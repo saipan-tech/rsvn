@@ -54,7 +54,7 @@
             <button type="button" class="btn btn-secondary" (click)="close()">
                 <span class="material-icons"> close </span>
             </button>
-            <button *ngIf="editOn && rchargeEditForm.dirty" click="updateRec()">
+            <button *ngIf="editOn && rchargeEditForm.dirty" (click)="updateRec()">
                 <span class="material-icons"> save </span>
             </button>            
             

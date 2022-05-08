@@ -42,9 +42,10 @@ editDate(rec:any) {
 //------------------------------------
  
 updateRec() {
+
   this.currRoomCharge.amount = this.rchargeEditForm.value.amount
   this.genericService.updateItem("roomcharge",this.currRoomCharge)
-    .subscribe( )
+    .subscribe()
 }
 //------------------------------------
 
