@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DialogManagerService } from '@app/shared/dialog';
 import { ICharge } from '@app/_interface/charge';
 import { IPayment } from "@app/_interface/payment";
 import { IRsvn } from '@app/_interface/rsvn';
@@ -8,6 +9,7 @@ import { format, parseISO } from 'date-fns';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Alignment } from "pdfmake/interfaces";
+import { ChargeInvoiceComponent } from '../charge-invoice/charge-invoice.component';
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -21,6 +23,7 @@ export class ChargeCtrlComponent implements OnInit {
   constructor(
     private roomService: RoomService,
     private chargeService: ChargeService,
+    private dialogManagerService: DialogManagerService
   ) { }
 
   @Input() currRsvn:IRsvn = {} as IRsvn
@@ -58,6 +61,10 @@ export class ChargeCtrlComponent implements OnInit {
     }
     this.grandTotal =  this.chgSubTotal + this.roomSubTotal - this.pmtSubTotal
 
+  }
+
+  handleInvoiceClick() {
+    this.dialogManagerService.openDialog<ChargeInvoiceComponent>(ChargeInvoiceComponent)
   }
 
   handlePrintInvoiceClick() {
