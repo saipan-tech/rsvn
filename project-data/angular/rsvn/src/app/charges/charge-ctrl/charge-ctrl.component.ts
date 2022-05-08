@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DialogManagerService } from '@app/shared/dialog';
 import { ICharge } from '@app/_interface/charge';
-import { IPayment } from "@app/_interface/payment";
 import { IRsvn } from '@app/_interface/rsvn';
 import { ChargeInvoiceComponent } from '../charge-invoice/charge-invoice.component';
 
@@ -10,8 +9,7 @@ import { ChargeInvoiceComponent } from '../charge-invoice/charge-invoice.compone
   templateUrl: './charge-ctrl.component.html',
   styleUrls: ['./charge-ctrl.component.scss']
 })
-export class ChargeCtrlComponent implements OnInit {
-
+export class ChargeCtrlComponent {
   constructor(
     private dialogManagerService: DialogManagerService
   ) { }
@@ -26,8 +24,7 @@ export class ChargeCtrlComponent implements OnInit {
   roomSubTotal = 0
 
   changeCharge(event:ICharge) {
-      this.currCharge = event
-    this.ngOnInit()
+    this.currCharge = event
   }
 
   calcTotal(mode:any,event:any) {
@@ -59,10 +56,6 @@ export class ChargeCtrlComponent implements OnInit {
         currRsvnId: this.currRsvn.id
       }
     });
-  }
-
-  ngOnInit() {
-
   }
 }
 
