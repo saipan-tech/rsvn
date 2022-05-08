@@ -20,6 +20,7 @@ import { ChargeRoomListComponent } from './charge-room-list/charge-room-list.com
 import { MatCardModule } from '@angular/material/card';
 import { ChargeInvoiceComponent } from './charge-invoice/charge-invoice.component';
 import { ChargeRoomViewComponent } from './charge-room-view/charge-room-view.component';
+import { SharedDialogModule } from '@app/shared/dialog/shared-dialog.module';
 
 @NgModule({
   declarations: [
@@ -33,8 +34,6 @@ import { ChargeRoomViewComponent } from './charge-room-view/charge-room-view.com
     ChargeRoomViewComponent
   ],
   imports: [
-   
-
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -46,7 +45,8 @@ import { ChargeRoomViewComponent } from './charge-room-view/charge-room-view.com
     MatRadioModule,
     AppRoutingModule,
     MatExpansionModule,
-    MatCardModule
+    MatCardModule,
+    SharedDialogModule
   ],
   exports: [
     ChargeCtrlComponent

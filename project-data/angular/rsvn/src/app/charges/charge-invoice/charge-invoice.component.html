@@ -1,1 +1,17 @@
-<p>charge-invoice works!</p>
+<h3 mat-dialog-title>
+    <span>Invoice</span>
+</h3>
+
+<div mat-dialog-content>
+    <p>Choose invoice action below</p>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="handlePrintInvoiceClick()" color="accent">
+        Print Invoice
+    </button>
+
+    <button mat-raised-button [mat-dialog-close] color="basic">
+        Close
+    </button>
+</div>

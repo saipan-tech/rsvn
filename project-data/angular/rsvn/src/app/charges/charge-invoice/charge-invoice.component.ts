@@ -12,4 +12,6 @@ export class ChargeInvoiceComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  handlePrintInvoiceClick(): void {
+  }
 }

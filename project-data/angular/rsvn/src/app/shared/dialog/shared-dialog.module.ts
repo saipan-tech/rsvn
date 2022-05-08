@@ -16,6 +16,9 @@ import {MatIconModule} from "@angular/material/icon";
     MatDialogModule,
     MatIconModule,
   ],
+  exports: [
+    MatDialogModule,
+  ],
   providers: [
     DialogManagerService,
   ]

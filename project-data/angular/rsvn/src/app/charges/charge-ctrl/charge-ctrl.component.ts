@@ -63,8 +63,8 @@ export class ChargeCtrlComponent implements OnInit {
 
   }
 
-  handleInvoiceClick() {
-    this.dialogManagerService.openDialog<ChargeInvoiceComponent>(ChargeInvoiceComponent)
+  handleInvoiceClick(): void {
+    this.dialogManagerService.openDialog<ChargeInvoiceComponent>(ChargeInvoiceComponent);
   }
 
   handlePrintInvoiceClick() {
