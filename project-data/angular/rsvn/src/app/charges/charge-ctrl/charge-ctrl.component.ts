@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DialogManagerService } from '@app/shared/dialog';
 import { ICharge } from '@app/_interface/charge';
 import { IRsvn } from '@app/_interface/rsvn';
-import { ChargeInvoiceComponent } from '../charge-invoice/charge-invoice.component';
+import { ChargeInvoiceDialogComponent } from '../charge-invoice-dialog/charge-invoice-dialog.component';
 
 @Component({
   selector: 'app-charge-ctrl',
@@ -47,7 +47,7 @@ export class ChargeCtrlComponent {
   }
 
   handleInvoiceClick(): void {
-    this.dialogManagerService.openDialog<ChargeInvoiceComponent>(ChargeInvoiceComponent, {
+    this.dialogManagerService.openDialog<ChargeInvoiceDialogComponent>(ChargeInvoiceDialogComponent, {
       data: {
         pmtSubTotal: this.pmtSubTotal,
         roomSubTotal: this.roomSubTotal,

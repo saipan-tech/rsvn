@@ -1,14 +1,14 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ChargeInvoiceService } from './charge-invoice.service';
+import { ChargeInvoiceDialogService } from './charge-invoice-dialog.service';
 
 
 @Component({
-  selector: 'app-charge-invoice',
-  templateUrl: './charge-invoice.component.html',
-  styleUrls: ['./charge-invoice.component.scss']
+  selector: 'app-charge-invoice-dialog',
+  templateUrl: './charge-invoice-dialog.component.html',
+  styleUrls: ['./charge-invoice-dialog.component.scss']
 })
-export class ChargeInvoiceComponent {
+export class ChargeInvoiceDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -18,11 +18,11 @@ export class ChargeInvoiceComponent {
       grandTotal: number,
       currRsvnId: number,
     },
-    private chargeInvoiceService: ChargeInvoiceService
+    private chargeInvoiceDialogService: ChargeInvoiceDialogService
   ){}
 
   handlePrintInvoiceClick(): void {
-    this.chargeInvoiceService.print({
+    this.chargeInvoiceDialogService.print({
       pmtSubTotal: this.data.pmtSubTotal,
       roomSubTotal: this.data.roomSubTotal,
       chgSubTotal: this.data.chgSubTotal, 

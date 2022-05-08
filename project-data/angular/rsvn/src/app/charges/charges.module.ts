@@ -18,7 +18,7 @@ import { ChargePmtListComponent } from './charge-pmt-list/charge-pmt-list.compon
 import { ChargeChgListComponent } from './charge-chg-list/charge-chg-list.component';
 import { ChargeRoomListComponent } from './charge-room-list/charge-room-list.component';
 import { MatCardModule } from '@angular/material/card';
-import { ChargeInvoiceComponent } from './charge-invoice/charge-invoice.component';
+import { ChargeInvoiceDialogComponent } from './charge-invoice-dialog/charge-invoice-dialog.component';
 import { ChargeRoomViewComponent } from './charge-room-view/charge-room-view.component';
 import { SharedDialogModule } from '@app/shared/dialog/shared-dialog.module';
 
@@ -30,7 +30,7 @@ import { SharedDialogModule } from '@app/shared/dialog/shared-dialog.module';
     ChargePmtListComponent,
     ChargeChgListComponent,
     ChargeRoomListComponent,
-    ChargeInvoiceComponent,
+    ChargeInvoiceDialogComponent,
     ChargeRoomViewComponent
   ],
   imports: [

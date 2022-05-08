@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { ChargeService } from '@app/_services/charge.service';
 import { ICharge } from '@app/_interface/charge';
 import { IPayment } from "@app/_interface/payment";
@@ -8,7 +9,10 @@ import { Alignment } from "pdfmake/interfaces";
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
-export class ChargeInvoiceService {
+@Injectable({
+  providedIn: 'root'
+})
+export class ChargeInvoiceDialogService {
   fullRoomList: any[] = [];
   roomChargeData: any = [];
   chargeList: ICharge[] = [];
