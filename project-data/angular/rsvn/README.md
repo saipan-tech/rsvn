@@ -14,6 +14,12 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
+## Upgrade
+
+Run `ng update @angular/cli @angular/core` to upgrade Angular and Angular CLI.  After those have been upgraded you can upgrade it's dependents like NgRX (`ng update @ngrx/store`), Angular Material (`ng update @angular/material`), and Bootstrap (`ng update @ng-bootstrap/ng-bootstrap`).  
+
+It's important to verify every update with a new build since sometimes the Angular Cli can miss updating related packages, among other compatibility things.
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
