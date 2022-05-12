@@ -2,7 +2,7 @@ name: MySQL Image CI
 
 on:
     push:
-        branches: [ main, franklin/ci ]
+        branches: [ main ]
     pull_request:
         types: [ opened, reopened, synchronize ]
 jobs:
