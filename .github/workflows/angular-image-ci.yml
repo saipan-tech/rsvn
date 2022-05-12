@@ -1,0 +1,15 @@
+name: Angular Image CI
+
+on:
+    push:
+        branches: [ main, franklin/ci ]
+    pull_request:
+        types: [ opened, reopened, synchronize ]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v3
+            -   name: Build Angular image
+                run: docker build . --file angular/Dockerfile --tag angular:$(date +%s)
+

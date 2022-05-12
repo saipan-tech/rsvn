@@ -1,0 +1,17 @@
+name: MySQL Image CI
+
+on:
+    push:
+        branches: [ main, franklin/ci ]
+    pull_request:
+        types: [ opened, reopened, synchronize ]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v3
+            -   name: Build the SQL volume
+                run: docker volume create --namangular-image-ci.ymle=rsvn-mysql-db
+            -   name: Build MySQL image
+                run: docker build . --file mysql/Dockerfile --tag mysql:$(date +%s)
+
