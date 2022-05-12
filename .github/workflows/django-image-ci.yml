@@ -1,0 +1,14 @@
+name: Django Image CI
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        types: [ opened, reopened, synchronize ]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v3
+            -   name: Build Django image
+                run: docker build . --file django/Dockerfile --tag django:$(date +%s)
+

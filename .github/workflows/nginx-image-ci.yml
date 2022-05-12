@@ -1,0 +1,14 @@
+name: nginx Image CI
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        types: [ opened, reopened, synchronize ]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v3
+            -   name: Build Nginx image
+                run: docker build . --file nginx/Dockerfile --tag nginx:$(date +%s)
+
