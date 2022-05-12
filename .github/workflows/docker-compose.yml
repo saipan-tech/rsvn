@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
     push:
-        branches: [ main ]
+        branches: [ main, franklin/ci ]
     pull_request:
         types: [ opened, reopened, synchronized ]
 
