@@ -1,5 +1,4 @@
 name: Angular Image CI
-
 on:
     push:
         branches: [ main ]
