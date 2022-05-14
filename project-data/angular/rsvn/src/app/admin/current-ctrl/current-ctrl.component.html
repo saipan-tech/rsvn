@@ -12,14 +12,18 @@
                 </div>
             </div>
         </mat-tab>
-        <mat-tab label="Usage Chart">
+        <mat-tab label="Usage">
             <ng-template matTabContent>
                 <app-roomcharts [currRoominfo]="currRoominfo"></app-roomcharts>
 
             </ng-template>
         </mat-tab>
+
         <mat-tab label="Service Reservation">
             <app-svcrsvn-list [currRoominfo]="currRoominfo"></app-svcrsvn-list>
+        </mat-tab>
+        <mat-tab label="Preference">
+            <app-roompref></app-roompref>
         </mat-tab>
     </mat-tab-group>
 </mat-card>

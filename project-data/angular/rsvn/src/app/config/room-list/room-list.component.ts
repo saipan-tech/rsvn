@@ -40,11 +40,12 @@ export class RoomListComponent implements OnInit, OnChanges {
     rateAlias: new FormControl(''),
     beds: new FormControl('', Validators.required),
     style: new FormControl(''),
-    color: new FormControl(''),
+    ipaddr: new FormControl(''),
+    marker: new FormControl(''),
+    phone: new FormControl(''),
     size: new FormControl(''),
-    check: new FormControl(false),
     status: new FormControl(''),
-    rsvn: new FormControl(''),
+    
     bldg: new FormControl(''),
     name: new FormControl(''),
     descr: new FormControl(''),
@@ -106,7 +107,15 @@ export class RoomListComponent implements OnInit, OnChanges {
       if (room[field] == null) {
         room[field] = ''
       }
+      if (field == 'id'  && room[field]=='') {
+        room[field] = 0 
+        room.check = false
+      }
+
+    
     }
+    
+    console.log(room)
     this.genericService.updateItem('roominfo', room).subscribe(
       data => {
         this.ngOnInit()
@@ -137,6 +146,7 @@ export class RoomListComponent implements OnInit, OnChanges {
         rec.id = founder.id
       }
       rec.bldg = this.currBldg.id
+
       this.genericService.updateItem('roominfo', rec).subscribe(
         data => {
           this.ngOnInit()

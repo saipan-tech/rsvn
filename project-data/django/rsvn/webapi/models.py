@@ -129,7 +129,7 @@ class Roominfo (models.Model):
     descr       =   models.TextField(blank=True)
     check       =   models.BooleanField(default=False)
     status      =   models.CharField(max_length=12, default="unknown")
-    marker      =   models.CharField(max_length=24, default="off")
+    marker      =   models.CharField(max_length=24, blank=True)
     def __str__(self) :
         return f"{self.bldg.name} -- {self.number}"
 #---------------------------------------------------------

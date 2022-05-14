@@ -2,8 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
 import { GenericService } from '@app/_services/generic.service';
+import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
 import { concatMap, map } from 'rxjs/operators';
-  
+import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';  
 @Component({
   selector: 'app-charge-room-view',
   templateUrl: './charge-room-view.component.html',
@@ -15,6 +16,8 @@ export class ChargeRoomViewComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<ChargeRoomViewComponent>,
     private genericService : GenericService,
+    private roominfoService : RoominfoEntityService,
+    private roomService : RoomEntityService,
     @Inject(MAT_DIALOG_DATA) data: any,
   ) { 
     this.roomid = data.roomid,
@@ -55,8 +58,8 @@ close() {
 //------------------------------------
 ngOnInit(): void {
     this.roomCharge$ = this.genericService.getItemQueryList("roomcharge",`room=${this.roomid}`).pipe(
-      concatMap(roomcharges => this.genericService.getItemQueryList("seasoncal",`dateStart=${this.currRsvn.dateIn}&dateEnd=${this.currRsvn.dateOut}`) .pipe(
-        map(seasoncal => {
+      concatMap(roomcharges => this.genericService.getItemQueryList("seasoncal",`dateStart=${this.currRsvn.dateIn}&dateEnd=${this.currRsvn.dateOut}`).pipe(
+          map(seasoncal => {
           roomcharges.map(rc => {
             rc.season = seasoncal.find(sc => sc.date == rc.date).season
           })

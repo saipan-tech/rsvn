@@ -53,7 +53,10 @@ export class RoomListItemComponent implements OnInit {
       if (room[field] == null) {
         room[field] = ''
       }
+      if (field == 'id'  && room[field]=='')
+        room[field] = 0 
     }
+    
     this.genericService.updateItem('roominfo', room).subscribe(
       data =>  console.log(data)  
       )

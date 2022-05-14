@@ -30,9 +30,10 @@ export class GenericService {
   }
  
   updateItem(base:string,item:any) :Observable<any> {
-    if(item.id) {
+    if(item.id && item.id != 0 ) {
       return this.http.put<any>(`${this.urlRoot}/${base}/${item.id}/` , item, httpOptions)
     } else {
+      console.log(item)
       return this.http.post<any>(`${this.urlRoot}/${base}/`,item, httpOptions)
     }
   }
