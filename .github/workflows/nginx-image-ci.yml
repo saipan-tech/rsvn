@@ -10,5 +10,5 @@ jobs:
         steps:
             -   uses: actions/checkout@v3
             -   name: Build Nginx image
-                run: docker build . --file nginx/Dockerfile --tag nginx:$(date +%s)
+                run: docker-compose build nginx
 
