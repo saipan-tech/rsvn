@@ -10,5 +10,5 @@ jobs:
         steps:
             -   uses: actions/checkout@v3
             -   name: Build Angular image
-                run: docker build . --file angular/Dockerfile --tag angular:$(date +%s)
+                run: docker-compose build angular
 
