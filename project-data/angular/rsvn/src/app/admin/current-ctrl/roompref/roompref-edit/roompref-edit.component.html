@@ -1,0 +1,74 @@
+<mat-card>
+    <mat-card-header></mat-card-header>
+    <mat-card-title></mat-card-title>
+    <mat-card-title></mat-card-title>
+    <mat-card-content>
+        <form novalidate [formGroup]="roomEditForm">
+
+
+            <div class="d-flex">
+                <label class="uppercell form-control">Number</label>
+                <input class="lowercell form-control" type="text" formControlName='number' >
+            </div>
+        
+            <div class="d-flex">
+                <label class="uppercell form-control">Floor</label>
+                <input class="lowercell form-control " type="text" formControlName='floor' >
+            </div>
+        
+        
+            <div class="d-flex">
+                <label class="uppercell form-control">Beds</label>
+                <input class="lowercell form-control "  type="text" formControlName='beds'>
+            </div>
+            
+            <div class="d-flex">
+                <label class="uppercell form-control">Style</label>
+        
+                <input class="lowercell form-control "  type="text" formControlName='style'>
+            </div>
+        
+        
+            <div class="d-flex">
+                <label class="uppercell form-control">Rate Alias</label>
+        
+                <select class="lowercell form-control "  formControlName='rateAlias'>
+                    <option value=""></option>
+                    <option *ngFor="let rl of rateList" [ngValue]="rl.alias">{{rl.alias}} </option>
+                </select>
+            </div>
+        
+            <div class="d-flex">
+                <label class="uppercell form-control">Name</label>
+        
+                <input class="lowercell form-control "  type="text" formControlName='name'>
+            </div>
+            
+            <div class="d-flex">
+                <label class="uppercell form-control">Size</label>
+        
+                <input class="lowercell form-control "  type="text" formControlName='size'>
+            </div>
+        
+            <div class="d-flex">
+                <label class="uppercell form-control">Status</label>
+        
+                <select class="lowercell form-control " formControlName='status'>
+                    <option value=""></option>
+                    <option *ngFor="let rl of statusList" [ngValue]="rl.value">{{rl.display}} </option>
+                </select>
+            </div>
+        
+        
+            <div class="d-flex">
+                <label class="uppercell form-control">Description</label>
+                <input class="lowercell form-control "  type="text" formControlName='descr'>
+            </div>
+        
+        </form>
+        
+
+    </mat-card-content>
+    <mat-card-actions></mat-card-actions>
+    <mat-card-footer></mat-card-footer>
+</mat-card>

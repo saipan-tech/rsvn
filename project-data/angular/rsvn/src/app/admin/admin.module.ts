@@ -28,13 +28,16 @@ import { GridSelectComponent } from './grid-select/grid-select.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { ActionManagerComponent } from './action/action-manager/action-manager.component';
 import { CurrentCtrlComponent } from './current-ctrl/current-ctrl.component';
-import { SvcrsvnEditComponent } from './current-ctrl/svcrsvn-edit/svcrsvn-edit.component';
-import { SvcrsvnListComponent } from './current-ctrl/svcrsvn-list/svcrsvn-list.component';
+import { SvcrsvnEditComponent } from './current-ctrl/svcrsvn/svcrsvn-edit/svcrsvn-edit.component';
+import { SvcrsvnListComponent } from './current-ctrl/svcrsvn/svcrsvn-list/svcrsvn-list.component';
 import { CurrentMatrixComponent } from './current-ctrl/current-matrix/current-matrix.component';
 import { RoomstatusComponent } from './current-ctrl/roomstatus/roomstatus.component';
 import { MatSortModule } from '@angular/material/sort';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { RoomchartsComponent } from './current-ctrl/roomcharts/roomcharts.component';
+import { RoomprefComponent } from './current-ctrl/roompref/roompref.component';
+import { RoomprefEditComponent } from './current-ctrl/roompref/roompref-edit/roompref-edit.component';
+import { SvcrsvnComponent } from './current-ctrl/svcrsvn/svcrsvn.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +56,10 @@ import { RoomchartsComponent } from './current-ctrl/roomcharts/roomcharts.compon
     SvcrsvnListComponent,
     CurrentMatrixComponent,
     RoomstatusComponent,
-    RoomchartsComponent
+    RoomchartsComponent,
+    RoomprefComponent,
+    RoomprefEditComponent,
+    SvcrsvnComponent
    
     
   ],

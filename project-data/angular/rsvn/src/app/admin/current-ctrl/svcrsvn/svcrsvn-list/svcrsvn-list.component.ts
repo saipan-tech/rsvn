@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { ICalendar } from '@app/_interface/calendar';
 import { ISvcRsvn } from '@app/_interface/svcrsvn';
-import { SvcrsvnEditComponent } from '../svcrsvn-edit/svcrsvn-edit.component';
+import { SvcrsvnEditComponent } from '@app/admin/current-ctrl/svcrsvn/svcrsvn-edit/svcrsvn-edit.component'
 import { IRoominfo } from '@app/_interface/roominfo';
 
 
