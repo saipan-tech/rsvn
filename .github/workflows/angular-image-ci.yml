@@ -8,7 +8,12 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            -   uses: actions/checkout@v3
+            -   name: Checkout code
+                uses: actions/checkout@v3
+
             -   name: Build Angular image
                 run: docker-compose build angular
 
+            -   name: Run unit tests
+                run: ./node_modules/.bin/ng test
+                working-directory: ./project-data/angular/rsvn
