@@ -32,6 +32,6 @@ jobs:
                 working-directory: ${{ env.working-directory }}
 
             -   name: Test app
-                run: npm test
+                run: npm test:headless
                 working-directory: ${{ env.working-directory }}
 
