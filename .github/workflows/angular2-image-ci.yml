@@ -9,7 +9,7 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-            working-directory: project-data/angular2/rsvn
+            working-directory: project-data/angular2/rsvnterm
         steps:
             -   name: Checkout code
                 uses: actions/checkout@v3
