@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import { Injectable } from '@angular/core';
 
 Injectable()
