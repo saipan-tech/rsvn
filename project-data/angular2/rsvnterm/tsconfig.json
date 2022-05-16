@@ -22,7 +22,6 @@
       "es2020",
       "dom"
     ],
-    "types": ["node"],
     "paths": {
       "@app/*":["src/app/*"]
     }
