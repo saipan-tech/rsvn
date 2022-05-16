@@ -1,7 +1,7 @@
 <mat-card>
     <mat-card-header></mat-card-header>
-    <mat-card-title></mat-card-title>
-    <mat-card-title></mat-card-title>
+    <mat-card-title>{{ currBldg.name }}</mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
     <mat-card-content>
         <form novalidate [formGroup]="roomEditForm">
 
@@ -64,11 +64,24 @@
                 <label class="uppercell form-control">Description</label>
                 <input class="lowercell form-control "  type="text" formControlName='descr'>
             </div>
+            <div class="d-flex">
+                <label class="uppercell form-control">IP Address</label>
+                <input class="lowercell form-control "  type="text" formControlName='ipaddr'>
+            </div>
+            <div class="d-flex">
+                <label class="uppercell form-control">Phone</label>
+                <input class="lowercell form-control "  type="text" formControlName='phone'>
+            </div>
         
         </form>
         
 
     </mat-card-content>
-    <mat-card-actions></mat-card-actions>
+    <mat-card-actions>
+
+        <button mat-button *ngIf="roomEditForm.valid && roomEditForm.value.id > 0" (click)="updateRoom(roomEditForm.value)" >Update</button>
+        <button mat-button *ngIf="roomEditForm.valid && roomEditForm.value.id == 0" (click)="updateRoom(roomEditForm.value)">Create</button>
+        <button mat-button *ngIf="deleteFlag$ | async as delete" (click)="deleteRoom(roomEditForm.value)">Delete</button>
+    </mat-card-actions>
     <mat-card-footer></mat-card-footer>
 </mat-card>

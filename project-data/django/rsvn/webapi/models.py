@@ -127,9 +127,7 @@ class Roominfo (models.Model):
     phone       =  	models.CharField(max_length=20, blank=True)
     ipaddr      =  	models.CharField(max_length=256, blank=True)
     descr       =   models.TextField(blank=True)
-    check       =   models.BooleanField(default=False)
     status      =   models.CharField(max_length=12, default="unknown")
-    marker      =   models.CharField(max_length=24, blank=True)
     def __str__(self) :
         return f"{self.bldg.name} -- {self.number}"
 #---------------------------------------------------------

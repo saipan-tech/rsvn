@@ -1,5 +1,4 @@
 export interface IRoominfo  {
-    info: any;
     id:number;
     bldg: number;
     number: string;
@@ -8,13 +7,11 @@ export interface IRoominfo  {
     beds:string;
     name:string;
     size:string;
-    check:boolean;
     descr:string;
     status:string;
     rateAlias:string;
-    marker:string;
-    border:string;
     phone:string;
     ipaddr:string;
-
 }
+
+
