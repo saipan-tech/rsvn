@@ -8,7 +8,7 @@ jobs:
     build:
         runs-on: ubuntu-latest
         env:
-            working-directory: ./rsvn
+            working-directory: project-data/angular/rsvn
         steps:
             -   name: Checkout code
                 uses: actions/checkout@v3
@@ -24,11 +24,14 @@ jobs:
                     cache-dependency-path: '**/package-lock.json'
 
             -   name: Build deps from package-lock.json
-                run: npm ci
+                run: pwd && ls $(pwd) && npm ci
+                working-directory: ${{ env.working-directory }}
 
             -   name: Build app
                 run: npm run build --if-present
+                working-directory: ${{ env.working-directory }}
 
             -   name: Test app
                 run: npm test
+                working-directory: ${{ env.working-directory }}
 
