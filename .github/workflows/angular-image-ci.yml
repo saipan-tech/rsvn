@@ -24,7 +24,7 @@ jobs:
                     cache-dependency-path: '**/package-lock.json'
 
             -   name: Build deps from package-lock.json
-                run: pwd && ls $(pwd) && npm ci
+                run: npm ci
                 working-directory: ${{ env.working-directory }}
 
             -   name: Build app
