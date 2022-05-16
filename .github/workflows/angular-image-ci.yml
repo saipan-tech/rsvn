@@ -21,6 +21,7 @@ jobs:
                 with:
                     node-version: 17.x
                     cache: 'npm'
+                    cache-dependency-path: '**/package-lock.json'
 
             -   name: Build deps from package-lock.json
                 run: npm ci
@@ -33,3 +34,4 @@ jobs:
             -   name: Test app
                 run: npm test
                 working-directory: ${{ env.working-directory }}
+
