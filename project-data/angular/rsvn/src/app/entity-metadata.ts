@@ -1,4 +1,6 @@
 import { EntityMetadataMap, EntityDataModuleConfig } from '@ngrx/data';
+import { IBldg } from './_interface/bldg';
+import { IRoominfo } from './_interface/roominfo';
 
 const entityMetadata: EntityMetadataMap = {
   Room: {
@@ -13,7 +15,7 @@ const entityMetadata: EntityMetadataMap = {
       optimisticDelete:true,
       optimisticAdd:true,
       optimisticUpdate:true
-    }
+    }    
   },  
   Rsvn: {
     entityDispatcherOptions: {
@@ -50,7 +52,17 @@ const entityMetadata: EntityMetadataMap = {
 
 const pluralNames = { Room:'Room', Rsvn:'Rsvn', Roominfo:'Roominfo',Guest:'Guest',Bldg:'Bldg',Action:'Action' };
 
+export function sortByNumber(a:IRoominfo,b:IRoominfo) {
+  return  a.number.localeCompare(b.number)
+}
+export function sortByBldgName(a:IBldg , b:IBldg) {
+  return  a.name.localeCompare(b.name)
+}
+
+
+
 export const entityConfig: EntityDataModuleConfig = {
   entityMetadata,
   pluralNames
 };
+

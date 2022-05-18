@@ -156,13 +156,13 @@ class Rsvn (models.Model):
 
 #---------------------------------------------------------
 class SvcRsvn (models.Model):
-    roominfo    =   models.ForeignKey(Roominfo,models.CASCADE)
-    status		=	models.CharField(max_length=13, default="New")
+    roominfo    =  	models.CharField(max_length=1024)
+    status		=	models.CharField(max_length=13, default="OOC")
     dateIn		=	models.DateField()
     dateOut		=	models.DateField()
     color       =  	models.CharField(max_length=40, default='black')
     notes		=	models.TextField(blank=True)
-    clerk       =   models.CharField(max_length=80,default="FrontDesk")
+    clerk       =   models.CharField(max_length=80,default="Maintainence")
     created     =   models.DateTimeField(auto_now_add=True)
     modified    =   models.DateTimeField(auto_now=True)
     def num_days (self):

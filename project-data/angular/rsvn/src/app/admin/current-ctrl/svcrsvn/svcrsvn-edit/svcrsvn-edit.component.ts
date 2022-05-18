@@ -8,7 +8,11 @@ import { IDropdown } from '@app/_interface/dropdown';
 import { ISvcRsvn } from '@app/_interface/svcrsvn';
 import { RoomService } from '@app/_services/room.service';
 import { GenericService } from '@app/_services/generic.service';
-import { map } from 'rxjs/operators';
+import { concatMap, map } from 'rxjs/operators';
+import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
+import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
+import { Observable, of } from 'rxjs';
+
 @Component({
   selector: 'app-svcrsvn-edit',
   templateUrl: './svcrsvn-edit.component.html',
@@ -19,21 +23,23 @@ export class SvcrsvnEditComponent implements OnInit {
   constructor(
     private systemService: SystemService,
     private dialogRef: MatDialogRef<SvcrsvnEditComponent>,
-    private xroomService: RoomService,
-    private genericService: GenericService,
+    private roomService: RoomEntityService,
+    private roominfoService: RoominfoEntityService,
     @Inject(MAT_DIALOG_DATA) data: any,
 
   ) {
-    this.currSvcRsvn = data.currSvcRsvn 
+    this.currSvcRsvn = data.currSvcRsvn
 
-   }
 
-  currSvcRsvn:ISvcRsvn
+  }
+  currRoomstring: string = ""
+  currSvcRsvn: ISvcRsvn
   roomStatus: IDropdown[] = [];
   colorList: IDropdown[] = [];
+  collisionClear:boolean  = false
 
   svcrsvnEditForm = new FormGroup({
-    id:new FormControl(''),
+    id: new FormControl(''),
     status: new FormControl(''),
     dateIn: new FormControl('', Validators.required),
     dateOut: new FormControl('', Validators.required),
@@ -46,19 +52,34 @@ export class SvcrsvnEditComponent implements OnInit {
 
   })
 
-  
-  updateSvcRsvn() {
-    let csr = this.svcrsvnEditForm.value
-    this.xroomService.availableRooms(csr.dateIn,csr.dateOut).pipe(
-      map(rmlist => {
-        
+  collisionCheck(dateIn: string, dateOut: string) {
+console.log("coming")
+    return this.roomService.activeRoom$(dateIn, dateOut).pipe(
+      map(rooms => {
+        let rmSet: any = {}
+        rooms.map(rm => {
+          if (!rmSet.hasOwnProperty(rm.roominfo))
+            rmSet[rm.roominfo] = []
+          rmSet[rm.roominfo].push(rm)
+        })
+        return rmSet
       })
     )
+  }
 
-    csr.dateIn = this.fromHTMLDate(csr.dateIn)
-    csr.dateOut = this.fromHTMLDate(csr.dateOut)
-    if(!csr.id) {
-    }
+  updateSvcRsvn() {
+    let csr = this.svcrsvnEditForm.value
+    this.roomService.activeRoom$(csr.dateIn, csr.dateOut).pipe(
+      map(rooms => {
+        let rmSet: any = {}
+        rooms.map(rm => {
+          if (!rmSet.hasOwnProperty(rm.roominfo))
+            rmSet[rm.roominfo] = []
+          rmSet[rm.roominfo].push(rm)
+        })
+        return rmSet
+      })
+    ).subscribe(data=> console.log(data))
   }
 
   deleteSvcRsvn() {
@@ -80,13 +101,14 @@ export class SvcrsvnEditComponent implements OnInit {
     return ndate
   }
   ngOnInit(): void {
-    this.systemService.getDropdownList('roomstatus').subscribe(
+    this.systemService.getDropdownList('svcstatus').subscribe(
       data => this.roomStatus = data
     )
     this.systemService.getDropdownList('color').subscribe(
       data => this.colorList = data
     )
     this.svcrsvnEditForm.patchValue(this.currSvcRsvn)
+
 
   }
 

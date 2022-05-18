@@ -48,7 +48,7 @@ import { DefaultDataServiceConfig, EntityDataModule } from '@ngrx/data';
 import { RouterStateSnapshot } from '@angular/router';
 import { metaReducers, reducers } from './reducers';
 import { AuthGuard } from './auth/auth.guard';
-import { entityConfig } from './entity-metadata';
+import { entityConfig, sortByNumber, sortByBldgName } from './entity-metadata';
 
 import { EntityDataService, EntityDefinitionService, EntityMetadataMap } from '@ngrx/data';
 import { RouterModule, Routes } from '@angular/router';
@@ -60,6 +60,7 @@ import { RoominfoResolver } from '@app/_ngrxServices/roominfo-resolver';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RoomResolver } from '@app/_ngrxServices/room-resolver';
 import { RoomDataService } from '@app/_ngrxServices/room-data.service';
+
 import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
 import { RsvnResolver } from '@app/_ngrxServices/rsvn-resolver';
 import { RsvnDataService } from '@app/_ngrxServices/rsvn-data.service';
@@ -83,11 +84,16 @@ import { MatrixLineComponent } from './matrix/matrix-line/matrix-line.component'
 import { MatrixViewComponent } from './matrix/matrix-view/matrix-view.component';
 
 const entityMetadata: EntityMetadataMap = {
-  Roominfo: {},
+  Roominfo: {
+    sortComparer: sortByNumber
+
+  },
   Room : {},
   Rsvn : {},
   Guest : {},
-  Bldg : {},
+  Bldg : {
+    sortComparer: sortByBldgName
+  },
   Action: {}
 };
 

@@ -38,8 +38,6 @@ export class RoomprefEditComponent implements OnInit {
   ) {
     this.currBldg = data.currBldg
     this.currRoominfo = data.currRoominfo
-
-    console.log(data)
   }
 
 
@@ -71,25 +69,13 @@ export class RoomprefEditComponent implements OnInit {
         roominfo[field] = 0
     }
     if (roominfo.id)
-      this.roominfoService.update(roominfo).subscribe(
-        data => {
-          console.log(data, "update")
-          this.dialogRef.close()
-        }
-
-      )
+      this.roominfoService.update(roominfo)
     else {
       roominfo.bldg = this.currBldg.id
       roominfo.status = 'unknown'
-      this.roominfoService.add(roominfo).subscribe(
-        data => {
-          console.log(data, "create")
-          this.dialogRef.close()
-        }
-      );
-    
-
+     this.roominfoService.add(roominfo)
     }
+    this.dialogRef.close()
 
   }
   deleteRoom(roominfo: any) {
@@ -102,7 +88,10 @@ export class RoomprefEditComponent implements OnInit {
       })
     ).subscribe()
   }
+closeDialog() {
+  this.dialogRef.close()
 
+}
 
   _deleteRoom(roominfo: any) {
     this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {

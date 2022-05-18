@@ -14,13 +14,13 @@ export class RoominfoEntityService extends EntityCollectionServiceBase<IRoominfo
     }
 
 
-    bldgRoominfo$(entities$:Observable<any>) {
+    bldgRoominfo$(entities$: Observable<any>) {
         return entities$.pipe(
             concatMap(result => this.bldgService.entities$.pipe(
                 map(bldg => {
-                    let roominfos:any = []
-                    result.map((res:any) => {
-                        roominfos.push({...res})
+                    let roominfos: any = []
+                    result.map((res: any) => {
+                        roominfos.push({ ...res })
                     })
                     let final: any = []
                     bldg.map(bldg => final.push({
@@ -30,6 +30,18 @@ export class RoominfoEntityService extends EntityCollectionServiceBase<IRoominfo
                     return final
                 })
             ))
+        )
+    }
+    bldgRoominfoList$(roomList: any) {
+        return this.bldgService.entities$.pipe(
+            map(bldg => {
+                let final: any = []
+                bldg.map(bldg => final.push({
+                    bldg,
+                    roominfo: roomList.filter((res: any) => res.bldg == bldg.id)
+                }))
+                return final
+            })
         )
     }
 }
