@@ -24,6 +24,7 @@ export class SvcrsvnEditComponent implements OnInit {
     private systemService: SystemService,
     private dialogRef: MatDialogRef<SvcrsvnEditComponent>,
     private roomService: RoomEntityService,
+    private genericService: GenericService,
     private roominfoService: RoominfoEntityService,
     @Inject(MAT_DIALOG_DATA) data: any,
 
@@ -36,7 +37,10 @@ export class SvcrsvnEditComponent implements OnInit {
   currSvcRsvn: ISvcRsvn
   roomStatus: IDropdown[] = [];
   colorList: IDropdown[] = [];
-  collisionClear:boolean  = false
+  collisionClear: boolean = false
+  dateSet: boolean = false
+  currRoominfos: string = ""
+  colCheck$:Observable<any> = of()
 
   svcrsvnEditForm = new FormGroup({
     id: new FormControl(''),
@@ -51,10 +55,16 @@ export class SvcrsvnEditComponent implements OnInit {
 
 
   })
-
-  collisionCheck(dateIn: string, dateOut: string) {
-console.log("coming")
-    return this.roomService.activeRoom$(dateIn, dateOut).pipe(
+//---------------------------------
+changeString(newString:string) {
+console.log(newString)
+this.currRoominfos = newString
+this.currSvcRsvn.roominfos = newString
+}
+//---------------------------------
+collisionCheck(dateIn: string, dateOut: string) {
+  console.log("boom")  
+  this.colCheck$ =  this.roomService.activeRoom$(dateIn, dateOut).pipe(
       map(rooms => {
         let rmSet: any = {}
         rooms.map(rm => {
@@ -67,24 +77,16 @@ console.log("coming")
     )
   }
 
+  //---------------------------------
   updateSvcRsvn() {
-    let csr = this.svcrsvnEditForm.value
-    this.roomService.activeRoom$(csr.dateIn, csr.dateOut).pipe(
-      map(rooms => {
-        let rmSet: any = {}
-        rooms.map(rm => {
-          if (!rmSet.hasOwnProperty(rm.roominfo))
-            rmSet[rm.roominfo] = []
-          rmSet[rm.roominfo].push(rm)
-        })
-        return rmSet
-      })
-    ).subscribe(data=> console.log(data))
+    this.genericService.updateItem('svcrsvn',this.currSvcRsvn).subscribe()
   }
 
+  //---------------------------------
   deleteSvcRsvn() {
 
   }
+  //---------------------------------
   close() {
     this.dialogRef.close()
   }
@@ -108,7 +110,21 @@ console.log("coming")
       data => this.colorList = data
     )
     this.svcrsvnEditForm.patchValue(this.currSvcRsvn)
+    if(this.currSvcRsvn && this.currSvcRsvn.id) {
+      this.dateSet = true
+      this.currRoomstring = this.currSvcRsvn.roominfos
+    }
 
+    this.svcrsvnEditForm.valueChanges.subscribe(
+      data => {
+        if (data.dateIn && data.dateOut) { 
+          this.dateSet = true
+          data.roominfos = this.currRoominfos
+          this.currSvcRsvn = data
+        }
+        else this.dateSet = false
+      }
+    )
 
   }
 

@@ -1,3 +1,11 @@
 <p>svcrsvn-list works!</p>
 
 <button (click)='openDialog(currSvcRsvn)'>Open Edit Dialog</button>
+
+<div class="row" *ngFor="let svc of svcList$ | async">
+
+    <div class="col ">{{ svc.dateIn }}</div>
+    <div class="col">{{ svc.dateOut }}</div>
+    <div class="col">{{ svc.status }}</div>
+    <div class="col active" (click)="editSvcrsvn(svc)">{{ svc.roominfos }}</div>
+</div>

@@ -4,6 +4,8 @@ import { ICalendar } from '@app/_interface/calendar';
 import { ISvcRsvn } from '@app/_interface/svcrsvn';
 import { SvcrsvnEditComponent } from '@app/admin/current-ctrl/svcrsvn/svcrsvn-edit/svcrsvn-edit.component'
 import { IRoominfo } from '@app/_interface/roominfo';
+import { GenericService } from '@app/_services/generic.service';
+import { Observable, of } from 'rxjs';
 
 
 @Component({
@@ -14,11 +16,13 @@ import { IRoominfo } from '@app/_interface/roominfo';
 export class SvcrsvnListComponent implements OnInit {
 
   constructor(
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private genericService: GenericService
 
   ) { }
 
     currSvcRsvn:ISvcRsvn = {} as ISvcRsvn
+    svcList$:Observable<ISvcRsvn[]> = of([])    
 
     @Input() currRoominfo:IRoominfo = {} as IRoominfo
     
@@ -41,10 +45,17 @@ export class SvcrsvnListComponent implements OnInit {
         }
       )
   }
-
+  editSvcrsvn(svc:ISvcRsvn) {
+    this.currSvcRsvn = svc
+    this.openDialog(svc)
+  }
+  reload() {
+    this.svcList$ =  this.genericService.getItemList('svcrsvn')
+  }
 
 
   ngOnInit(): void {
+    this.reload()
   }
 
 }

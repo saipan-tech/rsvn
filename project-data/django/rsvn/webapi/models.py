@@ -156,7 +156,7 @@ class Rsvn (models.Model):
 
 #---------------------------------------------------------
 class SvcRsvn (models.Model):
-    roominfo    =  	models.CharField(max_length=1024)
+    roominfos   =  	models.CharField(max_length=1024)
     status		=	models.CharField(max_length=13, default="OOC")
     dateIn		=	models.DateField()
     dateOut		=	models.DateField()
