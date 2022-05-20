@@ -12,6 +12,7 @@ import { concatMap, map } from 'rxjs/operators';
 import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
 import { Observable, of } from 'rxjs';
+import { TransitionCheckState } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-svcrsvn-edit',
@@ -30,24 +31,27 @@ export class SvcrsvnEditComponent implements OnInit {
 
   ) {
     this.currSvcRsvn = data.currSvcRsvn
+    this.currRoominfos = data.currSvcRsvn.roominfos
 
 
   }
-  currRoomstring: string = ""
   currSvcRsvn: ISvcRsvn
   roomStatus: IDropdown[] = [];
   colorList: IDropdown[] = [];
   collisionClear: boolean = false
   dateSet: boolean = false
   currRoominfos: string = ""
-  colCheck$:Observable<any> = of()
+  activeCheck$: Observable<any> = of()
+  warnString$: Observable<any> = of()
+  warnString:string = ''
+
+
 
   svcrsvnEditForm = new FormGroup({
     id: new FormControl(''),
     status: new FormControl(''),
     dateIn: new FormControl('', Validators.required),
     dateOut: new FormControl('', Validators.required),
-    color: new FormControl('', Validators.required),
     notes: new FormControl('', Validators.required),
     clerk: new FormControl({ value: '', disabled: true }),
     created: new FormControl({ value: '', disabled: true }),
@@ -55,16 +59,18 @@ export class SvcrsvnEditComponent implements OnInit {
 
 
   })
-//---------------------------------
-changeString(newString:string) {
-console.log(newString)
-this.currRoominfos = newString
-this.currSvcRsvn.roominfos = newString
-}
-//---------------------------------
-collisionCheck(dateIn: string, dateOut: string) {
-  console.log("boom")  
-  this.colCheck$ =  this.roomService.activeRoom$(dateIn, dateOut).pipe(
+  //---------------------------------
+  changeString(newString: string) {
+    this.currSvcRsvn.roominfos = newString
+    this.currRoominfos = newString
+  }
+  //---------------------------------
+
+
+
+  reload() {
+
+    this.activeCheck$ = this.roomService.activeRoom$(this.currSvcRsvn.dateIn, this.currSvcRsvn.dateOut).pipe(
       map(rooms => {
         let rmSet: any = {}
         rooms.map(rm => {
@@ -73,13 +79,22 @@ collisionCheck(dateIn: string, dateOut: string) {
           rmSet[rm.roominfo].push(rm)
         })
         return rmSet
-      })
-    )
+      }),
+     )
+
+     this.warnString$ = this.activeCheck$.pipe(
+       map(warn => {
+         console.log(warn)
+        return Object.keys(warn).join()
+       })
+     )
   }
 
+
+ 
   //---------------------------------
   updateSvcRsvn() {
-    this.genericService.updateItem('svcrsvn',this.currSvcRsvn).subscribe()
+    this.genericService.updateItem('svcrsvn', this.currSvcRsvn).subscribe()
   }
 
   //---------------------------------
@@ -102,6 +117,7 @@ collisionCheck(dateIn: string, dateOut: string) {
     let ndate = new Date(`${date}`).toISOString().slice(0, 10)
     return ndate
   }
+  //---------------------------------
   ngOnInit(): void {
     this.systemService.getDropdownList('svcstatus').subscribe(
       data => this.roomStatus = data
@@ -110,17 +126,20 @@ collisionCheck(dateIn: string, dateOut: string) {
       data => this.colorList = data
     )
     this.svcrsvnEditForm.patchValue(this.currSvcRsvn)
-    if(this.currSvcRsvn && this.currSvcRsvn.id) {
+    
+    
+    if (this.currSvcRsvn && this.currSvcRsvn.id) {
       this.dateSet = true
-      this.currRoomstring = this.currSvcRsvn.roominfos
     }
-
+    this.reload()
     this.svcrsvnEditForm.valueChanges.subscribe(
       data => {
-        if (data.dateIn && data.dateOut) { 
+        if (data.dateIn && data.dateOut) {
           this.dateSet = true
-          data.roominfos = this.currRoominfos
           this.currSvcRsvn = data
+          this.currSvcRsvn.roominfos = this.currRoominfos
+
+          this.reload()
         }
         else this.dateSet = false
       }

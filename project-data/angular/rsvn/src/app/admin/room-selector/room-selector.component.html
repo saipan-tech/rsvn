@@ -4,7 +4,7 @@
             <h5>{{ bld.bldg.name }}</h5>
             <div class="d-flex flex-wrap">
                 <div *ngFor='let room of bld.roominfo '>
-                    <button [ngClass]="{'check':room.check,'rabuttons':!room.check }"    
+                    <button [ngClass]="{'check':room.check,'rabuttons':!room.check,'warn':room.warn }"    
                             (click)="setRoom(room.id)">{{ room.number }}</button>
                 </div>
             </div>

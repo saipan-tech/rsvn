@@ -1,7 +1,7 @@
 <mat-card class="mat-elevation-z8">
     <mat-card-title>Service Reservation Editor</mat-card-title>
     <mat-card-content>
-        {{ currSvcRsvn | json }} {{ currRoomstring }}
+        {{ currSvcRsvn | json }} 
         <div class="row">
             <div class="col">
                 <div>
@@ -19,8 +19,6 @@
                                     </select>
                                 </div>
 
-
-
                                 <div class="d-flex">
                                     <label class="uppercell form-control">Date In<abbr class="req"
                                             title="Required">*</abbr></label>
@@ -30,18 +28,6 @@
                                     <label class="uppercell form-control">Date Out<abbr class="req"
                                             title="Required">*</abbr></label>
                                     <input class="lowercell form-control" type="date" formControlName='dateOut'>
-                                </div>
-                                <div class="d-flex">
-                                    <label class="uppercell form-control">Color<abbr class="req"
-                                            title="Required">*</abbr></label>
-                                    <select class="form-control lowercell"
-                                        [ngStyle]="{'background-color':svcrsvnEditForm.value.color}"
-                                        formControlName='color'>
-                                        <option value=""></option>
-                                        <option [ngStyle]="{'background-color':c.value}" *ngFor="let c of colorList"
-                                            [ngValue]="c.value">
-                                            {{c.display}} </option>
-                                    </select>
                                 </div>
                                 <div class="d-flex">
                                     <label class="uppercell form-control">Notes<abbr class="req"
@@ -68,7 +54,8 @@
                 </div>
             </div>
             <div *ngIf="dateSet" class="col">
-                <app-room-selector [roomString]="currRoomstring" (roomStringChange)="changeString($event)"></app-room-selector>
+                <app-room-selector [warnString]="warnString$ | async" [(roomString)]="currRoominfos" (refreshString)="changeString($event)">
+                </app-room-selector>
             </div>
             <div *ngIf="dateSet" class="col">
                 <mat-card>
@@ -76,12 +63,10 @@
                         Conflict Detection
                     </mat-card-title>
                     <mat-card-content>
-                        List conflicting rooms and possible swap rooms. 
-                        Ability to swap rooms  here.
+                        List conflicting rooms and possible swap rooms.
+                        Ability to swap rooms here.
                         maybe create a conflict swap component??
-                        <div *ngIf="colCheck$ | async as cc ">
-                            {{ cc | json }}
-                        </div>
+                       
 
                     </mat-card-content>
                 </mat-card>
@@ -90,7 +75,6 @@
 
     </mat-card-content>
     <mat-card-actions>
-        <button mat-button *ngIf="dateSet" (click)="collisionCheck(currSvcRsvn.dateIn,currSvcRsvn.dateOut)" style="background-color:teal" >Run Collision Check </button>
         <button mat-button *ngIf="svcrsvnEditForm.valid" (click)='updateSvcRsvn()'>
             <mat-icon>save</mat-icon>
         </button>

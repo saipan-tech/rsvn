@@ -4,7 +4,6 @@ export interface ISvcRsvn {
   status:string;
   dateIn:string;
   dateOut:string;
-  color:string;
   notes:Text;
   clerk:string;
   created:string;

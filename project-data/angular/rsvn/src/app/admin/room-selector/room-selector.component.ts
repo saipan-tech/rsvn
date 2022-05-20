@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
 import { concatMap, map, tap } from 'rxjs/operators';
 import { IRoominfo } from '@app/_interface/roominfo';
@@ -9,10 +9,13 @@ import { Observable, of } from 'rxjs';
   templateUrl: './room-selector.component.html',
   styleUrls: ['./room-selector.component.scss']
 })
-export class RoomSelectorComponent implements OnInit {
+export class RoomSelectorComponent implements OnInit,OnChanges {
   
   @Input() roomString:string = ''
+  @Input() warnString:string = ''
   @Output() roomStringChange = new EventEmitter<string>()
+  @Output() refreshString = new EventEmitter<string>()
+  
   roomList$: Observable<any> = of()
   
   constructor(
@@ -37,6 +40,7 @@ export class RoomSelectorComponent implements OnInit {
 
     this.roomString =  result
     this.roomStringChange.emit(result)
+    this.refreshString.emit(result)
     
     this.reload()
   }
@@ -47,12 +51,20 @@ reload() {
     map((roominfo) => {
       
       let actrooms:any = []
+      let warnrooms:any = []
       if( this.roomString && this.roomString.length) {
         actrooms = this.roomString.split(',')
       }
+      if( this.warnString && this.warnString.length) {
+        warnrooms = this.warnString.split(',')
+      }
+      
       let result: any = []
       roominfo.map((ri: IRoominfo) => {
-        result.push({ ...ri, check: actrooms.find((a: any) => a == ri.id) })
+        result.push({ ...ri, 
+          check: actrooms.find((a: any) => a == ri.id),
+          warn:warnrooms.find((a: any) => a == ri.id) 
+        })
 
       })
       return result
@@ -63,7 +75,9 @@ reload() {
 }
   // -------------------------------------------
 
-
+ngOnChanges(changes: SimpleChanges): void {
+  this.reload()
+}
 
   ngOnInit(): void {
 
