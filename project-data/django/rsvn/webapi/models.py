@@ -161,7 +161,7 @@ class SvcRsvn (models.Model):
     dateIn		=	models.DateField()
     dateOut		=	models.DateField()
     notes		=	models.TextField(blank=True)
-    clerk       =   models.CharField(max_length=80,default="Maintainence")
+    clerk       =   models.CharField(max_length=80,default="Maintenance")
     created     =   models.DateTimeField(auto_now_add=True)
     modified    =   models.DateTimeField(auto_now=True)
     def num_days (self):

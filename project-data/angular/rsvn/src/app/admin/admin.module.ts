@@ -40,6 +40,7 @@ import { RoomprefEditComponent } from './current-ctrl/roompref/roompref-edit/roo
 import { SvcrsvnComponent } from './current-ctrl/svcrsvn/svcrsvn.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { RoomSelectorComponent } from './room-selector/room-selector.component';
+import { RoomCollisionComponent } from './room-collision/room-collision.component';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { RoomSelectorComponent } from './room-selector/room-selector.component';
     RoomprefComponent,
     RoomprefEditComponent,
     SvcrsvnComponent,
-    RoomSelectorComponent
+    RoomSelectorComponent,
+    RoomCollisionComponent
    
     
   ],

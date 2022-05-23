@@ -13,6 +13,9 @@ import { RoomEntityService } from '@app/_ngrxServices/room-entity.service';
 import { RoominfoEntityService } from '@app/_ngrxServices/roominfo-entity.service';
 import { Observable, of } from 'rxjs';
 import { TransitionCheckState } from '@angular/material/checkbox';
+import { DialogManagerService } from '@app/shared/dialog';
+import { DangerDialogComponent } from '@app/shared/dialog';
+import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
 
 @Component({
   selector: 'app-svcrsvn-edit',
@@ -25,13 +28,17 @@ export class SvcrsvnEditComponent implements OnInit {
     private systemService: SystemService,
     private dialogRef: MatDialogRef<SvcrsvnEditComponent>,
     private roomService: RoomEntityService,
+    private rsvnService: RsvnEntityService,
     private genericService: GenericService,
     private roominfoService: RoominfoEntityService,
     @Inject(MAT_DIALOG_DATA) data: any,
+    private dialogManagerService: DialogManagerService
+
 
   ) {
     this.currSvcRsvn = data.currSvcRsvn
-    this.currRoominfos = data.currSvcRsvn.roominfos
+    if (this.currSvcRsvn && this.currSvcRsvn.roominfos)
+      this.currRoominfos = data.currSvcRsvn.roominfos
 
 
   }
@@ -43,7 +50,8 @@ export class SvcrsvnEditComponent implements OnInit {
   currRoominfos: string = ""
   activeCheck$: Observable<any> = of()
   warnString$: Observable<any> = of()
-  warnString:string = ''
+  collRooms$: Observable<any> = of()
+  collRsvns$: Observable<any> = of()
 
 
 
@@ -63,44 +71,116 @@ export class SvcrsvnEditComponent implements OnInit {
   changeString(newString: string) {
     this.currSvcRsvn.roominfos = newString
     this.currRoominfos = newString
+    this.reload()
   }
   //---------------------------------
-
-
-
   reload() {
+    if (this.dateSet) {
+      //---------------------------------
+      //---------------------------------
+      this.collRooms$ = this.roomService.activeRoom$(this.currSvcRsvn.dateIn, this.currSvcRsvn.dateOut).pipe(
+        concatMap(rooms => this.roominfoService.entities$.pipe(
+          map(roominfos => {
+            let selRoom: any[] = this.currRoominfos.split(',')
+            let colls: any = {}
+            selRoom.forEach(sr => {
+              let sel = rooms.filter(rm => rm.roominfo == sr)
+              if (sel.length)
+                colls[sr] = sel
+            })
+              return colls
+          })
+        ))
+      )
 
-    this.activeCheck$ = this.roomService.activeRoom$(this.currSvcRsvn.dateIn, this.currSvcRsvn.dateOut).pipe(
-      map(rooms => {
-        let rmSet: any = {}
-        rooms.map(rm => {
-          if (!rmSet.hasOwnProperty(rm.roominfo))
-            rmSet[rm.roominfo] = []
-          rmSet[rm.roominfo].push(rm)
+      this.warnString$ = this.collRooms$.pipe(
+        map(warn => {
+          return Object.keys(warn).join()
         })
-        return rmSet
-      }),
-     )
+      )
 
-     this.warnString$ = this.activeCheck$.pipe(
-       map(warn => {
-         console.log(warn)
-        return Object.keys(warn).join()
-       })
-     )
+      let findRsvn$ = this.collRooms$.pipe(
+        map(rooms => {
+          let rsvnSet = new Set()
+
+          Object.keys(rooms).forEach(
+            kys => {
+              rooms[kys].forEach((rms: any) => {
+                rsvnSet.add(rms.rsvn)
+
+              })
+
+            })
+          return rsvnSet
+        })
+      )
+      // now we break down collision rooms 
+
+      this.collRsvns$ = findRsvn$.pipe(
+        concatMap(crsvns => this.roomService.entities$.pipe(
+          concatMap(rooms => this.rsvnService.entities$.pipe(
+            concatMap(rsvns => this.roominfoService.entities$.pipe(
+              concatMap(roominfos => this.collRooms$.pipe(
+                map(collRooms => {
+                  let result: any = []
+                  rsvns.forEach((rvn: any) => {
+                    if (crsvns.has(rvn.id)) {
+                  
+                      let rms = rooms.filter(rf => rf.rsvn == rvn.id)
+                      let rvObj: any = { rsvn: rvn, rooms: [] }
+                      // rooms will have room and roominfo together per push 
+                      rms.map(r => {
+                        let robj = { room: r, roominfo: roominfos.find(rf => rf.id == r.roominfo), collision: false }
+                        if (collRooms.hasOwnProperty(r.roominfo)) {
+                          robj.collision = true
+                        }
+
+                        rvObj.rooms.push(robj)
+                      })
+                      result.push(rvObj)
+                    }
+                  })
+                  console.log(result)
+                  return result
+                })
+              ))
+            ))
+          ))
+        ))
+      )
+
+
+
+      //---------------------------------
+    }
+
+
   }
 
 
- 
   //---------------------------------
   updateSvcRsvn() {
     this.genericService.updateItem('svcrsvn', this.currSvcRsvn).subscribe()
+    this.close()
   }
 
   //---------------------------------
   deleteSvcRsvn() {
+    this.dialogManagerService.openDialog<DangerDialogComponent>(DangerDialogComponent, {
+      data: {
+        title: `Delete Service Reservation ${this.currSvcRsvn.notes} ${this.currSvcRsvn.dateIn}-${this.currSvcRsvn.dateOut} `,
+        content: 'You cannot undue this action',
+        confirmAction: 'Delete',
+      }
+    }).afterClosed().subscribe(deleteConfirmed => {
+      if (deleteConfirmed) {
+        this.genericService.deleteItem('svcrsvn', this.currSvcRsvn).subscribe()
+        this.close()
+      }
 
+    })
   }
+
   //---------------------------------
   close() {
     this.dialogRef.close()
@@ -126,8 +206,8 @@ export class SvcrsvnEditComponent implements OnInit {
       data => this.colorList = data
     )
     this.svcrsvnEditForm.patchValue(this.currSvcRsvn)
-    
-    
+
+
     if (this.currSvcRsvn && this.currSvcRsvn.id) {
       this.dateSet = true
     }

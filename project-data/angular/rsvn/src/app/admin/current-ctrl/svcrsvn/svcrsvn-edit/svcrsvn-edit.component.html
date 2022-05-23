@@ -63,10 +63,10 @@
                         Conflict Detection
                     </mat-card-title>
                     <mat-card-content>
-                        List conflicting rooms and possible swap rooms.
-                        Ability to swap rooms here.
-                        maybe create a conflict swap component??
-                       
+                  
+                       <app-room-collision [collList]="collRsvns$ | async"></app-room-collision>
+              
+                        
 
                     </mat-card-content>
                 </mat-card>
