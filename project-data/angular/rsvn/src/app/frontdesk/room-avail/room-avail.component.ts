@@ -108,7 +108,7 @@ export class RoomAvailComponent implements OnInit, OnChanges {
         concatMap((room:any)  => this.chargeService.synchRoomcharge(room.id).pipe(
           map((t) => console.log(t,room))
         ))
-        ).subscribe(data => console.log("RETRUN",data))
+        ).subscribe(data => console.log("RETURN",data))
     }
 
   }

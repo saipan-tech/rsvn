@@ -16,6 +16,8 @@ import { TransitionCheckState } from '@angular/material/checkbox';
 import { DialogManagerService } from '@app/shared/dialog';
 import { DangerDialogComponent } from '@app/shared/dialog';
 import { RsvnEntityService } from '@app/_ngrxServices/rsvn-entity.service';
+import { BldgEntityService } from '@app/_ngrxServices/bldg-entity.service';
+import { IRoominfo } from '@app/_interface/roominfo';
 
 @Component({
   selector: 'app-svcrsvn-edit',
@@ -31,6 +33,7 @@ export class SvcrsvnEditComponent implements OnInit {
     private rsvnService: RsvnEntityService,
     private genericService: GenericService,
     private roominfoService: RoominfoEntityService,
+    private bldgService: BldgEntityService,
     @Inject(MAT_DIALOG_DATA) data: any,
     private dialogManagerService: DialogManagerService
 
@@ -88,14 +91,16 @@ export class SvcrsvnEditComponent implements OnInit {
               if (sel.length)
                 colls[sr] = sel
             })
-              return colls
+            return colls
           })
         ))
       )
 
-      this.warnString$ = this.collRooms$.pipe(
+      this.warnString$ = this.roomService.activeRoom$(this.currSvcRsvn.dateIn, this.currSvcRsvn.dateOut).pipe(
         map(warn => {
-          return Object.keys(warn).join()
+          let warnString: any = []
+          warn.forEach(w => warnString.push(w.roominfo))
+          return warnString.join()
         })
       )
 
@@ -114,50 +119,58 @@ export class SvcrsvnEditComponent implements OnInit {
           return rsvnSet
         })
       )
-      // now we break down collision rooms 
 
-      this.collRsvns$ = findRsvn$.pipe(
-        concatMap(crsvns => this.roomService.entities$.pipe(
-          concatMap(rooms => this.rsvnService.entities$.pipe(
-            concatMap(rsvns => this.roominfoService.entities$.pipe(
-              concatMap(roominfos => this.collRooms$.pipe(
-                map(collRooms => {
-                  let result: any = []
-                  rsvns.forEach((rvn: any) => {
-                    if (crsvns.has(rvn.id)) {
-                  
-                      let rms = rooms.filter(rf => rf.rsvn == rvn.id)
-                      let rvObj: any = { rsvn: rvn, rooms: [] }
-                      // rooms will have room and roominfo together per push 
-                      rms.map(r => {
-                        let robj = { room: r, roominfo: roominfos.find(rf => rf.id == r.roominfo), collision: false }
-                        if (collRooms.hasOwnProperty(r.roominfo)) {
-                          robj.collision = true
-                        }
+      let availables = findRsvn$.pipe(
+        map( rsvn => 
+{
 
-                        rvObj.rooms.push(robj)
-                      })
-                      result.push(rvObj)
-                    }
-                  })
-                  console.log(result)
-                  return result
-                })
-              ))
-            ))
-          ))
-        ))
+          })
       )
 
 
 
-      //---------------------------------
-    }
 
+      // now we break down collision rooms 
+      this.collRsvns$ = this.bldgService.entities$.pipe(
+        concatMap(bldg => findRsvn$.pipe(
+          concatMap(crsvns => this.roomService.entities$.pipe(
+            concatMap(rooms => this.rsvnService.entities$.pipe(
+              concatMap(rsvns => this.roominfoService.entities$.pipe(
+                concatMap(roominfos => this.collRooms$.pipe(
+                  map(collRooms => {
+                    let result: any = []
+                    rsvns.forEach((rvn: any) => {
+                      if (crsvns.has(rvn.id)) {
 
+                        let rms = rooms.filter(rf => rf.rsvn == rvn.id)
+                        let rvObj: any = { rsvn: rvn, rooms: [] }
+                        // rooms will have room and roominfo together per push 
+                        rms.map(r => {
+                          let ri:any  = roominfos.find(rf => rf.id == r.roominfo)
+                          let robj = { 
+                            room: r, 
+                            roominfo: ri, 
+                            bldg: bldg.find(b=> b.id == ri.bldg),
+                            collision: false }
+                          if (collRooms.hasOwnProperty(r.roominfo)) {
+                            robj.collision = true
+                          }
+
+                          rvObj.rooms.push(robj)
+                        })
+                        result.push(rvObj)
+                      }
+                    })
+                    console.log(result)
+                    return result
+                  })
+                ))
+              ))
+            ))
+          ))
+        ))
+      )}
   }
-
-
   //---------------------------------
   updateSvcRsvn() {
     this.genericService.updateItem('svcrsvn', this.currSvcRsvn).subscribe()
@@ -180,7 +193,6 @@ export class SvcrsvnEditComponent implements OnInit {
 
     })
   }
-
   //---------------------------------
   close() {
     this.dialogRef.close()
