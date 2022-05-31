@@ -33,6 +33,7 @@ export class SvcrsvnListComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.panelClass = [];
     dialogConfig.minWidth = '25%';
+    dialogConfig.width='90%';
     dialogConfig.data = {
       currSvcRsvn: currSvcRsvn
     }

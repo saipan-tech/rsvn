@@ -1,47 +1,56 @@
-<p>room-collision works!</p>
+<div class="row">
 
-<div *ngIf="currRsvn" style='height:250px;overflow-y:scroll'>
-    Checking Reservation {{ currRsvn.confirm}}
-    <div *ngIf="rsvnScan | async as scan ">
-        {{ scan.rate}}
-      <h5>Lateral Move <strong>{{scan.rate}}</strong></h5>
-      <div *ngFor=" let exc of scan.exchange">
-        <p>{{ exc.bldg }}</p>
-        <button mat-button *ngFor=" let ri of exc.roominfos">
-            {{ ri.number}}
-        </button>
-       </div>
-      <h5>New Rate</h5>
-      <div *ngFor=" let newr of scan.newRate">
-        <p>{{ newr.bldg }}</p>
-        <div *ngFor="let rate of newr.rateList">
-            {{ rate.rate }}
-            <button mat-button *ngFor="let rii of rate.roominfos">
-                {{ rii.number}}
-            </button>
-        </div>
+    <div class="col" style='height:550px; overflow-y:auto'>
 
-    </div>
+        <div *ngFor="let x of collList">
+            {{x.rsvn.confirm}}
+            <div class="d-flex flex-wrap">
+                <button *ngFor="let r of x.rooms" [ngClass]="{'warning':r.collision,roombutt:true}"
+                    (click)="checkRsvn(r)">{{r.bldg.name }} {{ r.roominfo.number
+                    }}</button>
 
-    </div>
-</div>
-
-<div *ngIf="currRsvn" style='height:400px;overflow-y:scroll'>
-
-    <div *ngFor="let x of collList">
-        {{x.rsvn.confirm}}
-        <div class="d-flex flex-wrap">
-
-
-            <div *ngFor="let r of x.rooms">
-                <button mat-button [ngClass]="{'warning':r.collision}"
-                    (click)="checkRsvn(r.room.rsvn,r.roominfo.rateAlias)">{{
-                    r.bldg.name }} {{ r.roominfo.number }} {{ r.roominfo.rateAlias }}</button>
             </div>
         </div>
     </div>
-</div>
 
+
+    <div class="col" style='height:550px; overflow-y:auto'>
+        <div *ngIf="rsvnScan | async as scan ">
+            <mat-card>
+                <mat-card-title>Swap </mat-card-title>
+                    <mat-card-subtitle>{{ scan.bldg.name}} {{ scan.roominfo.number }} - {{scan.rate}}</mat-card-subtitle>
+                <mat-card-content>
+                    <div *ngFor=" let exc of scan.exchange" class="row">
+                        <div class="col-3"><strong>{{ exc.bldg }}</strong></div>
+                        <div class="col d-flex flex-wrap">
+                            <button class="clearbutt"  (click)="swapRoom(ri)" *ngFor="let ri of exc.roominfos">
+                                {{ ri.number}}
+                            </button>
+
+                        </div>
+                    </div>
+                    <hr>
+                </mat-card-content>
+                <mat-card-title>Other Rates Available</mat-card-title>
+                <mat-card-content>
+                    <div *ngFor=" let newr of scan.newRate">
+                        <strong>{{ newr.bldg }}</strong>
+                        <div *ngFor="let rate of newr.rateList" class="row">
+                            <div class="col-3">{{ rate.rate }}</div>
+                            <div class="col d-flex flex-wrap">
+                                <button class="clearbutt" (click)="swapRoom(ri)"  *ngFor="let ri of rate.roominfos">
+                                    {{ ri.number}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </mat-card-content>
+
+            </mat-card>
+        </div>
+    </div>
+</div>
 
 <!--
 

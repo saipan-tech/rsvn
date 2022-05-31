@@ -1,9 +1,9 @@
 <mat-card class="mat-elevation-z8">
-    <mat-card-title>Service Reservation Editor</mat-card-title>
+    <mat-card-title></mat-card-title>
     <mat-card-content>
-        {{ currSvcRsvn | json }} 
         <div class="row">
-            <div class="col">
+            <div class="col-4">
+                <section>Service Reservation Editor</section>
                 <div>
                     <form novalidate [formGroup]="svcrsvnEditForm">
                         <div class="d-flex">
@@ -52,24 +52,17 @@
 
                     </form>
                 </div>
+                <div *ngIf="dateSet">
+                    <app-room-selector [warnString]="warnString$ | async" [(roomString)]="currRoominfos"
+                        (refreshString)="changeString($event)">
+                    </app-room-selector>
+                </div>
             </div>
-            <div *ngIf="dateSet" class="col">
-                <app-room-selector [warnString]="warnString$ | async" [(roomString)]="currRoominfos" (refreshString)="changeString($event)">
-                </app-room-selector>
-            </div>
-            <div *ngIf="dateSet" class="col">
-                <mat-card>
-                    <mat-card-title>
-                        Conflict Detection
-                    </mat-card-title>
-                    <mat-card-content>
-                  
-                       <app-room-collision [collList]="collRsvns$ | async" [currRoominfos]="currRoominfos" ></app-room-collision>
-              
-                        
 
-                    </mat-card-content>
-                </mat-card>
+            <div *ngIf="dateSet" class="col">
+                <section>Room Conflict Manager</section>
+                <app-room-collision (listChange)="updateList()" [collList]="collRsvns$ | async" [currRoominfos]="currRoominfos">
+                </app-room-collision>
             </div>
         </div>
 

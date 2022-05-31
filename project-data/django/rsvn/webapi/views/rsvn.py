@@ -73,7 +73,9 @@ class RsvnViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(
                 Q(primary__lastname__icontains=self.request.GET['query']) |
                 Q(primary__middlename__icontains=self.request.GET['query']) |
-                Q(primary__firstname__icontains=self.request.GET['query']))
+                Q(primary__firstname__icontains=self.request.GET['query']) |
+                Q(confirm__icontains=self.request.GET['query'])
+                )
 
 
         if "guest" in self.request.GET:

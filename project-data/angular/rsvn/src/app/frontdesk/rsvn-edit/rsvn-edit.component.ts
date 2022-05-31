@@ -12,6 +12,7 @@ import { DangerDialogComponent, DialogManagerService } from "@app/shared/dialog"
 import { combineLatest, concat } from 'rxjs';
 import { concatAll, concatMap, map, switchMap, tap } from 'rxjs/operators';
 import { GenericService } from '@app/_services/generic.service';
+import { ChargeService } from '@app/_services/charge.service';
 
 @Component({
   selector: 'app-rsvn-edit',
@@ -27,6 +28,7 @@ export class RsvnEditComponent implements OnInit, OnChanges {
     private oldRsvnService: RsvnService,
     private rsvnService: RsvnEntityService,
     private roomService: RoomEntityService,
+    private chargeService: ChargeService,
     private genericService: GenericService,
     private dialogManagerService: DialogManagerService,
   ) { }
@@ -162,14 +164,27 @@ export class RsvnEditComponent implements OnInit, OnChanges {
           if (!dd.result.length) {
 
 
-            this.rsvnService.update(rvn)
+            this.rsvnService.update(rvn).pipe(
+              concatMap(rsvn => this.roomService.rsvnRooms$(rsvn.id).pipe(
+                map(rooms => {
+                  let roomSyncs$:any = []
+                  rooms.forEach((rms:any) => {
+                    roomSyncs$.push(this.chargeService.synchRoomcharge(rms.id))
+                  })
+                  return roomSyncs$
+                }),
+                concatMap(rs => concat(...rs))
+              
+                ))
+
+              )
               .subscribe(d => {
 
                 // AFTER UPDATE WE HAVE TO ADJUST ROOM ASSIGNMENTS AND ROOM CHARGES 
 
                 this.roomService.load()
-                this.currRsvn = d
-                this.currRsvnChange.emit(d)
+                this.currRsvn = rvn
+                this.currRsvnChange.emit(rvn)
               })
           }
           else {

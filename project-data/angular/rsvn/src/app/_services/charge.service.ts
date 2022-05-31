@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, tap, map, concatMap } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
+import { concat, Observable, throwError } from 'rxjs';
 import { AppEnv } from '@app/_helpers/appenv';
 import { IRsvn } from '@app/_interface/rsvn';
 import { ICharge } from '@app/_interface/charge';
@@ -28,7 +28,7 @@ export class ChargeService {
     private systemService: SystemService,
     private bldgService: BldgEntityService,
     private roominfoService: RoominfoEntityService,
-    private roomService : RoomEntityService
+    private roomService: RoomEntityService
 
   ) { }
 
@@ -64,11 +64,12 @@ export class ChargeService {
                     roomTotal += rcCharges
                     let charges = roomcharge.filter(rc => rc.room == rm.id)
                     charges.map((cc) => {
-                      cc.season = seascal.find((s) => s.date == cc.date).season
+                      let testing = seascal.find((s) => s.date == cc.date)
+                      if (testing) cc.season = testing.season
                     })
                     result.push(
                       {
-                        days: this.systemService.daySpan(rsvn.dateIn,rsvn.dateOut),
+                        days: this.systemService.daySpan(rsvn.dateIn, rsvn.dateOut),
                         room: rm,
                         bldg: bldg.find((b) => b.id == rinfo.bldg),
                         roominfo: rinfo,
@@ -77,7 +78,7 @@ export class ChargeService {
                       })
 
                   })
-                   return result
+                  return result
                 })
               )))))))))))
   }
@@ -86,15 +87,7 @@ export class ChargeService {
     return this.http
       .get<any>(`${this.urlRoot}/chargecalc?${query}`)
   }
-  //==================================================
-  deleteCharge(rcid: number) {
-    this.genericService.deleteItem('roomcharge', rcid).subscribe()
-  }
-  //==================================================
-  addCharge(record: any) {
-    this.genericService.updateItem('roomcharge', record).subscribe()
-  }
-  //==================================================
+ //==================================================
   synchRoomcharge(roomid: number): Observable<any> {
     return this.genericService.getItem('room', roomid).pipe(
       concatMap((room) => this.genericService.getItem('roominfo', room.roominfo).pipe(
@@ -103,15 +96,17 @@ export class ChargeService {
             concatMap((rate) => this.genericService.getItemList('season').pipe(
               concatMap((seasons) => this.genericService.getItemQueryList('roomcharge', `room=${roomid}`).pipe(
                 map((rcharges) => {
+                  let obsStack: any = []
                   let dayStack = this.systemService.daySpanSeq(room.dateIn, room.dateOut, 1)
 
-                  //                console.log(room, roominfo, seascal, seasons,rate, rcharges, dayStack)
+                  //  console.log(room, roominfo, seascal, seasons,rate, rcharges, dayStack)
 
                   rcharges.forEach(rc => {
                     if (!dayStack.find(ds => ds == rc.date)) {
-                      this.deleteCharge(rc.id)
+                      obsStack.push(this.genericService.deleteItem('roomcharge', rc))
                     }
                   })
+
                   dayStack.forEach(ds => {
                     if (!rcharges.find(rc => rc.date == ds)) {
                       // making up charges
@@ -127,12 +122,19 @@ export class ChargeService {
                         amount: Number(curr_rate.rack * seas.discount)
                       }
                       //                  console.log("ADDING Records",record)
-                      this.addCharge(record)
+                      obsStack.push(this.genericService.updateItem('roomcharge', record))
                     }
                   })
-                })
+                  return obsStack
+                }),
+                concatMap(obsStack => concat(...obsStack))
+
               )),
-            )))))))))
+            ))
+          ))
+        ))
+      ))
+    )
 
   }
 

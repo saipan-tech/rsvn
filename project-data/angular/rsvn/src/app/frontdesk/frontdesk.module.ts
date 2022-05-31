@@ -27,7 +27,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { AppRoutingModule } from '@app/app-routing.module';
 import { ChargesModule } from '@app/charges/charges.module';
 import {SharedDialogModule} from "@app/shared/dialog/shared-dialog.module";
-import { RoomListComponent } from './room-list/room-list.component';
+
 
 import { SharedModule } from '@app/shared/shared.module';
 import { RoomAvailComponent } from './room-avail/room-avail.component';
@@ -46,7 +46,6 @@ import { SearchListComponent } from './search-list/search-list.component';
     GuestEditComponent,
     RoomCtrlComponent,
     RsvnCtrlComponent,
-    RoomListComponent,
     RoomAvailComponent,
     RoomChecksComponent,
     RoomChecksWidgetComponent,

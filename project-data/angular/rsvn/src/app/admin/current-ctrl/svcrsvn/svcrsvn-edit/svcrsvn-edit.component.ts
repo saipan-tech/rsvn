@@ -76,6 +76,10 @@ export class SvcrsvnEditComponent implements OnInit {
     this.currRoominfos = newString
     this.reload()
   }
+
+  updateList() {
+    this.reload()
+  }
   //---------------------------------
   reload() {
     if (this.dateSet) {
@@ -161,7 +165,7 @@ export class SvcrsvnEditComponent implements OnInit {
                         result.push(rvObj)
                       }
                     })
-                    console.log(result)
+              
                     return result
                   })
                 ))
