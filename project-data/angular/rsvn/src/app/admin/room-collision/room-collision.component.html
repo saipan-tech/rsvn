@@ -6,7 +6,7 @@
             {{x.rsvn.confirm}}
             <div class="d-flex flex-wrap">
                 <button *ngFor="let r of x.rooms" [ngClass]="{'warning':r.collision,roombutt:true}"
-                    (click)="checkRsvn(r)">{{r.bldg.name }} {{ r.roominfo.number
+                    (click)="checkRsvn(r)">{{r.bldg.abbrev }} {{ r.roominfo.number
                     }}</button>
 
             </div>

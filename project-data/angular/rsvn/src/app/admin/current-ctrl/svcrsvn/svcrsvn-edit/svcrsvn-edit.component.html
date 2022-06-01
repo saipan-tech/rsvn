@@ -53,6 +53,13 @@
                     </form>
                 </div>
                 <div *ngIf="dateSet">
+                    <strong>Room Selector</strong>
+                    <abbr class="req" title="Select room to add to the Service Reservation.  
+                        If a room number is red, it can be added but there is 
+                        a conflict with a room reservation and the room must 
+                        be swapped using the Room Conflict Manager. ">
+                        <mat-icon> info </mat-icon>
+                    </abbr>
                     <app-room-selector [warnString]="warnString$ | async" [(roomString)]="currRoominfos"
                         (refreshString)="changeString($event)">
                     </app-room-selector>
@@ -61,7 +68,8 @@
 
             <div *ngIf="dateSet" class="col">
                 <section>Room Conflict Manager</section>
-                <app-room-collision (listChange)="updateList()" [collList]="collRsvns$ | async" [currRoominfos]="currRoominfos">
+                <app-room-collision (listChange)="updateList()" [collList]="collRsvns$ | async"
+                    [currRoominfos]="currRoominfos">
                 </app-room-collision>
             </div>
         </div>

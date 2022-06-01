@@ -1,11 +1,32 @@
-<p>svcrsvn-list works!</p>
+<button (click)='openDialog(currSvcRsvn)'>Create Service Reservation</button>
 
-<button (click)='openDialog(currSvcRsvn)'>Open Edit Dialog</button>
+
+
+<div class="row headrow">
+    <div class="col-2">Service Descr</div>
+    <div class="col-2">Date Sart - End</div>
+    <div class="col-1">Status</div>
+      <div class="col-1">Clerk</div>
+    <div class="col-1"> Created</div>
+    
+    <div class="col-4">Rooms Selected</div>
+
+</div>
+
 
 <div class="row" *ngFor="let svc of svcList$ | async">
-
-    <div class="col ">{{ svc.dateIn }}</div>
-    <div class="col">{{ svc.dateOut }}</div>
-    <div class="col">{{ svc.status }}</div>
-    <div class="col active" (click)="editSvcrsvn(svc)">{{ svc.roominfos }}</div>
+    <div class="col-2 active " (click)="editSvcrsvn(svc)"> {{ svc.notes }}</div>
+    <div class="col-2  active " (click)="editSvcrsvn(svc)">{{ svc.dateIn }} - {{ svc.dateOut }}</div>
+    <div class="col-1"> {{ svc.status }}</div>
+      <div class="col-1"> {{ svc.clerk }}</div>
+    <div class="col-1"> {{ svc.created | date }}</div>
+    
+    <div class="col-4 d-flex flex-wrap">
+        <div *ngFor="let rl of svc.roomlist">
+            <button mat-button class="minibutt">
+                {{ rl.bldg }} - {{rl.number}}
+            </button>
+        </div>
+    </div>
+    <hr>
 </div>
