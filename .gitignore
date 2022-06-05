@@ -12,6 +12,3 @@ __pycache__
 
 # Editor
 .idea
-
-# Misc
-appenv.ts
