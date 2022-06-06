@@ -13,10 +13,10 @@ import { Update } from "@ngrx/entity";
 export class BldgDataService extends DefaultDataService<IBldg> {
 
     constructor(
-        http:HttpClient, 
+        http:HttpClient,
         httpUrlGenerator: HttpUrlGenerator,
-        env: AppEnv ) { 
-            httpUrlGenerator.entityResource('Bldg',env.WEB_API );
+        env: AppEnv ) {
+            httpUrlGenerator.entityResource('Bldg',env.WEB_API, true);
             super('Bldg', http, httpUrlGenerator);
         }
         override update(update:Update<IBldg>): Observable<IBldg> {

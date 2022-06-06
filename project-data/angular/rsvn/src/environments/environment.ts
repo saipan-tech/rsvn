@@ -5,7 +5,7 @@
 let overrides;
 
 try {
-  overrides = require('./environment.overrides');
+  overrides = require('./environment.overrides').environment || {};
 } catch (e) {
   overrides = {};
 }
