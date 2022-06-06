@@ -6,11 +6,11 @@
     "types": ["node"]
   },
   "files": [
-    "src/environments/_overrides.ts",
     "src/main.ts",
     "src/polyfills.ts"
   ],
   "include": [
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "src/environments/_overrides.ts"
   ]
 }

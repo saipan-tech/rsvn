@@ -5,4 +5,4 @@ RUN apk update  && \
 	apk add npm mc  && \
 	npm install -g @angular/cli@12 && \
 	apk add --no-cache tzdata
- ENV TZ=America/Los_Angeles
+ENV TZ=America/Los_Angeles
