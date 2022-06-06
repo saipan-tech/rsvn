@@ -46,4 +46,4 @@ testem.log
 Thumbs.db
 
 # Env
-src/environments/environment.overrides.ts
+src/environments/_overrides.ts

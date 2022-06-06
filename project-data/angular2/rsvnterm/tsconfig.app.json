@@ -6,6 +6,7 @@
     "types": ["node"]
   },
   "files": [
+    "src/environments/_overrides.ts",
     "src/main.ts",
     "src/polyfills.ts"
   ],
