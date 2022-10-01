@@ -88,7 +88,7 @@ class PeopleAPI(APIView):
         url = "https://generate-people.p.rapidapi.com/generatepeople"
         headers = {
             'x-rapidapi-host': "generate-people.p.rapidapi.com",
-            'x-rapidapi-key': "0472c1a4ebmshf78b78358f3592ep10ef9djsn502077cd455e",
+ 
              "content-type": "application/json",
             }
         response = requests.request("GET", url, headers=headers)
@@ -119,13 +119,13 @@ class WeatherAPI(APIView):
     
     def get (self, request,format=None) :
         units = 'metric'
-#        newurl = f"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid=e1444f66c34120ecb5fccac5645c0a50&exclude=minutely,hourly&units={units}"
+        newurl = f""
 
         if 'units' in request.GET :
             units = request.GET['units']
         if 'id' in request.GET:
             id = request.GET['id']
-            url = f"http://api.openweathermap.org/data/2.5/weather?id={id}&APPID=e1444f66c34120ecb5fccac5645c0a50&units={units}"
+            url = f""
             response = requests.request("GET", url)
             return Response(json.loads(response.text))
         
