@@ -13,10 +13,10 @@ import { Update } from "@ngrx/entity";
 export class RoominfoDataService extends DefaultDataService<IRoominfo> {
 
     constructor(
-        http:HttpClient, 
+        http:HttpClient,
         httpUrlGenerator: HttpUrlGenerator,
-        env: AppEnv ) { 
-            httpUrlGenerator.entityResource('Roominfo',env.WEB_API );
+        env: AppEnv ) {
+            httpUrlGenerator.entityResource('Roominfo', env.WEB_API, true);
             super('Roominfo', http, httpUrlGenerator);
         }
 

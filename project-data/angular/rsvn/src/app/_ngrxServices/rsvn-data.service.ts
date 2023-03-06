@@ -13,10 +13,10 @@ import { Update } from "@ngrx/entity";
 export class RsvnDataService extends DefaultDataService<IRsvn> {
 
     constructor(
-        http:HttpClient, 
+        http:HttpClient,
         httpUrlGenerator: HttpUrlGenerator,
-        env: AppEnv ) { 
-            httpUrlGenerator.entityResource('Rsvn',env.WEB_API );
+        env: AppEnv ) {
+            httpUrlGenerator.entityResource('Rsvn',env.WEB_API, true);
             super('Rsvn', http, httpUrlGenerator);
         }
         override update(update:Update<IRsvn>): Observable<IRsvn> {

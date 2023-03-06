@@ -13,10 +13,10 @@ import { Update } from "@ngrx/entity";
 export class ActionDataService extends DefaultDataService<IAction> {
 
     constructor(
-        http:HttpClient, 
+        http:HttpClient,
         httpUrlGenerator: HttpUrlGenerator,
-        env: AppEnv ) { 
-            httpUrlGenerator.entityResource('Action',env.WEB_API );
+        env: AppEnv ) {
+            httpUrlGenerator.entityResource('Action',env.WEB_API, true);
             super('Action', http, httpUrlGenerator);
         }
         override update(update:Update<IAction>): Observable<IAction> {

@@ -1,0 +1,38 @@
+name: Angular 2 Image CI
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        types: [ opened, reopened, synchronize ]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        env:
+            working-directory: project-data/angular2/rsvnterm
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v3
+
+            -   name: Build Angular 2 image
+                run: docker-compose build angular2
+
+            -   name: Use Node.js 17.x
+                uses: actions/setup-node@v3
+                with:
+                    node-version: 17.x
+                    cache: 'npm'
+                    cache-dependency-path: '**/package-lock.json'
+
+            -   name: Build deps from package-lock.json
+                run: npm ci
+                working-directory: ${{ env.working-directory }}
+
+            -   name: Build app
+                run: npm run build --if-present
+                working-directory: ${{ env.working-directory }}
+
+            -   name: Test app
+                run: npm run test:headless
+                working-directory: ${{ env.working-directory }}
+

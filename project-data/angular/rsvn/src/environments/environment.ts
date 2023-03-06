@@ -2,8 +2,19 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+let overrides;
+
+try {
+  overrides = require('./_overrides').environment || {};
+} catch (e) {
+  overrides = {};
+}
+
 export const environment = {
-  production: false
+  production: false,
+  API_URL: '',
+  WEB_API: '',
+  ...overrides
 };
 
 /*
